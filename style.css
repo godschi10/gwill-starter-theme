@@ -1,0 +1,1850 @@
+/*
+Theme Name:  GWill Starter
+Theme URI:   https://gwillchijioke.com
+Author:      G-will Chijioke
+Author URI:  https://gwillchijioke.com
+Description: A clean, custom WordPress starter theme built from scratch. No parent theme dependency.
+Version:     1.0.49
+License:     GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: gwill-starter
+Tags:        custom, starter, blank
+*/
+
+/* ------------------------------------------------------------------ */
+/* Reset                                                               */
+/* ------------------------------------------------------------------ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Overflow Containment                                                */
+/* Two-layer defence against horizontal overflow:                      */
+/* 1. max-width: 100% on intrinsically-sized elements (primary rule)  */
+/* 2. overflow-x: clip on <body> as a safety net. clip is used over   */
+/*    hidden because hidden creates a BFC, breaking position: sticky. */
+/* ------------------------------------------------------------------ */
+img, picture, video, canvas, svg, iframe,
+input, textarea, select, table {
+  max-width: 100%;
+}
+
+html,
+body {
+  overflow-x: clip; /* html required: body-only clip propagates to viewport incorrectly in some browsers */
+}
+
+/* ------------------------------------------------------------------ */
+/* CSS Variables                                                       */
+/* ------------------------------------------------------------------ */
+:root {
+  --color-primary: #111111;
+  --color-accent:  #2563eb;
+  --color-bg:      #ffffff;
+  --color-muted:   #6b7280;
+  --color-border:       #e5e7eb;  /* decorative separators — no WCAG contrast req */
+  --color-border-input: #6b7280;  /* form field borders — 4.83:1 on white, passes WCAG 1.4.11 */
+  /* Button tokens — use these (not --color-primary) for all button backgrounds.
+     They invert cleanly in dark mode via darkmode.css token block. */
+  --color-btn-bg:   #2563eb;  /* same as --color-accent in light mode */
+  --color-btn-text: #ffffff;
+  --font-base:     system-ui, -apple-system, sans-serif;
+  --max-width:     1200px;
+  --spacing:       1.5rem;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+/* Respect OS-level motion preferences — WCAG 2.1 SC 2.3.3 */
+@media ( prefers-reduced-motion: reduce ) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  /*
+   * 0.01ms (not 0ms): keeps transitionend/animationend events firing so that
+   * JS listeners waiting on those events don't hang indefinitely.
+   */
+  *,
+  *::before,
+  *::after {
+    transition-duration:        0.01ms !important;
+    animation-duration:         0.01ms !important;
+    animation-iteration-count:  1 !important;
+  }
+}
+
+body {
+  font-family: var(--font-base);
+  color: var(--color-primary);
+  background: var(--color-bg);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Prevent long unbreakable strings (URLs, hashes) from overflowing any
+     container — comments, post content, sidebars, cards, everywhere. */
+  overflow-wrap: break-word;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+  height: auto;
+  display: block;
+}
+
+/* ------------------------------------------------------------------ */
+/* Accessibility — Focus, Skip Link & Screen Reader Utilities          */
+/* ------------------------------------------------------------------ */
+
+/*
+ * .screen-reader-text — visually hidden but accessible to screen readers.
+ * Used by searchform.php to hide the visible "Search for:" label while
+ * keeping it in the accessibility tree. WordPress does not inject this CSS
+ * automatically on the frontend; themes must define it themselves.
+ */
+.screen-reader-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/*
+ * Focus indicator — two-rule pattern for maximum browser compatibility.
+ *
+ * :focus           → visible ring in ALL browsers (including Safari < 15.4
+ *                    and other older browsers that don't support :focus-visible).
+ *                    Without this rule, keyboard users in those browsers get
+ *                    no ring at all — a WCAG 2.4.7 violation.
+ *
+ * :focus:not(:focus-visible) → suppresses the ring for mouse/touch users in
+ *                    modern browsers (Chrome 86+, Firefox 85+, Safari 15.4+).
+ *                    In browsers without :focus-visible support, the :not()
+ *                    selector is ignored and :focus still provides the ring.
+ *
+ * :focus-visible   → the canonical rule for modern browsers; redundant with
+ *                    :focus in old browsers but wins specificity where both apply.
+ */
+:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999em;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.skip-link:focus-visible {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+  background: var(--color-accent);
+  color: #fff;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* Layout                                                              */
+/* ------------------------------------------------------------------ */
+.site {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.site-header {
+  position: relative;  /* positioning context for the absolute-positioned mobile menu */
+  padding: var(--header-padding, var(--spacing));
+  border-bottom: 1px solid var(--color-border);
+}
+
+.site-header .inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.site-branding {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.site-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.site-title a {
+  color: inherit;
+}
+
+.site-title a:hover {
+  text-decoration: none;
+  color: var(--color-accent);
+}
+
+.site-description {
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+/* Custom logo (rendered by the_custom_logo()) */
+.custom-logo-link {
+  display: block;
+  line-height: 1;
+}
+
+.custom-logo {
+  display: block;
+  height: auto;
+  max-height: 80px;
+  max-width: var(--logo-width, 160px); /* controlled via Customizer → Site Identity */
+}
+
+/* Scoped to header to prevent footer nav inheriting flex layout */
+.site-header nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.site-header nav a {
+  color: var(--color-primary);
+  font-size: 0.95rem;
+}
+
+.site-header nav a:hover {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.site-main {
+  flex: 1;
+  padding: calc(var(--spacing) * 2) var(--spacing);
+}
+
+.site-main .inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.site-footer {
+  padding: var(--spacing);
+  border-top: 1px solid var(--color-border);
+  font-size: 0.875rem;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+.site-footer .inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Footer nav — horizontal list, no design opinions */
+.site-footer nav ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem 1.25rem;
+}
+
+.site-footer nav a {
+  color: var(--color-muted);
+  font-size: 0.875rem;
+}
+
+.site-footer nav a:hover {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* Typography                                                          */
+/* ------------------------------------------------------------------ */
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.2;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); }
+h2 { font-size: clamp(1.4rem,  3vw, 2rem);   }
+h3 { font-size: clamp(1.15rem, 2.5vw, 1.5rem); }
+h4 { font-size: clamp(1.05rem, 2vw,   1.25rem); }
+h5 { font-size: clamp(1rem,    1.5vw, 1.1rem);  }
+h6 { font-size: 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+p { margin-bottom: 1rem; }
+
+/* ------------------------------------------------------------------ */
+/* Entry — shared across single, page, cards                          */
+/* ------------------------------------------------------------------ */
+.entry-title {
+  margin-bottom: 0.5rem;
+}
+
+.entry-meta {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+  margin-bottom: 0.625rem;
+}
+
+.entry-meta__line {
+  display: inline;
+}
+
+.entry-meta__sep {
+  color: var(--color-muted);
+}
+
+/* Category badge — used in cards (content.php) and single.php entry-meta */
+.entry-cat {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+.entry-cat:hover { opacity: 0.75; }
+.entry-cats .entry-cat + .entry-cat::before {
+  content: ', ';
+  color: var(--color-muted);
+}
+
+/* Tag row — rendered below article in single.php */
+.entry-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin-block: calc(var(--spacing) * 1.5);
+}
+
+.entry-tag {
+  display: inline-block;
+  padding: 0.25rem 0.625rem;
+  border: 1px solid var(--color-border);
+  border-radius: 2rem;
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+  text-decoration: none;
+  transition: border-color 0.15s, color 0.15s;
+}
+.entry-tag:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* ------------------------------------------------------------------ */
+/* Social Share — Pill Buttons                                         */
+/* ------------------------------------------------------------------ */
+
+.gwill-share {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.gwill-share--top {
+  margin-block: 0.75rem 1.5rem;
+}
+
+.gwill-share--footer {
+  border-top: 1px solid var(--color-border);
+  padding-block: 1.75rem 1.5rem;
+}
+
+.gwill-share__heading {
+  display: block;
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-block-end: 0.75rem;
+}
+
+/* Base pill */
+.gwill-share__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+  padding: 0.5625rem 1rem;
+  border-radius: 999px;
+  background: #374151;
+  color: #fff;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.gwill-share__pill:hover {
+  opacity: 0.88;
+  transform: translateY( -1px );
+}
+
+.gwill-share__pill:focus-visible {
+  outline: 3px solid var(--form-focus-clr, #60a5fa);
+  outline-offset: 2px;
+}
+
+.gwill-share__pill svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* Brand fills */
+.gwill-share__pill--x        { background: #0f1419; }
+.gwill-share__pill--facebook { background: #1877f2; }
+.gwill-share__pill--whatsapp { background: #25d366; }
+.gwill-share__pill--linkedin { background: #0a66c2; }
+.gwill-share__pill--more     { background: #374151; }
+
+/* Dark mode — X near-black would disappear on dark bg */
+[data-theme="dark"] .gwill-share__pill--x {
+  background: #e7e9ea;
+  color: #0f1419;
+}
+[data-theme="dark"] .gwill-share__pill--more {
+  background: rgba( 255, 255, 255, 0.12 );
+}
+
+/* Footer — larger pills */
+.gwill-share--footer .gwill-share__pill {
+  padding: 0.75rem 1.3125rem;
+  font-size: 0.9375rem;
+  gap: 0.5rem;
+}
+.gwill-share--footer .gwill-share__pill svg {
+  width: 18px;
+  height: 18px;
+}
+
+.entry-thumbnail {
+  margin-bottom: var(--spacing);
+}
+
+.entry-thumbnail img,
+.entry-thumbnail-wrap img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.entry-thumbnail-wrap {
+  margin-bottom: var(--spacing);
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.entry-thumbnail-wrap a {
+  display: block;
+  line-height: 0;  /* removes gap below inline images */
+}
+
+
+/* Lists inside content */
+.entry-content ul,
+.entry-content ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.entry-content ul  { list-style: disc; }
+.entry-content ol  { list-style: decimal; }
+
+.entry-content li + li {
+  margin-top: 0.25rem;
+}
+
+/* Blockquote */
+.entry-content blockquote {
+  border-left: 4px solid var(--color-border);
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+/* Code */
+.entry-content pre {
+  background: #f3f4f6;
+  padding: 1rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.entry-content code {
+  background: #f3f4f6;
+  padding: 0.15em 0.35em;
+  border-radius: 3px;
+  font-size: 0.875em;
+}
+
+.entry-content pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+/* ------------------------------------------------------------------ */
+/* Post / Archive Card                                                 */
+/* ------------------------------------------------------------------ */
+.entry-summary {
+  color: var(--color-muted);
+  font-size: 0.9375rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Post Navigation                                                     */
+/* ------------------------------------------------------------------ */
+.posts-navigation,
+.post-navigation {
+  margin-top: calc(var(--spacing) * 2);
+  padding-top: var(--spacing);
+  border-top: 1px solid var(--color-border);
+}
+
+.nav-links {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.9375rem;
+}
+
+.nav-previous { margin-right: auto; }
+.nav-next     { margin-left: auto;  }
+
+/* ------------------------------------------------------------------ */
+/* Numbered Pagination                                                 */
+/* ------------------------------------------------------------------ */
+/* the_posts_pagination() outputs .navigation.pagination              */
+/* the_post_navigation() outputs  .navigation.post-navigation         */
+/* Both share the .nav-links flex row below.                          */
+
+.pagination .nav-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  justify-content: center; /* matches .search-results__pagination .nav-links */
+}
+
+/* Base style shared by number spans, dots, prev/next links */
+.page-numbers {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  padding: 0 0.625rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.page-numbers.current {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #fff;
+  pointer-events: none;
+}
+
+.page-numbers.dots {
+  border-color: transparent;
+  background: transparent;
+  min-width: 1.5rem;
+}
+
+a.page-numbers:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+a.prev.page-numbers,
+a.next.page-numbers {
+  padding-inline: 0.875rem;
+  font-size: 0.875rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Breadcrumbs                                                         */
+/* ------------------------------------------------------------------ */
+
+.gwill-breadcrumbs {
+  margin-bottom: calc(var(--spacing) * 1.25);
+}
+
+.gwill-breadcrumbs__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+}
+
+.gwill-breadcrumbs__item {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Separator — CSS-only chevron, no extra markup */
+.gwill-breadcrumbs__item:not(:last-child)::after {
+  content: '›';
+  margin-inline: 0.375rem;
+  color: var(--color-muted);
+  opacity: 0.5;
+}
+
+.gwill-breadcrumbs__item a {
+  color: var(--color-muted);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.gwill-breadcrumbs__item a:hover {
+  color: var(--color-accent);
+}
+
+.gwill-breadcrumbs__item--current span {
+  color: var(--color-primary);
+}
+
+/* ------------------------------------------------------------------ */
+/* Archive Header                                                      */
+/* ------------------------------------------------------------------ */
+.archive-header {
+  margin-bottom: calc(var(--spacing) * 2);
+}
+
+.archive-description {
+  color: var(--color-muted);
+  margin-top: 0.5rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Author Box (single post — bottom of entry)                         */
+/* ------------------------------------------------------------------ */
+
+/*
+ * Border-top uses --color-accent so the accent line tokenizes correctly
+ * in both light and dark mode with no hardcoded values — no dark mode
+ * overrides required for this component.
+ */
+.author-box {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  padding: 1.5rem 0;
+  margin-top: calc(var(--spacing) * 2);
+  border-top: 3px solid var(--color-accent);
+}
+
+.author-box__avatar {
+  flex-shrink: 0;
+}
+
+.author-box__avatar img {
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+}
+
+.author-box__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.author-box__label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+.author-box__name {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.author-box__name a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.author-box__name a:hover {
+  color: var(--color-accent);
+}
+
+.author-box__bio {
+  font-size: 0.9375rem;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+.author-box__link {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-top: 0.25rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Author Archive Hero (author.php — top of author archive page)      */
+/* ------------------------------------------------------------------ */
+.author-archive-hero {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+  padding-bottom: calc(var(--spacing) * 1.5);
+  margin-bottom: calc(var(--spacing) * 2);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.author-archive-hero__avatar {
+  flex-shrink: 0;
+}
+
+.author-archive-hero__avatar img {
+  border-radius: 50%;
+  width: 96px;
+  height: 96px;
+}
+
+.author-archive-hero__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* .archive-title already styles the heading — this resets the margin */
+.author-archive-hero__name {
+  margin: 0;
+}
+
+.author-archive-hero__bio {
+  color: var(--color-muted);
+  font-size: 0.9375rem;
+  margin: 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Author Social Links                                                 */
+/* ------------------------------------------------------------------ */
+
+/* Shared container — used in author-box.php and author.php hero.
+   All colors use tokens — no dark mode overrides needed. */
+.author-box__socials {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.625rem;
+}
+
+.author-box__social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  color: var(--color-muted);
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.author-box__social-link:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.author-box__social-link svg {
+  width: 1rem;
+  height: 1rem;
+  display: block;
+}
+
+.author-box__social-link:focus-visible {
+  outline: 3px solid var(--form-focus-clr, #60a5fa);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Forms — baseline only, override per project                        */
+/* ------------------------------------------------------------------ */
+input[type="text"],
+input[type="email"],
+input[type="search"],
+input[type="url"],
+input[type="tel"],
+input[type="password"],
+textarea,
+select {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border-input);
+  border-radius: 4px;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--color-primary);
+  background: var(--color-bg);
+  transition: border-color 0.15s ease;
+}
+
+/* Prevent horizontal resize — vertical only. max-width: 100% alone does not
+   constrain a user-dragged textarea resize handle; resize: vertical does. */
+textarea {
+  resize: vertical;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="search"]:focus,
+input[type="url"]:focus,
+input[type="tel"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 0;
+  border-color: var(--color-accent);
+}
+
+/* ------------------------------------------------------------------ */
+/* 404                                                                 */
+/* ------------------------------------------------------------------ */
+.error-404 {
+  text-align: center;
+  padding: 4rem 0;
+}
+
+.error-404 .search-form {
+  max-width: 480px;
+  margin: 2rem auto 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Comments                                                            */
+/* ------------------------------------------------------------------ */
+.comments-area {
+  margin-top: calc(var(--spacing) * 2);
+  padding-top: var(--spacing);
+  border-top: 1px solid var(--color-border);
+}
+
+.comments-title {
+  margin-bottom: var(--spacing);
+}
+
+/*
+ * BUG FIX: this theme writes the outer <ol class="comment-list"> wrapper
+ * directly in comments.php. WordPress core's Walker_Comment generates a
+ * SEPARATE, nested <ol class="children"> for every threaded-reply level
+ * (Walker_Comment::start_lvl(), unrelated to the 'comment-list' class).
+ * The original rule below only matched .comment-list itself, so any nested
+ * .children list fell back to the browser's native decimal numbering,
+ * restarting at "1" for every reply thread — visible as a stray "1." (or
+ * "1.", "2." for multiple replies) in front of any threaded comment, while
+ * top-level comments correctly showed no number at all.
+ *
+ * Fix: the reset now matches .comment-list AND any nested <ol> at any depth.
+ */
+.comment-list,
+.comment-list ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.comment-list .comment {
+  padding: var(--spacing) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/*
+ * Reply threads — now that the (buggy, unintentional) browser-native
+ * numbering is gone, a reply needs SOME visual cue to distinguish it from
+ * a top-level comment. Modest indent + left rule, same "accent stripe for
+ * a distinct block" language as .author-box's border-top elsewhere in
+ * this file. More specific than ".comment-list ol" above, so padding-left
+ * here correctly wins over that rule's padding:0 reset.
+ */
+.comment-list .children {
+  margin-top: var(--spacing);
+  padding-left: 1.25rem;
+  border-left: 2px solid var(--color-border);
+}
+
+.comment-meta {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+  margin-bottom: 0.5rem;
+}
+
+/* WP core: <div class="comment-author vcard"> wraps the avatar + name.
+   Flex row replaces the unstyled default stacked block layout. */
+.comment-author.vcard {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  margin-bottom: 0.25rem;
+}
+
+.comment-author.vcard .avatar {
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+/* .fn wraps the author name; only linked when the commenter set a URL —
+   styled on both .fn and .fn a so an unlinked name still gets full-weight
+   text colour instead of inheriting the muted .comment-meta colour above. */
+.comment-author .fn,
+.comment-author .fn a {
+  color: var(--color-primary);
+  font-weight: 700;
+  font-style: normal; /* <b> renders bold already; keeps it from looking italic if inherited */
+  text-decoration: none;
+}
+.comment-author .fn a:hover {
+  color: var(--color-accent);
+}
+
+.comment-author .says {
+  font-weight: 400;
+  color: var(--color-muted);
+}
+
+/* WP core: <div class="comment-metadata"> — permalink-wrapped date, plus
+   an Edit link for users with edit_comments capability. */
+.comment-metadata {
+  font-size: 0.8125rem;
+}
+
+.comment-metadata a {
+  color: var(--color-muted);
+  text-decoration: none;
+}
+.comment-metadata a:hover {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.comment-metadata .edit-link::before {
+  content: '\00b7'; /* middle dot separator before "Edit" */
+  margin: 0 0.4em;
+  color: var(--color-border);
+}
+
+.comment-content p {
+  margin-bottom: 0.75rem;
+}
+.comment-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* Shown only to the comment's own author (right after posting) or to users
+   with moderate_comments capability — same accent-stripe notice language
+   as .comment-list .children above, so it reads as "distinct system note"
+   rather than part of the comment text itself. */
+.comment-awaiting-moderation {
+  display: block;
+  margin-top: 0.5rem;
+  padding-left: 0.75rem;
+  border-left: 3px solid var(--color-accent);
+  font-size: 0.8125rem;
+  font-style: normal;
+  color: var(--color-muted);
+}
+
+.reply {
+  margin-top: 0.5rem;
+}
+
+.comment-reply-link {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  text-decoration: none;
+}
+.comment-reply-link:hover {
+  text-decoration: underline;
+}
+
+.comment-form label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.comment-form .form-submit {
+  margin-top: 0.5rem;
+}
+
+/* WP comment form submit — styled with btn tokens so it behaves
+   identically to .gwill-form__submit in both light and dark mode. */
+.comment-form .form-submit input[type="submit"] {
+  display: inline-flex;
+  padding: 0.7rem 1.5rem;
+  background: var(--color-btn-bg);
+  color: var(--color-btn-text);
+  border: none;
+  border-radius: var(--form-radius, 4px);
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.comment-form .form-submit input[type="submit"]:hover {
+  opacity: 0.85;
+}
+
+.comment-form .form-submit input[type="submit"]:focus-visible {
+  outline: 3px solid var(--form-focus-clr, #60a5fa);
+  outline-offset: 2px;
+}
+
+/* Shown when comments are closed (comments.php) */
+.no-comments {
+  padding: var(--spacing) 0;
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+/* ------------------------------------------------------------------ */
+/* Image Alignment — Classic editor + Gutenberg                       */
+/* Required: WP outputs .alignleft/.alignright/.aligncenter on        */
+/* images placed via the classic editor. Without these rules,         */
+/* floats fire with no clearfix and no breathing room.                */
+/* ------------------------------------------------------------------ */
+.alignleft {
+  float: left;
+  margin: 0.25rem 1.5rem 1rem 0;
+}
+
+.alignright {
+  float: right;
+  margin: 0.25rem 0 1rem 1.5rem;
+}
+
+.aligncenter {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Clearfix — prevents parent collapse when both floats are used */
+.entry-content::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+/* Wide/full alignment — breaks out of .inner container             */
+/* Uses negative margin technique; requires overflow-x: clip on     */
+/* an ancestor (already set on html/body in this theme).            */
+.alignwide {
+  width: calc(100% + var(--spacing) * 2);
+  margin-left: calc(var(--spacing) * -1);
+  margin-right: calc(var(--spacing) * -1);
+}
+
+.alignfull {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* WP Caption (classic editor image captions) */
+.wp-caption {
+  max-width: 100%;
+}
+
+.wp-caption img {
+  display: block;
+  width: 100%;
+}
+
+.wp-caption-text {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+  margin-top: 0.35rem;
+  font-style: italic;
+}
+
+/* Featured image caption — rendered as <figcaption> in single.php and page.php.
+   Distinct from .wp-caption-text which handles classic-editor inline captions.  */
+.entry-thumbnail-caption {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+  margin-top: 0.5rem;
+  font-style: italic;
+  text-align: center;
+}
+
+/* ------------------------------------------------------------------ */
+/* Empty State & Content Card                                          */
+/* ------------------------------------------------------------------ */
+
+.content-none {
+  padding: 2rem 0;
+  text-align: center;
+}
+
+.content-none__title {
+  margin-bottom: 0.75rem;
+}
+
+.entry-body {
+  padding: 1.25rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Navigation Toggle                                                    */
+/* ------------------------------------------------------------------ */
+
+/* Hidden on desktop — revealed on mobile via the breakpoint below */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  color: inherit;
+  flex-shrink: 0;
+}
+
+.nav-toggle:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.nav-toggle__bar {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* Active state: three bars morph into × */
+.nav-toggle.is-active .nav-toggle__bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav-toggle.is-active .nav-toggle__bar:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.nav-toggle.is-active .nav-toggle__bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ------------------------------------------------------------------ */
+/* Responsive                                                          */
+/* ------------------------------------------------------------------ */
+@media (max-width: 640px) {
+  /*
+   * Keep header as a single row: [logo/branding] [toggle button]
+   * flex-direction stays row — flex-direction:column was causing the
+   * logo and hamburger to stack vertically instead of sitting side by side.
+   */
+  .site-branding {
+    flex: 1;
+    min-width: 0;  /* prevents long site names from overflowing */
+  }
+
+  /* Show the toggle button on mobile */
+  .nav-toggle {
+    display: flex;
+  }
+
+  /*
+   * Mobile menu — hidden by default, revealed by JS (.is-open).
+   * Absolutely positioned so it drops below the header without
+   * pushing page content down or requiring a flex layout change.
+   * left/right:0 ensures it spans the full header width regardless
+   * of where in the flex row the <nav> sits.
+   */
+  .site-header nav #primary-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    flex-direction: column;
+    gap: 0;
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+    padding: 0.75rem var(--spacing);
+  }
+
+  .site-header nav #primary-menu.is-open {
+    display: flex;
+  }
+
+  .site-header nav #primary-menu li {
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .site-header nav #primary-menu li:last-child {
+    border-bottom: none;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Gutenberg Editor Styles                                             */
+/* Scoped to .editor-styles-wrapper — no effect on the frontend.      */
+/* CSS variables defined in :root above are accessible here.          */
+/* ------------------------------------------------------------------ */
+.editor-styles-wrapper {
+  font-family: system-ui, -apple-system, sans-serif;
+  color: var(--color-primary);
+  background: var(--color-bg);
+  line-height: 1.6;
+  font-size: 16px;
+  max-width: var(--max-width);
+  padding: var(--spacing);
+}
+
+.editor-styles-wrapper h1,
+.editor-styles-wrapper h2,
+.editor-styles-wrapper h3,
+.editor-styles-wrapper h4,
+.editor-styles-wrapper h5,
+.editor-styles-wrapper h6 {
+  line-height: 1.2;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.editor-styles-wrapper h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); }
+.editor-styles-wrapper h2 { font-size: clamp(1.4rem,  3vw, 2rem);   }
+.editor-styles-wrapper h3 { font-size: clamp(1.15rem, 2.5vw, 1.5rem); }
+.editor-styles-wrapper h4 { font-size: clamp(1.05rem, 2vw,   1.25rem); }
+.editor-styles-wrapper h5 { font-size: clamp(1rem,    1.5vw, 1.1rem);  }
+.editor-styles-wrapper h6 { font-size: 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+.editor-styles-wrapper p {
+  margin-bottom: 1rem;
+}
+
+.editor-styles-wrapper a {
+  color: var(--color-accent);
+}
+
+.editor-styles-wrapper img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.editor-styles-wrapper ul,
+.editor-styles-wrapper ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.editor-styles-wrapper blockquote {
+  border-left: 4px solid var(--color-border);
+  padding-left: 1rem;
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+.editor-styles-wrapper pre,
+.editor-styles-wrapper code {
+  background: #f3f4f6;
+  border-radius: 4px;
+  font-size: 0.875em;
+}
+
+.editor-styles-wrapper pre {
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.editor-styles-wrapper code {
+  padding: 0.15em 0.35em;
+}
+
+/* ------------------------------------------------------------------ */
+/* Forms                                                               */
+/* ------------------------------------------------------------------ */
+
+:root {
+  --color-error:    #dc2626;
+  --color-success:  #16a34a;
+  --form-radius:    4px;
+  --form-pad:       0.65rem 0.75rem;
+  --form-border:    1px solid #9ca3af;
+  --form-focus-clr: var(--color-accent, #2563eb);
+}
+
+/* Honeypot — completely removed from layout and AT */
+.gwill-honey {
+  display: none !important;
+}
+
+/* ── Layout ─────────────────────────────────────────────────────── */
+
+.gwill-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.gwill-form__row {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+@media (min-width: 600px) {
+  .gwill-form__row--2col {
+    flex-direction: row;
+  }
+  .gwill-form__row--2col .gwill-form__field {
+    flex: 1;
+  }
+}
+
+/* ── Fields ─────────────────────────────────────────────────────── */
+
+.gwill-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.gwill-form__field label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-primary, #111);
+}
+
+.gwill-form__required {
+  color: var(--color-error);
+  margin-left: 2px;
+}
+
+.gwill-form__field input,
+.gwill-form__field textarea,
+.gwill-form__field select {
+  width: 100%;
+  padding: var(--form-pad);
+  border: var(--form-border);
+  border-radius: var(--form-radius);
+  font: inherit;
+  font-size: 1rem;
+  color: var(--color-primary, #111);
+  background: #fff;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.gwill-form__field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2.25rem;
+}
+
+.gwill-form__field input:focus,
+.gwill-form__field textarea:focus,
+.gwill-form__field select:focus {
+  outline: none;
+  border-color: var(--form-focus-clr);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--form-focus-clr) 20%, transparent);
+}
+
+.gwill-form__field input[aria-invalid="true"],
+.gwill-form__field textarea[aria-invalid="true"],
+.gwill-form__field select[aria-invalid="true"] {
+  border-color: var(--color-error);
+}
+
+.gwill-form__field input[aria-invalid="true"]:focus,
+.gwill-form__field textarea[aria-invalid="true"]:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-error) 20%, transparent);
+}
+
+.gwill-form__field-error {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--color-error);
+  margin-top: 0.2rem;
+}
+
+.gwill-form__field textarea {
+  resize: vertical;
+  min-height: 7rem;
+}
+
+/* ── Radio group (scope selector in multistep) ────────────────── */
+
+.gwill-form__radio-group {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.gwill-form__radio-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 400;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  padding: 0.4rem 0.75rem;
+  border: var(--form-border);
+  border-radius: var(--form-radius);
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.gwill-form__radio-label input[type="radio"] {
+  width: auto;
+  margin: 0;
+}
+
+.gwill-form__radio-label:has(input:checked) {
+  border-color: var(--form-focus-clr);
+  background: color-mix(in srgb, var(--form-focus-clr) 8%, transparent);
+}
+
+/* ── Submit button ─────────────────────────────────────────────── */
+
+.gwill-form__actions {
+  margin-top: 0.25rem;
+}
+
+.gwill-form__submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.5rem;
+  background: var(--color-btn-bg);
+  color: var(--color-btn-text);
+  border: none;
+  border-radius: var(--form-radius);
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.gwill-form__submit:hover {
+  opacity: 0.85;
+}
+
+.gwill-form__submit:focus-visible {
+  outline: 3px solid var(--form-focus-clr);
+  outline-offset: 2px;
+}
+
+.gwill-form__submit--full {
+  width: 100%;
+  justify-content: center;
+}
+
+.gwill-form__submit-loading {
+  display: none;
+}
+
+.gwill-form__submit[data-loading] {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.gwill-form__submit[data-loading] .gwill-form__submit-text {
+  display: none;
+}
+
+.gwill-form__submit[data-loading] .gwill-form__submit-loading {
+  display: inline;
+}
+
+/* ── Status & success ──────────────────────────────────────────── */
+
+.gwill-form__status {
+  font-size: 0.9375rem;
+  min-height: 1.4em;
+}
+
+.gwill-form__status--error {
+  color: var(--color-error);
+}
+
+.gwill-form__success-msg {
+  padding: 1rem;
+  background: color-mix(in srgb, var(--color-success) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-success) 35%, transparent);
+  border-radius: var(--form-radius);
+  color: var(--color-success);
+  font-weight: 500;
+}
+
+/* ── Multi-step form ───────────────────────────────────────────── */
+
+.gwill-multistep-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.gwill-form__progress {
+  height: 4px;
+  background: var(--color-border, #e5e7eb);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.gwill-form__progress-fill {
+  height: 100%;
+  background: var(--color-accent, #2563eb);
+  transition: width 0.3s ease;
+}
+
+.gwill-form__step-label {
+  font-size: 0.8125rem;
+  color: var(--color-muted, #6b7280);
+  margin: 0;
+}
+
+.gwill-form__step-heading {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.gwill-form__step-nav {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.gwill-form__btn-next,
+.gwill-form__btn-back {
+  padding: 0.6rem 1.25rem;
+  border-radius: var(--form-radius);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.gwill-form__btn-next {
+  background: var(--color-btn-bg);
+  color: var(--color-btn-text);
+  border: none;
+}
+
+.gwill-form__btn-back {
+  background: transparent;
+  color: var(--color-muted, #6b7280);
+  border: var(--form-border);
+}
+
+.gwill-form__btn-next:hover,
+.gwill-form__btn-back:hover { opacity: 0.75; }
+
+.gwill-form__noscript-notice {
+  font-size: 0.875rem;
+  padding: 0.6rem 0.75rem;
+  background: #fef3c7;
+  border: 1px solid #fbbf24;
+  border-radius: var(--form-radius);
+}
+
+/* ── Inline post form (Pattern 5) ─────────────────────────────── */
+
+.gwill-inline-cta {
+  margin: 2.5rem 0;
+  padding: 1.5rem;
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: var(--form-radius);
+  background: #f9fafb;
+}
+
+.gwill-inline-cta__prompt {
+  font-weight: 700;
+  font-size: 1.0625rem;
+  margin-bottom: 0.75rem;
+}
+
+.gwill-form--inline .gwill-form--inline__fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+@media (min-width: 600px) {
+  .gwill-form--inline .gwill-form--inline__fields {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+  .gwill-form--inline .gwill-form__field { flex: 1; }
+}
+
+/* ── Sidebar form (Pattern 6) ──────────────────────────────────── */
+
+.gwill-sidebar-form {
+  padding: 1.25rem;
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: var(--form-radius);
+}
+
+.gwill-sidebar-form__heading {
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* ── Exit-intent overlay (Pattern 7) ──────────────────────────── */
+
+.gwill-exit-intent {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.gwill-exit-intent[aria-hidden="true"],
+.gwill-exit-intent[hidden] {
+  display: none;
+}
+
+.gwill-exit-intent__panel {
+  position: relative;
+  background: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 480px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.gwill-exit-intent__close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--color-muted, #6b7280);
+  padding: 0.25rem;
+}
+
+.gwill-exit-intent__close:hover { color: var(--color-primary, #111); }
+
+.gwill-exit-intent__heading {
+  font-size: 1.375rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.gwill-exit-intent__subheading {
+  color: var(--color-muted, #6b7280);
+  margin-bottom: 1.25rem;
+}
+
+/* ── Post feedback (Pattern 10) ────────────────────────────────── */
+
+.gwill-feedback-wrap {
+  margin: 2.5rem 0;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: var(--form-radius);
+  background: #f9fafb;
+}
+
+.gwill-feedback-wrap__question {
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.gwill-feedback-wrap__actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.gwill-feedback-wrap__btn {
+  padding: 0.45rem 1rem;
+  border-radius: var(--form-radius);
+  font: inherit;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  border: var(--form-border);
+  background: #fff;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.gwill-feedback-wrap__btn:hover { background: #f3f4f6; }
+
+.gwill-feedback__extra {
+  margin-top: 1rem;
+}
+
+/* ── Contact demo page ─────────────────────────────────────────── */
+
+.contact-demo__header {
+  margin-bottom: 3rem;
+}
+
+.contact-demo__notice {
+  display: inline-block;
+  padding: 0.5rem 0.75rem;
+  background: #fef3c7;
+  border: 1px solid #fbbf24;
+  border-radius: var(--form-radius);
+  font-size: 0.875rem;
+}
+
+.contact-demo__section {
+  padding: 2.5rem 0;
+  border-top: 1px solid var(--color-border, #e5e7eb);
+}
+
+.contact-demo__pattern-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.contact-demo__pattern-desc {
+  color: var(--color-muted, #6b7280);
+  font-size: 0.875rem;
+  margin-bottom: 1.5rem;
+}
+
+.contact-demo__form-wrap {
+  max-width: 560px;
+}
+
+
+
+
+/* ------------------------------------------------------------------ */
+/* Video Embed — YouTube in the featured image slot                   */
+/* ------------------------------------------------------------------ */
+.gwill-video-embed {
+  position: relative;
+  padding-block-end: 56.25%; /* 16:9 */
+  height: 0;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  background: #000;
+  margin-block-end: 1.5rem;
+}
+
+.gwill-video-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}

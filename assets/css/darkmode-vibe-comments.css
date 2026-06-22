@@ -1,0 +1,128 @@
+/**
+ * Dark Mode — Vibe Comments plugin
+ *
+ * Only enqueued when the Vibe Comments plugin is active (see inc/enqueue.php).
+ *
+ * Strategy: Vibe Comments defines its own --vibe-* CSS custom properties in
+ * :root. Since ALL of the plugin's components consume these tokens, overriding
+ * them inside [data-theme="dark"] .vibe-comments-section fixes the entire
+ * plugin in one block — no per-component rules needed.
+ *
+ * A second block handles the handful of hardcoded hex values inside
+ * vibe-comments.css that bypass the token system (awaiting badge, liked state,
+ * hover surfaces, OAuth buttons).
+ *
+ * Keep this file in sync with vibe-comments.css when the plugin updates.
+ * Checked against: vibe-comments v5
+ *
+ * @package GWill_Starter
+ * @since   1.0.31
+ */
+
+/* ── Variable overrides ──────────────────────────────────────────────────── */
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) .vibe-comments-section {
+		--vibe-primary:       #60a5fa;    /* matches theme --color-accent dark */
+		--vibe-primary-hover: #3b82f6;
+		--vibe-bg:            #1e293b;    /* card / input background           */
+		--vibe-surface:       #0f172a;    /* auth bar, user bar, surface bg    */
+		--vibe-border:        #334155;
+		--vibe-text:          #f1f5f9;    /* matches theme --color-primary dark */
+		--vibe-text-muted:    #94a3b8;    /* matches theme --color-muted dark  */
+		--vibe-shadow:        0 1px 3px rgba(0, 0, 0, 0.4);
+	}
+}
+
+[data-theme="dark"] .vibe-comments-section {
+	--vibe-primary:       #60a5fa;
+	--vibe-primary-hover: #3b82f6;
+	--vibe-bg:            #1e293b;
+	--vibe-surface:       #0f172a;
+	--vibe-border:        #334155;
+	--vibe-text:          #f1f5f9;
+	--vibe-text-muted:    #94a3b8;
+	--vibe-shadow:        0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Hardcoded colour fixes ───────────────────────────────────────────────── */
+/* These rules target values hardcoded in vibe-comments.css that don't use   */
+/* the --vibe-* token system and would remain bright on a dark background.   */
+
+/* Awaiting moderation notice — was #fef3c7 (bright yellow) */
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) .vibe-awaiting {
+		background: #3a1a00;
+		color:      #fcd34d;
+	}
+}
+[data-theme="dark"] .vibe-awaiting {
+	background: #3a1a00;
+	color:      #fcd34d;
+}
+
+/* Liked state — was #fee2e2 background with #ef4444 text */
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) .vibe-like-btn.liked {
+		background:   #450a0a;
+		border-color: #ef4444;
+		color:        #f87171;
+	}
+	:root:not([data-theme="light"]) .vibe-like-btn.liked svg {
+		fill:   #f87171;
+		stroke: #f87171;
+	}
+}
+[data-theme="dark"] .vibe-like-btn.liked {
+	background:   #450a0a;
+	border-color: #ef4444;
+	color:        #f87171;
+}
+[data-theme="dark"] .vibe-like-btn.liked svg {
+	fill:   #f87171;
+	stroke: #f87171;
+}
+
+/* Reply link hover — was #eff6ff (bright blue tint) */
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) .vibe-comment-footer .comment-reply-link:hover,
+	:root:not([data-theme="light"]) .vibe-reply-trigger:hover {
+		background: #1e3a5f;
+	}
+}
+[data-theme="dark"] .vibe-comment-footer .comment-reply-link:hover,
+[data-theme="dark"] .vibe-reply-trigger:hover {
+	background: #1e3a5f;
+}
+
+/* Google OAuth button — was white background, dark text */
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) .vibe-btn-google {
+		background:   #1e293b;
+		color:        #f1f5f9;
+		border-color: #334155;
+	}
+	:root:not([data-theme="light"]) .vibe-btn-google:hover {
+		background: #334155;
+	}
+}
+[data-theme="dark"] .vibe-btn-google {
+	background:   #1e293b;
+	color:        #f1f5f9;
+	border-color: #334155;
+}
+[data-theme="dark"] .vibe-btn-google:hover { background: #334155; }
+
+/* Cancel button hover — was #fee2e2 */
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) .vibe-btn-cancel:hover {
+		background:   #450a0a;
+		color:        #f87171;
+		border-color: #ef4444;
+	}
+}
+[data-theme="dark"] .vibe-btn-cancel:hover {
+	background:   #450a0a;
+	color:        #f87171;
+	border-color: #ef4444;
+}

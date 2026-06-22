@@ -1,0 +1,103 @@
+# Copyright (C) 2024 G-will Chijioke
+# This file is distributed under the same license as the GWill Starter package.
+# G-will Chijioke <hello@gwillchijioke.com>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: GWill Starter 1.0.16\n"
+"Report-Msgid-Bugs-To: https://gwillchijioke.com\n"
+"POT-Creation-Date: 2026-06-05T00:00:00+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2024-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"X-Generator: GWill Starter 1.0.16\n"
+"X-Domain: gwill-starter\n"
+
+#. Plugin Name of the plugin
+#: style.css
+msgid "GWill Starter"
+msgstr ""
+
+#: header.php
+msgctxt "skip link"
+msgid "Skip to content"
+msgstr ""
+
+#: header.php
+msgid "Primary Navigation"
+msgstr ""
+
+#: header.php
+msgid "Toggle navigation menu"
+msgstr ""
+
+#: inc/setup.php
+msgid "Footer Navigation"
+msgstr ""
+
+#: inc/security.php
+msgid "Invalid username or password."
+msgstr ""
+
+#: template-parts/content-none.php
+msgid "Nothing matched your search"
+msgstr ""
+
+#: template-parts/content-none.php
+msgid "Try different keywords, or check for typos."
+msgstr ""
+
+#: template-parts/content-none.php
+msgid "Nothing here yet"
+msgstr ""
+
+#: template-parts/content-none.php
+msgid "It looks like nothing was found at this location."
+msgstr ""
+
+#: single.php
+msgid "By"
+msgstr ""
+
+#: comments.php
+#. translators: %s: number of comments
+msgid "%s Comment"
+msgid_plural "%s Comments"
+msgstr[0] ""
+msgstr[1] ""
+
+#: comments.php
+msgid "Comments are closed."
+msgstr ""
+
+#: searchform.php
+msgid "Search for:"
+msgstr ""
+
+#: searchform.php
+msgid "Site search"
+msgstr ""
+
+#: searchform.php
+msgid "Search…"
+msgstr ""
+
+#: searchform.php
+msgid "Search"
+msgstr ""
+
+#: 404.php
+msgid "404 — Page Not Found"
+msgstr ""
+
+#: 404.php
+msgid "The page you\u2019re looking for doesn\u2019t exist. Try searching:"
+msgstr ""
+
+#: 404.php
+msgid "\u2190 Back to Home"
+msgstr ""

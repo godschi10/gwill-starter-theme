@@ -1,0 +1,257 @@
+/**
+ * Dark Mode — Token overrides and toggle button
+ *
+ * Three-state system (matches inc/darkmode.php and assets/js/darkmode.js):
+ *   1. No data-theme set + OS prefers dark  → @media rule applies (no JS req'd)
+ *   2. data-theme="dark"  (user forced dark) → attribute selector wins
+ *   3. data-theme="light" (user forced light) → attribute selector restores
+ *      light tokens, beating the system-preference @media rule
+ *
+ * The flash-prevention script in header.php sets data-theme before wp_head()
+ * loads any CSS — zero FOUC on page load.
+ *
+ * @package GWill_Starter
+ * @since   1.0.30
+ */
+
+/* ── Dark token set ──────────────────────────────────────────────────────── */
+
+/* Case 1 — System preference, no stored choice (no JS required)           */
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) {
+		--color-primary:      #f1f5f9;
+		--color-accent:       #60a5fa;  /* lightened blue — sufficient contrast on dark bg */
+		--color-bg:           #0f172a;
+		--color-muted:        #94a3b8;
+		--color-border:       #1e293b;
+		--color-border-input: #475569;
+		--color-btn-bg:       #60a5fa;  /* matches --color-accent in dark — ~8:1 on dark bg */
+		--color-btn-text:     #0f172a;  /* dark navy text — ~8:1 contrast on #60a5fa */
+	}
+}
+
+/* Case 2 — User explicitly chose dark                                     */
+[data-theme="dark"] {
+	--color-primary:      #f1f5f9;
+	--color-accent:       #60a5fa;
+	--color-bg:           #0f172a;
+	--color-muted:        #94a3b8;
+	--color-border:       #1e293b;
+	--color-border-input: #475569;
+	--color-btn-bg:       #60a5fa;
+	--color-btn-text:     #0f172a;
+}
+
+/* Case 3 — User explicitly chose light (beats system dark preference)     */
+[data-theme="light"] {
+	--color-primary:      #111111;
+	--color-accent:       #2563eb;
+	--color-bg:           #ffffff;
+	--color-muted:        #6b7280;
+	--color-border:       #e5e7eb;
+	--color-border-input: #6b7280;
+}
+
+/* ── Browser chrome hint ─────────────────────────────────────────────────── */
+/* Tells the browser to use dark scrollbars, form controls, and system UI. */
+
+:root               { color-scheme: light; }
+[data-theme="dark"] { color-scheme: dark; }
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) { color-scheme: dark; }
+}
+
+/* ── Toggle button ───────────────────────────────────────────────────────── */
+/* Visually matches .gwill-search-expand__toggle — same size, same reset.  */
+
+.gwill-darkmode-toggle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	width: 2.25rem;
+	height: 2.25rem;
+	padding: 0;
+	background: transparent;
+	border: none;
+	border-radius: var(--form-radius, 4px);
+	color: var(--color-primary, #111);
+	cursor: pointer;
+	transition: color 0.15s ease;
+}
+
+.gwill-darkmode-toggle:hover        { color: var(--color-accent); }
+.gwill-darkmode-toggle:focus-visible {
+	outline: 2px solid var(--color-accent, #2563eb);
+	outline-offset: 2px;
+}
+
+/* ── Icon switching ──────────────────────────────────────────────────────── */
+/* Convention: moon shown in light mode (click to go dark),                */
+/*             sun shown in dark mode (click to go light).                 */
+
+/* Default: light mode — show moon, hide sun */
+.gwill-darkmode-toggle__sun  { display: none; }
+.gwill-darkmode-toggle__moon { display: flex; }
+
+/* Explicit dark */
+[data-theme="dark"] .gwill-darkmode-toggle__sun  { display: flex; }
+[data-theme="dark"] .gwill-darkmode-toggle__moon { display: none; }
+
+/* Explicit light (no change from default, but listed for clarity) */
+[data-theme="light"] .gwill-darkmode-toggle__sun  { display: none; }
+[data-theme="light"] .gwill-darkmode-toggle__moon { display: flex; }
+
+/* System dark, no stored preference */
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) .gwill-darkmode-toggle__sun  { display: flex; }
+	:root:not([data-theme="light"]) .gwill-darkmode-toggle__moon { display: none; }
+}
+
+/* ── Explicit element overrides ──────────────────────────────────────────── */
+/* Headings inherit color from body, but some environments (LiteSpeed CSS    */
+/* combining, plugin interference) can break the inheritance chain. Explicit */
+/* declarations here guarantee correct colour regardless of cascade source.  */
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) h1,
+	:root:not([data-theme="light"]) h2,
+	:root:not([data-theme="light"]) h3,
+	:root:not([data-theme="light"]) h4,
+	:root:not([data-theme="light"]) h5,
+	:root:not([data-theme="light"]) h6,
+	:root:not([data-theme="light"]) .entry-title,
+	:root:not([data-theme="light"]) .page-title,
+	:root:not([data-theme="light"]) .comments-title,
+	:root:not([data-theme="light"]) .wp-block-heading { color: var(--color-primary); }
+}
+
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6,
+[data-theme="dark"] .entry-title,
+[data-theme="dark"] .page-title,
+[data-theme="dark"] .comments-title,
+[data-theme="dark"] .wp-block-heading { color: var(--color-primary); }
+
+/* ── Contact / gwill-form inputs ─────────────────────────────────────────── */
+/* style.css line ~891 hardcodes background:#fff on .gwill-form__field       */
+/* elements — not tokenized, so the CSS variable override doesn't reach it.  */
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) .gwill-form__field input,
+	:root:not([data-theme="light"]) .gwill-form__field textarea,
+	:root:not([data-theme="light"]) .gwill-form__field select {
+		background:   #1e293b;
+		color:        var(--color-primary);
+		border-color: var(--color-border-input);
+	}
+	:root:not([data-theme="light"]) .gwill-exit-intent__panel {
+		background: #1e293b;
+		color:      var(--color-primary);
+	}
+	:root:not([data-theme="light"]) .gwill-feedback-wrap        { background: #1e293b; }
+	:root:not([data-theme="light"]) .gwill-feedback-wrap__btn   {
+		background:   #0f172a;
+		color:        var(--color-primary);
+		border-color: var(--color-border-input);
+	}
+	:root:not([data-theme="light"]) .gwill-feedback-wrap__btn:hover { background: var(--color-border); }
+}
+
+[data-theme="dark"] .gwill-form__field input,
+[data-theme="dark"] .gwill-form__field textarea,
+[data-theme="dark"] .gwill-form__field select {
+	background:   #1e293b;
+	color:        var(--color-primary);
+	border-color: var(--color-border-input);
+}
+[data-theme="dark"] .gwill-exit-intent__panel {
+	background: #1e293b;
+	color:      var(--color-primary);
+}
+[data-theme="dark"] .gwill-feedback-wrap        { background: #1e293b; }
+[data-theme="dark"] .gwill-feedback-wrap__btn   {
+	background:   #0f172a;
+	color:        var(--color-primary);
+	border-color: var(--color-border-input);
+}
+[data-theme="dark"] .gwill-feedback-wrap__btn:hover { background: var(--color-border); }
+
+/* ── Default WordPress comments ──────────────────────────────────────────── */
+/* The native comment form inputs use the generic input selectors which are  */
+/* already tokenized in style.css (background: var(--color-bg)). This block  */
+/* handles the #respond container and the submit button, which may render    */
+/* with browser defaults in some environments.                               */
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) #respond { color: var(--color-primary); }
+	:root:not([data-theme="light"]) #respond input[type="text"],
+	:root:not([data-theme="light"]) #respond input[type="email"],
+	:root:not([data-theme="light"]) #respond input[type="url"],
+	:root:not([data-theme="light"]) #respond textarea {
+		background:   #1e293b;
+		color:        var(--color-primary);
+		border-color: var(--color-border-input);
+	}
+}
+
+[data-theme="dark"] #respond { color: var(--color-primary); }
+[data-theme="dark"] #respond input[type="text"],
+[data-theme="dark"] #respond input[type="email"],
+[data-theme="dark"] #respond input[type="url"],
+[data-theme="dark"] #respond textarea {
+	background:   #1e293b;
+	color:        var(--color-primary);
+	border-color: var(--color-border-input);
+}
+
+/* ── pre / code / Gutenberg code blocks ─────────────────────────────────── */
+/* style.css hardcodes background:#f3f4f6 on .entry-content pre/code — not  */
+/* tokenized, so the CSS variable override doesn't reach it. Same applies    */
+/* to Gutenberg's .wp-block-code and .wp-block-preformatted.                 */
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) .entry-content pre,
+	:root:not([data-theme="light"]) .entry-content code,
+	:root:not([data-theme="light"]) .wp-block-code,
+	:root:not([data-theme="light"]) .wp-block-preformatted,
+	:root:not([data-theme="light"]) .wp-block-verse {
+		background: #1e293b;
+		color:      var(--color-primary);
+	}
+	:root:not([data-theme="light"]) .entry-content pre code { background: none; }
+}
+
+[data-theme="dark"] .entry-content pre,
+[data-theme="dark"] .entry-content code,
+[data-theme="dark"] .wp-block-code,
+[data-theme="dark"] .wp-block-preformatted,
+[data-theme="dark"] .wp-block-verse {
+	background: #1e293b;
+	color:      var(--color-primary);
+}
+[data-theme="dark"] .entry-content pre code { background: none; }
+
+/* ── Submit / CTA buttons ────────────────────────────────────────────────── */
+/* Button backgrounds are now driven by --color-btn-bg / --color-btn-text    */
+/* tokens defined in the dark token blocks above. All selectors in style.css  */
+/* and search.css use var(--color-btn-bg) — no per-selector overrides needed. */
+/*                                                                            */
+/* The only remaining override is the search expand submit border-left, which */
+/* is a separator issue (not a button color issue) and cannot be tokenised    */
+/* without adding a dedicated --color-btn-border token.                       */
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) .gwill-search-expand__submit {
+		border-left-color: var(--color-border-input);
+	}
+}
+
+[data-theme="dark"] .gwill-search-expand__submit {
+	border-left-color: var(--color-border-input);
+}
