@@ -129,6 +129,101 @@ function gwill_youtube_id( string $url ): string {
 
 
 // ---------------------------------------------------------------------------
+// SEO plugin detection
+// ---------------------------------------------------------------------------
+
+/**
+ * Detect whether a major SEO plugin is active.
+ *
+ * Used as a guard before outputting anything this theme would otherwise
+ * generate itself — Open Graph / Twitter Card meta tags, for instance —
+ * since every one of these plugins already outputs its own equivalent, and
+ * outputting both would create duplicate, conflicting meta tags in <head>.
+ *
+ * [Likely], not [Certain]: detection uses each plugin's standard, long-
+ * documented version constant — the most stable, intentionally-maintained
+ * compatibility surface plugin authors keep for exactly this purpose — but
+ * these are still third-party internals this theme has no control over.
+ * Filterable for a specific build that needs to override or extend it:
+ *
+ *   add_filter( 'gwill_seo_plugin_active', fn( $active ) => true );
+ *
+ * @return bool
+ * @since  1.0.50
+ */
+function gwill_seo_plugin_active(): bool {
+	$active = defined( 'RANK_MATH_VERSION' )                 // RankMath
+		|| defined( 'WPSEO_VERSION' )                        // Yoast SEO
+		|| defined( 'AIOSEO_VERSION' )                       // All in One SEO
+		|| function_exists( 'aioseo' )                       // AIOSEO 4.x accessor — extra check, constant names shift between major versions
+		|| defined( 'SEOPRESS_VERSION' )                     // SEOPress
+		|| defined( 'THE_SEO_FRAMEWORK_VERSION' );           // The SEO Framework
+
+	return (bool) apply_filters( 'gwill_seo_plugin_active', $active );
+}
+
+
+
+/**
+ * Resolve "the" category for a post — honouring RankMath / Yoast primary
+ * term meta when set, falling back to the first assigned category.
+ *
+ * Extracted in 1.0.50 from three near-identical copies of this exact logic
+ * (gwill_breadcrumbs(), template-parts/content.php, single.php) that had
+ * accumulated independently as each was built. A fourth consumer
+ * (related posts) was the trigger to finally consolidate rather than
+ * copy-paste a fourth time — all four now call this one function, so a
+ * future fix to the primary-term logic only ever needs to happen once.
+ *
+ * @param  int $post_id Post ID. Defaults to the current post in the loop.
+ * @return WP_Term|null Null if the post has no categories assigned at all.
+ * @since  1.0.50
+ */
+function gwill_get_primary_category( int $post_id = 0 ): ?WP_Term {
+
+	$post_id = $post_id ?: get_the_ID();
+	$cats    = get_the_category( $post_id );
+
+	if ( ! $cats ) {
+		return null;
+	}
+
+	$primary_id = (int) get_post_meta( $post_id, 'rank_math_primary_term_category', true );
+	if ( ! $primary_id ) {
+		$primary_id = (int) get_post_meta( $post_id, '_yoast_wpseo_primary_category', true );
+	}
+
+	if ( $primary_id ) {
+		foreach ( $cats as $cat ) {
+			if ( (int) $cat->term_id === $primary_id ) {
+				return $cat;
+			}
+		}
+	}
+
+	return $cats[0];
+}
+
+/**
+ * Estimate reading time for a post, in whole minutes.
+ *
+ * @param  int $post_id Post ID. Defaults to the current post in the loop.
+ * @return int Minutes, minimum 1.
+ * @since  1.0.50
+ */
+function gwill_reading_time( int $post_id = 0 ): int {
+
+	$post_id = $post_id ?: get_the_ID();
+	$content = get_post_field( 'post_content', $post_id );
+	$words   = str_word_count( wp_strip_all_tags( $content ) );
+	$wpm     = (int) apply_filters( 'gwill_reading_speed_wpm', 200 );
+
+	return max( 1, (int) ceil( $words / max( 1, $wpm ) ) );
+}
+
+
+
+// ---------------------------------------------------------------------------
 // Breadcrumbs
 // ---------------------------------------------------------------------------
 
@@ -183,23 +278,8 @@ function gwill_breadcrumbs(): void {
 		];
 
 	} elseif ( is_single() ) {
-		// Primary category — honour RankMath / Yoast primary term meta.
-		$cats = get_the_category();
-		if ( $cats ) {
-			$primary_id = (int) get_post_meta( get_the_ID(), 'rank_math_primary_term_category', true );
-			if ( ! $primary_id ) {
-				$primary_id = (int) get_post_meta( get_the_ID(), '_yoast_wpseo_primary_category', true );
-			}
-			$cat = null;
-			if ( $primary_id ) {
-				foreach ( $cats as $c ) {
-					if ( (int) $c->term_id === $primary_id ) {
-						$cat = $c;
-						break;
-					}
-				}
-			}
-			$cat = $cat ?? $cats[0];
+		$cat = gwill_get_primary_category();
+		if ( $cat ) {
 
 			// Walk up ancestor categories.
 			foreach ( array_reverse( get_ancestors( $cat->term_id, 'category' ) ) as $anc_id ) {

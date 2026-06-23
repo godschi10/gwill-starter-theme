@@ -48,6 +48,12 @@
 	</footer>
 
 </div><!-- #page -->
+
+<?php
+gwill_part( 'back-to-top' );
+gwill_part( 'cookie-consent' );
+?>
+
 <?php wp_footer(); ?>
 </body>
 </html>

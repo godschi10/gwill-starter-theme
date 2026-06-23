@@ -23,6 +23,45 @@ Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.0.50] - 2026-06-20
+
+Tier 1 of the feature roadmap (see `GWILL-FEATURE-ROADMAP.md`) — seven features shipped as a single batch, per plan: build a complete tier, test it as a whole, then move to Tier 2.
+
+### Added
+
+- **Open Graph / Twitter Card fallback meta tags** (`inc/social-meta.php`): full `og:`/`twitter:` tag set, output only when no major SEO plugin is detected. New "Default Social Share Image" Customizer control (Site Identity section, next to the logo) provides the fallback image for pages with no featured image of their own. Reuses the existing `gwill-hero` (1200×675) image size rather than registering a new one — already generated for every post with a featured image, close enough to platforms' own ~1200×630 preference that a dedicated size would only add storage cost for a marginal aspect-ratio improvement.
+
+- **FAQ accordion + Schema.org `FAQPage` markup** (`inc/faq.php`): built on WordPress core's native `<details>`/`<summary>` block — already a fully accessible, zero-JavaScript accordion, so no custom block or JS library was built to duplicate it. A new "FAQ Section" block pattern gives editors a ready-to-fill structure; a `DOMDocument`-based scan of `.gwill-faq` content (not regex — far more reliable for real HTML) extracts question/answer pairs and emits matching JSON-LD, so the visible accordion and the schema can never drift out of sync with each other.
+
+- **Cookie consent banner** (`template-parts/cookie-consent.php`): a notice + Accept/Reject, stored in `localStorage`, dismissed once chosen. Deliberately scoped to the notice itself plus a `gwill:cookie-consent-given` DOM event — this theme has no tracking scripts of its own to gate, so building full cookie-category management would solve a problem that doesn't exist yet. Visibility is entirely client-side, the same architecture as the dark-mode toggle: a LiteSpeed-cached page shows the same correct thing to every visitor regardless of cache state. Uses `get_privacy_policy_url()` (WordPress core, Settings → Privacy) rather than a duplicate theme-level setting.
+
+- **Related posts** (`inc/related-posts.php`, `template-parts/related-posts.php`): shown after the author box on `single.php`. Matches by primary category, falling back to any shared category if no primary term is set.
+
+- **Reading time estimate**: added to both `single.php`'s entry-meta and `content.php`'s card meta — the same "show it in both places or it looks like an oversight" reasoning already applied to categories earlier in this project.
+
+- **Back-to-top button** (`template-parts/back-to-top.php`): appears past 400px scrolled, respects `prefers-reduced-motion` for instant vs. smooth scroll.
+
+- **Sticky header** (new Customizer toggle, "Enable sticky header" — default on): adds `.gwill-sticky-header` to `body_class()`; both the CSS and `assets/js/sticky-header.js` are scoped to that class, so the script is harmless to load unconditionally when the toggle is off.
+
+### Changed
+
+- **Extracted `gwill_get_primary_category()`** (`inc/helpers.php`): the RankMath/Yoast-primary-term-aware category-picking logic had been independently duplicated three times (`gwill_breadcrumbs()`, `content.php`, `single.php`) as each was built across earlier sessions. Related posts needed the exact same logic a fourth time — the trigger to finally consolidate rather than copy-paste again. All four call sites now share one function; a future fix to the primary-term logic only ever needs to happen once. `single.php`'s genuinely different behaviour (showing *all* categories, sorted with primary first, rather than just the primary one) was preserved — only the "which one is primary" sub-logic was extracted, not forced into a shape it doesn't fit.
+
+### Fixed (caught during this build, before shipping)
+
+- **`gwill_seo_plugin_active()` didn't exist.** Referenced as if it were an established function from earlier project history; a theme-wide search turned up nothing. Built it for real (`inc/helpers.php`) before `inc/social-meta.php` could have called a function that doesn't exist — would have been a fatal "call to undefined function" on every page load.
+- **og:url subdirectory-doubling bug.** An early draft built the non-singular fallback URL from `home_url( add_query_arg( null, null ) )` — `add_query_arg()` with no explicit base defaults to `$_SERVER['REQUEST_URI']`, which already includes any subdirectory prefix; wrapping that in `home_url()` a second time would double it (`example.com/blog/blog/...`) on any subdirectory install. The exact same class of bug already fixed in `search-modal.js` two versions ago, caught here before it shipped a second time. Replaced with proper conditional-tag URL resolution (`get_permalink()`, `get_term_link()`, `get_author_posts_url()`, etc.), with an `is_wp_error()` guard on `get_term_link()`'s result — it can return `WP_Error`, which has no `__toString()` and would fatal on a direct string cast.
+- **FAQ schema generator ran the entire `the_content` filter pipeline a second time** on every singular page load, for content that — most of the time — has no FAQ section at all. Caught against my own stated reasoning for the reading-time function (raw `post_content`, not filtered) two features earlier in this same build. Gutenberg stores static blocks' rendered HTML directly in `post_content`; the `<!-- wp:details -->` wrapper comments are editor metadata `DOMDocument` simply ignores. Switched to raw content, with the cheap `str_contains()` bail-out moved before the expensive DOM parse instead of after it.
+- **Z-index collisions, caught before writing any CSS.** A planned cookie-banner z-index of 9000 would have exactly matched the existing search modal's z-index; a planned sticky-header z-index of 100 would have exactly matched the existing mobile-nav-dropdown's z-index (technically harmless, since they're different stacking contexts, but confusing to read later regardless). Built a complete, documented hierarchy instead: 50 (sticky header) < 100 (nav dropdown) < 8000 (back-to-top) < 8500 (cookie consent) < 9000 (search modal) < 9100 (search expand) < 9999 (skip-link focus / exit-intent overlay).
+- **`.site-header` had no explicit background.** Switching it to `position: sticky` without one would have let scrolling content show through underneath it. Added `background: var(--color-bg)`, scoped to the same `.gwill-sticky-header` class as the rest of the feature.
+
+### Documentation
+
+- **`README.md` was severely out of date — verified directly against the live GitHub repository, not assumed.** It described `functions.php` as five `require_once` lines when the actual file (confirmed by fetching it directly) has had nine for a long time, before this version's three more brought it to twelve. It described the contact form system as choosing between a "FormSubmit.co" backend and a native one — that architecture doesn't exist anywhere in the current ten-pattern AJAX system. It described the author-archive redirect as an unconditional 301 with no opt-out — the exact pre-1.0.42 behaviour, fixed two versions ago and hardened again since. It referenced `phpcs.xml`, `composer.json`, and `.editorconfig` as if they existed; none were actually present in the repository. This had been silently copied forward, completely unedited, through every single version bump this entire project — `CHANGELOG.md` was kept rigorously accurate at every release; `README.md` was never once checked against it. Rewritten from scratch against the actual v1.0.50 file tree, with every numeric claim (file counts, field counts, control counts) verified by direct `grep`/`ls` against the real codebase rather than carried forward from memory — including catching and correcting a "nine require_once lines" claim in the very first draft of this rewrite, which was accurate for the GitHub-verified prior state but already stale the moment this version's own three new `inc/` files were added.
+- **Added `phpcs.xml`, `composer.json`, `.editorconfig`** — referenced by the old README as if they existed; they didn't. Built for real: a WordPress Coding Standards ruleset with the three rule exclusions this codebase's actual style already requires (short array syntax, arrow functions, blank lines between hooked callbacks), a `composer.json` declaring PHPCS/WPCS/PHPCompatibilityWP as dev dependencies, and a standard `.editorconfig` (tabs for PHP, 2-space for CSS/JS/JSON, trailing-whitespace preserved in Markdown so intentional `<br>` line breaks survive). Not run in this environment — no `composer`/network access in this sandbox — but syntactically valid and ready to run in any environment that has both.
+
+---
+
 ## [1.0.49] - 2026-06-18
 
 Final pre-release audit. Every file in the theme reviewed individually; every cross-cutting pattern (escaping, sanitization, nonce/capability checks, comparison operators, indentation, asset versioning, Yoda conditions, debug statements) checked theme-wide rather than file-by-file. Full findings in the chat response this version shipped with; this entry covers what changed.

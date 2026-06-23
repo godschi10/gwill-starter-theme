@@ -25,6 +25,42 @@ add_action( 'wp_enqueue_scripts', function () {
 		[ 'in_footer' => true, 'strategy' => 'defer' ]
 	);
 
+	// All three below: deferred is correct here, unlike the dark-mode
+	// toggle which needed to be fully inline (see inc/darkmode.php for that
+	// history). None of these three need to work in the first instant
+	// after page load — a cookie banner appearing slightly after first
+	// paint is completely normal, back-to-top and the sticky header only
+	// matter once the visitor has actually scrolled, by which point a
+	// deferred script has almost always already loaded.
+
+	wp_enqueue_script(
+		'gwill-cookie-consent',
+		get_template_directory_uri() . '/assets/js/cookie-consent.js',
+		[],
+		wp_get_theme( get_template() )->get( 'Version' ),
+		[ 'in_footer' => true, 'strategy' => 'defer' ]
+	);
+
+	wp_enqueue_script(
+		'gwill-back-to-top',
+		get_template_directory_uri() . '/assets/js/back-to-top.js',
+		[],
+		wp_get_theme( get_template() )->get( 'Version' ),
+		[ 'in_footer' => true, 'strategy' => 'defer' ]
+	);
+
+	// Enqueued unconditionally — the script itself checks for
+	// .gwill-sticky-header on <body> and no-ops immediately if the
+	// Customizer toggle is off, so there's no need to duplicate that
+	// check here as well.
+	wp_enqueue_script(
+		'gwill-sticky-header',
+		get_template_directory_uri() . '/assets/js/sticky-header.js',
+		[],
+		wp_get_theme( get_template() )->get( 'Version' ),
+		[ 'in_footer' => true, 'strategy' => 'defer' ]
+	);
+
 	// Required for threaded (nested) comment reply links to work.
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );

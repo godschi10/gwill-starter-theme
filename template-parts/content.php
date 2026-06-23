@@ -32,25 +32,8 @@ defined( 'ABSPATH' ) || exit;
 	<div class="entry-body">
 
 		<div class="entry-meta">
-			<?php
-			// Primary category — first match; honours RankMath / Yoast primary term meta.
-			$gwill_cats = get_the_category();
-			if ( $gwill_cats ) :
-				$gwill_primary_id = (int) get_post_meta( get_the_ID(), 'rank_math_primary_term_category', true );
-				if ( ! $gwill_primary_id ) {
-					$gwill_primary_id = (int) get_post_meta( get_the_ID(), '_yoast_wpseo_primary_category', true );
-				}
-				$gwill_cat = null;
-				if ( $gwill_primary_id ) {
-					foreach ( $gwill_cats as $c ) {
-						if ( (int) $c->term_id === $gwill_primary_id ) {
-							$gwill_cat = $c;
-							break;
-						}
-					}
-				}
-				$gwill_cat = $gwill_cat ?? $gwill_cats[0];
-			?>
+			<?php $gwill_cat = gwill_get_primary_category(); ?>
+			<?php if ( $gwill_cat ) : ?>
 				<a class="entry-cat" href="<?php echo esc_url( get_category_link( $gwill_cat->term_id ) ); ?>">
 					<?php echo esc_html( $gwill_cat->name ); ?>
 				</a>
@@ -59,6 +42,16 @@ defined( 'ABSPATH' ) || exit;
 			<time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>">
 				<?php echo esc_html( get_the_date() ); ?>
 			</time>
+			<span class="entry-meta__sep" aria-hidden="true"> &middot; </span>
+			<span class="entry-reading-time">
+				<?php
+				printf(
+					/* translators: %d: estimated reading time in minutes */
+					esc_html__( '%d min read', 'gwill-starter' ),
+					gwill_reading_time()
+				);
+				?>
+			</span>
 		</div>
 
 		<h2 class="entry-title">

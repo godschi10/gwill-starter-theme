@@ -4,7 +4,7 @@ Theme URI:   https://gwillchijioke.com
 Author:      G-will Chijioke
 Author URI:  https://gwillchijioke.com
 Description: A clean, custom WordPress starter theme built from scratch. No parent theme dependency.
-Version:     1.0.49
+Version:     1.0.50
 License:     GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: gwill-starter
@@ -1847,4 +1847,261 @@ select:focus {
   width: 100%;
   height: 100%;
   border: 0;
+}
+
+
+
+
+/* ------------------------------------------------------------------ */
+/* FAQ Accordion (.gwill-faq) — native <details>/<summary>, no JS      */
+/* ------------------------------------------------------------------ */
+/* z-index hierarchy across the whole theme, for reference:
+   50 sticky header < 100 mobile nav dropdown < 8000 back-to-top <
+   8500 cookie consent < 9000 search modal < 9100 search expand <
+   9999 skip-link focus / exit-intent overlay                          */
+
+.gwill-faq {
+  margin-block: var(--spacing);
+}
+
+.gwill-faq details {
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+}
+
+.gwill-faq summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  cursor: pointer;
+  list-style: none; /* Firefox's default disclosure triangle */
+}
+
+.gwill-faq summary::-webkit-details-marker {
+  display: none; /* Chrome/Safari's default disclosure triangle */
+}
+
+.gwill-faq summary::after {
+  content: '';
+  flex-shrink: 0;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-right: 2px solid var(--color-muted);
+  border-bottom: 2px solid var(--color-muted);
+  transform: rotate(45deg);
+  transition: transform 0.2s;
+}
+
+.gwill-faq details[open] summary::after {
+  transform: rotate(-135deg);
+}
+
+.gwill-faq details > :not(summary) {
+  padding: 0 1.25rem 1.25rem;
+}
+
+.gwill-faq summary:hover {
+  background: var(--color-border);
+}
+
+.gwill-faq summary:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Related Posts                                                       */
+/* ------------------------------------------------------------------ */
+
+.related-posts {
+  margin-block-start: calc(var(--spacing) * 2);
+  padding-block-start: var(--spacing);
+  border-top: 1px solid var(--color-border);
+}
+
+.related-posts__heading {
+  margin-bottom: var(--spacing);
+}
+
+.related-posts__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing);
+}
+
+.related-posts__link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.related-posts__thumb {
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.625rem;
+  aspect-ratio: 16 / 9;
+}
+
+.related-posts__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.related-posts__title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1.4;
+}
+
+.related-posts__link:hover .related-posts__title {
+  color: var(--color-accent);
+}
+
+/* ------------------------------------------------------------------ */
+/* Cookie Consent Banner                                                */
+/* ------------------------------------------------------------------ */
+
+.gwill-cookie-consent {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 8500;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.gwill-cookie-consent[hidden] {
+  display: none;
+}
+
+.gwill-cookie-consent__text {
+  flex: 1 1 240px;
+  font-size: 0.875rem;
+  margin: 0;
+  color: var(--color-muted);
+}
+
+.gwill-cookie-consent__text a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.gwill-cookie-consent__actions {
+  display: flex;
+  gap: 0.625rem;
+  flex-shrink: 0;
+}
+
+.gwill-cookie-consent__btn {
+  padding: 0.5rem 1.125rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--color-border-input);
+  background: transparent;
+  color: var(--color-primary);
+  transition: background 0.15s, border-color 0.15s, opacity 0.15s;
+}
+
+.gwill-cookie-consent__btn:hover {
+  border-color: var(--color-accent);
+}
+
+.gwill-cookie-consent__btn--accept {
+  background: var(--color-btn-bg);
+  color: var(--color-btn-text);
+  border-color: var(--color-btn-bg);
+}
+
+.gwill-cookie-consent__btn--accept:hover {
+  opacity: 0.9;
+}
+
+/* ------------------------------------------------------------------ */
+/* Back to Top                                                         */
+/* ------------------------------------------------------------------ */
+
+.gwill-back-to-top {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 8000;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: var(--color-btn-bg);
+  color: var(--color-btn-text);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(0.5rem);
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.gwill-back-to-top.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.gwill-back-to-top:hover {
+  opacity: 0.9;
+}
+
+.gwill-back-to-top svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+@media (max-width: 480px) {
+  .gwill-back-to-top {
+    /* Approximate clearance so it doesn't sit under the cookie banner on
+       small screens if both happen to be visible at once — a reasonable
+       default, not pixel-coupled to the banner's actual rendered height. */
+    bottom: 5rem;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Sticky Header                                                       */
+/* ------------------------------------------------------------------ */
+/* Scoped to .gwill-sticky-header on <body> — added via body_class() only
+   when the "Enable sticky header" Customizer toggle is on (default: on).
+   .site-header itself stays position:relative (required as the
+   positioning context for the mobile nav dropdown — sticky also
+   establishes a valid containing block for that, so switching it doesn't
+   break the dropdown) when the toggle is off. */
+
+.gwill-sticky-header .site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--color-bg);
+  transition: box-shadow 0.2s;
+}
+
+.gwill-sticky-header .site-header.is-stuck {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }

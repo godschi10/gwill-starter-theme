@@ -10,3 +10,6 @@ require_once get_template_directory() . '/inc/customizer.php';
 require_once get_template_directory() . '/inc/darkmode.php';
 require_once get_template_directory() . '/inc/forms.php';
 require_once get_template_directory() . '/inc/search.php';
+require_once get_template_directory() . '/inc/related-posts.php';
+require_once get_template_directory() . '/inc/social-meta.php';
+require_once get_template_directory() . '/inc/faq.php';

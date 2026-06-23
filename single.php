@@ -41,19 +41,27 @@ while ( have_posts() ) : the_post();
 		<time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>" itemprop="datePublished">
 			<?php echo esc_html( get_the_date() ); ?>
 		</time>
+		<span class="entry-meta__sep" aria-hidden="true"> &middot; </span>
+		<span class="entry-reading-time">
+			<?php
+			printf(
+				/* translators: %d: estimated reading time in minutes */
+				esc_html__( '%d min read', 'gwill-starter' ),
+				gwill_reading_time()
+			);
+			?>
+		</span>
 
 		<?php
-		// Categories — inline with meta.
+		// Categories — inline with meta. Shows ALL assigned categories (unlike
+		// content.php's card view, which intentionally shows only the primary
+		// one) — sorted so the primary category, if set, appears first.
 		$gwill_cats = get_the_category();
 		if ( $gwill_cats ) :
-			// Honour RankMath / Yoast primary category term meta.
-			$gwill_primary = (int) get_post_meta( get_the_ID(), 'rank_math_primary_term_category', true );
-			if ( ! $gwill_primary ) {
-				$gwill_primary = (int) get_post_meta( get_the_ID(), '_yoast_wpseo_primary_category', true );
-			}
-			if ( $gwill_primary ) {
-				usort( $gwill_cats, static function ( $a, $b ) use ( $gwill_primary ) {
-					return ( (int) $a->term_id === $gwill_primary ) ? -1 : 1;
+			$gwill_primary_cat = gwill_get_primary_category();
+			if ( $gwill_primary_cat ) {
+				usort( $gwill_cats, static function ( $a, $b ) use ( $gwill_primary_cat ) {
+					return ( (int) $a->term_id === (int) $gwill_primary_cat->term_id ) ? -1 : 1;
 				} );
 			}
 		?>
@@ -98,6 +106,8 @@ set_query_var( 'gwill_share_mode', '' );
 ?>
 
 <?php gwill_part( 'author-box' ); ?>
+
+<?php gwill_part( 'related-posts' ); ?>
 
 <?php the_post_navigation(); ?>
 

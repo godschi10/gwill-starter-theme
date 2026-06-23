@@ -53,6 +53,28 @@ add_action( 'customize_register', function ( WP_Customize_Manager $wp_customize 
 		'type'        => 'checkbox',
 	] );
 
+	// ── Sticky header ─────────────────────────────────────────────────────
+	//
+	// Default ON — most sites want this. Adds .gwill-sticky-header to
+	// body_class() (gwill_sticky_header_body_class() below), which both
+	// the CSS (.gwill-sticky-header .site-header { position: sticky }) and
+	// assets/js/sticky-header.js are scoped to. Refresh transport, not
+	// postMessage — this changes server-rendered body_class() output, and
+	// scroll-triggered behaviour isn't meaningfully previewable live in the
+	// Customizer iframe anyway.
+
+	$wp_customize->add_setting( 'gwill_sticky_header', [
+		'default'           => true,
+		'sanitize_callback' => 'gwill_sanitize_checkbox',
+	] );
+
+	$wp_customize->add_control( 'gwill_sticky_header', [
+		'label'       => __( 'Enable sticky header', 'gwill-starter' ),
+		'description' => __( 'Keeps the header visible at the top of the viewport while scrolling.', 'gwill-starter' ),
+		'section'     => 'gwill_header',
+		'type'        => 'checkbox',
+	] );
+
 	// ── Header padding ──────────────────────────────────────────────────────
 	//
 	// Default: 24px  (= 1.5rem at a 16px browser base — matches --spacing)
@@ -111,7 +133,58 @@ add_action( 'customize_register', function ( WP_Customize_Manager $wp_customize 
 		],
 	] );
 
+	// ── Default Social Share Image — added to Site Identity ─────────────────
+	//
+	// Used by inc/social-meta.php as the og:image / twitter:image fallback
+	// for any page that has no featured image of its own — and, on a site
+	// running an SEO plugin, simply unused (gwill_output_social_meta() bails
+	// before this setting is ever read). Same section as the logo/favicon
+	// for the same reason logo width is here: this is the one other "site
+	// identity" image a site owner sets once and rarely touches again.
+	//
+	// Stores an attachment ID (absint), not a URL — consistent with how
+	// WordPress core's own custom_logo theme_mod works, and lets
+	// inc/social-meta.php request it at whatever registered image size it
+	// needs (gwill-hero) rather than being stuck with whatever size was
+	// uploaded.
+
+	$wp_customize->add_setting( 'gwill_default_social_image', [
+		'default'           => 0,
+		'sanitize_callback' => 'absint',
+	] );
+
+	$wp_customize->add_control( new WP_Customize_Image_Control(
+		$wp_customize,
+		'gwill_default_social_image',
+		[
+			'label'       => __( 'Default Social Share Image', 'gwill-starter' ),
+			'description' => __( 'Shown when a page or post is shared on Facebook, X, etc. and has no featured image of its own. Recommended size: 1200×630px or larger.', 'gwill-starter' ),
+			'section'     => 'title_tagline',
+		]
+	) );
+
 } );
+
+// ── body_class hook for the sticky-header setting ────────────────────────────
+
+/**
+ * Add .gwill-sticky-header to body_class() when the Customizer toggle is on.
+ *
+ * Both the CSS (.gwill-sticky-header .site-header { position: sticky })
+ * and assets/js/sticky-header.js are scoped to this class — when the
+ * toggle is off, neither does anything, regardless of being loaded.
+ *
+ * @param  string[] $classes
+ * @return string[]
+ * @since  1.0.50
+ */
+function gwill_sticky_header_body_class( array $classes ): array {
+	if ( get_theme_mod( 'gwill_sticky_header', true ) ) {
+		$classes[] = 'gwill-sticky-header';
+	}
+	return $classes;
+}
+add_filter( 'body_class', 'gwill_sticky_header_body_class' );
 
 // ── Sanitize helpers ─────────────────────────────────────────────────────────
 

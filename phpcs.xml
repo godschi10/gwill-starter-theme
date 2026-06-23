@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ruleset name="GWill Starter Theme">
+	<description>WordPress Coding Standards ruleset for gwill-starter-theme.</description>
+
+	<file>.</file>
+	<exclude-pattern>/vendor/*</exclude-pattern>
+	<exclude-pattern>/node_modules/*</exclude-pattern>
+	<exclude-pattern>/languages/*</exclude-pattern>
+
+	<arg value="sp"/>
+	<arg name="basepath" value="."/>
+	<arg name="colors"/>
+	<arg name="extensions" value="php"/>
+
+	<rule ref="WordPress">
+		<!-- Short array syntax [] is valid PHP 5.4+ and used throughout this theme. -->
+		<exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
+		<!-- Arrow functions fn() => ... are valid PHP 7.4+ and used in several inc/ files. -->
+		<exclude name="Universal.FunctionDeclarations.NoLongClosures"/>
+		<!-- Blank lines between hooked callbacks are kept deliberately for readability. -->
+		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing"/>
+	</rule>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="gwill-starter"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="PHPCompatibilityWP"/>
+	<config name="testVersion" value="8.1-"/>
+	<config name="minimum_supported_wp_version" value="6.4"/>
+</ruleset>
