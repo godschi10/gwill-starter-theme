@@ -13,6 +13,13 @@ defined( 'ABSPATH' ) || exit;
  * @param array  $data  Optional associative array passed as $args in the partial.
  */
 function gwill_part( string $slug, array $data = [] ): void {
+	if ( WP_DEBUG ) {
+		$path = get_theme_file_path( 'template-parts/' . $slug . '.php' );
+		if ( ! file_exists( $path ) ) {
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error -- WP_DEBUG-gated developer warning, not production logging
+			trigger_error( '[gwill_part] Missing partial: template-parts/' . $slug . '.php', E_USER_WARNING );
+		}
+	}
 	get_template_part( 'template-parts/' . $slug, null, $data );
 }
 

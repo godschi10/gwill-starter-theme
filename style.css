@@ -4,7 +4,7 @@ Theme URI:   https://gwillchijioke.com
 Author:      G-will Chijioke
 Author URI:  https://gwillchijioke.com
 Description: A clean, custom WordPress starter theme built from scratch. No parent theme dependency.
-Version:     1.0.50
+Version:     1.0.53
 License:     GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: gwill-starter
@@ -739,15 +739,7 @@ a.next.page-numbers {
   font-size: 1rem;
   font-weight: 700;
   margin: 0;
-}
-
-.author-box__name a {
   color: var(--color-primary);
-  text-decoration: none;
-}
-
-.author-box__name a:hover {
-  color: var(--color-accent);
 }
 
 .author-box__bio {
@@ -1411,6 +1403,25 @@ select:focus {
 }
 
 .gwill-form__field label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-primary, #111);
+}
+
+/* Browsers apply a default border + padding to <fieldset> and a default
+   margin to <legend> — reset both so the fieldset matches the visual
+   appearance .gwill-form__field already has everywhere else, and give
+   the legend the same typography as .gwill-form__field's own label rule
+   above so it reads identically regardless of which element it is. */
+.gwill-form__fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.gwill-form__fieldset legend {
+  padding: 0;
+  margin: 0 0 0.35rem;
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--color-primary, #111);

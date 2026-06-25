@@ -61,7 +61,21 @@ while ( have_posts() ) : the_post();
 			$gwill_primary_cat = gwill_get_primary_category();
 			if ( $gwill_primary_cat ) {
 				usort( $gwill_cats, static function ( $a, $b ) use ( $gwill_primary_cat ) {
-					return ( (int) $a->term_id === (int) $gwill_primary_cat->term_id ) ? -1 : 1;
+					// BUG FIX (1.0.52): the previous version returned 1 for any
+					// non-primary $a regardless of $b — meaning compare(X, Y) and
+					// compare(Y, X) both returned 1 whenever NEITHER X nor Y was
+					// the primary category. That's a contradiction (a valid
+					// comparator can't say X>Y and Y>X simultaneously), and
+					// produced undefined, unstable ordering for any post with
+					// 3+ categories. Comparing both sides explicitly and
+					// returning 0 when neither is primary fixes the
+					// antisymmetry violation.
+					$a_is_primary = (int) $a->term_id === (int) $gwill_primary_cat->term_id;
+					$b_is_primary = (int) $b->term_id === (int) $gwill_primary_cat->term_id;
+					if ( $a_is_primary === $b_is_primary ) {
+						return 0;
+					}
+					return $a_is_primary ? -1 : 1;
 				} );
 			}
 		?>

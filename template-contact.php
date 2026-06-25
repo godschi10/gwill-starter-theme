@@ -42,7 +42,7 @@ while ( have_posts() ) : the_post();
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'page-contact' ); ?>>
 
 	<header class="entry-header">
-		<h1 class="entry-title"><?php the_title(); ?></h1>
+		<h1 class="entry-title"><?php echo esc_html( get_the_title() ); ?></h1>
 	</header>
 
 	<?php if ( get_the_content() ) : ?>

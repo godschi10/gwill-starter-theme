@@ -156,7 +156,7 @@ function gwill_render_social_profile_fields( WP_User $user ): void {
 				if ( ! empty( $field['builtin'] ) ) {
 					continue;
 				}
-				$saved = esc_attr( (string) get_user_meta( $user->ID, $field['key'], true ) );
+				$saved = (string) get_user_meta( $user->ID, $field['key'], true );
 			?>
 			<tr>
 				<th>
@@ -169,7 +169,7 @@ function gwill_render_social_profile_fields( WP_User $user ): void {
 						type="url"
 						id="<?php echo esc_attr( $field['key'] ); ?>"
 						name="<?php echo esc_attr( $field['key'] ); ?>"
-						value="<?php echo $saved; ?>"
+						value="<?php echo esc_attr( $saved ); ?>"
 						placeholder="<?php echo esc_attr( $field['placeholder'] ); ?>"
 						class="regular-text"
 					/>

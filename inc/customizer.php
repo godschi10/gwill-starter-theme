@@ -150,7 +150,7 @@ add_action( 'customize_register', function ( WP_Customize_Manager $wp_customize 
 
 	$wp_customize->add_setting( 'gwill_default_social_image', [
 		'default'           => 0,
-		'sanitize_callback' => 'absint',
+		'sanitize_callback' => 'gwill_sanitize_image_setting',
 	] );
 
 	$wp_customize->add_control( new WP_Customize_Image_Control(
@@ -199,6 +199,32 @@ add_filter( 'body_class', 'gwill_sticky_header_body_class' );
  */
 function gwill_sanitize_checkbox( $value ): bool {
 	return (bool) $value;
+}
+
+/**
+ * Sanitize the Default Social Share Image setting.
+ *
+ * BUG FIX (found 1.0.51): the original sanitize_callback was the bare
+ * absint() — which silently zeroes out the setting if WP_Customize_Image_Control
+ * ever sends back a URL string rather than a numeric attachment ID.
+ * absint() calls intval() internally, and intval() on a string that
+ * doesn't start with a digit (e.g. "https://example.com/...") returns 0 —
+ * exactly matching the reported symptom of the image appearing to "vanish"
+ * on every save/refresh, with no error of any kind to explain why.
+ *
+ * Handles either value type correctly rather than assuming one.
+ *
+ * @param mixed $value Raw value from the Customizer — either a numeric
+ *                      attachment ID or a URL string, depending on context.
+ * @return int Attachment ID, or 0 if it can't be resolved.
+ * @since 1.0.51
+ */
+function gwill_sanitize_image_setting( $value ): int {
+	if ( is_numeric( $value ) ) {
+		return absint( $value );
+	}
+	$id = attachment_url_to_postid( esc_url_raw( (string) $value ) );
+	return $id ?: 0;
 }
 
 /**

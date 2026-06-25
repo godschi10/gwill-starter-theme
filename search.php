@@ -44,7 +44,7 @@ gwill_breadcrumbs();
 				</div>
 
 				<h2 class="search-result__title">
-					<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+					<a href="<?php the_permalink(); ?>"><?php echo esc_html( get_the_title() ); ?></a>
 				</h2>
 
 				<?php if ( get_the_excerpt() ) : ?>

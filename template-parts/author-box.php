@@ -51,9 +51,7 @@ $avatar      = get_avatar(
 		<p class="author-box__label"><?php esc_html_e( 'Written by', 'gwill-starter' ); ?></p>
 
 		<p class="author-box__name">
-			<a href="<?php echo esc_url( $archive_url ); ?>">
-				<?php echo esc_html( $name ); ?>
-			</a>
+			<?php echo esc_html( $name ); ?>
 		</p>
 
 		<?php if ( $bio ) : ?>

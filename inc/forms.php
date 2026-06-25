@@ -14,6 +14,15 @@
  *   define( 'GWILL_SMTP_USER',  'your@email.com' );       // username
  *   define( 'GWILL_SMTP_PASS',  'your-app-password' );    // password
  *
+ *   // SECURITY: the constants above are readable by any PHP code running
+ *   // in the same process as WordPress — any plugin, any theme file, any
+ *   // compromised dependency. This is the standard, accepted WordPress
+ *   // pattern (no better built-in alternative exists for theme-level
+ *   // config), but it's worth confirming wp-config.php itself isn't
+ *   // directly reachable over HTTP on your host, and isn't exposed via
+ *   // phpinfo() if that function happens to be enabled anywhere on the
+ *   // same server (shared hosting specifically).
+ *
  *   // Sender identity shown in inbox
  *   define( 'GWILL_FROM_EMAIL', 'noreply@yoursite.com' );
  *   define( 'GWILL_FROM_NAME',  'Your Site' );
@@ -882,8 +891,22 @@ function gwill_set_rate_limit(): void {
  * Runs only when GWILL_LOG_FORMS is true. Silently bails if the table
  * does not exist — create it manually using the schema in the file header.
  *
- * GDPR note: email addresses are stored in plaintext. Ensure your privacy
- * policy covers this and configure table retention per local regulations.
+ * GDPR note: the email column stores plaintext, and the fields JSON blob
+ * stores every other submitted value (name, company, message, etc.) — all
+ * of it PII under GDPR. Ensure your privacy policy covers this storage,
+ * and add a retention policy if the site is EU-accessible. No automatic
+ * cleanup runs by default; add one per project, e.g. in functions.php:
+ *
+ *   add_action( 'gwill_cleanup_old_submissions', function () {
+ *       global $wpdb;
+ *       $table = $wpdb->prefix . 'gwill_form_submissions';
+ *       $wpdb->query( $wpdb->prepare(
+ *           "DELETE FROM {$table} WHERE created_at < %s",
+ *           gmdate( 'Y-m-d H:i:s', strtotime( '-90 days' ) )
+ *       ) );
+ *   } );
+ *   // then schedule it once, e.g. via wp_schedule_event() on activation,
+ *   // or trigger it manually/via WP-CLI on whatever cadence fits the site.
  *
  * @param  string $form_id Form identifier.
  * @param  array  $fields  Sanitised form fields.

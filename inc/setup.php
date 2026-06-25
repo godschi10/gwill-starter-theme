@@ -104,15 +104,27 @@ add_action( 'after_setup_theme', function () {
  *
  * Still requires LiteSpeed Cache → Purge All + Permalinks → Save Changes
  * after deploy when a cached redirect exists — code cannot clear the cache.
+ *
+ * Priority 99 (not 1, fixed 1.0.52): flush_rewrite_rules() should run after
+ * plugins have registered their own custom post types/taxonomies — those
+ * typically hook 'init' at the default priority 10. Firing this at
+ * priority 1 meant any plugin-registered rewrite rules could be missing
+ * from the one flush that actually matters (the single page load right
+ * after a version bump).
  */
-add_action( 'init', 'gwill_maybe_flush_rewrites', 1 );
+add_action( 'init', 'gwill_maybe_flush_rewrites', 99 );
 function gwill_maybe_flush_rewrites(): void {
 	$theme_ver = wp_get_theme()->get( 'Version' );
-	if ( get_option( 'gwill_rewrite_ver' ) === $theme_ver ) {
+	// 'gwill_rewrite_ver' read/write with explicit autoload=false (fixed
+	// 1.0.52): this value is checked once per version bump and otherwise
+	// never read — update_option()'s default autoload would otherwise load
+	// it into the options cache on every single request (admin, frontend,
+	// REST, CLI) for no benefit.
+	if ( get_option( 'gwill_rewrite_ver', '' ) === $theme_ver ) {
 		return;
 	}
 	flush_rewrite_rules();
-	update_option( 'gwill_rewrite_ver', $theme_ver );
+	update_option( 'gwill_rewrite_ver', $theme_ver, false );
 }
 
 
@@ -168,6 +180,17 @@ add_action( 'save_post', 'gwill_save_video_meta_box' );
  * @param int $post_id Post ID.
  */
 function gwill_save_video_meta_box( int $post_id ): void {
+	// Capability checked before the nonce (reordered 1.0.52): general
+	// defense-in-depth convention — capability is the authoritative access
+	// control, the nonce is CSRF protection on top of it. In practice this
+	// exact callback is hooked to save_post, which WordPress core never
+	// fires for a given post unless it has already verified the current
+	// user's edit_post capability for that post earlier in admin/post.php —
+	// so the specific "valid nonce, no capability" scenario isn't actually
+	// reachable here. Reordering costs nothing and removes any doubt.
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		return;
+	}
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 		return;
 	}
@@ -178,9 +201,6 @@ function gwill_save_video_meta_box( int $post_id ): void {
 		? sanitize_text_field( wp_unslash( $_POST['gwill_video_url_nonce'] ) )
 		: '';
 	if ( ! wp_verify_nonce( $nonce, 'gwill_save_video_url_' . $post_id ) ) {
-		return;
-	}
-	if ( ! current_user_can( 'edit_post', $post_id ) ) {
 		return;
 	}
 	$url = isset( $_POST['gwill_video_url'] )

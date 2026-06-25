@@ -23,6 +23,78 @@ Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.0.53] - 2026-06-21
+
+### Fixed
+
+- **Archive titles rendering raw HTML tags as visible text** (`archive.php`, `author.php`) — a bug I introduced myself two versions ago, in 1.0.52, and a direct contradiction of something I'd argued correctly just before making the mistake. `get_the_archive_title()` deliberately returns a string containing real markup: WordPress core wraps the dynamic portion in a `<span>` (e.g. `Category: <span>Guides &amp; How-tos</span>`) for styling purposes. In 1.0.52 I changed the bare `the_archive_title()` call to `echo esc_html( get_the_archive_title() )`, reasoning that the audit claim about `$before`/`$after` arguments "using WP's internal escaping" was wrong (which it was — both forms run the identical filter chain) — but I drew the wrong conclusion from that correct observation and added escaping where none was safe to add, without first checking what the function's return value actually contains. The result was exactly what a screenshot then showed: `Category: <span>Guides & How-tos</span>` displaying as literal text, tags and all. Fixed with `wp_kses_post()` instead — preserves the legitimate `<span>` while still stripping anything genuinely dangerous. A comment is now in both files explaining why, specifically so a future audit pass doesn't flag this as "needs more escaping" and walk straight back into the same mistake.
+
+### Investigated, not yet resolved — breadcrumbs missing the final crumb on some single posts
+
+Reported as "some posts don't show the full breadcrumb path." Re-verified the actual code character-by-character rather than trusting an earlier read of it (warranted, given the archive-title mistake above was exactly the kind of thing that slips past a confident-but-not-rechecked read):
+
+- The crumb-array-building logic in `gwill_breadcrumbs()`'s `is_single()` branch is confirmed correct — the post-title crumb is added unconditionally, genuinely outside the `if ( $cat )` block.
+- The render loop is confirmed correct — nothing in it would skip or hide the final item's text.
+- Decisive elimination: the *category archive page* uses this exact same render path for its own "current" item and displays it correctly. If the bug were in this theme's render loop or CSS, it would break identically on both page types — it only breaks on long single-post titles. The H1 further down the same single-post page also displays the title correctly via a separate `get_the_title()` call, ruling out the title itself being empty or filtered to nothing.
+- Remaining candidates, neither confirmed: a flex-wrap/height interaction specific to a title long enough to wrap across multiple lines (not reproducible without live DOM inspection), or a plugin (RankMath is active on this site) filtering `the_title`/`get_the_title()` differently in this function's calling context than it does for the page's own H1.
+- Next step to actually isolate it: view-source (not "Inspect Element," which shows the live, JS-modified DOM) on an affected post and search for the post's own title text inside the `<nav class="gwill-breadcrumbs">` block. If it's present in the raw HTML, this is a CSS/layout issue, not a PHP one, and the fix belongs in `style.css`. If it's absent, something is altering it before PHP ever outputs it.
+
+---
+
+## [1.0.52] - 2026-06-21
+
+A third-party AI audit (25 numbered findings across security, bugs, HTML/standards, performance, and accessibility) was checked claim-by-claim against the actual code — not accepted or dismissed wholesale. Roughly a third of the findings were confirmed real and fixed here; several "Critical"/"Ship-blocker" claims were checked directly and found to be incorrect, with the evidence documented below so the reasoning isn't lost.
+
+### Fixed — confirmed real
+
+- **`usort` comparator antisymmetry bug** (`single.php`): the category-sort comparator returned `1` for any non-primary category regardless of which category it was being compared against — meaning comparing two non-primary categories in either order both returned `1`, a direct contradiction (a valid comparator can't say A>B and B>A simultaneously). Traced through a concrete 3-category example to confirm before fixing, rather than trusting the description. Produced undefined, unstable ordering for any post with 3+ categories. Fixed by explicitly comparing both sides and returning `0` when neither is primary.
+- **Unescaped `the_title()`/`the_archive_title()` — four locations, not the three reported**: `template-contact.php`, `search.php`, and `archive.php` were flagged; a fourth, identical instance in `author.php` was missed by the audit itself. All four now use `esc_html( get_the_title() )` / `esc_html( get_the_archive_title() )`, consistent with the escape-at-output-point standard already followed everywhere else in this codebase. (Severity note: this requires Administrator-level — `unfiltered_html` — access to actually exploit, since WordPress doesn't sanitize that role's content on save; it's defense-in-depth against a compromised admin account, not an any-user stored-XSS the way it was initially framed, but fixing it costs nothing and removes the ambiguity entirely.)
+- **`gwill_rewrite_ver` option missing `autoload=false`** (`inc/setup.php`): loaded into the options cache on every single request — admin, frontend, REST, CLI — for a version string that's only ever checked once per deployment. Fixed.
+- **Rewrite-flush priority** (`inc/setup.php`): moved from priority 1 to 99 — plugins typically register their own rewrite rules at the default priority 10; flushing before that could miss plugin-registered permalinks on the one request that actually matters (right after a version bump).
+- **Escape-at-assignment instead of escape-at-output** (`inc/author.php`): `$saved` was pre-escaped at assignment rather than at the point it's actually echoed — safe today, but fragile against a future refactor silently losing the escape. Now stores the raw value and escapes at output, matching the standard convention used everywhere else.
+- **Multistep radio group had no semantic group label** (`template-parts/forms/contact-multistep.php`): a bare `<label>` with no `for` attribute, not associated with anything — screen reader users got three radio buttons with zero group context. Wrapped in `<fieldset>`/`<legend>`, the standard WCAG 1.3.1-compliant pattern for exactly this case. Added a scoped CSS reset since browsers apply a default border/padding to `<fieldset>` that would otherwise change `.gwill-form__field`'s established appearance.
+- **Redundant author-box links** (`template-parts/author-box.php`): the author's name and the separate "More posts by Name" link both pointed to the identical URL — two consecutive, identical keyboard/screen-reader stops. Kept the more descriptive "More posts by Name" link as the sole destination (better out-of-context link text per WCAG 2.4.4) and made the name plain text. Cleaned up the now-orphaned `.author-box__name a` / `a:hover` CSS rules this left behind rather than leaving dead selectors in the stylesheet.
+- **Capability checked after the nonce, not before** (`inc/setup.php`, `gwill_save_video_meta_box()`): reordered so capability — the authoritative access control — is checked first, nonce — CSRF protection — second. Free change, matches the general defense-in-depth convention.
+
+### Documentation added (no behavior change)
+
+- `inc/forms.php`: a security note on SMTP credential exposure risk in `wp-config.php` constants, and an actionable GDPR retention snippet (a real `DELETE ... WHERE created_at < ...` example, not just a mention that retention is needed) for `gwill_log_submission()`.
+- `inc/search.php`: corrected the `gwill_search_args` filter's docblock, which had been actively claiming `$term` was sanitized — it isn't; `$args['s']` is the sanitized value any filter callback should actually use for DB operations. This wasn't just an unclear comment, it was a wrong one.
+- `inc/helpers.php`: `gwill_part()` now emits a `WP_DEBUG`-gated `E_USER_WARNING` when a slug doesn't resolve to an actual file, instead of failing silently — a typo'd slug was previously invisible until someone noticed a missing section on the page.
+- `inc/faq.php`: swapped `get_the_ID()` for `get_queried_object_id()` in the `wp_head`-hooked schema generator — a harmless clarity improvement, not a correctness fix (see below).
+
+### Audit claims checked and found incorrect
+
+Documented here so the reasoning isn't lost if the same claim resurfaces from a future audit pass:
+
+- **"All 10 forms are missing `wp_nonce_field()` — forms are broken by design," labeled `[Certain]`, ship-blocker #1 — false.** Verified directly: zero forms have a static nonce field, which is correct and deliberate — the nonce is injected via `formData.set('gwill_nonce', nonce)` in `assets/js/forms.js` at submit time, specifically to avoid baking a nonce into LiteSpeed-cached static HTML for anonymous visitors (the entire reason this architecture exists, established and reasoned through extensively in earlier versions). The underlying observation (no static field in the HTML) was accurate; the conclusion drawn from it was not.
+- **"Translators comment missing" on `cookie-consent.php`'s `printf()` call — false.** The comment was already present, verified by direct grep against the actual file.
+- **"`the_archive_title()` with `$before`/`$after` arguments uses WP's internal escaping; the bare call doesn't" — false.** Both forms run through the exact same `get_the_archive_title` filter chain with no difference in escaping either way; the `$before`/`$after` arguments only add static, developer-controlled wrapper markup outside the filtered title text. Fixed the real underlying concern with `esc_html()` directly instead of the suggested (incorrect) restructuring.
+- **`BUG-2`'s stated reasoning — partially incorrect, fix applied anyway.** The claim that "nonce verification is more expensive (a database lookup)" is wrong — `wp_verify_nonce()` is a pure in-memory hash comparison, no DB query involved. The claimed attack scenario (a subscriber with a stolen nonce bypassing capability checks) also isn't reachable for this specific callback — WordPress core already verifies `edit_post` capability before `save_post` ever fires for a given post, in `wp-admin/post.php`, well before this function runs. The reorder was made anyway since it's free and matches the general principle, but the audit's specific justification for *why* doesn't hold up.
+
+### Deferred — valid points, left as a judgment call
+
+Not fixed this version; reasonable to revisit if priorities change:
+
+- Deleting the backwards-compatibility REST nonce endpoint (`inc/forms.php`) — kept deliberately; delete only if no external integration is known to depend on it.
+- The dead-code WP 5.5 guard in `inc/faq.php`'s block pattern registration — the theme's stated minimum is WP 6.4, making the guard technically unreachable, but it costs nothing and protects against a site running on an older, locked-down hosting config despite the stated minimum.
+- Caching `gwill_reading_time()`'s result as post meta — a reasonable optimization for very high-traffic archive pages, but adds save_post invalidation complexity for what's currently a cheap, object-cache-backed string operation.
+- RFC 2047 encoding (or simply omitting the display name) in the autoreply `To:` header for non-ASCII names — a genuine edge case, low priority.
+- `the_post_navigation()` without `in_same_term` (cross-category prev/next) — this is a product decision (do you want cross-category navigation or not?), not a defect.
+- HTML entities (`&larr;`/`&rarr;`) vs. literal Unicode arrows in pagination strings — both are equally safe; switching is cosmetic polish, not a fix.
+- Removing the `X-WP-Total` header from the search REST response — the audit's own assessment was "not a real vulnerability... can be removed" — low priority cleanup.
+
+---
+
+## [1.0.51] - 2026-06-20
+
+### Fixed
+
+- **"Default Social Share Image" setting silently reverted to empty after every save** (`inc/customizer.php`): `'sanitize_callback' => 'absint'` was the cause. If `WP_Customize_Image_Control` ever supplies a URL string rather than a numeric attachment ID, `absint()` runs `intval()` internally — and `intval()` on a string starting with `https://` returns `0`. The setting was being silently zeroed out on save, matching exactly the reported symptom ("I set it, refresh, and it's gone"). Replaced with `gwill_sanitize_image_setting()`, which handles either value type correctly rather than betting on which one the control actually sends.
+- Clarified (no code change needed): the Open Graph image defaulting to the site logo on posts with no featured image is RankMath's own fallback behavior, not this theme's — `gwill_seo_plugin_active()` correctly detects RankMath and `inc/social-meta.php` exits before outputting anything at all on a site running it. The Customizer field only has any effect on a site with no SEO plugin active.
+
+---
+
 ## [1.0.50] - 2026-06-20
 
 Tier 1 of the feature roadmap (see `GWILL-FEATURE-ROADMAP.md`) — seven features shipped as a single batch, per plan: build a complete tier, test it as a whole, then move to Tier 2.

@@ -72,8 +72,8 @@ $uid = wp_unique_id( 'gwill-ms-' );
 				</select>
 			</div>
 
-			<div class="gwill-form__field">
-				<label><?php esc_html_e( 'Project scope', 'gwill-starter' ); ?></label>
+			<fieldset class="gwill-form__field gwill-form__fieldset">
+				<legend><?php esc_html_e( 'Project scope', 'gwill-starter' ); ?></legend>
 				<div class="gwill-form__radio-group">
 					<?php
 					$scopes = [
@@ -95,7 +95,7 @@ $uid = wp_unique_id( 'gwill-ms-' );
 					</label>
 					<?php endforeach; ?>
 				</div>
-			</div>
+			</fieldset>
 
 			<div class="gwill-form__step-nav">
 				<button type="button" class="gwill-form__btn-next" data-next>

@@ -77,8 +77,13 @@ function gwill_execute_search( string $term, array $args = [] ): WP_Query {
 	/**
 	 * Filter WP_Query args before the search executes.
 	 *
-	 * @param array  $args Merged query args.
-	 * @param string $term Sanitised search term.
+	 * @param array  $args     Merged query args — $args['s'] is sanitized via
+	 *                         sanitize_text_field() and is what any filter
+	 *                         callback should use for DB operations.
+	 * @param string $term_raw The raw, UNsanitized term as originally passed
+	 *                         to gwill_execute_search() — provided for
+	 *                         context/logging only. Do not use this for any
+	 *                         database query; use $args['s'] instead.
 	 */
 	$args = apply_filters( 'gwill_search_args', wp_parse_args( $args, $defaults ), $term );
 

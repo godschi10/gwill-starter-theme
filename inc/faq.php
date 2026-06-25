@@ -157,7 +157,13 @@ function gwill_output_faq_schema(): void {
 	// content avoids running the entire the_content filter pipeline a
 	// second time on every singular page load, for content that — most of
 	// the time — has no FAQ section at all.
-	$content = get_post_field( 'post_content', get_the_ID() );
+	// get_queried_object_id(), not get_the_ID() — this runs on wp_head,
+	// outside the formal post loop. Both are populated by WordPress's own
+	// query-resolution phase before the template even loads, so there's no
+	// actual difference in reliability here — but get_queried_object_id()
+	// is the more semantically precise choice for "what page is this
+	// request for" outside a the_post() context.
+	$content = get_post_field( 'post_content', get_queried_object_id() );
 
 	if ( ! str_contains( $content, 'gwill-faq' ) ) {
 		return; // Cheap bail-out before paying for a DOM parse.
