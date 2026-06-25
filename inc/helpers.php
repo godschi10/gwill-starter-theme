@@ -195,7 +195,11 @@ function gwill_get_primary_category( int $post_id = 0 ): ?WP_Term {
 		return null;
 	}
 
-	$primary_id = (int) get_post_meta( $post_id, 'rank_math_primary_term_category', true );
+	// NOTE (v1.0.54): the RankMath key here was previously the wrong name
+	// ('rank_math_primary_term_category', which RankMath never writes) —
+	// it never matched, so this always fell through to $cats[0] below.
+	// The real key RankMath saves to is 'rank_math_primary_category'.
+	$primary_id = (int) get_post_meta( $post_id, 'rank_math_primary_category', true );
 	if ( ! $primary_id ) {
 		$primary_id = (int) get_post_meta( $post_id, '_yoast_wpseo_primary_category', true );
 	}

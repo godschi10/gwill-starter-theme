@@ -23,6 +23,19 @@ Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.0.54] - 2026-06-25
+
+### Fixed
+
+- **Breadcrumbs silently dropping a category level on some single posts** (`inc/helpers.php`) — the actual root cause of the issue left open in 1.0.51–1.0.53. `gwill_get_primary_category()` was reading the RankMath primary-category postmeta under the wrong key: `rank_math_primary_term_category`, which RankMath has never actually written. Because that lookup never matched anything, the function silently fell through to its fallback, `$cats[0]` — the first category in the array `get_the_category()` returns, which WordPress core sorts alphabetically by name, not by what's actually marked primary in the editor. This produced inconsistent-looking breadcrumbs depending on alphabetical luck: if the alphabetically-first category happened to be a top-level one, its ancestors list is empty and the breadcrumb trail looked one level short (`Home › Parent › Title`, skipping a child category that genuinely was assigned to the post); if it happened to be a child category, the trail looked complete only by coincidence, for the wrong reason. Confirmed against two real posts with side-by-side screenshots showing exactly this pattern before fixing. Corrected to the real key, `rank_math_primary_category`.
+- This also retires the 1.0.53 "flex-wrap" and "RankMath title-filter" hypotheses for the open breadcrumbs item — both were reasonable given the evidence available at the time (the post's own title was never actually the thing going missing; a *category level* was), but neither was the real cause.
+
+### Note — not a bug, flagging for awareness
+
+- **OG/Twitter social share image still showing the site logo/favicon despite the Customizer's "Default Social Share Image" being set.** This is expected, not a regression: `inc/social-meta.php` correctly no-ops whenever `gwill_seo_plugin_active()` detects an active SEO plugin (RankMath, confirmed active on this site) — see 1.0.50/1.14 in the project history. The theme's Customizer setting has zero effect on this site for that reason; RankMath owns OG/Twitter output entirely here. If the logo/favicon is genuinely what's being served, the fix is on RankMath's side (Rank Math SEO → Titles & Meta → Social, or the per-post Social tab in the RankMath meta box) or a stale Facebook/Twitter scraper cache (use Facebook's Sharing Debugger / Twitter Card Validator to force a re-scrape) — not a theme-level change.
+
+---
+
 ## [1.0.53] - 2026-06-21
 
 ### Fixed
