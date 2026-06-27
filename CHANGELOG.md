@@ -23,6 +23,36 @@ Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.0.64] - 2026-06-27
+
+### Audit verification
+
+A 30-item self-described "exhaustive audit" of the v1.0.63 codebase was checked line-by-line against the actual files rather than taken on its own word. Most of it did not hold up — not "slightly overcautious," but describing specific mechanisms, files, and line numbers that don't exist in this codebase:
+
+- Claimed a literal duplicate `theme-color` meta tag at "header.php lines 22–24." `header.php` contains zero occurrences of `theme-color` at all.
+- Claimed the table of contents is cached via `set_transient()` with a 12-hour TTL and has no invalidation on save. `inc/table-of-contents.php` has no caching of any kind — zero matches for `transient` or `cache` in the file. There is no cache to invalidate because there is no cache.
+- Claimed a `gwill_staging_banner_dismissed` option and "dismissal persistence" as a positive ("smart staging banner system with dismissal persistence"). No dismiss button, no dismissal state, no such option exists anywhere in `inc/staging.php` or its template part — this describes a feature that was never built.
+- Claimed `inc/search.php`'s query has no explicit `post_status => 'publish'`. Line 73 sets it explicitly.
+- Claimed `functions.php` is missing an `ABSPATH` guard. Line 2 has had one since this file was first written.
+- Claimed `assets/js/forms.js` declares a `jquery` dependency. Its registration in `inc/enqueue.php` passes an empty dependency array.
+- Claimed `theme.json` is missing `"version": 2` and a `supports`/settings block. It has had `"version": 2` as its second property, plus a full settings and styles block, throughout.
+- Claimed the theme implements `BlogPosting`/`WebPage`/`Person` schema ("✅ EXCELLENT… properly structured") under "what you're doing well." The only schema this theme outputs is `BreadcrumbList` and `FAQPage` — that claim describes schema that was never built, same failure mode as the staging-banner dismissal claim, just framed as a compliment instead of a bug.
+- Recommended adding `uninstall.php` for cleanup. This isn't a theme convention WordPress core recognises at all — `uninstall.php` is a *plugin* mechanism (fired when a plugin is deleted via the Plugins screen); themes have no equivalent native hook.
+- Several more (customizer-preview script already has `in_footer: true`; the custom logo renders via core's own `the_custom_logo()`, which the suggested `loading="eager"` fix doesn't apply to; `wp_site_icon()` is already called automatically by `wp_head()` since it's a default-hooked core function, and manually adding it as suggested would have *caused* a real duplicate-output bug; `share-button.php` already has `rel="noopener noreferrer"`; `--font-base` is defined exactly once, not twice; autocomplete attributes are already present on `contact-simple.php`'s fields; the exit-intent overlay already has `aria-modal="true"` as a static attribute — that one only looked missing because checking the .js file and not the .php template it's actually in would miss it, a mistake caught before anything was changed, not after) were each checked individually and are false the same way.
+
+None of this means treating future audits as worthless — it means this one wasn't grounded in the real files closely enough to act on without checking, and checking is exactly what happened before anything below was touched.
+
+### Fixed — the findings that were actually real
+
+- **`template-contact-demo.php` was reachable by Authors and Contributors, not just Administrators.** `current_user_can( 'edit_posts' )` extends to both of those roles — too broad for a page explicitly named "Dev Only" that exposes all 11 form patterns at once. Tightened to `manage_options`. `gwill_form_rate_limited()`'s own `edit_posts` exemption is intentionally left untouched — it serves a different, legitimately broader purpose (any content-managing staff testing the theme's *real* contact forms on real pages, not just this harness).
+- **The live-search REST endpoint (`/wp-json/gwill/v1/search`) had no rate limiting at all** — true for search, though false for the contact form, which the audit's version of this finding lumped together as one claim. Added `gwill_search_rate_limit_check()` as the route's `permission_callback`: a 20-requests-per-10-seconds window per IP, not the contact form's "one submission, then a five-minute lockout" pattern — that pattern would make live search nearly unusable, since a visitor typing legitimately fires several requests within seconds. Exempts `edit_posts`, matching the contact form's own exemption.
+
+### Added
+
+- **`noindex` on staging environments**, via the `wp_robots` filter (`inc/staging.php`) — the current, correct mechanism since WP 5.7. Not a fix for what the audit described (which referenced a `GWILL_IS_STAGING` constant that has never existed in this codebase) — an independently real gap, closed using the actual `gwill_is_staging_environment()` detection that's been there since 1.0.57. Checked against staging-domain detection alone, deliberately not also gated behind the `gwill_show_staging_banner` toggle — whether to show a visual ribbon is a preference, whether a staging clone should stay out of search results isn't.
+
+---
+
 ## [1.0.63] - 2026-06-26
 
 ### Added — Tier 3 complete: pricing table component, portfolio/case-studies CPT

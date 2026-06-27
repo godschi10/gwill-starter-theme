@@ -123,7 +123,7 @@ add_action( 'rest_api_init', function () {
 		[
 			'methods'             => WP_REST_Server::READABLE,
 			'callback'            => 'gwill_rest_search_handler',
-			'permission_callback' => '__return_true',
+			'permission_callback' => 'gwill_search_rate_limit_check',
 			'args'                => [
 				's'        => [
 					'required'          => true,
@@ -140,6 +140,76 @@ add_action( 'rest_api_init', function () {
 		]
 	);
 } );
+
+/**
+ * Permission callback for the live-search REST route — a request-count
+ * window, not the simple "one request, then a five-minute lockout"
+ * pattern gwill_form_rate_limited() uses for the contact form in
+ * inc/forms.php. That pattern doesn't fit here: a visitor typing into
+ * live search legitimately fires several requests within a few seconds
+ * as they type, where a contact form is submitted once. This caps total
+ * requests within a short window instead of blocking after the first one.
+ *
+ * Reuses gwill_get_client_ip() from inc/forms.php rather than duplicating
+ * IP-detection logic in a second file — forms.php is required before
+ * search.php in functions.php, so it's already defined by the time this
+ * runs.
+ *
+ * Implementation note: this is a fixed window that resets its TTL on
+ * every request within it, not a true sliding window — a sustained,
+ * continuously-active session can stay capped at the limit until a full
+ * window passes with no further requests, rather than the limit rolling
+ * forward smoothly. Accepted as a reasonable simplification: minLength=2
+ * plus the autocomplete UI's own input debouncing means a real typing
+ * session realistically generates well under the default 20-per-10s
+ * threshold, so this only meaningfully affects a scripted flood, not
+ * normal typing.
+ *
+ * current_user_can( 'edit_posts' ) is exempt, matching the contact form's
+ * own exemption and for the same reason — testing shouldn't trip the same
+ * protection meant for abuse.
+ *
+ * @return true|WP_Error
+ * @since 1.0.64
+ */
+function gwill_search_rate_limit_check() {
+
+	if ( current_user_can( 'edit_posts' ) ) {
+		return true;
+	}
+
+	$key = 'gwill_search_rl_' . hash( 'sha256', gwill_get_client_ip() );
+
+	/**
+	 * Max live-search requests allowed per IP within the window.
+	 *
+	 * @param int $max
+	 * @since 1.0.64
+	 */
+	$max = (int) apply_filters( 'gwill_search_rate_limit_max', 20 );
+
+	/**
+	 * The window itself, in seconds.
+	 *
+	 * @param int $seconds
+	 * @since 1.0.64
+	 */
+	$window = (int) apply_filters( 'gwill_search_rate_limit_seconds', 10 );
+
+	$count = (int) get_transient( $key );
+
+	if ( $count >= $max ) {
+		return new WP_Error(
+			'gwill_search_rate_limited',
+			__( 'Too many search requests. Please wait a moment and try again.', 'gwill-starter' ),
+			[ 'status' => 429 ]
+		);
+	}
+
+	set_transient( $key, $count + 1, $window );
+
+	return true;
+}
 
 /**
  * REST callback for GET /gwill/v1/search.

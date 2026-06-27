@@ -30,6 +30,7 @@ defined( 'ABSPATH' ) || exit;
 
 add_action( 'wp_body_open', 'gwill_render_staging_banner' );
 add_filter( 'body_class', 'gwill_staging_body_class' );
+add_filter( 'wp_robots', 'gwill_staging_noindex' );
 
 /**
  * Whether the current request is on a recognised staging domain.
@@ -137,4 +138,28 @@ function gwill_staging_body_class( array $classes ): array {
 		$classes[] = 'gwill-staging-active';
 	}
 	return $classes;
+}
+
+/**
+ * Add noindex via the wp_robots filter whenever on a recognised staging
+ * domain — wp_robots() is the current, correct mechanism for this since
+ * WP 5.7 (replacing the older wp_no_robots action).
+ *
+ * Deliberately checked against gwill_is_staging_environment() alone, NOT
+ * also gated behind the gwill_show_staging_banner toggle the way the
+ * visible banner is. Whether to show a visual ribbon is a developer
+ * preference; whether a staging clone should be kept out of search
+ * results isn't a preference at all — it should always apply whenever
+ * the domain genuinely is staging, regardless of whether anyone chose to
+ * hide the banner on this particular project.
+ *
+ * @param  array<string,bool> $robots
+ * @return array<string,bool>
+ * @since  1.0.64
+ */
+function gwill_staging_noindex( array $robots ): array {
+	if ( gwill_is_staging_environment() ) {
+		$robots = wp_robots_noindex( $robots );
+	}
+	return $robots;
 }

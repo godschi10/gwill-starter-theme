@@ -4,21 +4,31 @@
  * Template Post Type: page
  *
  * Renders all 11 contact form patterns on one page for development testing.
- * Access is restricted at the code level to logged-in users with edit_posts
- * capability — no WP admin visibility setting required.
+ * Access is restricted at the code level to logged-in Administrators
+ * (manage_options) — no WP admin visibility setting required.
+ *
+ * Deliberately stricter than edit_posts: that capability extends to the
+ * Author and Contributor roles too, which is the right threshold for
+ * gwill_form_rate_limited()'s exemption (any content-managing staff
+ * testing the theme's REAL contact forms on real pages shouldn't trip
+ * the same protection meant for spam) but the wrong one for this page
+ * specifically — a raw testing harness exposing all 11 patterns at once
+ * is squarely a developer tool, not something every Author/Contributor
+ * on a client site needs to be able to reach.
  *
  * To use: Create a new page, assign this template.
  * URL: /contact-demo/ (or whatever slug you set)
  *
  * @package GWill_Starter
  * @since   1.0.20
+ * @since   1.0.64 Tightened from edit_posts to manage_options.
  */
 
 defined( 'ABSPATH' ) || exit;
 
-// Hard gate — logged-out users and subscribers are turned away regardless
-// of the page's WordPress visibility setting.
-if ( ! current_user_can( 'edit_posts' ) ) {
+// Hard gate — logged-out users and anyone below Administrator are turned
+// away regardless of the page's WordPress visibility setting.
+if ( ! current_user_can( 'manage_options' ) ) {
 	wp_die(
 		esc_html__( 'You do not have permission to view this page.', 'gwill-starter' ),
 		esc_html__( 'Access Restricted', 'gwill-starter' ),
