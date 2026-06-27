@@ -3,7 +3,7 @@
  * Template Name: Contact Demo (Dev Only)
  * Template Post Type: page
  *
- * Renders all 10 contact form patterns on one page for development testing.
+ * Renders all 11 contact form patterns on one page for development testing.
  * Access is restricted at the code level to logged-in users with edit_posts
  * capability — no WP admin visibility setting required.
  *
@@ -101,6 +101,11 @@ while ( have_posts() ) :
 			'id'          => 'post-feedback',
 			'label'       => '10 — Post Feedback (Yes/No)',
 			'description' => 'Micro-interaction. Yes submits instantly. No reveals a textarea.',
+		],
+		[
+			'id'          => 'newsletter',
+			'label'       => '11 — Newsletter Signup',
+			'description' => 'Single email field. Adds to a Brevo list via the Contacts API — requires GWILL_BREVO_API_KEY and GWILL_BREVO_LIST_ID in wp-config.php, or fails gracefully with an error.',
 		],
 	];
 

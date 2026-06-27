@@ -67,6 +67,10 @@ wp_body_open();
 
 			<?php gwill_part( 'ui/darkmode-toggle' ); ?>
 
+			<?php if ( class_exists( 'WooCommerce' ) ) : ?>
+				<?php gwill_render_cart_icon(); ?>
+			<?php endif; ?>
+
 			<?php
 			/*
 			 * Search form — Combo A (expandable icon) ships by default.

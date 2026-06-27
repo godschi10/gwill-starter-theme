@@ -38,6 +38,15 @@ define( 'GWILL_FROM_NAME',  'Site Name' );
 define( 'GWILL_AUTOREPLY', true );  // Send a confirmation email back to the form submitter.
 define( 'GWILL_LOG_FORMS', true );  // Log every submission to a custom DB table (inc/forms.php).
 
+// Optional: newsletter signup form (the "newsletter" pattern in
+// template-parts/forms/). Without these defined, that form submits and
+// fails gracefully with an error message rather than a fatal.
+// ⚠ This is the API key from Account → SMTP & API → API Keys tab — the
+//   SMTP key above will NOT work here. Same dashboard section, two
+//   different credentials, same warning as above but in reverse.
+define( 'GWILL_BREVO_API_KEY', 'xkeysib-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' );
+define( 'GWILL_BREVO_LIST_ID', 2 );  // Contacts → Lists in Brevo — the list's numeric ID.
+
 // Optional, default true: author archive pages (/author/slug/). Set false
 // to disable them site-wide and redirect to the homepage instead.
 define( 'GWILL_ALLOW_AUTHOR_ARCHIVES', true );
@@ -68,7 +77,7 @@ Submission goes through `admin-ajax.php` via `wp_mail()` — there is no third-p
 
 ### 4. Test every form pattern at once
 
-Visit a page using the **Contact Demo (Dev Only)** template (`template-contact-demo.php`) while logged in with at least `edit_posts` capability — it's hard-gated and returns a 403 for anyone without that capability, regardless of the page's own WordPress visibility setting. It renders all 10 form patterns on one page for testing. Logged-in users (capability ≥ `edit_posts`) are also exempt from the contact-form rate limiter specifically so this doesn't block its own testing — see `gwill_form_rate_limited()` in `inc/forms.php`.
+Visit a page using the **Contact Demo (Dev Only)** template (`template-contact-demo.php`) while logged in with at least `edit_posts` capability — it's hard-gated and returns a 403 for anyone without that capability, regardless of the page's own WordPress visibility setting. It renders all 11 form patterns on one page for testing. Logged-in users (capability ≥ `edit_posts`) are also exempt from the contact-form rate limiter specifically so this doesn't block its own testing — see `gwill_form_rate_limited()` in `inc/forms.php`.
 
 ### 5. If a submission fails
 
@@ -112,13 +121,15 @@ Dark mode, the sticky header, the cookie consent banner, and the back-to-top but
 5. [File Reference — Templates](#file-reference--templates)
 6. [The Contact Form System](#the-contact-form-system)
 7. [Tier 1 Features](#tier-1-features)
-8. [Customizer Controls](#customizer-controls)
-9. [CSS Standards](#css-standards)
-10. [PHP Standards](#php-standards)
-11. [Security Standards](#security-standards)
-12. [Accessibility Standards](#accessibility-standards)
-13. [What Is Intentionally Absent](#what-is-intentionally-absent)
-14. [Changelog](CHANGELOG.md)
+8. [Tier 2 Features](#tier-2-features)
+9. [Tier 3 Features](#tier-3-features)
+10. [Customizer Controls](#customizer-controls)
+11. [CSS Standards](#css-standards)
+12. [PHP Standards](#php-standards)
+13. [Security Standards](#security-standards)
+14. [Accessibility Standards](#accessibility-standards)
+15. [What Is Intentionally Absent](#what-is-intentionally-absent)
+16. [Changelog](CHANGELOG.md)
 
 ---
 
@@ -152,7 +163,7 @@ gwill-starter-theme/
 ├── phpcs.xml                    WordPress Coding Standards ruleset (run: vendor/bin/phpcs)
 ├── composer.json                Dev dependencies: PHPCS, WPCS, PHPCompatibilityWP
 ├── style.css                    Theme header + all frontend CSS + design tokens
-├── functions.php                Loader only — twelve require_once lines, no logic
+├── functions.php                Loader only — eighteen require_once lines, no logic
 ├── theme.json                   Gutenberg configuration — kills default palette/font sizes
 ├── screenshot.png               Theme preview shown in Appearance → Themes
 ├── README.md / CHANGELOG.md / EMAIL-SETUP.md
@@ -174,7 +185,7 @@ gwill-starter-theme/
 ├── 404.php
 ├── attachment.php               Redirects attachment URLs to the parent post
 ├── template-contact.php          "Contact" page template — 6 standalone-page-appropriate form patterns
-├── template-contact-demo.php     "Contact Demo (Dev Only)" — all 10 patterns, edit_posts-gated
+├── template-contact-demo.php     "Contact Demo (Dev Only)" — all 11 patterns, edit_posts-gated
 │
 ├── inc/
 │   ├── setup.php                Theme supports, nav menus, content_width, image sizes, video meta box
@@ -184,11 +195,17 @@ gwill-starter-theme/
 │   ├── author.php                Social profile fields (admin profile screen + template helpers)
 │   ├── customizer.php            Header Options + Site Identity Customizer controls
 │   ├── darkmode.php               Fully inline flash-prevention script + critical CSS
-│   ├── forms.php                  The 10-pattern contact form system — AJAX, nonces, rate limiting
+│   ├── forms.php                  The 11-pattern contact form system — AJAX, nonces, rate limiting
 │   ├── search.php                 REST search endpoint + results-count helper
 │   ├── related-posts.php          Related-posts query (Tier 1)
 │   ├── social-meta.php            Open Graph / Twitter Card fallback (Tier 1)
-│   └── faq.php                    FAQ block pattern + FAQPage schema generator (Tier 1)
+│   ├── faq.php                    FAQ block pattern + FAQPage schema generator (Tier 1)
+│   ├── table-of-contents.php      Auto-generated sticky/collapsible ToC from real <h2>/<h3> structure (Tier 2)
+│   ├── testimonials.php           gwill_testimonial CPT + grid/carousel display (Tier 2)
+│   ├── pricing-table.php          Pricing table component — array-driven template tag, no CPT (Tier 3)
+│   ├── portfolio.php              gwill_portfolio CPT + grid display, genuinely public unlike testimonials (Tier 3)
+│   ├── woocommerce.php            WooCommerce compatibility layer — no-op entirely if the plugin isn't active (Tier 3)
+│   └── staging.php                Staging-environment banner, Customizer-toggleable, default on
 │
 ├── template-parts/
 │   ├── content.php                Article card (index/archive/search listings)
@@ -201,13 +218,19 @@ gwill-starter-theme/
 │   ├── back-to-top.php            Back-to-top button (Tier 1)
 │   ├── ui/darkmode-toggle.php     Dark mode toggle button
 │   ├── search/                    3 search UI variants — expandable icon, modal, no-results state
-│   └── forms/                    10 contact form patterns — see The Contact Form System below
+│   ├── forms/                    11 contact form patterns — see The Contact Form System below
+│   ├── testimonials/testimonials.php  Grid/carousel card renderer — call via gwill_testimonials_grid() (Tier 2)
+│   ├── pricing-table.php          Plan card renderer — call via gwill_pricing_table() (Tier 3)
+│   ├── portfolio/portfolio.php    Grid card renderer — call via gwill_portfolio_grid() (Tier 3)
+│   ├── staging-banner.php         Staging-environment banner markup
+│   └── woocommerce/cart-icon.php  Header cart icon + AJAX fragment markup (Tier 3, WooCommerce only)
 │
 ├── assets/
 │   ├── css/
 │   │   ├── search.css             Search UI styles (all 3 variants)
 │   │   ├── darkmode.css           Dark-mode token overrides — WP default comments included
-│   │   └── darkmode-vibe-comments.css  Dark-mode overrides for the Vibe Comments plugin specifically
+│   │   ├── darkmode-vibe-comments.css  Dark-mode overrides for the Vibe Comments plugin specifically
+│   │   └── woocommerce.css        Design-token overrides for WC's default markup (Tier 3, WooCommerce only)
 │   ├── js/
 │   │   ├── main.js                 Mobile nav toggle
 │   │   ├── forms.js                Shared AJAX submit handler for every .gwill-form
@@ -216,6 +239,7 @@ gwill-starter-theme/
 │   │   ├── search-expandable.js, search-modal.js
 │   │   ├── customizer-preview.js    postMessage live-preview handlers (Customizer iframe only)
 │   │   ├── cookie-consent.js, back-to-top.js, sticky-header.js   (Tier 1)
+│   │   ├── testimonials-carousel.js  Progressive-enhancement Prev/Next buttons (Tier 2, carousel mode only)
 │   │   └── darkmode.js              @deprecated — superseded by inc/darkmode.php's inline script
 │   └── images/
 │
@@ -250,7 +274,7 @@ Every `wp_enqueue_style()`/`wp_enqueue_script()` call in the theme. All version 
 ### inc/helpers.php
 
 - **`gwill_part( string $slug, array $args = [] )`** — wrapper around `get_template_part()`, always prefixed with `template-parts/`. Use this, never call `get_template_part()` directly.
-- **`gwill_get_primary_category( int $post_id = 0 )`** — the single source of truth for "which category is this post primarily about," honouring RankMath's/Yoast's primary-term meta when set. Used by breadcrumbs, the card view, the single-post view, and related posts — extracted in 1.0.50 after the same logic had been independently duplicated three times across earlier sessions.
+- **`gwill_get_primary_category( int $post_id = 0 )`** — the single source of truth for "which category is this post primarily about": the deepest (most specific) category actually assigned to the post. Used by breadcrumbs, the card view, the single-post view, and related posts — extracted in 1.0.50 after the same logic had been independently duplicated three times across earlier sessions. Originally consulted RankMath's/Yoast's primary-term meta first; that was removed entirely in 1.0.56, by deliberate decision — a post with a parent category explicitly marked primary while a more specific child was also checked was stopping the breadcrumb at the parent, and the call was made that the full path should always show regardless of what any SEO plugin considers "primary." No SEO-plugin meta is read in this function at all anymore.
 - **`gwill_reading_time( int $post_id = 0 )`** — word count ÷ 200wpm (filterable via `gwill_reading_speed_wpm`), minimum 1 minute.
 - **`gwill_breadcrumbs()`** — full BreadcrumbList Schema.org markup, every WordPress conditional tag covered, filterable off entirely via `gwill_show_breadcrumbs` for sites preferring an SEO plugin's own breadcrumbs.
 - **`gwill_seo_plugin_active()`** — detects RankMath, Yoast, AIOSEO, SEOPress, The SEO Framework via each plugin's own version constant. Used as a guard before `inc/social-meta.php` outputs anything, to avoid duplicate OG/Twitter tags.
@@ -280,6 +304,30 @@ Registers `GET /wp-json/gwill/v1/search` (public, intentionally — it only retu
 
 Tier 1 features — see below.
 
+### inc/table-of-contents.php
+
+Tier 2 feature — see below. One `the_content` filter pass does double duty: it adds an `id` to any heading missing one and builds the nav from the exact same loop, so the nav's anchors and the headings' actual ids can never drift apart from each other.
+
+### inc/testimonials.php
+
+Tier 2 feature — see below. Registers `gwill_testimonial` as a non-public post type (no single page, no archive — a testimonial is a card pulled into a grid/carousel wherever placed, not content anyone navigates to directly) plus its own "Testimonial Details" meta box, following the exact same nonce/capability-check pattern as the video-embed meta box in `inc/setup.php`.
+
+### inc/pricing-table.php
+
+Tier 3 feature — see below. Deliberately not a CPT and has no shortcode wrapper, unlike testimonials/portfolio/newsletter — a pricing lineup is a small, tightly-coupled set normally hand-built once per client, and per-plan feature lists don't have a sane flat-string shortcode representation. The function call with a plain PHP array *is* the API.
+
+### inc/portfolio.php
+
+Tier 3 feature — see below. Unlike the testimonials CPT, `gwill_portfolio` is genuinely public (`has_archive: true`) — a case study is content worth its own page, where a testimonial is a snippet pulled into someone else's. No dedicated single/archive templates ship with it (out of the roadmap's stated scope); both fall through to this theme's existing `single.php`/`archive.php`, which already degrade gracefully for a post type with no categories assigned.
+
+### inc/woocommerce.php
+
+Tier 3 feature — see below. Every hook registered in this file is wrapped in `class_exists( 'WooCommerce' )`; on a site without the plugin, this file still loads (it's cheap — just function definitions) but registers nothing on any hook at all.
+
+### inc/staging.php
+
+Tier 2 feature — see below. Customizer-toggleable (default on); see the toggle's own description in Customizer Controls for why "default on" is the actual point of the toggle, not an oversight.
+
 ---
 
 ## File Reference — Templates
@@ -294,7 +342,7 @@ Templates follow WordPress's template hierarchy exactly as documented in the [Th
 
 ## The Contact Form System
 
-Ten patterns under `template-parts/forms/`, each a different shape for a different use case:
+Eleven patterns under `template-parts/forms/`, each a different shape for a different use case:
 
 | Pattern | `gwill_form_type` value | Use case |
 |---|---|---|
@@ -308,15 +356,19 @@ Ten patterns under `template-parts/forms/`, each a different shape for a differe
 | Application | `application` | "Work with me" framing — revenue/outcome qualifying questions. |
 | Partnership | `partnership` | Sponsorship/brand-deal intake. |
 | Post Feedback | `post-feedback` | Yes/No micro-interaction; No reveals a follow-up textarea. |
+| Newsletter Signup | `newsletter` | Single email field. Adds to a Brevo list via the Contacts API, not email — see below. |
 
 **Shared architecture, every pattern:**
 
-- All ten submit through one shared handler in `assets/js/forms.js`, attached to any `.gwill-form` element — `form-multistep.js` and `form-exit-intent.js` add their own step/trigger logic on top but delegate the actual AJAX submission to the same shared path, rather than each maintaining an independent copy.
+- All eleven submit through one shared handler in `assets/js/forms.js`, attached to any `.gwill-form` element — `form-multistep.js` and `form-exit-intent.js` add their own step/trigger logic on top but delegate the actual AJAX submission to the same shared path, rather than each maintaining an independent copy.
 - **Nonce**: pre-baked into the page for logged-in users (their pages are never served from LiteSpeed's cache, so a nonce baked into the HTML is always fresh); fetched on-demand via `admin-ajax.php` for anonymous visitors, with a cache-busting parameter so no intermediate caching layer can serve a stale one.
 - **Honeypot** field, invisible to real users, silently "succeeds" for bots that fill it in rather than revealing the trap.
 - **Rate limiting**: 5 minutes per detected IP (`gwill_form_rate_limited()`), bypassed for `current_user_can('edit_posts')` so testing isn't blocked by the same protection meant for spam. IP detection defaults to `REMOTE_ADDR` only — see `GWILL_TRUST_PROXY_HEADERS` above for why.
 - **Errors**: `gwill_handle_contact_form()` sends a specific, accurate message via `wp_send_json_error()` for every rejection reason (bad nonce, rate-limited, validation failure) — `assets/js/forms.js` reads that message directly rather than substituting a generic one, regardless of which non-2xx HTTP status carried it.
-- **Email**: `wp_mail()` with optional SMTP relay (see wp-config constants above). HTML auto-reply to the submitter is optional (`GWILL_AUTOREPLY`); DB logging of every submission to a custom table is optional (`GWILL_LOG_FORMS`).
+
+**One real exception to "every pattern," worth being explicit about:** the newsletter pattern doesn't send email at all. `gwill_handle_contact_form()` branches on `form_id === 'newsletter'` immediately after validation, before recipient resolution or `wp_mail()` are ever reached — it calls `gwill_brevo_add_contact()` instead and returns. The nonce, honeypot, and rate-limiter above still apply to it identically; `wp_mail()`/SMTP, autoreply, and recipient routing do not, because a list subscription has no message for anyone to receive by email.
+
+- **Email** (every pattern except newsletter): `wp_mail()` with optional SMTP relay (see wp-config constants above). HTML auto-reply to the submitter is optional (`GWILL_AUTOREPLY`); DB logging of every submission to a custom table is optional (`GWILL_LOG_FORMS` — this one does still apply to the newsletter pattern).
 
 ---
 
@@ -329,8 +381,29 @@ Shipped as a batch in v1.0.50 — see `GWILL-FEATURE-ROADMAP.md` for the full ti
 - **Cookie consent banner** — notice + Accept/Reject, `localStorage`-backed. Fires a `gwill:cookie-consent-given` DOM event on Accept for any tracking script a specific build adds later to listen for; this theme ships no tracking scripts of its own to gate.
 - **Related posts** — shown after the author box on `single.php`, matched by primary category.
 - **Reading time** — shown in both the card view and the single-post view.
-- **Back-to-top button** — appears past 400px scrolled; respects `prefers-reduced-motion`.
+- **Back-to-top button** — appears past 30% of actual scrollable distance (not a fixed pixel count — filterable via `gwill_back_to_top_percent`); respects `prefers-reduced-motion`.
 - **Sticky header** — Customizer toggle, default on (Appearance → Customize → Header Options).
+
+---
+
+## Tier 2 Features
+
+See `GWILL-FEATURE-ROADMAP.md` for the full tiered plan. All four items are now shipped.
+
+- **Newsletter signup** (`template-parts/forms/contact-newsletter.php`, v1.0.58) — the 11th contact-form pattern, reusing the existing nonce/AJAX/honeypot/rate-limit architecture wholesale. Adds the submitted address to a Brevo contact list via `gwill_brevo_add_contact()` in `inc/forms.php` — requires `GWILL_BREVO_API_KEY` and `GWILL_BREVO_LIST_ID` in `wp-config.php` (see constants above); without them, submission fails gracefully with a translated error rather than a fatal. This is a different credential from the SMTP settings used for the rest of the contact form system — see the warning in the wp-config block above.
+- **Table of contents** (`inc/table-of-contents.php`, v1.0.62) — auto-generated from a post's actual `<h2>`/`<h3>` structure via one `the_content` filter pass (no second pass, no risk of the nav and the headings' ids drifting apart from each other — they're built from the same loop). Only appears with at least 3 headings (`gwill_toc_min_headings`), only on post types listed in `gwill_toc_post_types` (post only, by default). `<details>`/`<summary>` — collapsed by default everywhere (mobile-appropriate baseline); CSS visually forces it open and `position: sticky` past a 1300px viewport width, dropping the collapse interaction entirely at that width rather than leaving a sticky box a visitor could collapse and then have follow them down the page empty.
+- **Testimonials CPT** (`inc/testimonials.php`, v1.0.62) — `gwill_testimonial` post type (title = name, content = quote, featured image = photo, two custom fields for role/company and a 1–5 star rating). Not publicly queryable — no single page, no archive; call `gwill_testimonials_grid( $args )` directly in a template, or use the `[gwill_testimonials]` shortcode (same attribute names as the function's array keys). `mode: 'grid'` (default, CSS grid, 2–4 columns) or `mode: 'carousel'` (CSS scroll-snap, fully swipeable/scrollable with zero JavaScript — `assets/js/testimonials-carousel.js` only adds Prev/Next buttons as progressive enhancement, and creates them in JS rather than rendering inert ones in PHP, so no-JS means no buttons rather than broken ones).
+- **Staging-environment banner** (`inc/staging.php`, v1.0.57, removed v1.0.59, restored with a Customizer toggle v1.0.62) — shown automatically on a recognised staging domain pattern (`gwill_staging_domain_patterns`). The first version had no way to turn it off short of removing the feature entirely, which is what happened; the toggle (Appearance → Customize → Developer Options → "Show staging-environment banner") fixes that, **defaulting to ON** — deliberately, since a toggle that's off until someone remembers to enable it defeats the banner's whole point just as much as having no toggle at all.
+
+---
+
+## Tier 3 Features
+
+Opt-in modules — each one costs nothing on a site that never uses it. All three items are now shipped.
+
+- **WooCommerce compatibility layer** (`inc/woocommerce.php`, `assets/css/woocommerce.css`, v1.0.60) — every hook wrapped in `class_exists( 'WooCommerce' )`, so a site without the plugin pays nothing at all for this, not just "a little." Adds `add_theme_support( 'woocommerce' )` + gallery support, a header cart icon with a live AJAX item count (via WooCommerce's own cart-fragments mechanism — no custom JS needed for that part), and design-token CSS overrides for buttons/price/sale-badge/star-ratings/checkout form fields. Removes WooCommerce's default content wrapper without adding a replacement — this theme's `header.php`/`footer.php` already wrap every template unconditionally, so a WC-specific wrapper would nest inside the one already open, not replace it.
+- **Pricing table component** (`inc/pricing-table.php`, v1.0.63) — `gwill_pricing_table( $plans, $args )`, a plain PHP array of plans straight to a template tag. No CPT, no shortcode — both deliberate: a pricing lineup is normally hand-built once per client and rarely changes, and per-plan feature lists don't have a sane flat-string shortcode representation without resorting to JSON crammed into an attribute. Columns track the plan count (capped at 4) rather than needing a separate setting. A `featured: true` plan gets a "Most Popular" badge (overridable per-plan) and visual emphasis.
+- **Portfolio / case-studies CPT** (`inc/portfolio.php`, v1.0.63) — `gwill_portfolio`, genuinely public (`has_archive: true`) unlike testimonials, because a case study is content worth its own page. Includes a hierarchical `gwill_portfolio_type` taxonomy for filtering by service type (Branding/Web Design/Development, etc. — close to a baseline expectation for an agency/freelancer portfolio, not a bolted-on extra), plus a "Project Details" meta box for client name and an optional live project URL (when set, the grid card links there directly instead of the project's own page). Call `gwill_portfolio_grid( $args )` or `[gwill_portfolio]`. No dedicated single/archive templates ship — out of the roadmap's stated scope of "a registered post type plus a grid template-part" — both fall through to this theme's existing `single.php`/`archive.php`, which already handle a post type with no categories assigned gracefully.
 
 ---
 
@@ -350,6 +423,14 @@ Shipped as a batch in v1.0.50 — see `GWILL-FEATURE-ROADMAP.md` for the full ti
 |---|---|---|
 | Logo width (px) | Number, 20–400 | 160 |
 | Default Social Share Image | Image upload | none |
+
+**Developer Options** (`gwill_developer` section, priority 200 — sits below every visual section, since nothing in it changes how the site looks):
+
+| Control | Type | Default | Transport |
+|---|---|---|---|
+| Show staging-environment banner | Checkbox | **On** | `refresh` |
+
+The banner only ever appears on a recognised staging domain regardless of this setting — it does nothing at all on the live site either way. Defaulting on is deliberate, not an oversight: see Tier 2 Features below for why.
 
 ---
 
@@ -405,10 +486,11 @@ Shipped as a batch in v1.0.50 — see `GWILL-FEATURE-ROADMAP.md` for the full ti
 | Parent theme | Not needed for custom builds. |
 | `front-page.php` | Project-specific — add it when a static front page needs a layout distinct from `home.php`. |
 | Widget areas | `sidebar.php` is a template-hierarchy stub only. Register sidebars per project in a new `inc/sidebars.php`. |
-| WooCommerce support | Tier 3 in the feature roadmap — opt-in per project, not baked into core. |
+| WooCommerce full shop redesign | The compatibility layer (`inc/woocommerce.php`, Tier 3, shipped 1.0.60) covers theme support, the default content wrapper, a header cart icon, and design-token CSS for the most commonly customised elements — it's a compatibility layer matching this theme's look, not a from-scratch shop design. Every hook is gated behind `class_exists( 'WooCommerce' )`, so it costs nothing on a project that never installs the plugin. |
 | Button base styles | Too opinionated to be universal — every project's buttons look different. Add per project. |
 | Full Site Editing | This is a classic PHP theme. `theme.json` is Gutenberg *configuration* only — no `styles` block, no `templates/`/`parts/` directories. |
 | Granular cookie-category management | This theme ships no tracking scripts of its own to gate — the consent banner exists, full consent-management-platform behaviour doesn't, on purpose. Add it only when a project's tracking scripts actually need it. |
+| A pricing-table CPT or shortcode | Deliberately a plain PHP-array template tag instead (`gwill_pricing_table()`, Tier 3) — a pricing lineup is normally hand-built once per client and rarely changes, unlike testimonials/portfolio items which genuinely benefit from being individually manageable `WP_Post` objects. Per-plan feature lists also don't have a sane flat-string shortcode representation without resorting to JSON crammed into an HTML attribute. |
 
 ---
 

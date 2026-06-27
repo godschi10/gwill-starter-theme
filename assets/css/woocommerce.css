@@ -1,0 +1,130 @@
+/**
+ * WooCommerce — design-token overrides + header cart icon
+ *
+ * Only enqueued when WooCommerce is active (see inc/woocommerce.php) — a
+ * standalone file rather than appended to style.css for exactly the same
+ * reason as darkmode-vibe-comments.css: a site without the plugin should
+ * never download CSS written for it.
+ *
+ * Scope deliberately stops at WooCommerce's most commonly customised
+ * surfaces (buttons, price colour, sale badge, star ratings) rather than
+ * re-skinning every shop template wholesale — this is a compatibility
+ * layer matching existing design tokens, not a custom shop redesign.
+ *
+ * @package GWill_Starter
+ * @since   1.0.60
+ */
+
+/* ── Buttons — match the theme's existing button tokens ─────────────── */
+
+.woocommerce a.button,
+.woocommerce button.button,
+.woocommerce input.button,
+.woocommerce #respond input#submit,
+.woocommerce-page a.button,
+.woocommerce-page button.button,
+.woocommerce-page input.button,
+.woocommerce-page #respond input#submit {
+  background: var(--color-btn-bg, var(--color-accent));
+  color: var(--color-btn-text, #fff);
+  border-radius: var(--form-radius, 4px);
+  border: none;
+  font-family: var(--font-base);
+}
+
+.woocommerce a.button:hover,
+.woocommerce button.button:hover,
+.woocommerce input.button:hover,
+.woocommerce-page a.button:hover,
+.woocommerce-page button.button:hover,
+.woocommerce-page input.button:hover {
+  background: var(--color-primary);
+  color: var(--color-btn-text, #fff);
+}
+
+.woocommerce a.button.disabled,
+.woocommerce a.button:disabled,
+.woocommerce button.button:disabled {
+  opacity: 0.5;
+}
+
+/* ── Price + sale badge ──────────────────────────────────────────────── */
+
+.woocommerce span.price,
+.woocommerce-page span.price {
+  color: var(--color-primary);
+  font-family: var(--font-base);
+}
+
+.woocommerce span.price del {
+  color: var(--color-muted);
+}
+
+.woocommerce span.price ins {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.woocommerce span.onsale {
+  background: var(--color-accent);
+  color: var(--color-btn-text, #fff);
+  font-family: var(--font-base);
+}
+
+/* ── Star ratings ────────────────────────────────────────────────────── */
+
+.woocommerce .star-rating span,
+.woocommerce-page .star-rating span {
+  color: var(--color-accent);
+}
+
+/* ── Form fields inside WC checkout/account — match this theme's own
+   form tokens rather than WooCommerce's defaults ──────────────────── */
+
+.woocommerce form .form-row input.input-text,
+.woocommerce form .form-row textarea,
+.woocommerce-page form .form-row select {
+  border: var(--form-border);
+  border-radius: var(--form-radius, 4px);
+  padding: var(--form-pad);
+  font-family: var(--font-base);
+}
+
+.woocommerce form .form-row input.input-text:focus,
+.woocommerce form .form-row textarea:focus {
+  border-color: var(--form-focus-clr);
+  outline: none;
+}
+
+/* ── Header cart icon ────────────────────────────────────────────────── */
+
+.gwill-cart-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  color: var(--color-primary);
+}
+
+.gwill-cart-icon svg {
+  width: 1.375rem;
+  height: 1.375rem;
+}
+
+.gwill-cart-icon__count {
+  position: absolute;
+  top: -0.25rem;
+  right: -0.25rem;
+  min-width: 1.125rem;
+  height: 1.125rem;
+  padding: 0 0.25rem;
+  border-radius: 999px;
+  background: var(--color-accent);
+  color: #fff;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.125rem;
+  text-align: center;
+}

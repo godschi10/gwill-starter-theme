@@ -23,6 +23,136 @@ Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.0.63] - 2026-06-26
+
+### Added — Tier 3 complete: pricing table component, portfolio/case-studies CPT
+
+**Pricing table** (`inc/pricing-table.php`, `template-parts/pricing-table.php`)
+- `gwill_pricing_table( $plans, $args )` — a plain PHP array of plans straight to a template tag. Deliberately not a CPT and deliberately no shortcode wrapper, unlike testimonials/portfolio/newsletter: a pricing lineup is normally hand-built once per client and rarely changes, so it doesn't gain anything from being individually manageable `WP_Post` objects, and per-plan feature lists have no sane flat-string shortcode representation short of JSON crammed into an HTML attribute. The function call with an array genuinely is the whole API here, not a placeholder for a "real" content-editor-facing version that didn't get built.
+- Columns track the actual plan count (capped at 4) — three plans show three columns, not three stretched into four. `featured: true` on a plan gets a "Most Popular" badge (overridable per-plan via `badge`) and visual emphasis; CTA buttons reuse the exact same `--color-btn-bg`/`--color-btn-text` tokens `.gwill-form__submit` already uses, not a new button system.
+- Currency symbol defaults to `$`, overridable per-call (`$args['currency']`) or sitewide (`gwill_pricing_currency_symbol` filter) for a project running in a different currency throughout.
+
+**Portfolio / case-studies CPT** (`inc/portfolio.php`, `template-parts/portfolio/portfolio.php`)
+- `gwill_portfolio` — genuinely public (`has_archive: true`), unlike the testimonials CPT's `publicly_queryable: false`. That's not an inconsistency between the two: a case study is content worth its own page, a testimonial is a snippet pulled into someone else's and nothing more.
+- `gwill_portfolio_type` taxonomy, hierarchical, `show_admin_column: true` — filtering an agency/freelancer portfolio by service type (Branding/Web Design/Development, etc.) is close to a baseline expectation for this use case, not a nice-to-have bolted on after the fact.
+- "Project Details" meta box: client name + an optional live project URL, following the identical nonce/capability-check ordering already established by the testimonial and video-embed meta boxes. When a project URL is set, the grid card's "View Project" link points there (opening in a new tab) instead of the project's own page.
+- Scope held to exactly the roadmap's one-liner — "a registered post type plus a grid template-part" — on purpose. No `single-gwill_portfolio.php` or `archive-gwill_portfolio.php` ships; both fall through to this theme's existing `single.php`/`archive.php`, which already degrade gracefully for a post type with no categories assigned, since `gwill_get_primary_category()` already returns `null` cleanly in that case. A project wanting a more tailored single-project layout can add that template later — a per-client decision, not something to bake into the starter.
+- Call `gwill_portfolio_grid( $args )` or `[gwill_portfolio]` (same attribute names).
+
+### Fixed
+
+- Caught during review before packaging, not after: `get_the_post_thumbnail()`'s `$attr` array is escaped internally by `wp_get_attachment_image()` — pre-escaping the `alt` text in the testimonials template part (added in 1.0.62) would have double-escaped any title containing an apostrophe or ampersand. Fixed before it ever shipped; the portfolio grid's own thumbnail call was written correctly from the start as a result.
+- `README.md` and this changelog updated in the same pass that built these two features, continuing the practice established in 1.0.62 rather than letting documentation drift again.
+
+---
+
+## [1.0.62] - 2026-06-26
+
+### Added — Tier 2 complete: table of contents, testimonials CPT, staging banner restored with a toggle
+
+**Table of contents** (`inc/table-of-contents.php`)
+- One `the_content` filter pass (priority 20, after wpautop/shortcode processing) does double duty: adds an `id` to any `<h2>`/`<h3>` missing one (never overwrites a manually-set anchor), and builds the nav from the exact same loop — the nav's links and the headings' actual ids are generated together, so they can never drift apart.
+- Only appears with ≥3 headings (`gwill_toc_min_headings`), only on post types in `gwill_toc_post_types` (`post` only by default).
+- `<details>`/`<summary>`, collapsed by default everywhere. Past a 1300px viewport, CSS forces it visually open (`display: block !important` regardless of the `[open]` attribute) and `position: sticky` — sticking relative to `.entry-content`'s own height, which works correctly even though this theme's `single.php` has no separate sidebar column. The collapse interaction is dropped entirely at that width, on purpose: a sticky box a visitor can accidentally collapse and have follow them down the page empty would be worse than not offering the toggle there at all.
+- Accounts for both the staging banner's height and the sticky-header toggle's own height in its sticky offset, so neither one visually overlaps the stuck ToC box when both happen to be active at once.
+
+**Testimonials CPT** (`inc/testimonials.php`, `template-parts/testimonials/testimonials.php`, `assets/js/testimonials-carousel.js`)
+- `gwill_testimonial` post type — `public: false`, `publicly_queryable: false`, no archive: a testimonial is a card pulled into a grid/carousel wherever a developer places it, not content anyone navigates to at its own URL.
+- Field mapping deliberately reuses what WordPress already has rather than inventing meta fields for everything: title = name, content = quote, featured image = photo (falls back to a generic avatar glyph when absent). Two real custom fields where nothing built-in covers them — role/company (text) and a 1–5 star rating — via a "Testimonial Details" meta box following the identical nonce/capability-check ordering already established by the video-embed meta box in `inc/setup.php`.
+- Public API: `gwill_testimonials_grid( $args )` called directly from a template, or the `[gwill_testimonials]` shortcode with matching attribute names. `mode: 'grid'` (CSS grid, 2–4 columns via `columns`) or `mode: 'carousel'`.
+- Carousel mode needs no JavaScript to function at all — native `overflow-x` + `scroll-snap-type: x mandatory` track, fully swipeable/scrollable without `testimonials-carousel.js`. That script only adds Prev/Next buttons, and *creates* them via JS rather than rendering inert ones in PHP — a button whose only behaviour comes from JS that might not load would be worse than no button, so no JS genuinely means no buttons here, not broken ones.
+
+**Staging-environment banner — restored, with a toggle this time** (`inc/staging.php`, `template-parts/staging-banner.php`)
+- Same host-pattern detection as the original (1.0.57, removed 1.0.59) — request host, not `home_url()`, against `.qzz.io` / `.local` / `staging.` / `dev.` / `test.`.
+- New: `gwill_show_staging_banner` Customizer checkbox, Developer Options section, **defaulting to ON**. The first version's only failure mode was "always on with no way to turn it off short of removing the whole feature" — which is exactly what happened. Defaulting the toggle to on rather than off is deliberate: a banner that's off until a developer remembers to flip it on defeats its own purpose just as much as never having a toggle at all. The point is that a developer sees the option and makes an active choice either way, not that it starts invisible.
+
+### Fixed
+
+- `README.md` brought current for all of the above in the same pass this was built — File Structure tree, File Reference section, Tier 2 Features section (now fully complete rather than partially), and the new Customizer control documented under a new "Developer Options" heading. Lesson from the 1.0.61 audit applied going forward instead of repeating it: every file this version touches is reflected in the docs in the same response that touches it, not patched in after the fact.
+
+---
+
+## [1.0.61] - 2026-06-26
+
+### Fixed
+
+- **The newsletter pattern (v1.0.58) was never actually reachable on `template-contact-demo.php`** — a real functional gap, not just a doc one. The demo page's pattern list is a hardcoded array independent of `inc/forms.php`'s required-fields map; adding `'newsletter'` to the latter in 1.0.58 didn't add it to the former. Added now — pattern 11 of 11 on the demo page.
+
+### Changed
+
+- **README.md correctness pass.** Caught stale in this pass, all now fixed: `functions.php`'s require count (twelve → thirteen), the contact-form pattern count in four separate places (ten → eleven, including the demo-page docblock), `inc/woocommerce.php` and `assets/css/woocommerce.css` missing from the File Structure tree and File Reference section entirely, the back-to-top description still citing the pre-1.0.59 400px threshold instead of the current 30%-of-scrollable-distance behaviour, `gwill_get_primary_category()`'s description still claiming it honours RankMath/Yoast primary-term meta (removed entirely in 1.0.56 — it never reads that meta anymore), and the "What Is Intentionally Absent" table still listing WooCommerce as unsupported when 1.0.60 added it. Added dedicated **Tier 2 Features** and **Tier 3 Features** sections, matching the existing Tier 1 Features section's format, documenting exactly what shipped vs. what was explicitly skipped from each tier.
+
+---
+
+## [1.0.60] - 2026-06-26
+
+### Added — Tier 3, feature 1 of 3: WooCommerce compatibility layer
+
+- `inc/woocommerce.php`, `template-parts/woocommerce/cart-icon.php`, `assets/css/woocommerce.css`. Every hook in `inc/woocommerce.php` is wrapped in `class_exists( 'WooCommerce' )` — on a site that never installs the plugin, this costs nothing at all, not just "a little": no theme support added, no styles enqueued, no markup output, nothing on the hook table.
+- `add_theme_support( 'woocommerce' )` + gallery zoom/lightbox/slider support.
+- Removed WC's default content wrapper (`woocommerce_output_content_wrapper` / `_end`) **without adding a replacement** — the usual snippet for this adds the theme's own wrapper back, but header.php in this theme already unconditionally opens `<main class="site-main" id="content"><div class="inner">` for every template, with footer.php closing it. Adding a WC-specific wrapper back would have nested it inside the one already open, not replaced it.
+- Header cart icon (`template-parts/woocommerce/cart-icon.php`), wired into `woocommerce_add_to_cart_fragments` so the item count updates via WooCommerce's own AJAX cart-fragments mechanism — no full page reload after add-to-cart, no custom JS needed on this theme's side for that part.
+- `assets/css/woocommerce.css` — separate file, only enqueued inside the same `class_exists()` gate, for the same reason `darkmode-vibe-comments.css` is separate from the main stylesheet: a non-WooCommerce site shouldn't download CSS written for a plugin it doesn't have. Scope: buttons, price colour, sale badge, star ratings, and checkout/account form fields mapped onto this theme's existing design tokens — a compatibility layer matching the theme's look, not a full shop redesign.
+- Tier 3 remaining: pricing table component, portfolio/case-studies CPT.
+
+---
+
+## [1.0.59] - 2026-06-26
+
+### Changed
+
+- **Back-to-top button** (`assets/js/back-to-top.js`) — switched from a fixed 400px scroll threshold to 30% of actual scrollable distance (`scrollHeight - innerHeight`), filterable via `gwill_back_to_top_percent` (`inc/enqueue.php`). A fixed pixel count meant something different on a short post than a long one; percentage scales with the page. Recomputes on resize too, not just scroll, since scrollable distance depends on viewport height.
+
+### Removed
+
+- **Staging-environment banner** (`inc/staging.php`, `template-parts/staging-banner.php`) — removed entirely, by request. `functions.php`'s require line, the CSS block, and the documented z-index scale comment are all reverted to their pre-1.0.57 state. This is a file-deletion release — `rsync --delete` on deploy, not a plain unzip, or the now-orphaned `inc/staging.php` and `template-parts/staging-banner.php` will keep loading on the live server.
+
+---
+
+## [1.0.58] - 2026-06-25
+
+### Added — Tier 2, feature 2 of 4: Newsletter signup
+
+- `template-parts/forms/contact-newsletter.php` — the 11th form pattern, reusing the existing nonce/AJAX/honeypot/rate-limit architecture in `inc/forms.php` wholesale, exactly as scoped in the roadmap. One field: email.
+- The roadmap's original spec assumed reusing "the SMTP infrastructure already established" for this — that's not actually sufficient on its own. Confirmed: Brevo is still the active provider (reverted back from Exim after deliverability problems — wp_mail via Exim landing in spam was the reason for the original switch away from Brevo), but SMTP credentials and the API key needed to add a contact to a marketing list are two different secrets in Brevo, generated separately, neither substitutes for the other. Building this required the API key + a List ID, not the SMTP login already in `wp-config.php`.
+- New function `gwill_brevo_add_contact()` in `inc/forms.php`, calling Brevo's `POST /v3/contacts` with `updateEnabled: true` — a returning subscriber resubmitting the same address merges silently rather than erroring. Gated on two new optional `wp-config.php` constants, documented in the file's existing config block: `GWILL_BREVO_API_KEY`, `GWILL_BREVO_LIST_ID`. Fails gracefully with a translated error (not a fatal) if either is undefined.
+- `gwill_handle_contact_form()` branches for `form_id === 'newsletter'` immediately after validation, before the email-send path — a list subscription has no message for anyone to receive by email, so it skips recipient resolution, `wp_mail()`, and autoreply entirely. Rate limiting and the optional submissions-log table still apply, identically to every other form pattern.
+- Noted, not changed: the existing `exit_intent` form pattern is documented as "subscriber capture" but currently only emails a notification to the site owner — it was never actually wired to a marketing list. Worth a decision on whether it should also call `gwill_brevo_add_contact()`, but that's a deliberate scope choice for a separate pass, not bundled into this one.
+- Tier 2 remaining: table of contents, testimonials CPT.
+
+---
+
+## [1.0.57] - 2026-06-25
+
+### Added — Tier 2, feature 1 of 4: Staging-environment banner
+
+- `inc/staging.php`, `template-parts/staging-banner.php`. Automatic, zero-setup red ribbon shown only when the request host matches a known staging pattern (`.qzz.io`, `.local`, `staging.`, `dev.`, `test.` — filterable via `gwill_staging_domain_patterns`, with `gwill_is_staging_environment` as a full override for edge cases). No Customizer toggle — a staging indicator someone has to remember to manually enable on a clone defeats its own purpose.
+- Detection is based on the actual request host (`$_SERVER['HTTP_HOST']`), not `home_url()` — some staging setups deliberately leave the configured site URL pointed at the live domain to dodge asset-URL rewriting, even while genuinely being accessed via a staging host. Request host is what actually answers "what is this browser looking at right now."
+- Fixed-position, `z-index: 9990` (documented z-index scale in `style.css` updated accordingly). `.gwill-staging-active` body class adds top padding so it doesn't cover the header on first paint; also bumps the sticky header's own `top` offset by the banner's height so both stay visible together once scrolled, rather than the header re-covering the banner the instant it sticks.
+- Tier 2 remaining: table of contents, testimonials CPT, newsletter signup (blocked — roadmap spec assumed Brevo SMTP infrastructure that no longer exists since the contact form moved to Exim; needs a decision before that one starts).
+
+---
+
+## [1.0.56] - 2026-06-25
+
+### Changed
+
+- **Breadcrumbs (and related-posts/category-badge matching) no longer consult any SEO plugin's "primary category" meta at all** — explicit decision, not a bug fix. `gwill_get_primary_category()` now always returns the deepest assigned category and nothing else. Previously (1.0.55), a validly-resolving explicit primary could still override depth — which meant a post with its parent category deliberately marked primary stopped at the parent even with a more specific child also checked, exactly what was happening on the "Android Malware" post. The decision: breadcrumbs should always show the full parent → child path for any post that has both checked, regardless of what any plugin thinks is "primary." Matches the West Construction theme's `single.php` exactly now, not just in spirit — no RankMath/Yoast postmeta read anywhere in this function anymore.
+- Practical effect: every post that has a parent + a more specific child category checked will now show both levels in its breadcrumb, full stop. The only posts unaffected are ones with a single category checked, where there's nothing deeper to show anyway.
+
+---
+
+## [1.0.55] - 2026-06-25
+
+### Fixed
+
+- **Primary-category fallback was alphabetical, not sensible** (`inc/helpers.php`, `gwill_get_primary_category()`). 1.0.54 fixed the RankMath meta key itself, but the *fallback* — used whenever that meta is missing or doesn't resolve — was still `$cats[0]`, and `get_the_category()` returns categories alphabetically by name. That's an arbitrary tiebreaker with no relationship to which category is actually most relevant to the post. Two real situations on this site exposed it: (1) a batch of posts carrying a pre-migration primary-category ID that no longer matches any current term, and (2) a new post created by duplicating an old one, which carried the old post's primary-category meta forward even after its categories were changed. Both cases used to silently fall back to an alphabetically-arbitrary category with no indication anything was wrong.
+- Replaced the fallback with "deepest assigned category" (most ancestors among the post's actually-checked categories) instead of alphabetical order. This is computed fresh from live taxonomy data every time, so it can't go stale the way a stored ID can — there's nothing to orphan. It also matches the post's real, current category checkboxes rather than a plugin's possibly-stale opinion about them.
+- This approach is ported from the West Construction theme's `single.php`, which already solves this correctly. Worth saying plainly: that comparison is what surfaced the actual fix here, and it was the right move to go check.
+- One behavior is unchanged on purpose: if a post's saved primary meta resolves to one of its own real, currently-assigned categories — including a deliberately-chosen *parent* over a more specific child — that explicit choice still wins over depth. Depth-based fallback only activates once the saved meta fails to resolve to anything the post is actually tagged with.
+
+---
+
 ## [1.0.54] - 2026-06-25
 
 ### Fixed

@@ -172,8 +172,10 @@ function gwill_seo_plugin_active(): bool {
 
 
 /**
- * Resolve "the" category for a post — honouring RankMath / Yoast primary
- * term meta when set, falling back to the first assigned category.
+ * Resolve "the" category for a post — the deepest (most specific) category
+ * actually assigned to it, so breadcrumbs and related content show the full
+ * parent → child path rather than stopping wherever an SEO plugin happens
+ * to have marked "primary."
  *
  * Extracted in 1.0.50 from three near-identical copies of this exact logic
  * (gwill_breadcrumbs(), template-parts/content.php, single.php) that had
@@ -182,9 +184,24 @@ function gwill_seo_plugin_active(): bool {
  * copy-paste a fourth time — all four now call this one function, so a
  * future fix to the primary-term logic only ever needs to happen once.
  *
+ * v1.0.54 fixed the RankMath meta key itself (was checking a key it never
+ * writes). v1.0.55 added a depth-based fallback for when that meta failed
+ * to resolve, but still let a validly-resolving explicit primary override
+ * depth — which meant a post with its PARENT category deliberately marked
+ * primary still stopped at the parent even with a more specific child also
+ * checked. That's exactly what was happening on the "Android Malware" post,
+ * and by explicit decision (not a bug fix — a deliberate choice) that
+ * carve-out is gone as of 1.0.56: every post's breadcrumb now always shows
+ * the full path down to whichever assigned category is deepest, full stop.
+ * No SEO-plugin meta is read here anymore at all. Matches the West
+ * Construction theme's single.php exactly, not just in spirit.
+ *
  * @param  int $post_id Post ID. Defaults to the current post in the loop.
  * @return WP_Term|null Null if the post has no categories assigned at all.
  * @since  1.0.50
+ * @since  1.0.54 Corrected the RankMath meta key (later removed, 1.0.56).
+ * @since  1.0.55 Added depth-based fallback (later made unconditional, 1.0.56).
+ * @since  1.0.56 Primary-term meta no longer consulted. Always deepest.
  */
 function gwill_get_primary_category( int $post_id = 0 ): ?WP_Term {
 
@@ -195,24 +212,18 @@ function gwill_get_primary_category( int $post_id = 0 ): ?WP_Term {
 		return null;
 	}
 
-	// NOTE (v1.0.54): the RankMath key here was previously the wrong name
-	// ('rank_math_primary_term_category', which RankMath never writes) —
-	// it never matched, so this always fell through to $cats[0] below.
-	// The real key RankMath saves to is 'rank_math_primary_category'.
-	$primary_id = (int) get_post_meta( $post_id, 'rank_math_primary_category', true );
-	if ( ! $primary_id ) {
-		$primary_id = (int) get_post_meta( $post_id, '_yoast_wpseo_primary_category', true );
-	}
-
-	if ( $primary_id ) {
-		foreach ( $cats as $cat ) {
-			if ( (int) $cat->term_id === $primary_id ) {
-				return $cat;
-			}
+	// Deepest (most specific) assigned category, by ancestor count. Ties
+	// keep whichever get_the_category() returned first (alphabetical) —
+	// a minor, accepted edge case, not worth a tie-breaker for.
+	$deepest = $cats[0];
+	foreach ( $cats as $cat ) {
+		if ( count( get_ancestors( $cat->term_id, 'category' ) ) >
+			count( get_ancestors( $deepest->term_id, 'category' ) ) ) {
+			$deepest = $cat;
 		}
 	}
 
-	return $cats[0];
+	return $deepest;
 }
 
 /**

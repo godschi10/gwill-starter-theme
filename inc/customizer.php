@@ -38,6 +38,42 @@ add_action( 'customize_register', function ( WP_Customize_Manager $wp_customize 
 		'priority' => 30,
 	] );
 
+	/**
+	 * "Developer Options" section.
+	 *
+	 * Low priority (200) — deliberately sits well below every visual
+	 * design section, since nothing in here changes how the site looks.
+	 * This is the home for theme-level developer/environment settings,
+	 * starting with the staging banner; the Tier 4 roadmap item for a
+	 * theme health-check dashboard widget would land here too.
+	 */
+	$wp_customize->add_section( 'gwill_developer', [
+		'title'    => __( 'Developer Options', 'gwill-starter' ),
+		'priority' => 200,
+	] );
+
+	// ── Staging-environment banner ───────────────────────────────────────
+	//
+	// Default ON, deliberately — see inc/staging.php's file-level docblock
+	// for why "off until someone remembers to turn it on" defeats the
+	// banner's whole purpose just as much as having no toggle. The banner
+	// itself only ever shows on a recognised staging host pattern
+	// regardless of this setting; this control exists so a developer who
+	// genuinely doesn't want it on a given project can make that an
+	// active choice instead of just living with it.
+
+	$wp_customize->add_setting( 'gwill_show_staging_banner', [
+		'default'           => true,
+		'sanitize_callback' => 'gwill_sanitize_checkbox',
+	] );
+
+	$wp_customize->add_control( 'gwill_show_staging_banner', [
+		'label'       => __( 'Show staging-environment banner', 'gwill-starter' ),
+		'description' => __( 'Only ever appears on a recognised staging domain (qzz.io, .local, staging./dev./test. subdomains) — never on the live site regardless of this setting. On by default so it can\'t be silently forgotten about; turn off if a project genuinely doesn\'t want it.', 'gwill-starter' ),
+		'section'     => 'gwill_developer',
+		'type'        => 'checkbox',
+	] );
+
 	// ── Tagline visibility ──────────────────────────────────────────────────
 
 	$wp_customize->add_setting( 'gwill_show_tagline', [

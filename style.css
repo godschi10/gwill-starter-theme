@@ -4,7 +4,7 @@ Theme URI:   https://gwillchijioke.com
 Author:      G-will Chijioke
 Author URI:  https://gwillchijioke.com
 Description: A clean, custom WordPress starter theme built from scratch. No parent theme dependency.
-Version:     1.0.54
+Version:     1.0.63
 License:     GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: gwill-starter
@@ -1800,6 +1800,36 @@ select:focus {
   margin-top: 1rem;
 }
 
+/* ── Newsletter signup (Pattern 11) ─────────────────────────────── */
+
+.gwill-newsletter {
+  margin: 2.5rem 0;
+  padding: 1.5rem;
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: var(--form-radius);
+  background: #f9fafb;
+}
+
+.gwill-newsletter__prompt {
+  font-weight: 700;
+  font-size: 1.0625rem;
+  margin-bottom: 0.75rem;
+}
+
+.gwill-form--newsletter .gwill-form--newsletter__fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+@media (min-width: 600px) {
+  .gwill-form--newsletter .gwill-form--newsletter__fields {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+  .gwill-form--newsletter .gwill-form__field { flex: 1; }
+}
+
 /* ── Contact demo page ─────────────────────────────────────────── */
 
 .contact-demo__header {
@@ -1869,7 +1899,7 @@ select:focus {
 /* z-index hierarchy across the whole theme, for reference:
    50 sticky header < 100 mobile nav dropdown < 8000 back-to-top <
    8500 cookie consent < 9000 search modal < 9100 search expand <
-   9999 skip-link focus / exit-intent overlay                          */
+   9990 staging banner < 9999 skip-link focus / exit-intent overlay        */
 
 .gwill-faq {
   margin-block: var(--spacing);
@@ -1924,6 +1954,122 @@ select:focus {
 .gwill-faq summary:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: -2px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Table of Contents (.gwill-toc) — native <details>/<summary>, no JS */
+/* ------------------------------------------------------------------ */
+/* Closed by default everywhere (mobile-appropriate baseline, and the
+   correct graceful-degradation state if this CSS somehow fails to load
+   — "collapsed" is a safer default than "expanded but un-stickable").
+   The wide-viewport block below visually forces it open and sticky;
+   see inc/table-of-contents.php for why a sticky element works here even
+   without a separate sidebar column. */
+
+.gwill-toc {
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  margin-bottom: var(--spacing);
+}
+
+.gwill-toc summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.875rem 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  cursor: pointer;
+  list-style: none; /* Firefox's default disclosure triangle */
+}
+
+.gwill-toc summary::-webkit-details-marker {
+  display: none; /* Chrome/Safari's default disclosure triangle */
+}
+
+.gwill-toc summary::after {
+  content: '';
+  flex-shrink: 0;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-right: 2px solid var(--color-muted);
+  border-bottom: 2px solid var(--color-muted);
+  transform: rotate(45deg);
+  transition: transform 0.2s;
+}
+
+.gwill-toc details[open] summary::after,
+.gwill-toc[open] summary::after {
+  transform: rotate(-135deg);
+}
+
+.gwill-toc__list,
+.gwill-toc__sublist {
+  margin: 0;
+  padding: 0 1.25rem 1rem 1.5rem;
+}
+
+.gwill-toc__sublist {
+  padding-left: 1.25rem;
+  padding-bottom: 0;
+  margin-top: 0.25rem;
+}
+
+.gwill-toc__list li {
+  margin-bottom: 0.4rem;
+}
+
+.gwill-toc__list a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.gwill-toc__list a:hover {
+  text-decoration: underline;
+}
+
+@media (min-width: 1300px) {
+  .gwill-toc {
+    /* See style note in inc/table-of-contents.php: position: sticky here
+       sticks relative to .entry-content's own height, no sidebar column
+       needed. Top offset is a reasonable static approximation of "just
+       below the sticky header" — exact header height varies with the
+       Customizer's header-padding setting and logo size, which CSS alone
+       can't account for without measuring the rendered header via JS;
+       not worth that complexity for a polish-level offset. Adjust this
+       value per client if a particular header ends up unusually tall. */
+    position: sticky;
+    top: calc(1rem + var(--gwill-staging-banner-height, 0px));
+  }
+
+  /* When the sticky-header Customizer toggle is also on, its own
+     (variable-height) bar competes for the same top-of-viewport space —
+     push the ToC's stuck position down by an approximate header height
+     in addition to the staging banner's, rather than letting the header
+     visually overlap the top of the sticky ToC box once both are stuck
+     at the same time. */
+  .gwill-sticky-header .gwill-toc {
+    top: calc(5.5rem + var(--gwill-staging-banner-height, 0px));
+  }
+
+  /* Force visible regardless of the [open] attribute's actual state —
+     "sticky" implies "always shown while scrolling," which contradicts
+     also being collapsible, so desktop deliberately drops the collapse
+     interaction entirely rather than offering a sticky box the visitor
+     can accidentally collapse and then have follow them down the page
+     empty. */
+  .gwill-toc > :not(summary) {
+    display: block !important;
+  }
+
+  .gwill-toc summary {
+    cursor: default;
+  }
+
+  .gwill-toc summary::after {
+    display: none;
+  }
 }
 
 /* ------------------------------------------------------------------ */
@@ -2115,4 +2261,460 @@ select:focus {
 
 .gwill-sticky-header .site-header.is-stuck {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* ------------------------------------------------------------------ */
+/* Staging Environment Banner                                          */
+/* ------------------------------------------------------------------ */
+/* Only present in the DOM on a recognised staging host AND when the
+   gwill_show_staging_banner Customizer toggle is on — see inc/staging.php.
+   Fixed (not pushed into normal flow) so it stays visible through
+   scrolling regardless of the sticky header's own position;
+   .gwill-staging-active's body padding-top below exists purely so this
+   doesn't cover the header on initial paint. z-index 9990 — see the
+   documented scale above .gwill-faq. */
+
+:root {
+  --gwill-staging-banner-height: 2rem;
+}
+
+.gwill-staging-banner {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  z-index: 9990;
+  height: var(--gwill-staging-banner-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #b91c1c;
+  color: #fff;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.gwill-staging-active {
+  padding-top: var(--gwill-staging-banner-height);
+}
+
+/* The sticky header's own top:0 would otherwise mean it re-covers the
+   banner the instant it sticks — push its stuck position down by the
+   banner's height so both stay visible together while scrolling. */
+.gwill-staging-active.gwill-sticky-header .site-header {
+  top: var(--gwill-staging-banner-height);
+}
+
+/* ------------------------------------------------------------------ */
+/* Testimonials (.gwill-testimonials) — grid + scroll-snap carousel    */
+/* ------------------------------------------------------------------ */
+/* Carousel mode needs no JavaScript to actually function — the track is
+   a native overflow-x + scroll-snap container, fully swipeable/scrollable
+   without assets/js/testimonials-carousel.js. That script only adds the
+   Prev/Next buttons as progressive enhancement; see its own header
+   comment for why they're JS-created rather than PHP-rendered. */
+
+.gwill-testimonials {
+  position: relative;
+  margin: calc(var(--spacing) * 2) 0;
+}
+
+.gwill-testimonials__track {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.gwill-testimonials--grid .gwill-testimonials__track {
+  grid-template-columns: repeat(var(--gwill-testimonials-columns, 3), 1fr);
+}
+
+@media (max-width: 900px) {
+  .gwill-testimonials--grid .gwill-testimonials__track {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .gwill-testimonials--grid .gwill-testimonials__track {
+    grid-template-columns: 1fr;
+  }
+}
+
+.gwill-testimonials--carousel .gwill-testimonials__track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 1rem;
+  -webkit-overflow-scrolling: touch;
+  /* Scrollbar stays visible but unobtrusive rather than hidden entirely —
+     hiding it outright removes a real affordance for mouse users with no
+     touchpad and no patience for shift+wheel. */
+  scrollbar-width: thin;
+}
+
+.gwill-testimonials--carousel .gwill-testimonial-card {
+  flex: 0 0 min(340px, 85%);
+  scroll-snap-align: start;
+}
+
+.gwill-testimonial-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-bg);
+}
+
+.gwill-testimonial-card__quote {
+  margin: 0;
+  font-style: normal; /* This is a recommendation/review, not literary prose — italics read as decorative noise here, not emphasis. */
+  color: var(--color-primary);
+  line-height: 1.6;
+}
+
+.gwill-testimonial-card__quote p:last-child {
+  margin-bottom: 0;
+}
+
+.gwill-testimonial-card__byline {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: auto; /* Pins the byline to the card's bottom edge even when quote lengths differ within the same row. */
+}
+
+.gwill-testimonial-card__photo {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.gwill-testimonial-card__photo--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-border);
+  color: var(--color-muted);
+}
+
+.gwill-testimonial-card__photo--placeholder svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.gwill-testimonial-card__name {
+  display: block;
+  font-style: normal;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.gwill-testimonial-card__role {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--color-muted);
+}
+
+.gwill-stars {
+  display: inline-flex;
+  gap: 0.125rem;
+}
+
+.gwill-star {
+  width: 1rem;
+  height: 1rem;
+  color: var(--color-border);
+}
+
+.gwill-star--filled {
+  color: var(--color-accent);
+}
+
+/* Carousel Prev/Next buttons — inserted by testimonials-carousel.js, not
+   present at all without it (see that file's header comment). */
+
+.gwill-testimonials__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  background: var(--color-bg);
+  color: var(--color-primary);
+  cursor: pointer;
+  z-index: 1;
+}
+
+.gwill-testimonials__nav svg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.gwill-testimonials__nav--prev {
+  left: -0.75rem;
+}
+
+.gwill-testimonials__nav--next {
+  right: -0.75rem;
+}
+
+.gwill-testimonials__nav:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.gwill-testimonials__nav:hover:not(:disabled) {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+@media (max-width: 600px) {
+  /* Off-canvas-edge buttons make sense with room either side of the
+     track on a wide layout; on a narrow phone screen they'd sit half off
+     the edge of the viewport itself. Touch swipe is the primary carousel
+     interaction on mobile anyway, so the buttons just step aside here
+     rather than fighting for a few millimetres of margin. */
+  .gwill-testimonials__nav {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Pricing Table (.gwill-pricing-table)                                 */
+/* ------------------------------------------------------------------ */
+
+.gwill-pricing-table {
+  display: grid;
+  grid-template-columns: repeat(var(--gwill-pricing-columns, 3), 1fr);
+  gap: 1.5rem;
+  align-items: stretch;
+  margin: calc(var(--spacing) * 2) 0;
+}
+
+@media (max-width: 900px) {
+  .gwill-pricing-table {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .gwill-pricing-table {
+    grid-template-columns: 1fr;
+  }
+}
+
+.gwill-pricing-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-bg);
+  text-align: center;
+}
+
+.gwill-pricing-card--featured {
+  border: 2px solid var(--color-accent);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.gwill-pricing-card__badge {
+  position: absolute;
+  top: -0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.25rem 0.875rem;
+  border-radius: 999px;
+  background: var(--color-accent);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.gwill-pricing-card__name {
+  margin: 0.5rem 0 0;
+  color: var(--color-primary);
+}
+
+.gwill-pricing-card__description {
+  margin: 0.5rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.9375rem;
+}
+
+.gwill-pricing-card__price {
+  margin: 1.5rem 0;
+}
+
+.gwill-pricing-card__amount {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+.gwill-pricing-card__period {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--color-muted);
+  font-size: 0.875rem;
+}
+
+.gwill-pricing-card__features {
+  margin: 0 0 1.75rem;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+  flex-grow: 1; /* Pushes the CTA below to the same vertical position across cards with uneven feature-list lengths. */
+}
+
+.gwill-pricing-card__features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  margin-bottom: 0.625rem;
+  color: var(--color-primary);
+  font-size: 0.9375rem;
+}
+
+.gwill-pricing-card__features svg {
+  flex-shrink: 0;
+  width: 1.125rem;
+  height: 1.125rem;
+  margin-top: 0.1rem;
+  color: var(--color-accent);
+}
+
+.gwill-pricing-card__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.5rem;
+  background: var(--color-btn-bg);
+  color: var(--color-btn-text);
+  border-radius: var(--form-radius);
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+
+.gwill-pricing-card__cta:hover {
+  opacity: 0.88;
+}
+
+.gwill-pricing-card--featured .gwill-pricing-card__cta {
+  background: var(--color-accent);
+}
+
+/* ------------------------------------------------------------------ */
+/* Portfolio Grid (.gwill-portfolio-grid)                               */
+/* ------------------------------------------------------------------ */
+
+.gwill-portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--gwill-portfolio-columns, 3), 1fr);
+  gap: 1.5rem;
+  margin: calc(var(--spacing) * 2) 0;
+}
+
+@media (max-width: 900px) {
+  .gwill-portfolio-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .gwill-portfolio-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.gwill-portfolio-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.gwill-portfolio-card__media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--color-border); /* Visible placeholder fill when a project has no featured image set yet. */
+}
+
+.gwill-portfolio-card__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.gwill-portfolio-card:hover .gwill-portfolio-card__image {
+  transform: scale(1.05);
+}
+
+.gwill-portfolio-card__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.gwill-portfolio-card__overlay svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.gwill-portfolio-card:hover .gwill-portfolio-card__overlay,
+.gwill-portfolio-card:focus-visible .gwill-portfolio-card__overlay {
+  opacity: 1;
+}
+
+.gwill-portfolio-card__body {
+  padding-top: 0.875rem;
+}
+
+.gwill-portfolio-card__type {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--color-accent);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.gwill-portfolio-card__title {
+  margin: 0;
+  color: var(--color-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gwill-portfolio-card__image {
+    transition: none;
+  }
 }

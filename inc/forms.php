@@ -34,6 +34,15 @@
  *   define( 'GWILL_AUTOREPLY',  true );  // send confirmation to submitter
  *   define( 'GWILL_LOG_FORMS',  true );  // log to {prefix}gwill_form_submissions
  *
+ *   // Newsletter signup ('newsletter' form pattern) — Brevo CONTACTS API,
+ *   // NOT the SMTP credentials above. Brevo issues these as two entirely
+ *   // separate secrets from the same dashboard section (Settings → SMTP
+ *   // & API): an SMTP key for sending mail, and an API key for REST calls
+ *   // like adding a contact to a list. The SMTP password above will not
+ *   // authenticate API requests — this needs its own key.
+ *   define( 'GWILL_BREVO_API_KEY',  'xkeysib-...' );  // Settings → SMTP & API → API Keys
+ *   define( 'GWILL_BREVO_LIST_ID',  2 );              // Contacts → Lists → the list's numeric ID
+ *
  * ── DB TABLE (create manually when GWILL_LOG_FORMS is true) ──────────────────
  *
  *   CREATE TABLE {prefix}gwill_form_submissions (
@@ -237,7 +246,13 @@ add_action( 'wp_ajax_nopriv_gwill_contact_form', 'gwill_handle_contact_form' );
  * Execution order: nonce → honeypot → rate limit → sanitise → validate → send.
  * Returns JSON consumed by assets/js/forms.js.
  *
+ * One exception to "→ send": form_id 'newsletter' branches to
+ * gwill_brevo_add_contact() instead of the email-send path below — a list
+ * subscription has no message for anyone to receive by email. Rate
+ * limiting and the optional DB log still apply to it identically.
+ *
  * @since 1.0.20
+ * @since 1.0.58 Added the 'newsletter' branch.
  */
 function gwill_handle_contact_form(): void {
 
@@ -289,6 +304,30 @@ function gwill_handle_contact_form(): void {
 	if ( ! empty( $fields['gwill_email'] ) && ! is_email( $fields['gwill_email'] ) ) {
 		wp_send_json_error(
 			[ 'message' => __( 'Please enter a valid email address.', 'gwill-starter' ) ]
+		);
+	}
+
+	// Newsletter signup branches here, entirely — it doesn't email anyone
+	// (there's no "message" for G-will to receive about a list subscribe),
+	// it adds the address to a Brevo list via the REST API. Rate limit and
+	// optional DB log still apply, same as every other form; only the
+	// recipient/send/autoreply block below is skipped.
+	if ( 'newsletter' === $form_id ) {
+
+		$brevo_result = gwill_brevo_add_contact( $fields['gwill_email'] );
+
+		if ( true !== $brevo_result ) {
+			wp_send_json_error( [ 'message' => $brevo_result ] );
+		}
+
+		gwill_set_rate_limit();
+
+		if ( defined( 'GWILL_LOG_FORMS' ) && GWILL_LOG_FORMS ) {
+			gwill_log_submission( $form_id, $fields );
+		}
+
+		wp_send_json_success(
+			[ 'message' => __( "Thanks — you're subscribed.", 'gwill-starter' ) ]
 		);
 	}
 
@@ -424,6 +463,7 @@ function gwill_get_required_fields( string $form_id ): array {
 		'application' => [ 'gwill_site_url', 'gwill_project', 'gwill_outcome', 'gwill_email' ],
 		'partnership' => [ 'gwill_name', 'gwill_brand', 'gwill_campaign_type', 'gwill_email' ],
 		'feedback'    => [ 'gwill_response' ],
+		'newsletter'  => [ 'gwill_email' ],
 	] );
 	return $map[ $form_id ] ?? [ 'gwill_email' ];
 }
@@ -658,6 +698,77 @@ function gwill_build_email_headers( array $fields ): array {
 	}
 
 	return $headers;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Newsletter signup (Brevo Contacts API)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Add an email address to a Brevo contact list via the Contacts API.
+ *
+ * This is NOT the same credential as GWILL_SMTP_* above. Brevo issues SMTP
+ * keys (authenticate sending mail) and API keys (authenticate REST calls)
+ * as two separate secrets from the same dashboard section — the SMTP
+ * password will not work here, on purpose, this is Brevo's own design,
+ * not a limitation of this integration.
+ *
+ * updateEnabled is always sent true: a returning visitor re-submitting an
+ * email already on the list should silently succeed, not surface a
+ * confusing "already subscribed" error — resubmitting should just feel
+ * like it worked, whether or not anything actually changed on Brevo's end.
+ *
+ * @param  string $email Already validated with is_email() by the caller.
+ * @return true|string   True on success; a translated, user-facing error
+ *                        message string on failure.
+ * @since  1.0.58
+ */
+function gwill_brevo_add_contact( string $email ) {
+
+	if ( ! defined( 'GWILL_BREVO_API_KEY' ) || ! GWILL_BREVO_API_KEY
+		|| ! defined( 'GWILL_BREVO_LIST_ID' ) || ! GWILL_BREVO_LIST_ID
+	) {
+		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+		error_log( '[GWill Forms] Newsletter signup attempted but GWILL_BREVO_API_KEY / GWILL_BREVO_LIST_ID are not configured.' );
+		return __( 'Newsletter signup is not available right now. Please try again later.', 'gwill-starter' );
+	}
+
+	$response = wp_remote_post( 'https://api.brevo.com/v3/contacts', [
+		'timeout' => 10,
+		'headers' => [
+			'api-key'      => GWILL_BREVO_API_KEY,
+			'Content-Type' => 'application/json',
+			'Accept'       => 'application/json',
+		],
+		'body'    => wp_json_encode( [
+			'email'         => $email,
+			'listIds'       => [ (int) GWILL_BREVO_LIST_ID ],
+			'updateEnabled' => true,
+		] ),
+	] );
+
+	if ( is_wp_error( $response ) ) {
+		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+		error_log( '[GWill Forms] Brevo request failed: ' . $response->get_error_message() );
+		return __( 'Could not reach the newsletter service. Please try again shortly.', 'gwill-starter' );
+	}
+
+	$code = (int) wp_remote_retrieve_response_code( $response );
+
+	// 201 = newly created contact. 204 = updateEnabled merged into an
+	// already-existing contact — Brevo's documented upsert behaviour for
+	// this endpoint, a real difference, not an arbitrary alternate
+	// success code being treated leniently here.
+	if ( in_array( $code, [ 201, 204 ], true ) ) {
+		return true;
+	}
+
+	$body    = json_decode( wp_remote_retrieve_body( $response ), true );
+	$api_msg = is_array( $body ) && ! empty( $body['message'] ) ? $body['message'] : ( 'HTTP ' . $code );
+	// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+	error_log( '[GWill Forms] Brevo add-contact failed: ' . $api_msg );
+
+	return __( 'Could not complete your subscription. Please try again shortly.', 'gwill-starter' );
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

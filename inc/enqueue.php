@@ -49,6 +49,17 @@ add_action( 'wp_enqueue_scripts', function () {
 		[ 'in_footer' => true, 'strategy' => 'defer' ]
 	);
 
+	// Percentage, not a fixed pixel count — a 400px threshold meant
+	// something different on a 600px-tall post than a 6,000px one. 30%
+	// of actual scrollable distance scales correctly with content length.
+	wp_localize_script(
+		'gwill-back-to-top',
+		'GwillBackToTop',
+		[
+			'showAfterPercent' => (float) apply_filters( 'gwill_back_to_top_percent', 0.3 ),
+		]
+	);
+
 	// Enqueued unconditionally — the script itself checks for
 	// .gwill-sticky-header on <body> and no-ops immediately if the
 	// Customizer toggle is off, so there's no need to duplicate that
