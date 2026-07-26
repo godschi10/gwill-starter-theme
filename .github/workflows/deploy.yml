@@ -31,8 +31,10 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
             cd /var/www &&
+            sudo git -C wp-content/themes/gwill-starter-theme remote set-url origin https://github.com/godschi10/gwill-starter-theme.git &&
             sudo git -C wp-content/themes/gwill-starter-theme fetch origin &&
             sudo git -C wp-content/themes/gwill-starter-theme reset --hard origin/main &&
+            sudo git -C wp-content/plugins/vibe-comments remote set-url origin https://github.com/godschi10/vibe-comments.git &&
             sudo git -C wp-content/plugins/vibe-comments fetch origin &&
             sudo git -C wp-content/plugins/vibe-comments reset --hard origin/main &&
             sudo chown -R www-data:www-data wp-content/themes/gwill-starter-theme wp-content/plugins/vibe-comments &&
