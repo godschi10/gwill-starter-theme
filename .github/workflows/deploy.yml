@@ -29,7 +29,7 @@ jobs:
 
       - name: Deploy to server
         run: |
-          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
+          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
             cd /var/www &&
             sudo git -C wp-content/themes/gwill-starter-theme pull origin main &&
             sudo git -C wp-content/plugins/vibe-comments pull origin main &&
