@@ -16,8 +16,8 @@ defined( 'ABSPATH' ) || exit;
 wp_enqueue_script( 'gwill-forms' );
 
 $uid = wp_unique_id( 'gwill-simple-' );
+$hp_name = gwill_get_honeypot_name( $uid );
 ?>
-
 <form
 	class="gwill-form gwill-form--simple"
 	method="post"
@@ -26,7 +26,7 @@ $uid = wp_unique_id( 'gwill-simple-' );
 >
 	<div class="gwill-honey" aria-hidden="true">
 		<label for="hp_<?php echo esc_attr( $uid ); ?>">Leave this blank</label>
-		<input type="text" name="gwill_hp" id="hp_<?php echo esc_attr( $uid ); ?>" tabindex="-1" autocomplete="off">
+		<input type="text" name="<?php echo esc_attr( $hp_name ); ?>" id="hp_<?php echo esc_attr( $uid ); ?>" tabindex="-1" autocomplete="off">
 	</div>
 
 	<input type="hidden" name="action"        value="gwill_contact_form">

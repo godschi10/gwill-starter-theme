@@ -494,6 +494,62 @@ The banner only ever appears on a recognised staging domain regardless of this s
 
 ---
 
+## Client Handoff — Uninstall Cleanup
+
+When a client project ends or the theme is replaced, this theme does not have a native WordPress uninstall hook (WP only supports `uninstall.php` for plugins). Document these cleanup steps for the client/dev taking over:
+
+**Database Cleanup**
+```sql
+-- Form submissions log (if GWILL_LOG_FORMS was enabled)
+DROP TABLE IF EXISTS wp_gwill_form_submissions;
+
+-- Theme mod options (auto-cleaned on theme switch, but verify)
+DELETE FROM wp_options WHERE option_name LIKE 'theme_mods_gwill-starter-theme';
+
+-- Customizer settings
+DELETE FROM wp_options WHERE option_name LIKE 'gwill_%';
+
+-- Vibe Comments plugin (if installed separately)
+DROP TABLE IF EXISTS wp_vibe_comment_likes;
+DELETE FROM wp_options WHERE option_name LIKE 'vibe_comments_%';
+DELETE FROM wp_options WHERE option_name LIKE '_transient_vc_%';
+DELETE FROM wp_options WHERE option_name LIKE '_transient_timeout_vc_%';
+```
+
+**Filesystem Cleanup**
+```bash
+# Theme uploads (if any custom logos, etc. in wp-content/uploads/gwill-starter-theme/)
+rm -rf wp-content/uploads/gwill-starter-theme/
+
+# Theme folder
+rm -rf wp-content/themes/gwill-starter-theme/
+
+# Vibe Comments plugin folder (if installed)
+rm -rf wp-content/plugins/vibe-comments/
+```
+
+**Server Config Cleanup**
+- Remove Nginx deny rules for `/wp-content/logs/`, `/wp-content/themes/gwill-starter-theme/inc/`, `/wp-content/plugins/vibe-comments/includes/`
+- Remove LiteSpeed purge tags (`vibe-comments*`) from LSCWP config if no longer needed
+- **LSCWP Settings Reset** (if client keeps LSCWP but removes theme):
+  - Cache → Cache → Cache Commenters: **ON** (re-enable default)
+  - Cache → Purge → Purge By Tag: **OFF** (if no plugins use tags)
+  - Cache → Cache → Cache REST API: **ON** (re-enable default)
+  - Cache → Advanced → Rate Limiting: Review/disable Login/Comment/XML-RPC protection if using other plugins
+- Revoke Cloudflare API tokens (`VIBE_CF_ZONE_ID`, `VIBE_CF_API_TOKEN`) if they were project-specific
+- Revoke Brevo API keys (`GWILL_BREVO_API_KEY`, `GWILL_BREVO_LIST_ID`) if they were project-specific
+- Revoke SMTP credentials (`GWILL_SMTP_*`) if they were project-specific
+
+**Documentation for Client**
+Provide the client with:
+1. This README + CHANGELOG.md
+2. `wp-config.php` constants reference (see top of `inc/forms.php`)
+3. LSCWP settings screenshot (Cache Commenters=OFF, Purge By Tag=ON, etc.)
+4. Vibe Comments settings export (Settings → Vibe Comments → Export)
+5. List of active constants in their `wp-config.php`
+
+---
+
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md) for the complete version-by-version history.

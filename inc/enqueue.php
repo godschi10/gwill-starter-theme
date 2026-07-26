@@ -73,7 +73,10 @@ add_action( 'wp_enqueue_scripts', function () {
 	);
 
 	// Required for threaded (nested) comment reply links to work.
-	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
+	// Gate behind Vibe Comments check — the plugin handles its own threading via AJAX.
+	// Loading both causes DOM conflicts: core comment-reply.js moves the form,
+	// Vibe Comments expects it in place for its AJAX submission.
+	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) && ! is_plugin_active( 'vibe-comments/vibe-comments.php' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
 
@@ -299,6 +302,19 @@ add_action( 'wp_enqueue_scripts', function () {
 
 	if ( in_array( 'vibe-comments/vibe-comments.php', (array) get_option( 'active_plugins', [] ), true ) ) {
 		wp_enqueue_style( 'gwill-darkmode-vibe' );
+
+		// Version mismatch warning (debug only) — catches silent dark-mode breakage
+		// when the plugin updates and renames internal CSS classes that our
+		// darkmode-vibe-comments.css targets via hardcoded selectors.
+		if ( defined( 'VIBE_COMMENTS_VERSION' ) && WP_DEBUG ) {
+			$expected = '3.5.6'; // Update this when you verify compatibility with a new plugin version
+			if ( version_compare( VIBE_COMMENTS_VERSION, $expected, '!=' ) ) {
+				error_log( sprintf(
+					'[GWill Starter] Vibe Comments version mismatch: expected %s, got %s. Check darkmode-vibe-comments.css for broken overrides.',
+					$expected, VIBE_COMMENTS_VERSION
+				) );
+			}
+		}
 	}
 
 } );

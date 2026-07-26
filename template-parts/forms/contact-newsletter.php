@@ -21,6 +21,7 @@ defined( 'ABSPATH' ) || exit;
 wp_enqueue_script( 'gwill-forms' );
 
 $uid = wp_unique_id( 'gwill-newsletter-' );
+$hp_name = gwill_get_honeypot_name( $uid );
 ?>
 
 <div class="gwill-newsletter">
@@ -35,8 +36,8 @@ $uid = wp_unique_id( 'gwill-newsletter-' );
 		novalidate
 	>
 		<div class="gwill-honey" aria-hidden="true">
-			<label for="gwill_hp_<?php echo esc_attr( $uid ); ?>">Leave this blank</label>
-			<input type="text" name="gwill_hp" id="gwill_hp_<?php echo esc_attr( $uid ); ?>" tabindex="-1" autocomplete="off">
+			<label for="hp_<?php echo esc_attr( $uid ); ?>">Leave this blank</label>
+			<input type="text" name="<?php echo esc_attr( $hp_name ); ?>" id="hp_<?php echo esc_attr( $uid ); ?>" tabindex="-1" autocomplete="off">
 		</div>
 
 		<input type="hidden" name="action"        value="gwill_contact_form">
