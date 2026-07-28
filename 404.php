@@ -1,17 +1,29 @@
 <?php
+/**
+ * Tech Blog 404 (404.php)
+ *
+ * Custom 404 page with error code and suggestions.
+ *
+ * @package GWill_Tech
+ */
+
 defined( 'ABSPATH' ) || exit;
+
 get_header();
 ?>
 
-<section class="error-404 not-found" aria-labelledby="error-404-heading">
-	<h1 id="error-404-heading"><?php esc_html_e( '404 — Page Not Found', 'gwill-starter' ); ?></h1>
-	<p><?php esc_html_e( 'The page you\'re looking for doesn\'t exist. Try searching:', 'gwill-starter' ); ?></p>
-	<?php get_search_form(); ?>
-	<p>
-		<a href="<?php echo esc_url( home_url( '/' ) ); ?>">
-			<?php esc_html_e( '← Back to Home', 'gwill-starter' ); ?>
-		</a>
-	</p>
+<section class="section" style="text-align:center">
+	<div class="wrap">
+		<div class="error-code">404</div>
+		<p class="h3" style="margin:20px 0 12px">This page doesn't exist &mdash; or moved.</p>
+		<p class="body-sm" style="margin:0 auto 32px;max-width:44ch">Nothing broke on your end. Try one of these:</p>
+		<div class="suggest-list" style="margin:0 auto">
+			<a href="<?php echo esc_url( home_url( '/' ) ); ?>">Homepage <span>&rarr;</span></a>
+			<a href="<?php echo esc_url( home_url( '/category/android/' ) ); ?>">Everything Android <span>&rarr;</span></a>
+			<a href="<?php echo esc_url( home_url( '/resources/' ) ); ?>">Resources &amp; tools <span>&rarr;</span></a>
+		</div>
+	</div>
 </section>
 
-<?php get_footer(); ?>
+<?php
+get_footer();

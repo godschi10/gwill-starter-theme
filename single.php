@@ -1,134 +1,143 @@
 <?php
+/**
+ * Tech Blog Single Post (single.php)
+ *
+ * Article layout with TOC sidebar, author bio, post nav, comments.
+ *
+ * @package GWill_Tech
+ */
+
 defined( 'ABSPATH' ) || exit;
+
 get_header();
 
 while ( have_posts() ) : the_post();
 
-	gwill_breadcrumbs();
+	$cats     = get_the_category();
+	$cat_slug = ! empty( $cats ) ? $cats[0]->slug : '';
+	$cat_name = ! empty( $cats ) ? $cats[0]->name : '';
+	$cat_color = 'software';
+	if ( strpos( $cat_slug, 'android' ) !== false ) $cat_color = 'android';
+	elseif ( strpos( $cat_slug, 'web' ) !== false || strpos( $cat_slug, 'dev' ) !== false ) $cat_color = 'webdev';
 
-	/*
-	 * Schema.org BlogPosting microdata.
-	 * Applied directly to <article> — no extra wrapper needed.
-	 */
-	$schema_attrs = 'itemscope itemtype="https://schema.org/BlogPosting"';
-	?>
+	$prev_post = get_previous_post();
+	$next_post = get_next_post();
 
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> <?php echo $schema_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- developer-controlled literal string ?>>
-
-	<?php gwill_part( 'featured-image' ); ?>
-
-	<h1 class="entry-title" itemprop="headline"><?php echo esc_html( get_the_title() ); ?></h1>
-
-	<div class="entry-meta">
-		<?php
-		/*
-		 * <link> and <meta> for Schema.org microdata inside <article> — valid in
-		 * HTML5. dateModified is required by Google's Article structured data spec.
-		 */
-		?>
-		<link itemprop="url" href="<?php echo esc_url( get_permalink() ); ?>">
-		<meta itemprop="dateModified" content="<?php echo esc_attr( get_the_modified_date( 'c' ) ); ?>">
-
-		<span class="entry-author">
-			<?php esc_html_e( 'By', 'gwill-starter' ); ?>
-			<span itemprop="author" itemscope itemtype="https://schema.org/Person">
-				<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>" itemprop="url">
-					<span itemprop="name"><?php echo esc_html( get_the_author() ); ?></span>
-				</a>
-			</span>
-		</span>
-		&mdash;
-		<time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>" itemprop="datePublished">
-			<?php echo esc_html( get_the_date() ); ?>
-		</time>
-		<span class="entry-meta__sep" aria-hidden="true"> &middot; </span>
-		<span class="entry-reading-time">
-			<?php
-			printf(
-				/* translators: %d: estimated reading time in minutes */
-				esc_html__( '%d min read', 'gwill-starter' ),
-				gwill_reading_time()
+	$toc_items = array();
+	if ( preg_match_all( '/<h([23])[^>]*\sid=(["\x27])([^"\x27]+)\2[^>]*>([^<]+)<\/h\1>/i', get_the_content(), $matches, PREG_SET_ORDER ) ) {
+		foreach ( $matches as $m ) {
+			$toc_items[] = array(
+				'level' => (int) $m[1],
+				'id'    => $m[3],
+				'title' => wp_strip_all_tags( $m[4] ),
 			);
-			?>
-		</span>
+		}
+	}
+?>
 
-		<?php
-		// Categories — inline with meta. Shows ALL assigned categories (unlike
-		// content.php's card view, which intentionally shows only the primary
-		// one) — sorted so the primary category, if set, appears first.
-		$gwill_cats = get_the_category();
-		if ( $gwill_cats ) :
-			$gwill_primary_cat = gwill_get_primary_category();
-			if ( $gwill_primary_cat ) {
-				usort( $gwill_cats, static function ( $a, $b ) use ( $gwill_primary_cat ) {
-					// BUG FIX (1.0.52): the previous version returned 1 for any
-					// non-primary $a regardless of $b — meaning compare(X, Y) and
-					// compare(Y, X) both returned 1 whenever NEITHER X nor Y was
-					// the primary category. That's a contradiction (a valid
-					// comparator can't say X>Y and Y>X simultaneously), and
-					// produced undefined, unstable ordering for any post with
-					// 3+ categories. Comparing both sides explicitly and
-					// returning 0 when neither is primary fixes the
-					// antisymmetry violation.
-					$a_is_primary = (int) $a->term_id === (int) $gwill_primary_cat->term_id;
-					$b_is_primary = (int) $b->term_id === (int) $gwill_primary_cat->term_id;
-					if ( $a_is_primary === $b_is_primary ) {
-						return 0;
-					}
-					return $a_is_primary ? -1 : 1;
-				} );
-			}
-		?>
-		<span class="entry-meta__sep" aria-hidden="true"> &middot; </span>
-		<span class="entry-cats" itemprop="articleSection">
-			<?php foreach ( $gwill_cats as $gwill_cat ) : ?>
-				<a class="entry-cat" href="<?php echo esc_url( get_category_link( $gwill_cat->term_id ) ); ?>">
-					<?php echo esc_html( $gwill_cat->name ); ?>
-				</a>
-			<?php endforeach; ?>
-		</span>
+<section class="section-sm">
+	<div class="wrap">
+		<nav class="breadcrumb">
+			<a href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a>
+			<span>/</span>
+			<?php if ( ! empty( $cats ) ) : ?>
+			<a href="<?php echo esc_url( get_category_link( $cats[0]->term_id ) ); ?>"><?php echo esc_html( $cat_name ); ?></a>
+			<span>/</span>
+			<?php endif; ?>
+			<span><?php echo esc_html( wp_trim_words( get_the_title(), 6 ) ); ?></span>
+		</nav>
+
+		<div class="article-layout">
+			<article id="article-scroll-area" <?php post_class(); ?> itemscope itemtype="https://schema.org/BlogPosting">
+				<div class="article-header">
+					<span class="badge badge-<?php echo esc_attr( $cat_color ); ?>"><?php echo esc_html( $cat_name ?: get_post_type() ); ?></span>
+					<h1 itemprop="headline"><?php the_title(); ?></h1>
+					<div class="article-meta">
+						<div class="avatar"><?php echo esc_html( strtoupper( substr( get_the_author(), 0, 1 ) ) ); ?></div>
+						<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>" style="color:var(--text)"><?php the_author(); ?></a>
+						<span>&middot;</span>
+						<time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>" itemprop="datePublished"><?php echo esc_html( get_the_date( 'M j, Y' ) ); ?></time>
+						<span>&middot;</span>
+						<span><?php echo esc_html( gwill_reading_time() ); ?> min read</span>
+					</div>
+				</div>
+
+				<?php if ( has_post_thumbnail() ) : ?>
+				<div class="article-cover"><?php the_post_thumbnail( 'large', array( 'style' => 'width:100%;height:100%;object-fit:cover' ) ); ?></div>
+				<?php endif; ?>
+
+				<div class="prose" id="article-body" itemprop="articleBody">
+					<?php the_content(); ?>
+					<?php wp_link_pages(); ?>
+				</div>
+			</article>
+
+			<aside class="sidebar-sticky">
+				<?php if ( ! empty( $toc_items ) ) : ?>
+				<div class="sidebar-widget">
+					<h4>On this page</h4>
+					<details class="toc-dropdown" open>
+						<summary class="toc-summary">Table of contents</summary>
+						<div class="toc-list">
+							<?php foreach ( $toc_items as $item ) : ?>
+							<a href="#<?php echo esc_attr( $item['id'] ); ?>" style="padding-left:<?php echo $item['level'] === 3 ? '24' : '12'; ?>px"><?php echo esc_html( $item['title'] ); ?></a>
+							<?php endforeach; ?>
+						</div>
+					</details>
+				</div>
+				<?php endif; ?>
+
+				<div class="sidebar-widget">
+					<h4>Share</h4>
+					<button class="btn btn-ghost btn-sm" style="width:100%" onclick="copyLink(this)">Copy link</button>
+				</div>
+			</aside>
+		</div>
+
+		<div class="share-row">
+			<button class="btn btn-ghost btn-sm" onclick="copyLink(this)">Copy link</button>
+		</div>
+
+		<div class="author-bio">
+			<div class="avatar" style="width:52px;height:52px;font-size:18px"><?php echo esc_html( strtoupper( substr( get_the_author(), 0, 1 ) ) ); ?></div>
+			<div>
+				<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>" style="color:var(--text)"><strong><?php the_author(); ?></strong></a>
+				<p class="body-sm"><?php echo esc_html( get_the_author_meta( 'description' ) ?: 'Web developer and Android tester, Lagos, Nigeria.' ); ?></p>
+			</div>
+		</div>
+
+		<?php if ( $prev_post || $next_post ) : ?>
+		<div class="post-nav">
+			<?php if ( $prev_post ) : ?>
+			<a href="<?php echo esc_url( get_permalink( $prev_post->ID ) ); ?>">
+				<span>Previous</span><?php echo esc_html( wp_trim_words( get_the_title( $prev_post->ID ), 8 ) ); ?>
+			</a>
+			<?php endif; ?>
+			<?php if ( $next_post ) : ?>
+			<a href="<?php echo esc_url( get_permalink( $next_post->ID ) ); ?>">
+				<span>Next</span><?php echo esc_html( wp_trim_words( get_the_title( $next_post->ID ), 8 ) ); ?>
+			</a>
+			<?php endif; ?>
+		</div>
+		<?php endif; ?>
+
+		<?php if ( comments_open() || get_comments_number() ) : ?>
+			<?php comments_template(); ?>
 		<?php endif; ?>
 	</div>
+</section>
 
-	<?php gwill_part( 'share-button' ); // top mode — compact pill row ?>
-
-	<div class="entry-content" itemprop="articleBody">
-		<?php the_content(); ?>
-		<?php wp_link_pages(); ?>
-	</div>
-
-</article>
-
-<?php
-// Tags — below the article, above the footer share row.
-$gwill_tags = get_the_tags();
-if ( $gwill_tags ) :
-?>
-<div class="entry-tags">
-	<?php foreach ( $gwill_tags as $gwill_tag ) : ?>
-		<a class="entry-tag" href="<?php echo esc_url( get_tag_link( $gwill_tag->term_id ) ); ?>">
-			<?php echo esc_html( $gwill_tag->name ); ?>
-		</a>
-	<?php endforeach; ?>
-</div>
-<?php endif; ?>
+<script>
+function copyLink(btn){
+	var orig=btn.textContent;
+	btn.textContent='Copied!';
+	setTimeout(function(){btn.textContent=orig},1800);
+	var url=window.location.href;
+	try{ navigator.clipboard.writeText(url); }catch(e){}
+}
+</script>
 
 <?php
-set_query_var( 'gwill_share_mode', 'footer' );
-gwill_part( 'share-button' );
-set_query_var( 'gwill_share_mode', '' );
-?>
-
-<?php gwill_part( 'author-box' ); ?>
-
-<?php gwill_part( 'related-posts' ); ?>
-
-<?php the_post_navigation(); ?>
-
-<?php if ( comments_open() || get_comments_number() ) : ?>
-	<?php comments_template(); ?>
-<?php endif; ?>
-
-<?php endwhile;
+endwhile;
 
 get_footer();

@@ -1,4 +1,5 @@
 <?php
+error_log("ENQUEUE.PHP LOADED: " . __FILE__);
 defined( 'ABSPATH' ) || exit;
 
 add_action( 'wp_enqueue_scripts', function () {
