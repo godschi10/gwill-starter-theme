@@ -19,6 +19,22 @@ Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.3.6] - 2026-08-20
+
+### Speed & Performance Audit (protocol pass): 1 SHOULD fixed (~10 KB CSS saved per page), everything else CLEAN
+
+The King's speed protocol (6 sections) executed against all assets, queries, and theme code. Report: `docs/SPEED-AUDIT-2026-08-20.md`.
+
+- 🛠️ **1 SHOULD — fixed**: **`wp-block-library` CSS dequeued** (inc/enqueue.php) — WP core enqueued ~10 KB of opinionated block CSS on every page rendering blocks, but the theme styles `.entry-content` typography, lists, blockquote, and headings itself. New `add_action('wp_enqueue_scripts', ..., 100)` dequeues it after core's enqueue (the finance theme's wp-css-off pattern, now in the BASE).
+- ✅ **Everything else CLEAN**:
+  - **Asset delivery** — all 20 JS files deferred (in_footer + defer), zero render-blocking beyond the deliberate darkmode pre-paint inline (~1 KB), zero external fonts (system-ui stack — no FOUT), LCP preload with imagesrcset+imagesizes at wp_head priority 2, correct per-feature conditional enqueues.
+  - **Images** — one custom size (gwill-hero 1200×675, used), core sizes elsewhere; LCP eager + fetchpriority high, below-fold lazy; no unused sizes.
+  - **Queries** — all custom queries `no_found_rows`; thumbnail meta batched (the_posts); primary category memoized; sitemap + search index + Cloudflare IPs transient-cached (DAY_IN_SECONDS); no N+1 patterns; single theme option (gwill_rewrite_ver).
+  - **Core bloat** — emoji JS, wp_generator, shortlink, XML-RPC all off; rsd/wlw gone since WP 6.3; global-styles inline (~1 KB from theme.json palette) kept deliberately (feeds the block editor).
+  - **Remote calls** — all cached or AJAX-only (Cloudflare 1-day transient; Brevo on submit only).
+  - **Server layer** (gzip, HTTP/2, OPcache, CDN) — noted as server-level, N/A to theme code.
+- ✅ **Verified**: php -l clean; grep-verified the dequeue installed; no stray files.
+
 ## [1.3.5] - 2026-08-20
 
 ### Security Audit (protocol pass) — ALL 8 SECTIONS CLEAN, ZERO findings

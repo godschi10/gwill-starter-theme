@@ -1,6 +1,16 @@
 <?php
 defined( 'ABSPATH' ) || exit;
 
+// Dequeue the core block-library stylesheet (~10 KB) — the theme styles
+// every element it renders itself (.entry-content typography, lists,
+// blockquote, headings), so core's opinionated block CSS is dead weight
+// per page load. Runs at priority 100 so it fires after core enqueues it
+// (speed & performance audit v1.3.6 — the finance theme's wp-css-off
+// pattern, ported into the base).
+add_action( 'wp_enqueue_scripts', function () {
+	wp_dequeue_style( 'wp-block-library' );
+}, 100 );
+
 add_action( 'wp_enqueue_scripts', function () {
 
 	// get_template_directory_uri() always resolves to this theme's directory,
