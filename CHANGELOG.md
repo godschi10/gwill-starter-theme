@@ -19,6 +19,23 @@ Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.3.3] - 2026-08-20
+
+### Fixed — Responsive audit supplement: 7 remaining items brought to full 44px standard + dropdown robustness + readability
+
+Second pass of the responsive audit — every interactive element now meets the full 44px WCAG 2.5.5 minimum, the search dropdown anchors to any header height, and article text has a readable measure.
+
+- 🛠️ **7 fixes, all applied**:
+  - **`.search-clear` 36×36 → 44×44** (search.css) — the in-field clear button now meets the full 44px floor.
+  - **`.gwill-search-modal__clear` 1.75rem/28px → 2.75rem/44px** (search.css) — modal clear button.
+  - **`.gwill-search-modal__close` — min-width/height 44px** (search.css) — modal close button (was ~24px hit area).
+  - **`.gwill-search-expand__toggle` 2.25rem/36px → 2.75rem/44px** (search.css) — expandable search toggle.
+  - **`.author-box__social-link` 2rem/32px → 2.75rem/44px** (style.css) — author social link icons.
+  - **`.search-dropdown` fixed top:72px → absolute below header** (search.css) — the old hardcoded 72px offset was tuned for the pre-1.3.2 36px controls; with 44px controls it overlapped the header. Now `position: absolute; top: calc(100% + 0.5rem);` — anchors to the header's actual bottom edge at ANY height (logo wrap, larger controls, any future growth).
+  - **`.entry-content` max-width: 75ch** (style.css) — caps article text line length at ~75 characters per the protocol (Section 4.3), preventing 110+ character lines on the 1200px container. Filterable via the theme's own CSS cascade.
+- ✅ **Every interactive element now ≥44px**: all header controls, search buttons, modal close/clear, menu links, pagination, carousel arrows, cookie consent, share pills, author social links, back-to-top. Zero sub-44px touch targets remain.
+- ✅ **Verified**: grep-verified all 7 dimension changes installed; no stray files.
+
 ## [1.3.2] - 2026-08-20
 
 ### Fixed — Responsive & Mobile Audit (protocol pass): 6 SHOULD + 7 NICE-TO-HAVE tap-target/UX fixes, all applied

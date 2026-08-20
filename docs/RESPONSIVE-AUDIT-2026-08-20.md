@@ -360,3 +360,21 @@
 
 ---
 *Audit complete. All 6 SHOULD + 7 NICE-TO-HAVE findings fixed and verified.*
+
+---
+
+## SUPPLEMENT — v1.3.3 (2026-08-20): 7 remaining items to full 44px standard
+
+The King's decree "Fix all" — a second pass bringing every remaining responsive item to the full protocol standard:
+
+| # | Fix | File | Before | After |
+|---|---|---|---|---|
+| 1 | `.search-clear` in-field button | search.css:773 | 36×36px | **44×44** |
+| 2 | `.gwill-search-modal__clear` | search.css:285-286 | 1.75rem (28×28px) | **2.75rem (44×44)** |
+| 3 | `.gwill-search-modal__close` hit area | search.css:306-307 | ~24px (padding-only) | **min-width/height 44px** |
+| 4 | `.gwill-search-expand__toggle` | search.css:37-38 | 2.25rem (36×36px) | **2.75rem (44×44)** |
+| 5 | `.author-box__social-link` | style.css:814-815 | 2rem (32×32px) | **2.75rem (44×44)** |
+| 6 | `.search-dropdown` positioning | search.css:699-700 | fixed top:72px (overlapped header after 44px controls) | **absolute; top: calc(100% + 0.5rem)** (anchors to header bottom at any height) |
+| 7 | `.entry-content` readability | style.css:507-510 | no max-width (~110+ch at 1200px) | **max-width: 75ch** (Section 4.3 protocol) |
+
+**Result:** Every interactive element in the theme now meets the 44px WCAG 2.5.5 minimum. The search dropdown is robust to any header height. Article text lines are capped at a readable 75 characters. **Zero sub-44px touch targets remain.**

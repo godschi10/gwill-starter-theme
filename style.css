@@ -4,7 +4,7 @@ Theme URI:   https://gwillchijioke.com
 Author:      G-will Chijioke
 Author URI:  https://gwillchijioke.com
 Description: A clean, custom WordPress starter theme built from scratch. No parent theme dependency.
-Version:      1.3.2
+Version:      1.3.3
 License:     GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: gwill-starter
@@ -503,6 +503,13 @@ p { margin-bottom: 1rem; }
 }
 
 
+/* Readable measure for article text — caps full-bleed lines at ~75ch
+   (responsive audit v1.3.3, Section 4.3). Builds that need full-bleed
+   content can override with their own max-width. */
+.entry-content {
+  max-width: 75ch;
+}
+
 /* Lists inside content */
 .entry-content ul,
 .entry-content ol {
@@ -811,8 +818,8 @@ a.next.page-numbers {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: 50%;
   border: 1px solid var(--color-border);
   color: var(--color-muted);
