@@ -19,6 +19,23 @@ Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.3.5] - 2026-08-20
+
+### Security Audit (protocol pass) — ALL 8 SECTIONS CLEAN, ZERO findings
+
+The King's security protocol (8 sections, full OWASP/WPSCAN class coverage) executed against functions.php, all 24 inc/ modules, all templates, all 20 JS files. Report: `docs/SECURITY-AUDIT-2026-08-20.md`.
+
+- ✅ **0 CRITICAL · 0 SHOULD · 0 NICE-TO-HAVE** — every section CLEAN:
+  - **Input sanitization** — all $_POST per-type sanitized (sanitize_text_field/email/key/absint/esc_url_raw), $_SERVER non-injectable (logging + rate-limit only), no $_FILES, no unserialize.
+  - **AuthN/AuthZ** — every AJAX handler nonce-gated (check_ajax_referer / wp_verify_nonce with action-specific nonces), REST endpoints permission-callbacked or rate-limited (20 req/10s on search), no is_admin() auth abuse, no hardcoded roles.
+  - **XSS** — all dynamic output escaped (esc_html/esc_attr/esc_url/wp_kses_post); the 4 "raw" echoes are hardcoded boolean class strings with zero user input; no javascript: URLs; no inline event handlers.
+  - **SQLi** — all PDO prepared statements (search-fts.php `?` placeholders); the `{$in}` interpolation at search.php:908 is a placeholder-string from `array_fill(0, count(...), '?')` — NOT user data; `$wpdb->prepare()` on the opt-in log table.
+  - **File system** — no user-controlled paths, no LFI/RFI, one safe file_get_contents (hardcoded .htaccess check), no uploads.
+  - **WP hardening** — REST /users enum blocked unauthenticated, `/?author=N` 301-blocked, security headers sent in PHP, FTS SQLite dir has `Require all denied`.
+  - **Third-party** — zero external scripts/fonts (system-ui stack), zero jQuery, zero eval/base64/obfuscation, no security-plugin interference.
+  - **Sensitive data** — zero hardcoded credentials (all via GWILL_* constants), no error exposure, no password/CC logging, no internal info in comments.
+- 📝 **Docs-only release** — no code changes required; version bumped for the audit trail (same as the finance theme's clean-audit releases).
+
 ## [1.3.4] - 2026-08-20
 
 ### Fixed — Cross-Browser Compatibility Audit (protocol pass): 2 SHOULD + 4 NICE-TO-HAVE, all applied
