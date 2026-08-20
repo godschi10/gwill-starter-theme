@@ -19,6 +19,23 @@ Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.3.9] - 2026-08-20
+
+### Accessibility Audit (protocol pass, WCAG 2.2 AA): 1 SHOULD fixed (search input focus rings), everything else CLEAN
+
+The King's accessibility protocol (7 sections, WCAG 2.2 AA) executed against all templates, inc/ modules, JS, and CSS. Report: `docs/ACCESSIBILITY-AUDIT-2026-08-20.md`.
+
+- 🛠️ **1 SHOULD — fixed (WCAG 2.4.7 Focus Visible)**: the **expandable and modal search inputs had no visible keyboard focus** — `outline:none` + `box-shadow:none` on the input (Android Chrome blue-ring suppression), with focus "moved to the container", but the container had no `:focus-within` ring. Added `.gwill-search-expand:focus-within` and `.gwill-search-modal__input-row:focus-within` (2px accent outline + offset + radius). The dropdown search input already had its own ring — unaffected.
+- ✅ **Everything else CLEAN across all 7 sections**:
+  - **Semantics** — one H1 per template (v1.3.8), logical h2/h3, native landmarks, skip link first-focusable + visible on focus, all decorative SVGs aria-hidden, dynamic html lang, unique titles.
+  - **Keyboard & focus** — all-native interactive elements, correct `:focus:not(:focus-visible)` pattern, no traps (modal trap WITH Esc exit + focus restore), no click-only handlers, dropdown aria-expanded + Esc + click-outside.
+  - **Forms** — label for/id on every field, required attributes, role="alert" + aria-live status, fieldset/legend on radio group, autocomplete="email"/"given-name".
+  - **Images** — descriptive alts everywhere, decorative alt="", no autoplay (click-to-play facades).
+  - **Contrast** — all text pairs pass AA (muted 4.83:1 light / ~6.7:1 dark, accent 8.5:1, share pill ~7:1), border-input passes 1.4.11, errors use text + aria-invalid (not color alone).
+  - **Motion** — universal prefers-reduced-motion (0.01ms on ALL elements incl. ::before/::after), no infinite animations, no carousel autoplay, no flashing.
+  - **ARIA** — no redundant roles, aria-expanded/controls on all toggles, no aria-hidden on focusables, aria-live on search results + form status.
+- ✅ **Verified**: grep-verified both focus-within rules (4 hits); installed with explicit-path sudo cp + chown www-data.
+
 ## [1.3.8] - 2026-08-20
 
 ### SEO Audit (protocol pass): 1 SHOULD (missing listing H1) + 1 NICE-TO-HAVE (160-char meta cap) fixed, everything else CLEAN

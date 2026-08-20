@@ -29,6 +29,16 @@
 	align-items: center;
 }
 
+/* Keyboard focus for the expandable input — the input itself suppresses its
+   outline (Android Chrome blue-ring fix), so the CONTAINER carries the ring
+   via :focus-within. Without this, tabbing to the field shows no focus
+   indicator at all (WCAG 2.4.7 — accessibility audit v1.3.9). */
+.gwill-search-expand:focus-within {
+	outline: 2px solid var(--color-accent, #2563eb);
+	outline-offset: 2px;
+	border-radius: var(--form-radius, 4px);
+}
+
 /* Toggle button */
 .gwill-search-expand__toggle {
 	display: flex;
@@ -275,6 +285,15 @@
 
 .gwill-search-modal__input::placeholder { color: var(--color-muted, #6b7280); }
 .gwill-search-modal__input::-webkit-search-cancel-button { display: none; }
+
+/* Keyboard focus for the modal input row — same pattern as the expandable
+   search: the input suppresses its outline, so the row carries the ring via
+   :focus-within (WCAG 2.4.7 — accessibility audit v1.3.9). */
+.gwill-search-modal__input-row:focus-within {
+	outline: 2px solid var(--color-accent, #2563eb);
+	outline-offset: 2px;
+	border-radius: var(--form-radius, 4px);
+}
 
 /* Clear button */
 .gwill-search-modal__clear {
