@@ -19,6 +19,19 @@ Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.3.2] - 2026-08-20
+
+### Fixed — Responsive & Mobile Audit (protocol pass): 6 SHOULD + 7 NICE-TO-HAVE tap-target/UX fixes, all applied
+
+The King's responsive audit protocol (`responsive_audit.txt`, 8 sections) executed against the full theme surface at 360/768/1024 viewports. Report: `docs/RESPONSIVE-AUDIT-2026-08-20.md`.
+
+- 🛠️ **6 SHOULD — all fixed**:
+  - **Tap targets → 44px (WCAG 2.5.5)** — the header's three primary controls were sub-44px: `.nav-toggle` 40×40 → **44×44** (style.css), `.gwill-darkmode-toggle` 2.25rem/36px → **2.75rem/44px** (darkmode.css), `.gwill-search-toggle` 36px → **44px** (search.css), `.search-clear` 32×32 → **36×36** (search.css), mobile `#primary-menu li` ~37px → **min-height: 44px** (style.css).
+  - **Nav breakpoint 640 → 767px** — the header hamburger now engages at 767px max (matching iPad portrait 768px and landscape phones ≈667–740px), closing the 641–767px squeeze zone where the desktop nav + branding + 36px controls overflowed the unwrapped header flex row.
+- 🧹 **7 NICE-TO-HAVE — all fixed**: carousel arrows 36→44px, pagination `.page-numbers` 40→44px, cookie-consent buttons ~37→44px, share pills ~31→44px, **outside-click close** for the mobile menu (main.js — focusin alone doesn't fire on touch taps of non-focusable elements), **submenu column on mobile** (`#primary-menu .sub-menu { flex-direction: column }` — the base `.site-header nav ul` flex row would otherwise render submenu items as an unwrapped horizontal row clipping at 360px), **mobile menu max-height** (`calc(100dvh - 100%)` + `overflow-y: auto` — tall menus no longer trap items below the fold).
+- ✅ **All other sections CLEAN**: breakpoint map (480/600/640→767/900/1300 + reduced-motion + prefers-color-scheme + hover), 320px support (no overflow, header fits), forms 16px everywhere (iOS zoom safe), body 16px/1.6 line-height, no fixed-width elements, WP core srcset on all thumbnails, embed facades fluid via aspect-ratio, no jQuery/no double-firing handlers, Esc + focus-outside + (now) click-outside menu closes, all interactive elements have :focus-visible.
+- ✅ **Verified**: `node --check` main.js clean; grep-verified all dimension changes (767×1, 2.75rem×2 in darkmode.css + ×2 in search.css, 44px×4 in style.css, outside-click listener present); installed with explicit-path `sudo cp` + `chown www-data:www-data`.
+
 ## [1.3.1] - 2026-08-20
 
 ### Fixed — Plugin & Theme Conflict Audit (protocol pass, SEO-plugin dimension): 4 SEO deferral guards, everything else CLEAN

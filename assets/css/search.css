@@ -677,8 +677,8 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	width: 2.25rem;
-	height: 2.25rem;
+	width: 2.75rem;
+	height: 2.75rem;
 	padding: 0;
 	background: transparent;
 	border: none;
@@ -763,8 +763,8 @@
 	top: 50%;
 	right: 6px;
 	transform: translateY(-50%);
-	width: 32px;
-	height: 32px;
+	width: 36px;
+	height: 36px;
 	border: 0;
 	border-radius: 50%;
 	background: transparent;

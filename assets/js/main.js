@@ -62,6 +62,23 @@
       }
     } );
 
+    // Close on outside click/tap — focusin alone is not enough on touch:
+    // tapping a non-focusable element (page content, scrollbar margin) does
+    // not move focus, so the dropdown would stay open after the user taps
+    // away. (Responsive audit v1.3.2.)
+    document.addEventListener( 'click', function ( e ) {
+      const nav = btn.closest( 'nav' );
+      if (
+        nav &&
+        ! nav.contains( e.target ) &&
+        btn.getAttribute( 'aria-expanded' ) === 'true'
+      ) {
+        btn.setAttribute( 'aria-expanded', 'false' );
+        menu.classList.remove( 'is-open' );
+        btn.classList.remove( 'is-active' );
+      }
+    } );
+
   }
 
 } )();
