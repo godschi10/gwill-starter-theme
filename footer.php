@@ -29,7 +29,7 @@
 			 * To remove: add_filter( 'gwill_footer_credit', '__return_empty_string' );
 			 * To replace: add_filter( 'gwill_footer_credit', fn() => ' &mdash; Built by <a href="https://example.com">Studio Name</a>' );
 			 *
-			 * TODO: Replace or remove for every client site before launch.
+			 * Replace or remove for every client site before launch.
 			 */
 			$credit = apply_filters(
 				'gwill_footer_credit',

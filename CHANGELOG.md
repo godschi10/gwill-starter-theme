@@ -19,6 +19,19 @@ Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.3.7] - 2026-08-20
+
+### Cleanup Audit (protocol pass): 2 SHOULD + 1 NICE-TO-HAVE fixed (i18n conventions + TODO marker), everything else CLEAN
+
+The King's cleanup protocol (6 sections) executed against functions.php, all inc/ modules, all templates, all template-parts, all JS/CSS. Report: `docs/CLEANUP-AUDIT-2026-08-20.md`.
+
+- 🛠️ **2 SHOULD — both fixed (i18n convention, behavior-identical on en_US)**:
+  - **Honeypot label "Leave this blank" ×11** (template-parts/forms/contact-*.php) — hardcoded English in all 11 contact-form partials. Now `esc_html_e( 'Leave this blank', 'gwill-starter' )`.
+  - **Demo template header** (template-contact-demo.php:52-56) — "Contact Form Demo" / "Dev only." / the description sentence now `esc_html_e()` ×3. **The demo template itself stays — it is a deliberate starter feature** (the King's reminder: demo templates are good for a starter theme); this was a convention fix only.
+- 🧹 **1 NICE-TO-HAVE — fixed**: footer.php:32 TODO marker removed (instruction kept, token dropped — zero TODO/FIXME markers remain).
+- ✅ **Everything else CLEAN**: zero commented-out code blocks, zero console.log/var_dump/print_r/debug_backtrace (5 error_log sites are legitimate production logging of genuine failures — wp_mail/Brevo/vibe-version, WP_DEBUG-gated where applicable), zero duplicate function declarations, zero deprecated functions, all `127.0.0.1`/staging hits are the deliberate staging-banner feature + IP fallback logic (not dev leakage), no orphaned templates (all 29 template-parts verified against gwill_part() call sites), no unused image sizes, no BOM/CRLF/whitespace-before-PHP, correct `?>` discipline.
+- ✅ **Verified**: php -l ×13 clean; grep-verified all 11 honeypot esc_html_e + demo ×3 + TODO=0; installed with explicit-path sudo cp + chown www-data.
+
 ## [1.3.6] - 2026-08-20
 
 ### Speed & Performance Audit (protocol pass): 1 SHOULD fixed (~10 KB CSS saved per page), everything else CLEAN

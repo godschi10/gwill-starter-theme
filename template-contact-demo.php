@@ -49,10 +49,10 @@ while ( have_posts() ) :
 <div class="content-wrap contact-demo">
 
 	<header class="contact-demo__header">
-		<h1>Contact Form Demo</h1>
+		<h1><?php esc_html_e( 'Contact Form Demo', 'gwill-starter' ); ?></h1>
 		<p class="contact-demo__notice">
-			<strong>Dev only.</strong> This page demonstrates all 10 contact form patterns
-			from the GWill Starter contact form system. Set to Private before deploying.
+			<strong><?php esc_html_e( 'Dev only.', 'gwill-starter' ); ?></strong>
+			<?php esc_html_e( 'This page demonstrates all 10 contact form patterns from the GWill Starter contact form system. Set to Private before deploying.', 'gwill-starter' ); ?>
 		</p>
 	</header>
 

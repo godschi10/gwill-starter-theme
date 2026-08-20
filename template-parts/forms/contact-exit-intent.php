@@ -52,7 +52,7 @@ $hp_name = gwill_get_honeypot_name( $uid );
 				novalidate
 			>
 				<div class="gwill-honey" aria-hidden="true">
-					<label for="hp_<?php echo esc_attr( $uid ); ?>">Leave this blank</label>
+					<label for="hp_<?php echo esc_attr( $uid ); ?>"><?php esc_html_e( 'Leave this blank', 'gwill-starter' ); ?></label>
 					<input type="text" name="<?php echo esc_attr( $hp_name ); ?>" id="hp_<?php echo esc_attr( $uid ); ?>" tabindex="-1" autocomplete="off">
 				</div>
 
