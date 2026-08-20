@@ -237,11 +237,17 @@ function gwill_article_author_name(): string {
  * @since  1.0.56 Primary-term meta no longer consulted. Always deepest.
  */
 function gwill_get_primary_category( int $post_id = 0 ): ?WP_Term {
+	static $cache = array();
 
 	$post_id = $post_id ?: get_the_ID();
-	$cats    = get_the_category( $post_id );
+	if ( isset( $cache[ $post_id ] ) ) {
+		return $cache[ $post_id ];
+	}
+
+	$cats = get_the_category( $post_id );
 
 	if ( ! $cats ) {
+		$cache[ $post_id ] = null;
 		return null;
 	}
 
@@ -256,6 +262,7 @@ function gwill_get_primary_category( int $post_id = 0 ): ?WP_Term {
 		}
 	}
 
+	$cache[ $post_id ] = $deepest;
 	return $deepest;
 }
 

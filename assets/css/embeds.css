@@ -1,0 +1,98 @@
+/**
+ * Click-to-play embed facades — GWill Starter (v1.3.0).
+ *
+ * The facade <button> fills the block's existing aspect-ratio box
+ * (wp-has-aspect-ratio keeps its ::before padding), so the layout is
+ * identical before and after the click. Spotify embeds carry no
+ * aspect class, so the facade provides its own 152px box.
+ *
+ * Token-mapped to the starter's --color-* system (NOT finance's
+ * --surface/--gold set): the poster surface is a theme-independent
+ * dark neutral (#1a1a1a) so video backdrops stay dark in BOTH light
+ * and dark mode; the play circle uses --color-btn-bg (inverts cleanly
+ * in dark mode via darkmode.css); label text uses --color-muted.
+ */
+
+.wp-block-embed__wrapper .gwill-embed {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	border: 0;
+	border-radius: var(--form-radius, 8px);
+	/* Poster is painted as the button's own inline background-image
+	   (v1.0.184, tech v1.16.79 pattern — no <img> element). The dark
+	   neutral stays as the fallback when there is no poster (Spotify)
+	   or the poster fails to load (e.g. i.ytimg.com 403 from Google's
+	   PSI infra). #1a1a1a is deliberate: a video backdrop must stay
+	   dark in both light and dark mode, so it is NOT token-bound to
+	   --color-bg/--color-primary (those invert). */
+	background-color: #1a1a1a;
+	background-image: none;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	color: #ffffff;
+	cursor: pointer;
+	overflow: hidden;
+	transition: box-shadow 0.2s ease;
+}
+
+.wp-block-embed__wrapper .gwill-embed:hover,
+.wp-block-embed__wrapper .gwill-embed:focus-visible {
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent, #2563eb) 35%, transparent), 0 10px 28px rgba(0, 0, 0, 0.16);
+	outline: none;
+}
+
+/* Spotify embeds have no aspect-ratio class — the facade is its own box. */
+.wp-block-embed__wrapper .gwill-embed--spotify {
+	position: relative;
+	height: 152px;
+	background: #191414;
+}
+
+.gwill-embed__icon {
+	position: relative;
+	display: grid;
+	place-items: center;
+	width: 64px;
+	height: 64px;
+	border-radius: 50%;
+	background: var(--color-btn-bg, #2563eb);
+	color: var(--color-btn-text, #ffffff);
+	box-shadow: 0 10px 26px rgba(0, 0, 0, 0.32);
+	transition: transform 0.2s ease;
+}
+
+.gwill-embed:hover .gwill-embed__icon,
+.gwill-embed:focus-visible .gwill-embed__icon {
+	transform: scale(1.07);
+}
+
+.gwill-embed--spotify .gwill-embed__icon {
+	background: #1db954;
+}
+
+.gwill-embed__label {
+	position: absolute;
+	right: 12px;
+	bottom: 10px;
+	padding: 3px 9px;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.82);
+	color: var(--color-muted, #6b7280);
+	font-size: 10px;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+.gwill-embed--spotify .gwill-embed__label {
+	background: rgba(0, 0, 0, 0.6);
+	color: #ffffff;
+}

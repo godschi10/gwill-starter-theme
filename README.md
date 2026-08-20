@@ -270,6 +270,7 @@ Every `wp_enqueue_style()`/`wp_enqueue_script()` call in the theme. All version 
 | `?author=N` blocked | Unconditional 301 — this numeric-enumeration vector is never a valid destination on its own, regardless of any other setting. |
 | `/author/slug/` archive | **Enabled by default.** Disable via `GWILL_ALLOW_AUTHOR_ARCHIVES => false`, which 302s (not 301) to the homepage — deliberately not 301, since this is a toggleable setting, not a permanent URL move, and a 301 would have browsers caching the redirect well past any later change to the setting. |
 | Login errors genericized | "Invalid username or password" regardless of which part was actually wrong — prevents username enumeration via login form. |
+| Security headers sent in PHP (v1.3.0) | `gwill_security_headers()` on `template_redirect` (priority 20): `X-Content-Type-Options: nosniff`, `X-Frame-Options: SAMEORIGIN`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy: camera=(), microphone=(), geolocation=()`. Skipped on admin/login and when output already started. Values intentionally match the recommended nginx/Cloudflare set — a server layer adding the same headers produces byte-identical duplicates (harmless), so this stays on even behind a CDN. |
 
 ### inc/helpers.php
 
@@ -331,6 +332,23 @@ A complete no-plugin SEO layer (ported from the GWill Finance theme, v1.2.0, ada
 - **robots.txt** (`gwill_robots_txt()`) — strips core's `wp-sitemap.xml` line, advertises the theme's `/sitemap.xml`, sets explicit AI-crawler rules (GPTBot/OAI-SearchBot/ChatGPT-User/ClaudeBot/PerplexityBot allowed, CCBot/Bytespider blocked).
 - **Theme-owned `/sitemap.xml`** (`inc/sitemap.php` + root `sitemap.php`) — rewrite rule flushed by the version-keyed `gwill_maybe_flush_rewrites()`, transient-cached XML invalidated on `save_post`, includes posts/pages/public CPTs, excludes `gwill_hidden_slugs()` pages.
 - **Hidden page slugs are a filter, not hardcoded** — a build with hidden settings/utility pages registers them: `add_filter( 'gwill_hidden_slugs', fn() => [ 'site-settings', 'newsletter-thanks' ] );` (noindexed + sitemap-excluded automatically).
+
+### inc/performance-base.php
+
+Three generic, dependency-free performance wins (ported from the GWill Finance theme, v1.3.0):
+
+- **`gwill_prime_thumbnail_cache()`** (`the_posts` filter) — batches thumbnail attachment meta into ONE query per loop via `update_post_thumbnail_cache()`. Card grids previously fired one `wp_postmeta` query per card; now one per loop. Guarded to full-object queries (`fields=ids` existence checks skip — no card markup is rendered from them).
+- **`gwill_preload_lcp()`** (`wp_head`, priority 2) — `<link rel="preload">` for the LCP image: the featured image on singulars, the FIRST post's cover on home/front/archives (query-free — the main query has already run when `wp_head` fires). Carries `imagesrcset` + `imagesizes` so the browser preloads the same candidate the rendered `<img>` resolves (no wasted full-size preload on small viewports); falls back to a plain `href` preload for single-candidate images.
+- **Memoized `gwill_get_primary_category()`** — cached per post ID for the request; breadcrumbs, single.php, related posts and content cards all call it for the same post.
+
+### inc/embed-facades.php, assets/css/embeds.css, assets/js/embeds.js
+
+Click-to-play embed facades (ported from the GWill Finance theme, v1.3.0): YouTube/Vimeo/Spotify oEmbeds swap for a lightweight play-button facade — the third-party player (1–2 MB of JS/CSS each) is only fetched when the visitor actually clicks play. The facade lives inside the block's own `.wp-block-embed__wrapper`, so the aspect-ratio box and caption are untouched; layout is identical before and after the click.
+
+- **Two render paths covered** — `embed_oembed_html` (classic `[embed]` shortcodes and fresh oEmbed fetches) and `render_block` for `core/embed` Gutenberg blocks (whose iframe HTML is baked into post content at save time — no oEmbed filter ever runs on it).
+- **Keyless cookie-free posters** — `i.ytimg.com/<id>/hqdefault.jpg` (YouTube) and `i.vimeocdn.com/video/<id>_640x360.jpg` (Vimeo), painted as the button's own inline CSS background (no `<img>` element). Spotify keeps its branded `#191414` surface.
+- **Fullscreen-exit scroll restore + scroll watchdog** — on phones, exiting video fullscreen can jump the page to the top silently (iOS native fullscreen fires no `fullscreenchange`/`resize`/`orientationchange` at all). The script ships a guarded rAF restore loop (~1.5 s, last write wins, never fights user input) plus a scroll watchdog: a single >200 px jump landing at the top with no user gesture in the last 600 ms is treated as the failure signature and snapped back to the video. Enqueued ONLY on singulars containing a `core/embed` block (`is_singular() && has_block( 'core/embed' )`); the oEmbed filter gates on the style being enqueued, so external oEmbed consumers and admin previews always get the plain iframe.
+- **CSS is token-mapped** to the starter's `--color-*` system (play circle uses `--color-btn-bg` so it inverts cleanly in dark mode); the video backdrop is a deliberate theme-independent dark neutral (`#1a1a1a`) so posters stay dark in both light and dark mode.
 
 ### inc/related-posts.php, inc/social-meta.php, inc/faq.php
 

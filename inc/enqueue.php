@@ -364,6 +364,30 @@ add_action( 'wp_enqueue_scripts', function () {
 		}
 	}
 
+	// ── Click-to-play embed facades (v1.3.0) ──────────────────────────────
+	// Loaded ONLY on singulars whose content contains a core/embed block.
+	// The oEmbed filter (inc/embed-facades.php) gates on the style being
+	// enqueued, so facades never render without their assets (external
+	// oEmbed consumers and admin previews keep the plain iframe).
+	if ( is_singular() && has_block( 'core/embed' ) ) {
+		wp_enqueue_style(
+			'gwill-embeds',
+			get_template_directory_uri() . '/assets/css/embeds.css',
+			[ 'gwill-style' ],
+			$ver
+		);
+		wp_enqueue_script(
+			'gwill-embeds',
+			get_template_directory_uri() . '/assets/js/embeds.js',
+			[],
+			$ver,
+			[
+				'in_footer' => true,
+				'strategy'  => 'defer',
+			]
+		);
+	}
+
 } );
 
 // ── Customizer live preview ───────────────────────────────────────────────────

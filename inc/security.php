@@ -119,8 +119,44 @@ add_filter( 'login_errors', fn() => esc_html__( 'Invalid username or password.',
 
 /*
  * Security headers (X-Content-Type-Options, X-Frame-Options, Referrer-Policy,
- * Content-Security-Policy, etc.) are intentionally not set here. Set them at
- * the server or CDN layer (Cloudflare _headers file, Nginx config). Setting
- * security headers in PHP risks duplicate headers, which some proxies and
- * caching layers handle inconsistently.
+ * Permissions-Policy) — sent as PHP headers on the front end (v1.3.0).
+ *
+ * HISTORY: v1.2.x intentionally did NOT set these in PHP (server/CDN layer
+ * recommended). The portability pass changed that calculus: on a fresh
+ * install with only the theme active there is no nginx/Cloudflare layer, so
+ * the theme now sends them itself via gwill_security_headers() below.
+ *
+ * Duplicate-safety: when a server/CDN already sends the same header, the
+ * final response may carry both — identical values are harmless and every
+ * major browser accepts them (only conflicting values get ignored, e.g.
+ * X-Frame-Options DENY vs SAMEORIGIN). Values intentionally match the
+ * recommended nginx set so any server layer that adds them produces
+ * byte-identical duplicates.
  */
+
+/**
+ * Send minimal security headers on the front end.
+ *
+ * Guards:
+ *   - is_admin()      → admin panel is owned by WP + the hosting layer;
+ *                        never inject headers there (client login intact).
+ *   - is_login()      → same reasoning for wp-login.php.
+ *   - headers_sent()  → never fatal if something already emitted output
+ *                        (header() would silently fail anyway; checked to
+ *                        avoid a PHP warning in edge cases).
+ *
+ * Fires on template_redirect (front-end requests only, before any output).
+ *
+ * @since 1.3.0
+ */
+function gwill_security_headers(): void {
+	if ( is_admin() || is_login() || headers_sent() ) {
+		return;
+	}
+
+	header( 'X-Content-Type-Options: nosniff' );
+	header( 'X-Frame-Options: SAMEORIGIN' );
+	header( 'Referrer-Policy: strict-origin-when-cross-origin' );
+	header( 'Permissions-Policy: camera=(), microphone=(), geolocation=()' );
+}
+add_action( 'template_redirect', 'gwill_security_headers', 20 );

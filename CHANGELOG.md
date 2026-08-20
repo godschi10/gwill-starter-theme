@@ -19,6 +19,28 @@ Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.3.0] - 2026-08-20
+
+### Added — Security headers, embed facades + fullscreen-exit scroll fix, performance base (recommendations 1/3/4/6 from the universal-base port, ported from the finance theme)
+
+1.2.0 shipped the SEO layer (recommendations 2 + 5); this release completes the remaining four recommendations so every future build inherits the full stack. 1.2.0 → 1.3.0 (minor — new features, backwards compatible).
+
+- **`inc/security.php` — front-end security headers now sent in PHP**:
+  - `gwill_security_headers()` (`template_redirect`, priority 20) sends `X-Content-Type-Options: nosniff`, `X-Frame-Options: SAMEORIGIN`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy: camera=(), microphone=(), geolocation=()`.
+  - Guarded: skips admin, login, and any request where output already started (`headers_sent()`). Duplicate-safe by design — values intentionally match the recommended nginx/Cloudflare set, so a server layer adding the same headers produces byte-identical duplicates (harmless). Replaces the old "intentionally not set in PHP" comment block.
+- **`inc/embed-facades.php` + `assets/css/embeds.css` + `assets/js/embeds.js` — click-to-play embed facades**:
+  - YouTube/Vimeo/Spotify oEmbeds swap for a lightweight play-button facade; the third-party player (1–2 MB of JS/CSS each) only loads when the visitor actually clicks play.
+  - TWO render paths: `embed_oembed_html` (classic shortcodes/fresh oEmbed) and `render_block` core/embed (Gutenberg baked iframes — WP 7.x core/embed has no server render callback, so the baked HTML is swapped instead).
+  - Keyless cookie-free posters: `i.ytimg.com/<id>/hqdefault.jpg` + `i.vimeocdn.com/video/<id>_640x360.jpg`, painted as the button's own inline CSS background (no `<img>` — lightbox/audit-safe). Spotify keeps its branded `#191414` surface.
+  - **Fullscreen-exit scroll restore + scroll watchdog (v1.0.189 pattern)**: guarded rAF restore loop (~1.5 s, LAST write wins, never fights user input), coarse-pointer resize/orientationchange fallbacks, and the SCROLL WATCHDOG — a single >200 px jump landing at the top with no user gesture in 600 ms (iOS native fullscreen fires NO events at all) is treated as the failure signature and snapped back to the video. This is the mobile fullscreen scroll-jump fix the King reported on Android Chrome.
+  - Enqueued ONLY on singulars containing a core/embed block (`is_singular() && has_block( 'core/embed' )`); the oEmbed filter gates on the style being enqueued, so external oEmbed consumers/admin previews always get the plain iframe.
+  - CSS token-mapped to the starter's `--color-*` system: play circle uses `--color-btn-bg` (inverts cleanly in dark mode), label text `--color-muted`, radius `--form-radius`; the video backdrop is a deliberate theme-independent dark neutral (`#1a1a1a`) so posters stay dark in BOTH light and dark mode.
+- **`inc/performance-base.php` — three generic performance wins**:
+  - `gwill_prime_thumbnail_cache()` (`the_posts`, 10, 2) — batches thumbnail attachment meta into ONE query per loop via `update_post_thumbnail_cache()`. Card grids previously fired one `wp_postmeta` query per card; now one per loop. Guarded to full-object queries (`fields=all`/unset — `fields=ids` existence checks skip).
+  - `gwill_preload_lcp()` (`wp_head`, priority 2) — `<link rel="preload">` for the LCP image: the featured image on singulars, the FIRST post's cover on home/front/archives (query-free — the main query has already run when wp_head fires). Carries `imagesrcset` + `imagesizes` so the browser preloads the SAME candidate the rendered `<img>` resolves (no wasted 1200px preload on small viewports); falls back to a plain `href` preload for single-candidate images.
+  - `gwill_get_primary_category()` (inc/helpers.php) — now memoized per post ID for the request; breadcrumbs, single.php, related posts and content cards all call it for the same post.
+- **Verified**: `php -l` clean ×6 (security.php, embed-facades.php, performance-base.php, helpers.php, enqueue.php, functions.php); no literal `\n` corruption (grep = 0 on all six); cross-file deps confirmed (require_once lines, `gwill-embeds` handle in enqueue, `gwill-hero` size exists in setup.php:81, `gwill_facade_active()` gates on `wp_style_is( 'gwill-embeds', 'enqueued' )`); installed with explicit-path `sudo cp` + `chown www-data:www-data`.
+
 ## [1.2.0] - 2026-08-20
 
 ### Added — Theme-owned SEO layer + XML sitemap (ported from the finance theme, adapted to a generic base)
