@@ -61,6 +61,14 @@ add_filter( 'pre_get_document_title', 'gwill_front_page_title', 11 );
  * @return string
  */
 function gwill_front_page_title( string $title ): string {
+	// Defer to a major SEO plugin when one is active — RankMath hooks
+	// pre_get_document_title at priority 10; this filter at 11 would
+	// otherwise run after it and override the admin's configured
+	// homepage title (finance conflict-audit lesson).
+	if ( gwill_seo_plugin_active() ) {
+		return $title;
+	}
+
 	if ( is_category() || ! is_front_page() ) {
 		return $title;
 	}

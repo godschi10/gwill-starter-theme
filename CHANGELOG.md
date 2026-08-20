@@ -19,6 +19,22 @@ Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.3.1] - 2026-08-20
+
+### Fixed — Plugin & Theme Conflict Audit (protocol pass, SEO-plugin dimension): 4 SEO deferral guards, everything else CLEAN
+
+The King's conflict-audit protocol (`PLUGIN & THEME CONFLICT AUDIT.txt`, 7 sections) executed against the full theme surface with the SEO-plugin dimension as the explicit focus — the starter ships its own SEO layer and must never fight RankMath/Yoast/AIOSEO/SEOPress/The SEO Framework on any future build. Report: `docs/CONFLICT-AUDIT-2026-08-20.md`.
+
+- 🛠️ **4 SHOULD findings, all fixed — every theme-owned SEO output now defers to SEO plugins** (the finance v1.0.201 lesson, now baked into the BASE theme):
+  - **`inc/sitemap.php:35` — `gwill_sitemap_rewrite()`**: the `^sitemap\.xml/?$` top-priority rule registered UNCONDITIONALLY. AIOSEO and The SEO Framework both serve their main sitemap at `/sitemap.xml` — with either installed, the theme's rule hijacked the plugin's sitemap URL. Now `if ( gwill_seo_plugin_active() ) return;`.
+  - **`inc/sitemap.php:65` — `gwill_sitemap_template()`**: template_include swap for the sitemap query var now plugin-guarded (a plugin-owned sitemap route can never be swapped out).
+  - **`inc/sitemap.php:90` — `gwill_sitemap_canonical()`**: redirect_canonical suppression now plugin-guarded (defense in depth on top of the rewrite guard).
+  - **`inc/seo.php:40` — `gwill_front_page_title()`** (`pre_get_document_title` @ 11): RankMath hooks the same filter at 10, so the theme ran AFTER it and silently discarded the admin's configured homepage title. Now plugin-guarded.
+- ✅ **All 10 SEO outputs defer** post-fix: front-page title, document_title_parts, meta description, robots meta (Yoast-respecting), JSON-LD, canonical, robots.txt, OG/Twitter social meta, sitemap rewrite/template/canonical, wp_sitemaps_enabled.
+- ✅ **All other sections CLEAN**: zero PHP class/function collisions (all `gwill_`-prefixed; the `sync`/`resolve` scan hits are IIFE-scoped JS inside darkmode.php, not PHP), no shutdown hooks, no namespace/autoload overlap (composer.json is dev-only phpcs), no CSS !important wars (5 style.css = deliberate reduced-motion/state overrides; 15 search.css = input chrome resets), zero jQuery in 20 vanilla JS files (node --check all pass), all `window.*` globals gwill-prefixed, zero option/transient/meta/CPT/shortcode/table collisions (SQLite FTS tables live in a separate uploads DB; `{prefix}gwill_form_submissions` is `GWILL_LOG_FORMS`-gated), REST routes all under `gwill/v1`, SMTP hooks no-op unless `GWILL_SMTP_HOST` is defined, REST auth filter honours other plugins' decisions.
+- 📝 **KNOWN-DELIBERATE (documented, no change)**: gwill-search-dropdown unconditional enqueue (JS no-ops if markup swapped — guard at search-dropdown.js:102), FAQPage schema not plugin-gated (fires only for the theme's own `.gwill-faq` block pattern — RankMath's FAQ block is a different class, no duplicate schema possible), WooCommerce wrapper removal (class_exists-gated, theme owns the wrapper).
+- ✅ **Verified**: `php -l` clean on both touched files; surgical diffs (only intended guard lines, no literal `\n` corruption); guard counts confirmed (sitemap.php 0→3, seo.php now 8); installed with explicit-path `sudo cp` + `chown www-data:www-data`; docs/ folder created with the audit report.
+
 ## [1.3.0] - 2026-08-20
 
 ### Added — Security headers, embed facades + fullscreen-exit scroll fix, performance base (recommendations 1/3/4/6 from the universal-base port, ported from the finance theme)

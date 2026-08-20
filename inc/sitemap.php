@@ -33,6 +33,14 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.2.0
  */
 function gwill_sitemap_rewrite(): void {
+	// Defer to a major SEO plugin when one is active — same rule as every
+	// other theme-owned SEO output. AIOSEO and The SEO Framework both
+	// serve their main sitemap at /sitemap.xml; registering this rule
+	// anyway would hijack theirs (finance v1.0.201 lesson).
+	if ( gwill_seo_plugin_active() ) {
+		return;
+	}
+
 	// Match with or without trailing slash — WP's redirect_canonical 301s
 	// /sitemap.xml to /sitemap.xml/ otherwise, an extra hop for crawlers.
 	add_rewrite_rule( '^sitemap\.xml/?$', 'index.php?gwill_sitemap=1', 'top' );
@@ -63,6 +71,14 @@ add_filter( 'query_vars', 'gwill_sitemap_query_var' );
  * @return string
  */
 function gwill_sitemap_template( string $template ): string {
+	// Same deferral as the rewrite: with an SEO plugin active the theme's
+	// rule is never registered, but guard the template swap too so a
+	// plugin-owned sitemap route can never be hijacked by a stray
+	// gwill_sitemap query var (finance v1.0.201 lesson).
+	if ( gwill_seo_plugin_active() ) {
+		return $template;
+	}
+
 	if ( get_query_var( 'gwill_sitemap' ) ) {
 		$sitemap = locate_template( 'sitemap.php' );
 		if ( $sitemap ) {
@@ -88,6 +104,12 @@ add_filter( 'template_include', 'gwill_sitemap_template' );
  * @since 1.2.0
  */
 function gwill_sitemap_canonical( $redirect_url ) {
+	// Deferral for consistency: with an SEO plugin active the theme owns
+	// no sitemap route, so canonical redirects are the plugin's business.
+	if ( gwill_seo_plugin_active() ) {
+		return $redirect_url;
+	}
+
 	if ( get_query_var( 'gwill_sitemap' ) ) {
 		return false;
 	}
