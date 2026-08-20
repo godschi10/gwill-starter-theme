@@ -750,6 +750,7 @@
 }
 .search-dropdown-input:focus {
 	border-color: var(--color-accent, #2563eb);
+	box-shadow: 0 0 0 3px var(--color-accent, #2563eb); /* fallback for pre-color-mix (v1.3.4) */
 	box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent, #2563eb) 15%, transparent);
 }
 

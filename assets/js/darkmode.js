@@ -66,7 +66,12 @@
 
 	/** Resolve the active theme: stored preference or system fallback. */
 	function resolveTheme() {
-		var stored = localStorage.getItem( STORAGE_KEY );
+		var stored;
+		try {
+			stored = localStorage.getItem( STORAGE_KEY );
+		} catch ( e ) {
+			stored = ''; // Private/incognito mode — fail closed (cross-browser audit v1.3.4).
+		}
 		if ( stored ) return stored;
 		return window.matchMedia( '(prefers-color-scheme: dark)' ).matches ? 'dark' : 'light';
 	}
@@ -77,13 +82,22 @@
 	// Toggle on click.
 	btn.addEventListener( 'click', function () {
 		var next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-		localStorage.setItem( STORAGE_KEY, next );
+		try {
+			localStorage.setItem( STORAGE_KEY, next );
+		} catch ( e ) { /* private mode — theme still applies for this visit */ }
 		applyTheme( next );
 	} );
 
 	// Respond to OS preference changes when no explicit choice is stored.
-	window.matchMedia( '(prefers-color-scheme: dark)' ).addEventListener( 'change', function ( e ) {
-		if ( ! localStorage.getItem( STORAGE_KEY ) ) {
+	var mql = window.matchMedia( '(prefers-color-scheme: dark)' );
+	( mql.addEventListener || mql.addListener )( 'change', function ( e ) {
+		var stored;
+		try {
+			stored = localStorage.getItem( STORAGE_KEY );
+		} catch ( e ) {
+			stored = ''; // Private mode — follow OS preference (v1.3.4).
+		}
+		if ( ! stored ) {
 			applyTheme( e.matches ? 'dark' : 'light' );
 		}
 	} );

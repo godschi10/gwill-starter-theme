@@ -4,7 +4,7 @@ Theme URI:   https://gwillchijioke.com
 Author:      G-will Chijioke
 Author URI:  https://gwillchijioke.com
 Description: A clean, custom WordPress starter theme built from scratch. No parent theme dependency.
-Version:      1.3.3
+Version:      1.3.4
 License:     GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: gwill-starter
@@ -189,7 +189,12 @@ img {
 .site {
   display: flex;
   flex-direction: column;
+  /* 100svh (small viewport height) after the 100vh fallback: iOS Safari's
+     address bar shrinks the visible viewport, so 100vh pushes the footer
+     below the fold until the bar collapses. svh tracks the visible height
+     (cross-browser audit v1.3.4). */
   min-height: 100vh;
+  min-height: 100svh;
 }
 
 .site-header {
@@ -1270,7 +1275,10 @@ select:focus {
     padding: 0.75rem var(--spacing);
     /* Tall menus (8+ items, submenus) must not exceed the viewport — scroll
        inside the dropdown instead of trapping items below the fold (responsive
-       audit v1.3.2). */
+       audit v1.3.2). vh fallback line first, dvh (dynamic viewport height,
+       tracks the iOS address bar) where supported (cross-browser audit
+       v1.3.4). */
+    max-height: calc(100vh - 100%);
     max-height: calc(100dvh - 100%);
     overflow-y: auto;
   }
@@ -1485,6 +1493,10 @@ select:focus {
 .gwill-form__field select:focus {
   outline: none;
   border-color: var(--form-focus-clr);
+  /* Solid fallback ring for browsers without color-mix() (pre-2023);
+     the color-mix soft ring below overrides where supported
+     (cross-browser audit v1.3.4). */
+  box-shadow: 0 0 0 3px var(--form-focus-clr);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--form-focus-clr) 20%, transparent);
 }
 
@@ -1496,6 +1508,7 @@ select:focus {
 
 .gwill-form__field input[aria-invalid="true"]:focus,
 .gwill-form__field textarea[aria-invalid="true"]:focus {
+  box-shadow: 0 0 0 3px var(--color-error); /* fallback for pre-color-mix browsers (v1.3.4) */
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-error) 20%, transparent);
 }
 

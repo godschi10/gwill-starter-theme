@@ -114,6 +114,24 @@
             setTimeout( function () { label.textContent = 'More'; }, 2000 );
           }
         } ).catch( function () {} );
+      } else if ( document.execCommand ) {
+        // Legacy copy fallback (older Safari/Firefox without the async
+        // Clipboard API) — cross-browser audit v1.3.4.
+        var ta = document.createElement( 'textarea' );
+        ta.value = url;
+        ta.setAttribute( 'readonly', '' );
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild( ta );
+        ta.select();
+        try {
+          document.execCommand( 'copy' );
+          if ( label ) {
+            label.textContent = 'Copied!';
+            setTimeout( function () { label.textContent = 'More'; }, 2000 );
+          }
+        } catch ( e ) { /* clipboard blocked — nothing else to do */ }
+        document.body.removeChild( ta );
       }
     } );
   } );

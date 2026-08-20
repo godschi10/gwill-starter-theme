@@ -19,6 +19,23 @@ Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.3.4] - 2026-08-20
+
+### Fixed — Cross-Browser Compatibility Audit (protocol pass): 2 SHOULD + 4 NICE-TO-HAVE, all applied
+
+The King's cross-browser protocol (7 sections, Chrome/Firefox/Safari+iOS/Edge/Android matrix) executed against all 6 CSS files + all 20 JS files. Report: `docs/CROSS-BROWSER-AUDIT-2026-08-20.md`.
+
+- 🛠️ **2 SHOULD — both fixed**:
+  - **`.site { min-height: 100vh }` → + `100svh`** (style.css) — iOS Safari's address bar shrinks the visible viewport, pushing the footer below the fold. svh (small viewport height) tracks the visible area; 100vh stays as the fallback line for older browsers.
+  - **darkmode.js localStorage without try/catch** — all 3 access points (resolveTheme read, toggle setItem, matchMedia handler read) now wrapped fail-closed. Safari private/incognito mode throws on storage access — previously the ENTIRE dark-mode toggle script would break. (The inline head script already wrapped its own access; the external file now matches.)
+- 🧹 **4 NICE-TO-HAVE — all fixed**:
+  - **color-mix() focus-ring fallbacks** (style.css form field + error rings, search.css dropdown ring, embeds.css facade ring) — color-mix is Chrome 111+/Safari 16.2+/Firefox 113+ (2023); older browsers dropped the ENTIRE ring. Solid-color fallback declarations now precede each color-mix ring (fallback-first ordering, WCAG 2.4.7 focus visibility).
+  - **100dvh menu max-height fallback** — `calc(100vh - 100%)` line added before the dvh line (dvh is Chrome 108+/Safari 15.4+).
+  - **matchMedia addListener fallback** (darkmode.js) — `( mql.addEventListener || mql.addListener )` for Safari 13-.
+  - **Clipboard execCommand fallback** (main.js share) — legacy textarea+`document.execCommand('copy')` path for browsers without the async Clipboard API (three-tier: navigator.share → clipboard.writeText → execCommand).
+- ✅ **Everything else CLEAN**: all vendor prefixes paired with standards (appearance, box-shadow, backdrop-filter, line-clamp trio), CSS custom properties carry fallbacks everywhere, aspect-ratio/:has/clamp degrade gracefully, object-fit modern, zero userAgent sniffing, e.key + passive listeners throughout, fullscreen standard+webkit prefixes in embeds.js, cookie-consent localStorage already try/catch'd, system-ui font stack (no FOUT), no 100vh elsewhere, no jQuery.
+- ✅ **Verified**: `node --check` darkmode.js + main.js clean; grep-verified all 9 change sites installed; no stray files.
+
 ## [1.3.3] - 2026-08-20
 
 ### Fixed — Responsive audit supplement: 7 remaining items brought to full 44px standard + dropdown robustness + readability
