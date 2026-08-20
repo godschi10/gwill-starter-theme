@@ -13,6 +13,8 @@ require_once get_template_directory() . '/inc/search.php';
 require_once get_template_directory() . '/inc/search-index.php';
 require_once get_template_directory() . '/inc/search-fts.php';
 require_once get_template_directory() . '/inc/related-posts.php';
+require_once get_template_directory() . '/inc/seo.php';
+require_once get_template_directory() . '/inc/sitemap.php';
 require_once get_template_directory() . '/inc/social-meta.php';
 require_once get_template_directory() . '/inc/faq.php';
 require_once get_template_directory() . '/inc/table-of-contents.php';

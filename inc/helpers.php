@@ -169,6 +169,39 @@ function gwill_seo_plugin_active(): bool {
 	return (bool) apply_filters( 'gwill_seo_plugin_active', $active );
 }
 
+/**
+ * Loop-independent article author name.
+ *
+ * Resolves the post's author display name from the database (post_author
+ * field + get_userdata()) rather than reading the global $authordata,
+ * which is only populated after the Loop runs. Reason: the SEO and social
+ * meta layers output <head> tags (wp_head, priority 1-5) well before the
+ * Loop, making get_the_author() / the_author() return empty strings on
+ * those hooks.
+ *
+ * Shared between inc/seo.php (JSON-LD Article author) and
+ * inc/social-meta.php (article:author OG tag).
+ *
+ * @since  1.2.0
+ * @return string Empty string when the post has no author or no name.
+ */
+function gwill_article_author_name(): string {
+	$post_id = get_queried_object_id();
+	if ( ! $post_id ) {
+		return '';
+	}
+	$author_id = (int) get_post_field( 'post_author', $post_id );
+	if ( ! $author_id ) {
+		return '';
+	}
+	$author_data = get_userdata( $author_id );
+	if ( ! $author_data || empty( $author_data->display_name ) ) {
+		return '';
+	}
+	return (string) $author_data->display_name;
+}
+
+
 
 
 /**

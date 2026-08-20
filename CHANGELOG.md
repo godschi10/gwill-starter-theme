@@ -19,7 +19,32 @@ Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
-## [Unreleased]
+## [1.2.0] - 2026-08-20
+
+### Added — Theme-owned SEO layer + XML sitemap (ported from the finance theme, adapted to a generic base)
+
+Every future build now inherits a complete no-plugin SEO layer, same approach as the tech and finance themes. 1.1.0 → 1.2.0 (minor — new feature, backwards compatible).
+
+- **`inc/seo.php` — theme-owned SEO layer (no plugin needed)**:
+  - `gwill_front_page_title()` (`pre_get_document_title`, priority 11) — caps the front-page `<title>` at ~60 chars: brand first, tagline trimmed WORD-BY-WORD to fit the budget. Filterable headline: `gwill_front_page_tagline`. The `is_category()` guard excludes a bare category index served at the front URL.
+  - `gwill_document_title_parts()` — long-titled singulars: drops the brand suffix from the `<title>` output only when the full "Post Title — Site" string would exceed 65 chars (generic — no brand-specific regex).
+  - `gwill_meta_description()` (`wp_head`, priority 2) — post excerpt / term description / author line / template one-liners (home + `template-contact.php`, both filterable: `gwill_home_meta_description`, `gwill_contact_meta_description`) / site-tagline fallback.
+  - `gwill_hidden_slugs()` + `gwill_is_hidden_page()` — **generic replacement for finance's ACF-flavored hardcoded slugs**: the list is now a filter (`gwill_hidden_slugs`, default `[]`), so each build owns its own hidden settings-page slugs.
+  - `gwill_robots_meta()` (`wp_head`, priority 3) — honors per-post yoast-style noindex meta, noindexes hidden pages + search/404/date/attachment/paged/tag/author archives; categories, front page and singulars index.
+  - `gwill_json_ld()` (`wp_head`, priority 5) — WebSite + Organization (all pages, with SearchAction sitemap box), Article on single posts (author from `gwill_article_author_name()`, image from the existing `gwill-hero` size). BreadcrumbList JSON-LD deliberately omitted — the visible breadcrumbs already carry BreadcrumbList microdata.
+  - `gwill_canonical_meta()` (`wp_head`, priority 10) — self-referencing canonical for non-singulars (front, posts page via `page_for_posts`, terms, author, search, date); never fires on singulars where core `rel_canonical()` already emits one.
+  - `gwill_robots_txt()` (`robots_txt` filter) — strips core's `wp-sitemap.xml` line, advertises the theme's `/sitemap.xml`, sets explicit AI-crawler rules (GPTBot/OAI-SearchBot/ChatGPT-User/ClaudeBot/PerplexityBot allowed, CCBot/Bytespider blocked).
+  - `gwill_wp_sitemaps_enabled()` — disables WP core's `wp-sitemap.xml` (the theme owns the sitemap); everything defers to a major SEO plugin when one is active (`gwill_seo_plugin_active()`).
+- **`inc/sitemap.php` + root `sitemap.php` — theme-owned `/sitemap.xml` (no plugin)**: rewrite rule on `init` (flushed by the existing version-keyed `gwill_maybe_flush_rewrites()`), private `gwill_sitemap` query var, `template_include` swap, trailing-slash canonical redirect suppressed for the sitemap URL, XML cached in a `DAY_IN_SECONDS` transient invalidated on `save_post`. Includes published posts, pages and public CPTs; excludes hidden slugs and broken-permalink rows; `lastmod` from GMT `post_modified`.
+- **`inc/helpers.php`** — new `gwill_article_author_name()`: loop-independent author display name (resolves `post_author` via `get_post_field()` + `get_userdata()` instead of the `$authordata` global the Loop populates). Shared by the JSON-LD Article node and the `article:author` OG tag.
+- **`inc/social-meta.php` fixes (tech-theme audit lessons ported in)**:
+  - `gwill_social_meta_url()` — `is_home()` split from `is_front_page()`: with a static front page, the posts page's `og:url` now points at the posts page itself (via `page_for_posts` permalink), not the homepage.
+  - `article:author` — now `gwill_article_author_name()` instead of `get_the_author()`, which returned empty on `wp_head` (before the Loop).
+
+### Notes
+- No ACF dependency — the starter stays ACF-free; all hidden-slug lists are filterable generics, not hardcoded slugs.
+- Text domain `gwill-starter` throughout.
+- `php -l` clean on all 6 edited/new files; cross-file deps verified (helpers loaded before seo/sitemap/social-meta in functions.php).
 
 ---
 

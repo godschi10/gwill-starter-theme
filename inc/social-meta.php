@@ -53,7 +53,7 @@ function gwill_output_social_meta(): void {
 	<?php if ( is_single() ) : ?>
 	<meta property="article:published_time" content="<?php echo esc_attr( get_the_date( 'c' ) ); ?>">
 	<meta property="article:modified_time" content="<?php echo esc_attr( get_the_modified_date( 'c' ) ); ?>">
-	<meta property="article:author" content="<?php echo esc_attr( get_the_author() ); ?>">
+	<meta property="article:author" content="<?php echo esc_attr( gwill_article_author_name() ); ?>">
 	<?php endif; ?>
 
 	<meta name="twitter:card" content="<?php echo esc_attr( $image ? 'summary_large_image' : 'summary' ); ?>">
@@ -102,8 +102,15 @@ function gwill_social_meta_url(): string {
 		return get_search_link();
 	}
 
-	if ( is_home() || is_front_page() ) {
+	if ( is_front_page() ) {
 		return home_url( '/' );
+	}
+
+	if ( is_home() ) {
+		// Posts page (Settings → Reading → "Posts page"): og:url must
+		// point at the posts page itself, not the homepage.
+		$posts_page = (int) get_option( 'page_for_posts' );
+		return $posts_page ? (string) get_permalink( $posts_page ) : home_url( '/' );
 	}
 
 	// Date archives, custom post type archives, 404, anything else not

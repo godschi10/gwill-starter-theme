@@ -319,6 +319,19 @@ The scale layers, also ported from the tech theme (v1.1.0):
 
 `header.php` ships an inline search dropdown (`#search-toggle` + `#search-dropdown` + `#search-input` combobox) driven by `assets/js/search-dropdown.js` (deferred, 120 ms debounce, 2-char minimum, 8 max results, sessionStorage index cache with 1 h TTL, full keyboard navigation). Styling lives in `assets/css/search.css`, written against the starter's `--color-*` tokens so dark mode inverts for free.
 
+### inc/seo.php, inc/sitemap.php
+
+A complete no-plugin SEO layer (ported from the GWill Finance theme, v1.2.0, adapted to a generic base — the same approach as the tech and finance themes). Everything defers to a major SEO plugin (RankMath, Yoast, AIOSEO, SEOPress, The SEO Framework) when one is active, via `gwill_seo_plugin_active()`:
+
+- **Front-page `<title>` capped at ~60 chars** — `gwill_front_page_title()` builds "Brand — Tagline" and trims the tagline word-by-word to fit the budget (filterable headline: `gwill_front_page_tagline`). Long-titled singulars drop the brand suffix from `<title>` when the full string would exceed 65 chars (`gwill_document_title_parts`).
+- **Meta description** (`gwill_meta_description()`) — post excerpt / term description / author line / template one-liners (home + `template-contact.php`, both filterable) / site-tagline fallback.
+- **Robots meta** (`gwill_robots_meta()`) — honors per-post yoast-style noindex, noindexes hidden pages + search/404/date/attachment/paged/tag/author archives; categories, front page and singulars index.
+- **JSON-LD schema** (`gwill_json_ld()`) — WebSite + Organization on every page (with SearchAction), Article on single posts (author resolved loop-independently via `gwill_article_author_name()`, image from the `gwill-hero` size). BreadcrumbList JSON-LD is intentionally omitted — the visible breadcrumbs already carry BreadcrumbList microdata.
+- **Canonical for non-singulars** (`gwill_canonical_meta()`) — self-referencing canonical on archives, terms, posts page, search and date views; singulars keep core's single `rel_canonical()`.
+- **robots.txt** (`gwill_robots_txt()`) — strips core's `wp-sitemap.xml` line, advertises the theme's `/sitemap.xml`, sets explicit AI-crawler rules (GPTBot/OAI-SearchBot/ChatGPT-User/ClaudeBot/PerplexityBot allowed, CCBot/Bytespider blocked).
+- **Theme-owned `/sitemap.xml`** (`inc/sitemap.php` + root `sitemap.php`) — rewrite rule flushed by the version-keyed `gwill_maybe_flush_rewrites()`, transient-cached XML invalidated on `save_post`, includes posts/pages/public CPTs, excludes `gwill_hidden_slugs()` pages.
+- **Hidden page slugs are a filter, not hardcoded** — a build with hidden settings/utility pages registers them: `add_filter( 'gwill_hidden_slugs', fn() => [ 'site-settings', 'newsletter-thanks' ] );` (noindexed + sitemap-excluded automatically).
+
 ### inc/related-posts.php, inc/social-meta.php, inc/faq.php
 
 Tier 1 features — see below.
