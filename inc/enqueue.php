@@ -1,5 +1,4 @@
 <?php
-error_log("ENQUEUE.PHP LOADED: " . __FILE__);
 defined( 'ABSPATH' ) || exit;
 
 add_action( 'wp_enqueue_scripts', function () {
@@ -72,6 +71,11 @@ add_action( 'wp_enqueue_scripts', function () {
 		wp_get_theme( get_template() )->get( 'Version' ),
 		[ 'in_footer' => true, 'strategy' => 'defer' ]
 	);
+
+	// ── Smart search dropdown (v1.1.0 — Google-like, zero server load) ────
+	// Registered below; enqueued unconditionally because the dropdown
+	// markup lives inline in header.php (not a template part).
+	wp_enqueue_script( 'gwill-search-dropdown' );
 
 	// Required for threaded (nested) comment reply links to work.
 	// Gate behind Vibe Comments check — the plugin handles its own threading via AJAX.
@@ -237,6 +241,48 @@ add_action( 'wp_enqueue_scripts', function () {
 		get_template_directory_uri() . '/assets/css/search.css',
 		[ 'gwill-style' ],
 		$ver
+	);
+
+	// ── Search Dropdown (inline header search) ────────────────────────────────
+	//
+	// Registered here; enqueued unconditionally above (line 78) because the
+	// dropdown markup lives inline in header.php. The client-side JS fetches
+	// the compact search-index JSON first and matches locally — zero REST
+	// calls per keystroke for the common case. Falls back to FTS5 via the
+	// theme's REST endpoint when results are thin, then to WP core REST.
+
+	wp_register_script(
+		'gwill-search-dropdown',
+		get_template_directory_uri() . '/assets/js/search-dropdown.js',
+		[],
+		$ver,
+		[ 'in_footer' => true, 'strategy' => 'defer' ]
+	);
+
+	wp_localize_script(
+		'gwill-search-dropdown',
+		'GwillDropdown',
+		[
+			// Primary source: the theme's compact smart-search index
+			// (one cached JSON for the whole site; matching happens client-side).
+			'indexUrl' => wp_make_link_relative( rest_url( 'gwill/v1/search-index' ) ),
+			// Full-coverage FTS5 search via the theme's existing endpoint
+			// (/gwill/v1/search?s= — rate-limited, routes through
+			// gwill_search_backend where FTS5 plugs in). Queried only when
+			// local results are thin.
+			'ftsUrl'   => wp_make_link_relative( rest_url( 'gwill/v1/search' ) ) . '?s=',
+			// Fallback only — per-keystroke REST search if the index fetch fails.
+			'restUrl'  => wp_make_link_relative( rest_url( 'wp/v2/posts' ) ) . '?_embed&search=',
+			'homeUrl'  => home_url( '/' ),
+			'i18n'     => [
+				'loading'   => __( 'Searching…', 'gwill-starter' ),
+				'noResults' => __( 'No results found.', 'gwill-starter' ),
+				/* translators: %s: the search query string. */
+				'noMatches' => __( 'No matches for "%s" — try these recent posts:', 'gwill-starter' ),
+				'error'     => __( 'Search unavailable. Press Enter to search.', 'gwill-starter' ),
+				'viewAll'   => __( 'View all results →', 'gwill-starter' ),
+			],
+		]
 	);
 
 	// ── Dark mode ─────────────────────────────────────────────────────────────

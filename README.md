@@ -298,7 +298,26 @@ See [The Contact Form System](#the-contact-form-system) below.
 
 ### inc/search.php
 
-Registers `GET /wp-json/gwill/v1/search` (public, intentionally — it only returns published-post search data, the same as the native `?s=` query). Routes through `gwill_execute_search()`, which is filterable via `gwill_search_backend` for swapping in a third-party search service without touching any template. `gwill_search_results_count()` returns a pre-escaped string with the search term safely wrapped in `<strong>` — don't run it through `esc_html()` again at the call site, that would double-escape the tag into visible text.
+The Google-like smart search engine (ported from the GWill Tech theme, v1.1.0). Registers `GET /wp-json/gwill/v1/search` (public, intentionally — it only returns published-post search data, the same as the native `?s=` query). Routes through `gwill_execute_search()`, which is filterable via `gwill_search_backend` for swapping in a third-party search service without touching any template. Smart features:
+
+- **Typo correction** — `gwill_search_suggest()` / `gwill_search_corrected_term()` (Damerau–Levenshtein). Drives the "Showing results for X — Search instead for Y?" banner on the results page and the "Did you mean?" block in the empty state.
+- **Term highlighting** — `gwill_highlight_search_terms()` wraps matched terms in `<mark class="search-term">` on result titles.
+- **Related terms** — `gwill_search_related_terms()` powers the "People also searched for" chips.
+- **Fuzzy matching** — `gwill_search_fuzzy_match_ids()` finds near-miss titles.
+- **Rate limited** — `gwill_search_rate_limit_check()` (20 req / 10 s per IP, `edit_posts` exempt) is the REST permission callback.
+
+`gwill_search_results_count()` returns a pre-escaped string with the search term safely wrapped in `<strong>` — don't run it through `esc_html()` again at the call site, that would double-escape the tag into visible text.
+
+### inc/search-fts.php, inc/search-index.php
+
+The scale layers, also ported from the tech theme (v1.1.0):
+
+- **`inc/search-fts.php`** — SQLite FTS5 engine (`gwill_fts_path/pdo/available/ensure/sync_post/rebuild/search/match_ids/relaxed_candidate_ids`). Zero-config: creates its own SQLite DB under `wp-content/uploads/gwill-search/`, indexes post titles on save, stays fast at 100k+ posts. All calls from the combined engine are guarded with `function_exists()` — if you delete this file, search degrades gracefully to the standard query.
+- **`inc/search-index.php`** — client-side index for the live dropdown: `GET /wp-json/gwill/v1/search-index` returns up to `GWILL_SEARCH_INDEX_MAX` (200) published posts (`id, title, url, excerpt, cat, cat_slug, date`), cached in a `DAY_IN_SECONDS` transient, busted on `save_post`/`deleted_post`/`wp_trash_post`.
+
+### Header live-search dropdown
+
+`header.php` ships an inline search dropdown (`#search-toggle` + `#search-dropdown` + `#search-input` combobox) driven by `assets/js/search-dropdown.js` (deferred, 120 ms debounce, 2-char minimum, 8 max results, sessionStorage index cache with 1 h TTL, full keyboard navigation). Styling lives in `assets/css/search.css`, written against the starter's `--color-*` tokens so dark mode inverts for free.
 
 ### inc/related-posts.php, inc/social-meta.php, inc/faq.php
 

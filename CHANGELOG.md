@@ -23,6 +23,28 @@ Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.1.0] - 2026-08-20
+
+### Added — Google-like smart search (ported from the tech theme)
+
+The starter now ships the tech theme's full smart-search stack, so every future build inherits it. v1.0.65 → 1.1.0 (minor — new feature, backwards compatible).
+
+- **`inc/search.php` — combined engine (replaces the slim original)**: `gwill_execute_search()` (filterable via `gwill_search_backend`), `gwill_search_suggest()` (Damerau–Levenshtein typo correction, same engine as the tech theme), `gwill_search_corrected_term()`, `gwill_search_related_terms()`, `gwill_highlight_search_terms()`, `gwill_search_normalize()`, `gwill_search_fuzzy_match_ids()`, `gwill_search_rate_limit_check()` (REST permission callback: 20 req / 10 s per IP, `edit_posts` exempt — was already in v1.0.64, kept). All FTS calls guarded with `function_exists()` — the engine degrades gracefully if the FTS modules are removed.
+- **`inc/search-fts.php` — SQLite FTS5 engine**: `gwill_fts_path/pdo/available/ensure/sync_post/rebuild/search/match_ids/relaxed_candidate_ids`. Zero-config: creates its own SQLite DB under `wp-content/uploads/gwill-search/`, indexes titles as posts are saved, scales to 100k+ posts while staying fast.
+- **`inc/search-index.php` — client-side index**: `GET /wp-json/gwill/v1/search-index` — up to `GWILL_SEARCH_INDEX_MAX` (200) published posts cached in a `DAY_IN_SECONDS` transient, busted on `save_post`/`deleted_post`/`wp_trash_post`. Payload: `id, title, url, excerpt, cat, cat_slug, date`.
+- **`assets/js/search-dropdown.js` — header live-search dropdown**: 120 ms debounce, 2-char minimum, 8 max results, sessionStorage index cache (1 h TTL), keyboard navigation with `aria-activedescendant`, loading/empty states, "View all results" footer link.
+- **`header.php`** — inline dropdown markup replacing the old expandable search template part: `#search-toggle` button + `#search-dropdown[hidden]` panel + `#search-input` (combobox ARIA) + `#search-clear` + `#search-close` + `#search-results` (live region).
+- **`assets/css/search.css`** — dropdown + results-page styles, written against the starter's `--color-*` tokens (dark mode inverts for free via `darkmode.css`).
+- **`search.php` (results page)** — Google-style: "Showing results for X — Search instead for Y?" correction banner (only when results exist but the query is a confident misspelling), `<mark>` title highlighting, "People also searched for" related-term chips, branded empty state with "Did you mean?" suggestions.
+- **`template-parts/search/search-no-results.php`** — upgraded with up to 3 "Did you mean?" corrections via the same Damerau engine; filterable CTA (`gwill_search_no_results_cta`) and tips preserved.
+
+### Notes
+- No ACF dependency — the starter stays ACF-free; all new labels use `esc_attr_e`/`__()` with the `gwill-starter` text domain.
+- Scripts enqueued `[ 'in_footer' => true, 'strategy' => 'defer' ]`.
+- Engine decoupled: combined `inc/search.php` calls FTS/index functions only via `function_exists()` guards — no hard dependency.
+
+---
+
 ## [1.0.64] - 2026-06-27
 
 ### Audit verification

@@ -1,46 +1,143 @@
 <?php
 /**
- * The template for displaying Search Results pages
+ * Search results page.
  *
- * @package GWill_Tech
+ * Used by both Combo A (standard page-reload) and as the Enter-key
+ * fallback for the Combo B modal when JS is unavailable.
+ *
+ * Since v1.1.0 — Google-style smart results (ported from GWill Tech):
+ *   — "Showing results for X. Search instead for Y?" correction banner
+ *     (confident misspellings, results still exist)
+ *   — <mark> term highlighting in result titles
+ *   — "People also searched for" related-term chips
+ *   — "Did you mean?" suggestions on the empty state (see
+ *     template-parts/search/search-no-results.php)
+ *
+ * @package GWill_Starter
+ * @since   1.0.23
  */
 
+defined( 'ABSPATH' ) || exit;
+
 get_header();
+gwill_breadcrumbs();
 
 $search_query = get_search_query();
-global $wp_query;
-$total_results = $wp_query->found_posts;
-$has_results = have_posts();
 ?>
 
-<?php if ($has_results) : ?>
-<div class="page active" id="page-search" role="main">
-<section class="page-hero"><div class="wrap"><p class="label">Search</p><form role="search" method="get" class="newsletter-row" style="max-width:560px" action="<?php echo esc_url(home_url('/')); ?>"><input type="text" name="s" class="input" placeholder="Search guides" value="<?php echo esc_attr($search_query); ?>"><button class="btn btn-primary" type="submit">Search</button></form><p class="body-sm" style="margin-top:16px"><?php echo esc_html($total_results); ?> result<?php echo $total_results === 1 ? '' : 's'; ?> for <strong style="color:var(--text)">"<?php echo esc_html($search_query); ?>"</strong></p></div></section>
-<section class="section-sm"><div class="wrap" style="max-width:760px">
-<?php while (have_posts()) : the_post(); 
-    $cats = get_the_category();
-    $cat_name = !empty($cats) ? $cats[0]->name : 'Android';
-    $cat_slug = !empty($cats) ? $cats[0]->slug : 'android';
-    if (strpos($cat_slug, 'web') !== false) { $badge_class = 'badge-webdev'; }
-    elseif (strpos($cat_slug, 'software') !== false) { $badge_class = 'badge-software'; }
-    else { $badge_class = 'badge-android'; }
-    
-    $reading_time = get_post_meta(get_the_ID(), 'reading_time', true);
-    if (!$reading_time) { $reading_time = '5 min'; }
-?>
-<div class="card" style="margin-bottom:16px"><div class="card-body"><span class="badge <?php echo esc_attr($badge_class); ?>"><?php echo esc_html($cat_name); ?></span><h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3><p class="card-excerpt"><?php echo esc_html(wp_strip_all_tags(get_the_excerpt())); ?></p><div class="card-meta"><span><?php echo esc_html($reading_time); ?></span><span>·</span><span><?php echo get_the_date('M Y'); ?></span></div></div></div>
-<?php endwhile; ?>
-</div></section>
-</div>
+<article class="search-results" aria-label="<?php esc_attr_e( 'Search results', 'gwill-starter' ); ?>">
 
-<?php else : ?>
+	<header class="search-results__header">
+		<h1 class="search-results__title">
+			<?php echo wp_kses( gwill_search_results_count( $wp_query ), [ 'strong' => [] ] ); ?>
+		</h1>
+		<?php get_search_form(); ?>
+	</header>
 
-<div class="page active" id="page-search-empty" role="main">
-<section class="page-hero"><div class="wrap"><p class="label">Search</p><form role="search" method="get" class="newsletter-row" style="max-width:560px" action="<?php echo esc_url(home_url('/')); ?>"><input type="text" name="s" class="input" placeholder="Search guides" value="<?php echo esc_attr($search_query); ?>"><button class="btn btn-primary" type="submit">Go</button></form></div></section>
-<section class="section"><div class="wrap empty-state"><div class="icon-wrap"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div><p class="h3" style="margin-bottom:10px">No results for "<?php echo esc_html($search_query); ?>"</p><p class="body-sm" style="max-width:44ch;margin:0 auto">This blog covers using Android, not building it. Try one of these:</p><div class="suggest-list"><a href="<?php echo esc_url(home_url('/category/android/')); ?>">Everything Android <span>→</span></a><a href="<?php echo esc_url(home_url('/resources/')); ?>">Resources &amp; tools <span>→</span></a></div></div></section>
-</div>
+	<?php if ( have_posts() ) : ?>
 
-<?php endif; ?>
+		<?php
+		// Google-style "Showing results for X. Search instead for Y?" — only
+		// when results EXIST but the query is a confident misspelling of a
+		// better term (v1.1.0). Same engine as the empty-state suggestion:
+		// one cheap get_posts() pass over ≤ 500 titles (~1 ms).
+		$gwill_correction = function_exists( 'gwill_search_suggest' )
+			? gwill_search_suggest( $search_query, 1 )
+			: [];
+		if ( $gwill_correction
+			&& (float) $gwill_correction[0]['score'] >= 0.6
+			&& $gwill_correction[0]['term'] !== gwill_search_normalize( $search_query ) ) :
+			?>
+			<p class="search-correct">
+				<?php
+				esc_html_e( 'Showing results for', 'gwill-starter' );
+				echo ' &ldquo;' . esc_html( $search_query ) . '&rdquo; — ';
+				esc_html_e( 'search instead for', 'gwill-starter' );
+				?>
+				<a href="<?php echo esc_url( $gwill_correction[0]['url'] ); ?>"><?php echo esc_html( $gwill_correction[0]['term'] ); ?></a>?
+			</p>
+		<?php endif; ?>
 
-<?php
-get_footer();
+		<div class="search-results__list">
+
+			<?php
+			// Google-style term highlighting: <mark> the query words inside
+			// result titles (self-contained gwill_highlight_search_terms —
+			// core wp_highlight_search_terms doesn't exist in WP 7.x).
+			if ( function_exists( 'gwill_highlight_search_terms' ) ) {
+				add_filter( 'the_title', 'gwill_highlight_search_terms' );
+			}
+
+			while ( have_posts() ) : the_post();
+				$type_obj   = get_post_type_object( get_post_type() );
+				$type_label = $type_obj ? $type_obj->labels->singular_name : get_post_type();
+			?>
+
+			<article id="post-<?php the_ID(); ?>" <?php post_class( 'search-result' ); ?>>
+
+				<div class="search-result__meta">
+					<span class="search-result__type-badge"><?php echo esc_html( $type_label ); ?></span>
+					<time
+						class="search-result__date"
+						datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"
+					><?php echo esc_html( get_the_date() ); ?></time>
+				</div>
+
+				<h2 class="search-result__title">
+					<a href="<?php the_permalink(); ?>"><?php echo esc_html( get_the_title() ); ?></a>
+				</h2>
+
+				<?php if ( get_the_excerpt() ) : ?>
+					<p class="search-result__excerpt"><?php the_excerpt(); ?></p>
+				<?php endif; ?>
+
+			</article>
+
+			<?php endwhile; ?>
+
+			<?php
+			if ( function_exists( 'gwill_highlight_search_terms' ) ) {
+				remove_filter( 'the_title', 'gwill_highlight_search_terms' );
+			}
+			?>
+
+		</div>
+
+		<?php
+		// Google's "People also searched for" — related terms mined from
+		// the result set's own titles. Zero extra database cost: the
+		// posts are already loaded in $wp_query->posts (v1.1.0).
+		$gwill_related = function_exists( 'gwill_search_related_terms' )
+			? gwill_search_related_terms( $wp_query->posts, $search_query )
+			: [];
+		if ( $gwill_related ) :
+			?>
+			<div class="search-related">
+				<p class="search-suggest-kicker"><?php esc_html_e( 'People also searched for', 'gwill-starter' ); ?></p>
+				<div class="search-related-list">
+					<?php foreach ( $gwill_related as $gwill_rx ) : ?>
+						<a class="search-related-chip" href="<?php echo esc_url( $gwill_rx['url'] ); ?>"><?php echo esc_html( $gwill_rx['term'] ); ?></a>
+					<?php endforeach; ?>
+				</div>
+			</div>
+		<?php endif; ?>
+
+		<nav class="search-results__pagination" aria-label="<?php esc_attr_e( 'Search results pages', 'gwill-starter' ); ?>">
+			<?php
+			the_posts_pagination( [
+				'mid_size'  => 2,
+				'prev_text' => __( '&larr; Previous', 'gwill-starter' ),
+				'next_text' => __( 'Next &rarr;', 'gwill-starter' ),
+			] );
+			?>
+		</nav>
+
+	<?php else : ?>
+
+		<?php gwill_part( 'search/search-no-results' ); ?>
+
+	<?php endif; ?>
+
+</article>
+
+<?php get_footer();
