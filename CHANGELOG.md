@@ -19,6 +19,19 @@ Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.3.10] - 2026-08-20
+
+### Portability Audit (protocol pass — FINAL audit of the series): 2 SHOULD fixed (Requires headers + POT regeneration), everything else CLEAN
+
+The King's portability protocol (7 sections) executed against all inc/ modules, templates, JS, and CSS. Report: `docs/PORTABILITY-AUDIT-2026-08-20.md` — the **ninth and final audit report** in `docs/`.
+
+- 🛠️ **2 SHOULD — both fixed**:
+  - **style.css missing `Requires at least:` + `Requires PHP:` headers** — the theme needs WP 6.4+ (rsd/wlw removal assumption, documented in security.php) and PHP 8.0+ (union types, str_starts_with, typed properties). Now declared in the theme header.
+  - **languages/gwill-starter.pot was STALE** — missing the v1.3.7 i18n strings ("Leave this blank" ×11, "Contact Form Demo", "Dev only.", description). Regenerated via `wp i18n make-pot` (1503 lines, all new strings present).
+- ✅ **Everything else CLEAN**: zero hardcoded site URLs (all hits are schema.org vocabulary, YouTube/Vimeo thumbnail CDN endpoints, or the filterable brand credit), 19× get_template_directory_uri() asset refs, relative admin-ajax (wp_make_link_relative — works on any domain/subdirectory), subdirectory-aware JS home_url/REST URL localization, no serialized domain data, gwill_-prefixed options only, $wpdb->prefix + dedicated SQLite (no wp_ prefix hardcoding), no required plugin dependencies (class_exists gates), staging banner only on recognised staging hosts, no DB writes on page load, child-theme safe (hooks-based extension + get_template_part + gwill-prefixed enqueues), CSS url() is an inline SVG data URI, system-ui fonts (no CDN deps), screenshot.png present.
+- 📝 **Observation**: POT generator flags a plural-placeholder ordering advisory at embed-facades.php:193 — cosmetic tooling note, not a runtime issue.
+- ✅ **Verified**: grep-verified both Requires headers; POT string counts (Leave this blank ×1, Contact Form Demo ×1, Dev only. ×1, description ×1); installed with explicit-path sudo cp + chown www-data.
+
 ## [1.3.9] - 2026-08-20
 
 ### Accessibility Audit (protocol pass, WCAG 2.2 AA): 1 SHOULD fixed (search input focus rings), everything else CLEAN
