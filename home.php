@@ -19,6 +19,10 @@ gwill_breadcrumbs(); // hidden on front page by the function itself
 
 <?php if ( have_posts() ) : ?>
 
+	<header class="archive-header">
+		<h1 class="archive-title"><?php echo esc_html( gwill_index_title() ); ?></h1>
+	</header>
+
 	<?php while ( have_posts() ) : the_post(); ?>
 		<?php gwill_part( 'content' ); ?>
 	<?php endwhile; ?>

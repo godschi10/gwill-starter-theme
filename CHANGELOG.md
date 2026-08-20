@@ -19,6 +19,17 @@ Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.3.8] - 2026-08-20
+
+### SEO Audit (protocol pass): 1 SHOULD (missing listing H1) + 1 NICE-TO-HAVE (160-char meta cap) fixed, everything else CLEAN
+
+The King's SEO protocol (8 sections) executed against the full SEO layer (inc/seo.php, inc/sitemap.php, inc/social-meta.php), all templates, and assets. Report: `docs/SEO-AUDIT-2026-08-20.md`.
+
+- 🛠️ **1 SHOULD — fixed: home.php + index.php lacked a page H1** — the blog index and fallback template rendered post cards with no primary heading (SEO + WCAG 1.3.1). New `gwill_index_title()` helper (posts-page title when a static front page is set, else site name) + `<header class="archive-header"><h1>` block in both templates. Every template type now has exactly one H1.
+- 🧹 **1 NICE-TO-HAVE — fixed: meta description 160-char cap** — `wp_trim_words(..., 30)` could output ~180+ chars. `mb_strlen` check + `mb_substr` + ellipsis now caps at ~160.
+- ✅ **Everything else CLEAN**: robots.txt (AI-crawler rules, plugin-guarded), sitemap (posts/pages/CPTs, transient-cached, hidden-slug exclusion), unique titles per template type (home 60-char cap, singulars 65-char brand-drop), distinct meta descriptions per context, correct noindex set (search/404/date/attachment/paged/tag/author; categories+singulars index), self-referencing canonicals, paged archives noindexed (modern; rel next/prev deprecated by Google), breadcrumbs with BreadcrumbList microdata, JSON-LD WebSite+Organization+Article in a valid @graph with SearchAction, descriptive alt text everywhere (decorative cards alt=""), LCP preload + eager hero + width/height attrs (CWV-safe), all 10 SEO outputs plugin-deferred (v1.3.1).
+- ✅ **Verified**: php -l ×4 clean; grep-verified helper (1 def), both template calls, mb_strlen cap (5 hits); installed with explicit-path sudo cp + chown www-data.
+
 ## [1.3.7] - 2026-08-20
 
 ### Cleanup Audit (protocol pass): 2 SHOULD + 1 NICE-TO-HAVE fixed (i18n conventions + TODO marker), everything else CLEAN

@@ -310,6 +310,33 @@ function gwill_reading_time( int $post_id = 0 ): int {
  * @package GWill_Starter
  * @since   1.0.43
  */
+
+/**
+ * Get the blog index page title — the H1 for listing templates.
+ *
+ * When a static front page is set and a "Posts page" is assigned under
+ * Settings → Reading, the posts page title is used. Otherwise (posts on
+ * front, or a CPT fallback via index.php), the site name is returned.
+ *
+ * This is the VISIBLE H1 rendered in the page body — not a replacement
+ * for the <title> tag (handled by gwill_front_page_title /
+ * gwill_document_title_parts in inc/seo.php). The two serve different
+ * roles (SEO audit v1.3.8).
+ *
+ * @since 1.3.8
+ * @return string
+ */
+function gwill_index_title(): string {
+	$posts_page = (int) get_option( 'page_for_posts' );
+	if ( $posts_page && 'page' === get_option( 'show_on_front' ) ) {
+		$title = get_the_title( $posts_page );
+		if ( $title ) {
+			return $title;
+		}
+	}
+	return get_bloginfo( 'name' );
+}
+
 function gwill_breadcrumbs(): void {
 
 	if ( ! apply_filters( 'gwill_show_breadcrumbs', true ) ) {

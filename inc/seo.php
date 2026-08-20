@@ -214,6 +214,14 @@ function gwill_meta_description(): void {
 	}
 
 	$description = trim( wp_strip_all_tags( (string) $description ) );
+
+	// Cap at ~160 characters — wp_trim_words(..., 30) can run ~180+ chars,
+	// beyond the search-engine display budget. Word-safe ellipsis cap
+	// (SEO audit v1.3.8).
+	if ( function_exists( 'mb_strlen' ) && mb_strlen( $description ) > 160 ) {
+		$description = mb_substr( $description, 0, 157 ) . '…';
+	}
+
 	if ( $description ) {
 		printf(
 			'<meta name="description" content="%s">' . "\n",
