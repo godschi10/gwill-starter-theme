@@ -262,8 +262,8 @@ function gwill_push_send_to_all( $post ) {
 		22,
 		'…'
 	);
-	$icon  = get_template_directory_uri() . '/assets/brand/push-icon.png';
-	$badge = get_template_directory_uri() . '/assets/brand/push-badge.png';
+	$icon  = gwill_pwa_icons()['192'];
+	$badge = gwill_pwa_icons()['badge'];
 	$payload = array(
 		'title'   => $title,
 		'body'    => $body ? $body : __( 'New post on', 'gwill-starter' ) . ' ' . get_bloginfo( 'name' ),
@@ -341,8 +341,8 @@ function gwill_push_enqueue() {
 			'publicKey' => $keys['publicKey'],
 			'restUrl'   => esc_url_raw( rest_url( 'gwill/v1/push/' ) ),
 			'nonce'     => wp_create_nonce( 'wp_rest' ),
-			'icon'      => get_template_directory_uri() . '/assets/brand/push-icon.png',
-			'badge'     => get_template_directory_uri() . '/assets/brand/push-badge.png',
+			'icon'      => gwill_pwa_icons()['192'],
+			'badge'     => gwill_pwa_icons()['badge'],
 			'strings'   => array(
 				'subscribe'     => __( 'Enable notifications', 'gwill-starter' ),
 				'unsubscribe'   => __( 'Turn off notifications', 'gwill-starter' ),

@@ -1,3 +1,18 @@
+## [1.4.1] - 2026-08-29
+
+### Fixed / Added — PWA completion (finance-parity Chrome-app install set)
+- **True icon suite** (was: my v1.4.0 flaw — the manifest's 512 entry pointed at a 192px file): `appicon-192.png` (192×192), `appicon-512.png` (512×512), `apple-touch-icon.png` (180×180, full-bleed opaque — Apple forbids transparency), `push-badge.png` (192×192 alpha silhouette for the Android status bar), `favicon.svg` (dark rounded square + white bell, light/dark tab bars). All neutral brand-agnostic (dark slate `#0f172a` + white bell, matching the theme's dark token); a build replaces the files or filters the URLs.
+- **Full PWA head set** (`inc/pwa.php` → `gwill_pwa_head_links()`): theme-color, mobile-web-app-capable, apple-mobile-web-app-capable (deprecated but kept for older iOS — finance v1.0.175 lesson), apple-mobile-web-app-status-bar-style black-translucent, manifest link, application-name, SVG favicon, apple-touch-icon. WordPress site-icon (custom `has_site_icon` guard pattern avoided — theme emits these only when the site has no custom icon? NO — emits always; a build with a site icon should filter).
+- **Filterable brand**: `gwill_pwa_icons()` (192/512/apple/badge/favicon URLs) + `gwill_pwa_colors()` (theme/background hex) + `gwill_pwa_manifest` (whole-manifest last-chance override) — a fresh build re-brands the whole PWA in three filters, zero file edits needed beyond dropping in icon art.
+- **Icon refs unified**: `inc/webpush.php` (push payload icon + badge) and `gwill-pwa.js` (install-card icon) now consume `gwill_pwa_icons()` — one source of truth; `push-icon.png` removed.
+- Install-card mark is now the real bell SVG (was a ▶ placeholder glyph).
+
+### Verified
+- Manifest render test (WP-shim subprocess): valid JSON; display standalone; start_url/scope = home; 3 icons with REAL dimensions matching their declared sizes (192/512/512-maskable); theme + background colors present — ALL PASS.
+- Head-links render test: all 8 finance-parity tags present and correct — ALL PASS.
+- `php -l` clean ×2 (pwa.php, webpush.php); `node --check` clean (gwill-pwa.js).
+- Icon files verified by pixel probe: opaque full-bleed corners (apple-compliant), badge transparent corners (alpha silhouette).
+
 ## [1.4.0] - 2026-08-29
 
 ### Added

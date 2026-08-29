@@ -7,14 +7,16 @@ Table of Contents
 3. manifest route — render /manifest.webmanifest on template_include
 4. maybe_publish_sw — bake @PUBLISH@ token + publish sw.js to ABSPATH
 5. publish_check — hooks to (re)bake on theme switch / admin visits
-6. head links — manifest + application-name
+6. head links — manifest + PWA metas + icons
+7. brand filters — icon URLs + colors, overridable per build
 */
 
 /**
  * PWA — service worker publish + web app manifest + install-prompt script.
  *
  * PORTED from gwill-finance-theme v1.2.3 (which ported it from the tech
- * theme — the proven lineage). All three pieces of the manifest route are
+ * theme — the proven lineage; finance's Chrome-app install is verified
+ * working on real devices). All three pieces of the manifest route are
  * present (rewrite + query var + canonical guard) per docs/LAWS.md L4:
  * a template_include sniff alone serves a 404 STATUS with the correct body.
  *
@@ -23,18 +25,61 @@ Table of Contents
  *     copied to ABSPATH/sw.js (root scope). The versioned swUrl defeats any
  *     CDN/proxy cache of the SW script (L2).
  *   - The manifest is a REAL rewrite — browsers hard-fail a 404 manifest.
+ *   - Full head set (finance parity): theme-color, mobile-web-app-capable,
+ *     apple-mobile-web-app-capable + status-bar-style, apple-touch-icon,
+ *     SVG favicon, application-name, manifest link.
  *
  * @package GWill_Starter
- * @since   1.4.0
+ * @since   1.4.0 (PWA head-set + true icons + brand filters in 1.4.1)
  */
 
 defined( 'ABSPATH' ) || exit;
+
+// ══════ 7. brand filters (defined first — sections 1/3/6 consume them) ══════
+
+/**
+ * Full icon suite, filterable per build. Defaults ship neutral brand-agnostic
+ * art (dark slate square + white bell) — a build replaces the files in
+ * assets/brand/ or overrides these URLs.
+ *
+ * @return array{192:string,512:string,apple:string,badge:string,favicon:string}
+ */
+function gwill_pwa_icons() {
+	$base = get_template_directory_uri() . '/assets/brand';
+	return apply_filters(
+		'gwill_pwa_icons',
+		array(
+			'192'     => $base . '/appicon-192.png',
+			'512'     => $base . '/appicon-512.png',
+			'apple'   => $base . '/apple-touch-icon.png',
+			'badge'   => $base . '/push-badge.png',
+			'favicon' => $base . '/favicon.svg',
+		)
+	);
+}
+
+/**
+ * Chrome-app theme colors, filterable per build. Defaults match the theme's
+ * light tokens; dark-mode builds swap via the filter or CSS.
+ *
+ * @return array{theme:string,background:string}
+ */
+function gwill_pwa_colors() {
+	return apply_filters(
+		'gwill_pwa_colors',
+		array(
+			'theme'      => '#111111',
+			'background' => '#ffffff',
+		)
+	);
+}
 
 // ══════ 1. register pwa script + i18n strings ══════
 add_action(
 	'wp_enqueue_scripts',
 	function () {
-		$ver = wp_get_theme()->get( 'Version' );
+		$ver  = wp_get_theme()->get( 'Version' );
+		$icon = gwill_pwa_icons();
 
 		wp_enqueue_script(
 			'gwill-pwa',
@@ -55,7 +100,7 @@ add_action(
 				// cache of the SW script across releases. Each deploy forces
 				// a fresh SW install via a unique URL.
 				'swUrl'   => home_url( '/sw.js' ) . '?v=' . rawurlencode( $ver ),
-				'icon'    => get_template_directory_uri() . '/assets/brand/push-icon.png',
+				'icon'    => $icon['192'],
 				'i18n'    => array(
 					'installTitle' => __( 'Install', 'gwill-starter' ) . ' ' . get_bloginfo( 'name' ),
 					'installCopy'  => __( 'Add this site to your home screen — read offline, open in one tap.', 'gwill-starter' ),
@@ -107,8 +152,7 @@ function gwill_pwa_maybe_render_manifest( $template ) {
 		return $template;
 	}
 
-	$icon_192 = get_template_directory_uri() . '/assets/brand/push-icon.png';
-	$icon_512 = get_template_directory_uri() . '/assets/brand/push-icon.png';
+	$icons = gwill_pwa_icons();
 
 	$manifest = array(
 		'name'             => get_bloginfo( 'name' ),
@@ -121,21 +165,21 @@ function gwill_pwa_maybe_render_manifest( $template ) {
 		'scope'            => home_url( '/' ),
 		'display'          => 'standalone',
 		'orientation'      => 'any',
-		'background_color' => '#ffffff',
-		'theme_color'      => '#111111',
+		'background_color' => gwill_pwa_colors()['background'],
+		'theme_color'      => gwill_pwa_colors()['theme'],
 		'icons'            => array(
 			array(
-				'src'   => $icon_192,
+				'src'   => $icons['192'],
 				'sizes' => '192x192',
 				'type'  => 'image/png',
 			),
 			array(
-				'src'   => $icon_512,
+				'src'   => $icons['512'],
 				'sizes' => '512x512',
 				'type'  => 'image/png',
 			),
 			array(
-				'src'     => $icon_512,
+				'src'     => $icons['512'],
 				'sizes'   => '512x512',
 				'type'    => 'image/png',
 				'purpose' => 'maskable',
@@ -143,9 +187,14 @@ function gwill_pwa_maybe_render_manifest( $template ) {
 		),
 	);
 
+	/**
+	 * Last-chance per-build override for the whole manifest.
+	 */
+	$manifest = apply_filters( 'gwill_pwa_manifest', $manifest );
+
 	header( 'Content-Type: application/manifest+json; charset=utf-8' );
 	header( 'Cache-Control: public, max-age=3600' );
-	echo wp_json_encode( $manifest );
+	echo wp_json_encode( $manifest, JSON_UNESCAPED_SLASHES );
 	exit;
 }
 
@@ -187,10 +236,21 @@ function gwill_pwa_publish_check() {
 add_action( 'after_switch_theme', 'gwill_pwa_publish_check' );
 add_action( 'admin_init', 'gwill_pwa_publish_check' );
 
-// ══════ 6. head links ══════
+// ══════ 6. head links — manifest + PWA metas + icons ══════
 function gwill_pwa_head_links() {
+	$icons  = gwill_pwa_icons();
+	$colors = gwill_pwa_colors();
+
+	echo '<meta name="theme-color" content="' . esc_attr( $colors['theme'] ) . '">' . "\n";
+	echo '<meta name="mobile-web-app-capable" content="yes">' . "\n";
+	// apple-mobile-web-app-capable is deprecated (harmless console warning);
+	// mobile-web-app-capable is its modern replacement — keep both for older
+	// iOS Safari (finance v1.0.175 lesson).
+	echo '<meta name="apple-mobile-web-app-capable" content="yes">' . "\n";
+	echo '<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">' . "\n";
 	echo '<link rel="manifest" href="' . esc_url( home_url( '/manifest.webmanifest' ) ) . '">' . "\n";
 	echo '<meta name="application-name" content="' . esc_attr( get_bloginfo( 'name' ) ) . '">' . "\n";
-	echo '<meta name="mobile-web-app-capable" content="yes">' . "\n";
+	echo '<link rel="icon" type="image/svg+xml" href="' . esc_url( $icons['favicon'] ) . '">' . "\n";
+	echo '<link rel="apple-touch-icon" href="' . esc_url( $icons['apple'] ) . '">' . "\n";
 }
 add_action( 'wp_head', 'gwill_pwa_head_links', 2 );

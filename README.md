@@ -34,6 +34,15 @@ SoftwareApplication + FAQPage on app pages), and its JS/CSS auto-loaded
 only on its own page. A demo **word-counter** app ships as the reference
 implementation. See the inline documentation in `inc/apps.php`.
 
+### Installable Chrome app (PWA)
+
+Every build ships the complete install set: a dynamic `manifest.webmanifest`
+(real 200 rewrite) with true 192/512/maskable icons, theme-color, the iOS
+apple-touch-icon + status-bar metas, an SVG favicon, and the custom install
+card (Chrome's default infobar suppressed). Re-branding the whole PWA is
+three filters — `gwill_pwa_icons()`, `gwill_pwa_colors()`, `gwill_pwa_manifest`
+— or simply dropping new art into `assets/brand/` under the same filenames.
+
 ### Both need one server rule
 
 Serve `/sw.js` no-cache so releases reach installed clients — the exact
