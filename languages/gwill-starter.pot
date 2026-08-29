@@ -1,0 +1,1770 @@
+# Copyright (C) 2026 G-will Chijioke
+# This file is distributed under the GNU General Public License v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: GWill Starter 1.3.10\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/gwill-starter-theme\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-08-29T11:03:34+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: gwill-starter\n"
+
+#. Theme Name of the theme
+#: style.css
+#: inc/faq.php:69
+msgid "GWill Starter"
+msgstr ""
+
+#. Theme URI of the theme
+#. Author URI of the theme
+#: style.css
+msgid "https://gwillchijioke.com"
+msgstr ""
+
+#. Description of the theme
+#: style.css
+msgid "A clean, custom WordPress starter theme built from scratch. No parent theme dependency."
+msgstr ""
+
+#. Author of the theme
+#: style.css
+msgid "G-will Chijioke"
+msgstr ""
+
+#: 404.php:7
+msgid "404 — Page Not Found"
+msgstr ""
+
+#: 404.php:8
+msgid "The page you're looking for doesn't exist. Try searching:"
+msgstr ""
+
+#: 404.php:12
+msgid "← Back to Home"
+msgstr ""
+
+#: archive.php:33
+#: author.php:105
+#: home.php:33
+#: index.php:36
+msgid "&larr; Prev"
+msgstr ""
+
+#: archive.php:34
+#: author.php:106
+#: home.php:34
+#: index.php:37
+#: search.php:130
+msgid "Next &rarr;"
+msgstr ""
+
+#: comments.php:18
+#, php-format
+msgid "%s Comment"
+msgid_plural "%s Comments"
+msgstr[0] ""
+msgstr[1] ""
+
+#: comments.php:41
+msgid "Comments are closed."
+msgstr ""
+
+#: header.php:30
+msgctxt "skip link"
+msgid "Skip to content"
+msgstr ""
+
+#: header.php:74
+#: header.php:82
+#: header.php:84
+#: searchform.php:19
+#: template-parts/search/search-form-expandable.php:64
+#: template-parts/search/search-form-expandable.php:81
+#: template-parts/search/search-form-modal.php:49
+#: template-parts/search/search-form-modal.php:72
+msgid "Search"
+msgstr ""
+
+#: header.php:84
+#: searchform.php:16
+#: template-parts/search/search-form-modal.php:80
+msgid "Search…"
+msgstr ""
+
+#: header.php:85
+msgid "Clear search text"
+msgstr ""
+
+#: header.php:89
+#: inc/enqueue.php:210
+#: template-parts/search/search-form-modal.php:118
+msgid "Close search"
+msgstr ""
+
+#: header.php:98
+#: inc/setup.php:68
+msgid "Primary Navigation"
+msgstr ""
+
+#: header.php:112
+msgid "Toggle navigation menu"
+msgstr ""
+
+#: inc/apps.php:70
+msgid "Word Counter"
+msgstr ""
+
+#: inc/apps.php:71
+msgid "Count words, characters, sentences and paragraphs as you type — instant, private, all in your browser."
+msgstr ""
+
+#: inc/apps.php:77
+msgid "Does my text leave my device?"
+msgstr ""
+
+#: inc/apps.php:78
+msgid "No. The counter runs entirely in your browser — nothing is uploaded or stored."
+msgstr ""
+
+#: inc/apps.php:81
+msgid "What counts as a sentence or a paragraph?"
+msgstr ""
+
+#: inc/apps.php:82
+msgid "A sentence ends with a period, question mark or exclamation point. A paragraph is a block of text separated by blank lines."
+msgstr ""
+
+#: inc/apps.php:183
+#: inc/apps.php:303
+#: page-apps.php:20
+msgid "Apps"
+msgstr ""
+
+#: inc/author.php:37
+#: inc/author.php:41
+msgid "Website"
+msgstr ""
+
+#: inc/author.php:46
+#: inc/author.php:49
+msgid "Twitter / X"
+msgstr ""
+
+#: inc/author.php:53
+#: inc/author.php:56
+msgid "LinkedIn"
+msgstr ""
+
+#: inc/author.php:60
+#: inc/author.php:63
+msgid "GitHub"
+msgstr ""
+
+#: inc/author.php:67
+#: inc/author.php:70
+msgid "Instagram"
+msgstr ""
+
+#: inc/author.php:74
+#: inc/author.php:77
+msgid "Facebook"
+msgstr ""
+
+#: inc/author.php:81
+#: inc/author.php:84
+msgid "YouTube"
+msgstr ""
+
+#: inc/author.php:151
+msgid "Social Links"
+msgstr ""
+
+#: inc/customizer.php:37
+msgid "Header Options"
+msgstr ""
+
+#: inc/customizer.php:51
+msgid "Developer Options"
+msgstr ""
+
+#: inc/customizer.php:71
+msgid "Show staging-environment banner"
+msgstr ""
+
+#: inc/customizer.php:72
+msgid "Only ever appears on a recognised staging domain (qzz.io, .local, staging./dev./test. subdomains) — never on the live site regardless of this setting. On by default so it can't be silently forgotten about; turn off if a project genuinely doesn't want it."
+msgstr ""
+
+#: inc/customizer.php:86
+msgid "Display tagline"
+msgstr ""
+
+#: inc/customizer.php:87
+msgid "The tagline text is set under Settings → General."
+msgstr ""
+
+#: inc/customizer.php:108
+msgid "Enable sticky header"
+msgstr ""
+
+#: inc/customizer.php:109
+msgid "Keeps the header visible at the top of the viewport while scrolling."
+msgstr ""
+
+#: inc/customizer.php:131
+msgid "Header padding (px)"
+msgstr ""
+
+#: inc/customizer.php:132
+msgid "Top & bottom padding on the site header. Default: 24 px."
+msgstr ""
+
+#: inc/customizer.php:161
+msgid "Logo width (px)"
+msgstr ""
+
+#: inc/customizer.php:162
+msgid "Maximum display width of the custom logo. Height scales automatically. Default: 160 px."
+msgstr ""
+
+#: inc/customizer.php:196
+msgid "Default Social Share Image"
+msgstr ""
+
+#: inc/customizer.php:197
+msgid "Shown when a page or post is shared on Facebook, X, etc. and has no featured image of its own. Recommended size: 1200×630px or larger."
+msgstr ""
+
+#: inc/embed-facades.php:193
+#, php-format
+msgid "Play %s: %s"
+msgstr ""
+
+#: inc/enqueue.php:172
+msgid "Step"
+msgstr ""
+
+#: inc/enqueue.php:173
+msgid "of"
+msgstr ""
+
+#: inc/enqueue.php:174
+msgid "is required."
+msgstr ""
+
+#: inc/enqueue.php:209
+#: template-parts/search/search-form-expandable.php:26
+#: template-parts/search/search-form-modal.php:35
+msgid "Open search"
+msgstr ""
+
+#: inc/enqueue.php:240
+msgid "Searching\\u2026"
+msgstr ""
+
+#: inc/enqueue.php:241
+#: inc/enqueue.php:289
+msgid "No results found."
+msgstr ""
+
+#: inc/enqueue.php:242
+#: inc/enqueue.php:292
+msgid "Search unavailable. Press Enter to search."
+msgstr ""
+
+#: inc/enqueue.php:243
+msgid "View all results \\u2192"
+msgstr ""
+
+#: inc/enqueue.php:288
+msgid "Searching…"
+msgstr ""
+
+#. translators: %s: the search query string.
+#: inc/enqueue.php:291
+#, php-format
+msgid "No matches for \"%s\" — try these recent posts:"
+msgstr ""
+
+#: inc/enqueue.php:293
+msgid "View all results →"
+msgstr ""
+
+#: inc/enqueue.php:337
+#: template-parts/ui/darkmode-toggle.php:31
+#: template-parts/ui/darkmode-toggle.php:33
+msgid "Switch to dark mode"
+msgstr ""
+
+#: inc/enqueue.php:338
+#: template-parts/ui/darkmode-toggle.php:34
+msgid "Switch to light mode"
+msgstr ""
+
+#: inc/faq.php:41
+msgid "FAQ Section"
+msgstr ""
+
+#: inc/faq.php:42
+msgid "A set of expandable questions with automatic FAQ schema markup for search engines."
+msgstr ""
+
+#: inc/faq.php:47
+msgid "Question one goes here?"
+msgstr ""
+
+#: inc/faq.php:48
+msgid "Answer one goes here."
+msgstr ""
+
+#: inc/faq.php:53
+msgid "Question two goes here?"
+msgstr ""
+
+#: inc/faq.php:54
+msgid "Answer two goes here."
+msgstr ""
+
+#: inc/faq.php:59
+msgid "Question three goes here?"
+msgstr ""
+
+#: inc/faq.php:60
+msgid "Answer three goes here."
+msgstr ""
+
+#: inc/forms/ajax.php:55
+msgid "Security check failed. Please refresh and try again."
+msgstr ""
+
+#: inc/forms/ajax.php:62
+msgid "Thank you. Your message has been sent."
+msgstr ""
+
+#: inc/forms/ajax.php:68
+msgid "Please wait a few minutes before sending another message."
+msgstr ""
+
+#: inc/forms/ajax.php:89
+msgid "Please enter a valid email address."
+msgstr ""
+
+#: inc/forms/ajax.php:113
+msgid "Thanks — you're subscribed."
+msgstr ""
+
+#: inc/forms/ajax.php:138
+msgid "Your message could not be sent. Please try again or reach out directly."
+msgstr ""
+
+#: inc/forms/ajax.php:164
+msgid "Thank you — your message has been sent. I'll be in touch soon."
+msgstr ""
+
+#: inc/forms/brevo.php:54
+msgid "Newsletter signup is not available right now. Please try again later."
+msgstr ""
+
+#: inc/forms/brevo.php:74
+msgid "Could not reach the newsletter service. Please try again shortly."
+msgstr ""
+
+#: inc/forms/brevo.php:92
+msgid "Could not complete your subscription. Please try again shortly."
+msgstr ""
+
+#: inc/forms/email.php:27
+#: template-parts/forms/contact-multistep.php:152
+#: template-parts/forms/contact-routed.php:55
+#: template-parts/forms/contact-sidebar.php:42
+#: template-parts/forms/contact-simple.php:37
+msgid "Name"
+msgstr ""
+
+#: inc/forms/email.php:28
+msgid "First Name"
+msgstr ""
+
+#: inc/forms/email.php:29
+#: template-parts/forms/contact-exit-intent.php:72
+#: template-parts/forms/contact-inline.php:64
+#: template-parts/forms/contact-inquiry.php:47
+#: template-parts/forms/contact-multistep.php:159
+#: template-parts/forms/contact-newsletter.php:49
+#: template-parts/forms/contact-routed.php:62
+#: template-parts/forms/contact-sidebar.php:50
+#: template-parts/forms/contact-simple.php:51
+msgid "Email"
+msgstr ""
+
+#: inc/forms/email.php:30
+msgid "Company / Website"
+msgstr ""
+
+#: inc/forms/email.php:31
+#: template-parts/forms/contact-routed.php:71
+#: template-parts/forms/contact-simple.php:65
+msgid "Message"
+msgstr ""
+
+#: inc/forms/email.php:32
+msgid "Service Type"
+msgstr ""
+
+#: inc/forms/email.php:33
+msgid "Project Scope"
+msgstr ""
+
+#: inc/forms/email.php:34
+#: template-parts/forms/contact-inquiry.php:80
+msgid "Timeline"
+msgstr ""
+
+#: inc/forms/email.php:35
+msgid "Budget"
+msgstr ""
+
+#: inc/forms/email.php:36
+msgid "Project Description"
+msgstr ""
+
+#: inc/forms/email.php:37
+#: template-parts/forms/contact-inline.php:51
+#: template-parts/forms/contact-inline.php:57
+msgid "What do you need help with?"
+msgstr ""
+
+#: inc/forms/email.php:38
+msgid "Inquiry Type"
+msgstr ""
+
+#: inc/forms/email.php:39
+msgid "How did you find me?"
+msgstr ""
+
+#: inc/forms/email.php:40
+msgid "Brand / Company"
+msgstr ""
+
+#: inc/forms/email.php:41
+msgid "Brand Website"
+msgstr ""
+
+#: inc/forms/email.php:42
+msgid "Campaign Type"
+msgstr ""
+
+#: inc/forms/email.php:43
+msgid "Campaign Goal"
+msgstr ""
+
+#: inc/forms/email.php:44
+msgid "Audience Fit"
+msgstr ""
+
+#: inc/forms/email.php:45
+msgid "Current Website"
+msgstr ""
+
+#: inc/forms/email.php:46
+#: template-parts/forms/contact-application.php:46
+msgid "What are you working on?"
+msgstr ""
+
+#: inc/forms/email.php:47
+msgid "Current Revenue"
+msgstr ""
+
+#: inc/forms/email.php:48
+msgid "Desired Outcome"
+msgstr ""
+
+#: inc/forms/email.php:49
+msgid "Why Now?"
+msgstr ""
+
+#: inc/forms/email.php:50
+msgid "Response"
+msgstr ""
+
+#: inc/forms/email.php:51
+msgid "Feedback"
+msgstr ""
+
+#: inc/forms/email.php:52
+msgid "Post"
+msgstr ""
+
+#. translators: %s: site name
+#: inc/forms/email.php:127
+#, php-format
+msgid "Sent via %s contact form"
+msgstr ""
+
+#: inc/forms/email.php:152
+msgid "Someone"
+msgstr ""
+
+#. translators: %s: human-readable field label
+#: inc/forms/sanitize.php:123
+#, php-format
+msgid "%s is required."
+msgstr ""
+
+#: inc/forms/sanitize.php:146
+msgid "Invalid input detected."
+msgstr ""
+
+#. translators: 1: submitter first name or "there", 2: site name
+#: inc/forms/send.php:68
+#, php-format
+msgid ""
+"Hi %1$s,\n"
+"\n"
+"Thanks for your message. I've received it and will get back to you soon.\n"
+"\n"
+"— %2$s"
+msgstr ""
+
+#: inc/forms/send.php:72
+msgid "there"
+msgstr ""
+
+#. translators: %s: site name
+#: inc/forms/send.php:81
+#, php-format
+msgid "Thanks for reaching out to %s"
+msgstr ""
+
+#: inc/helpers.php:355
+msgid "Home"
+msgstr ""
+
+#: inc/helpers.php:364
+msgid "Blog"
+msgstr ""
+
+#. translators: %s: search query string
+#: inc/helpers.php:455
+#, php-format
+msgid "Search: %s"
+msgstr ""
+
+#: inc/helpers.php:464
+msgid "404 Not Found"
+msgstr ""
+
+#: inc/helpers.php:513
+msgid "Breadcrumb"
+msgstr ""
+
+#: inc/portfolio.php:54
+msgctxt "post type general name"
+msgid "Portfolio"
+msgstr ""
+
+#: inc/portfolio.php:55
+msgctxt "post type singular name"
+msgid "Project"
+msgstr ""
+
+#: inc/portfolio.php:56
+msgctxt "admin menu"
+msgid "Portfolio"
+msgstr ""
+
+#: inc/portfolio.php:57
+msgid "Add New Project"
+msgstr ""
+
+#: inc/portfolio.php:58
+msgid "Edit Project"
+msgstr ""
+
+#: inc/portfolio.php:59
+msgid "New Project"
+msgstr ""
+
+#: inc/portfolio.php:60
+#: template-parts/portfolio/portfolio.php:51
+msgid "View Project"
+msgstr ""
+
+#: inc/portfolio.php:61
+msgid "Search Portfolio"
+msgstr ""
+
+#: inc/portfolio.php:62
+msgid "No projects found."
+msgstr ""
+
+#: inc/portfolio.php:63
+msgid "No projects found in Trash."
+msgstr ""
+
+#: inc/portfolio.php:64
+msgid "All Projects"
+msgstr ""
+
+#: inc/portfolio.php:65
+msgid "Portfolio Archive"
+msgstr ""
+
+#: inc/portfolio.php:86
+msgctxt "taxonomy general name"
+msgid "Project Types"
+msgstr ""
+
+#: inc/portfolio.php:87
+msgctxt "taxonomy singular name"
+msgid "Project Type"
+msgstr ""
+
+#: inc/portfolio.php:88
+msgid "Search Project Types"
+msgstr ""
+
+#: inc/portfolio.php:89
+msgid "All Project Types"
+msgstr ""
+
+#: inc/portfolio.php:90
+msgid "Edit Project Type"
+msgstr ""
+
+#: inc/portfolio.php:91
+msgid "Update Project Type"
+msgstr ""
+
+#: inc/portfolio.php:92
+msgid "Add New Project Type"
+msgstr ""
+
+#: inc/portfolio.php:93
+msgid "New Project Type Name"
+msgstr ""
+
+#: inc/portfolio.php:94
+msgid "Project Types"
+msgstr ""
+
+#: inc/portfolio.php:118
+msgid "Project Details"
+msgstr ""
+
+#: inc/portfolio.php:140
+msgid "Client"
+msgstr ""
+
+#: inc/portfolio.php:152
+msgid "Live Project URL"
+msgstr ""
+
+#: inc/portfolio.php:162
+msgid "Optional. If set, the grid card links here instead of the project's own page."
+msgstr ""
+
+#: inc/pwa.php:60
+msgid "Install"
+msgstr ""
+
+#: inc/pwa.php:61
+msgid "Add this site to your home screen — read offline, open in one tap."
+msgstr ""
+
+#: inc/pwa.php:62
+msgid "Install app"
+msgstr ""
+
+#: inc/pwa.php:63
+msgid "Not now"
+msgstr ""
+
+#: inc/search.php:204
+msgid "Too many search requests. Please wait a moment and try again."
+msgstr ""
+
+#. translators: %s: search term wrapped in <strong>
+#: inc/search.php:293
+#, php-format
+msgid "No results for %s"
+msgstr ""
+
+#. translators: 1: formatted integer result count  2: search term in <strong>
+#: inc/search.php:300
+#, php-format
+msgid "%1$s result for %2$s"
+msgid_plural "%1$s results for %2$s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/security.php:118
+msgid "Invalid username or password."
+msgstr ""
+
+#. translators: 1: author display name, 2: site name.
+#: inc/seo.php:183
+#, php-format
+msgid "Articles written by %1$s on %2$s."
+msgstr ""
+
+#. translators: %s: site name.
+#: inc/seo.php:199
+#, php-format
+msgid "Every guide on %s — tutorials, tips and walkthroughs, newest first."
+msgstr ""
+
+#: inc/seo.php:208
+msgid "Contact — partnerships, questions and requests. Responses within 48 hours."
+msgstr ""
+
+#: inc/setup.php:69
+msgid "Footer Navigation"
+msgstr ""
+
+#: inc/setup.php:141
+msgid "Video Embed (replaces featured image)"
+msgstr ""
+
+#: inc/setup.php:159
+msgid "YouTube URL"
+msgstr ""
+
+#: inc/setup.php:170
+msgid "Paste a YouTube URL to embed a video instead of the featured image on single post view. Leave blank to use the featured image."
+msgstr ""
+
+#: inc/table-of-contents.php:162
+msgid "Table of Contents"
+msgstr ""
+
+#: inc/testimonials.php:44
+msgctxt "post type general name"
+msgid "Testimonials"
+msgstr ""
+
+#: inc/testimonials.php:45
+msgctxt "post type singular name"
+msgid "Testimonial"
+msgstr ""
+
+#: inc/testimonials.php:46
+msgctxt "admin menu"
+msgid "Testimonials"
+msgstr ""
+
+#: inc/testimonials.php:47
+msgid "Add New Testimonial"
+msgstr ""
+
+#: inc/testimonials.php:48
+msgid "Edit Testimonial"
+msgstr ""
+
+#: inc/testimonials.php:49
+msgid "New Testimonial"
+msgstr ""
+
+#: inc/testimonials.php:50
+msgid "View Testimonial"
+msgstr ""
+
+#: inc/testimonials.php:51
+msgid "Search Testimonials"
+msgstr ""
+
+#: inc/testimonials.php:52
+msgid "No testimonials found."
+msgstr ""
+
+#: inc/testimonials.php:53
+msgid "No testimonials found in Trash."
+msgstr ""
+
+#: inc/testimonials.php:54
+msgid "All Testimonials"
+msgstr ""
+
+#: inc/testimonials.php:55
+msgid "Photo"
+msgstr ""
+
+#: inc/testimonials.php:56
+msgid "Set photo"
+msgstr ""
+
+#: inc/testimonials.php:57
+msgid "Remove photo"
+msgstr ""
+
+#: inc/testimonials.php:89
+msgid "Testimonial Details"
+msgstr ""
+
+#: inc/testimonials.php:112
+msgid "Role / Company"
+msgstr ""
+
+#: inc/testimonials.php:120
+msgid "e.g. CEO, Acme Inc."
+msgstr ""
+
+#: inc/testimonials.php:125
+msgid "Star Rating"
+msgstr ""
+
+#. translators: %d: number of stars, 1-5
+#: inc/testimonials.php:133
+#, php-format
+msgid "%d star"
+msgid_plural "%d stars"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: rating out of 5, e.g. "5 out of 5 stars"
+#: inc/testimonials.php:291
+#, php-format
+msgid "%d out of 5 stars"
+msgstr ""
+
+#: inc/webpush.php:269
+msgid "New post on"
+msgstr ""
+
+#: inc/webpush.php:347
+#: inc/webpush.php:442
+msgid "Enable notifications"
+msgstr ""
+
+#: inc/webpush.php:348
+msgid "Turn off notifications"
+msgstr ""
+
+#: inc/webpush.php:349
+msgid "Notifications blocked by browser"
+msgstr ""
+
+#: inc/webpush.php:350
+msgid "Could not enable notifications"
+msgstr ""
+
+#: inc/webpush.php:352
+#: inc/webpush.php:443
+msgid "Notifications"
+msgstr ""
+
+#: inc/webpush.php:353
+msgid "status: on"
+msgstr ""
+
+#: inc/webpush.php:354
+msgid "status: off"
+msgstr ""
+
+#: inc/webpush.php:355
+msgid "status: blocked"
+msgstr ""
+
+#: inc/webpush.php:356
+msgid "status: error"
+msgstr ""
+
+#: inc/webpush.php:357
+msgid "You're subscribed — an alert lands on this device the moment a new post goes live."
+msgstr ""
+
+#: inc/webpush.php:358
+msgid "Get notified of every new post. No spam, no marketing — one tap to turn off."
+msgstr ""
+
+#: inc/webpush.php:359
+msgid "Notifications are blocked for this site. Unblock them in your browser, then tap Check again — we detect it instantly."
+msgstr ""
+
+#: inc/webpush.php:360
+msgid "Something went wrong while enabling notifications. Try again."
+msgstr ""
+
+#: inc/webpush.php:361
+msgid "status: unsupported"
+msgstr ""
+
+#: inc/webpush.php:362
+msgid "Push notifications are not supported in this browser."
+msgstr ""
+
+#: inc/webpush.php:363
+msgid "Supported browsers: Chrome, Firefox, Edge, Opera, Safari 16+, Samsung Internet."
+msgstr ""
+
+#: inc/webpush.php:364
+msgid "How to unblock on this device"
+msgstr ""
+
+#: inc/webpush.php:365
+msgid "Check again"
+msgstr ""
+
+#: inc/webpush.php:366
+msgid "Try again"
+msgstr ""
+
+#: inc/webpush.php:367
+msgid "Enabling…"
+msgstr ""
+
+#: inc/webpush.php:368
+msgid "Turning off…"
+msgstr ""
+
+#: inc/webpush.php:369
+msgid "Close notifications panel"
+msgstr ""
+
+#: inc/webpush.php:370
+msgid "Different device or browser? Open the site settings (lock icon in the address bar), set Notifications to Allow, then reload."
+msgstr ""
+
+#: inc/webpush.php:374
+msgid "Tap the lock (or tune) icon at the left of the address bar"
+msgstr ""
+
+#: inc/webpush.php:375
+msgid "Tap Permissions, then Notifications"
+msgstr ""
+
+#: inc/webpush.php:376
+#: inc/webpush.php:386
+#: inc/webpush.php:391
+msgid "Choose Allow, then reload the page"
+msgstr ""
+
+#: inc/webpush.php:379
+msgid "Tap the menu (⋮), then Site Settings"
+msgstr ""
+
+#: inc/webpush.php:380
+msgid "Tap Notifications, then Allow"
+msgstr ""
+
+#: inc/webpush.php:381
+#: inc/webpush.php:398
+#: inc/webpush.php:404
+#: inc/webpush.php:410
+#: inc/webpush.php:415
+#: inc/webpush.php:420
+#: inc/webpush.php:425
+msgid "Reload the page"
+msgstr ""
+
+#: inc/webpush.php:384
+msgid "Tap the menu (☰), then Settings → Sites and downloads"
+msgstr ""
+
+#: inc/webpush.php:385
+msgid "Tap Site permissions → Notifications"
+msgstr ""
+
+#: inc/webpush.php:389
+msgid "Tap Aa in the Safari address bar"
+msgstr ""
+
+#: inc/webpush.php:390
+msgid "Tap Website Settings, then Notifications"
+msgstr ""
+
+#: inc/webpush.php:392
+msgid "If Allow is unavailable: Share → Add to Home Screen first — iOS delivers web push to installed apps"
+msgstr ""
+
+#: inc/webpush.php:395
+#: inc/webpush.php:407
+msgid "Click the lock (or tune) icon at the left of the address bar"
+msgstr ""
+
+#: inc/webpush.php:396
+#: inc/webpush.php:408
+msgid "Open Site settings"
+msgstr ""
+
+#: inc/webpush.php:397
+#: inc/webpush.php:403
+#: inc/webpush.php:409
+#: inc/webpush.php:419
+msgid "Set Notifications to Allow"
+msgstr ""
+
+#: inc/webpush.php:401
+msgid "Click the lock icon at the left of the address bar"
+msgstr ""
+
+#: inc/webpush.php:402
+msgid "Open Site permissions"
+msgstr ""
+
+#: inc/webpush.php:413
+msgid "Click the crossed-out bell (or lock) icon in the address bar"
+msgstr ""
+
+#: inc/webpush.php:414
+msgid "Clear the Blocked permission for Notifications"
+msgstr ""
+
+#: inc/webpush.php:418
+#, php-format
+msgid "In the menu bar choose Safari → Settings for %s…"
+msgstr ""
+
+#: inc/webpush.php:423
+msgid "Open your browser's site settings (lock icon in the address bar)"
+msgstr ""
+
+#: inc/webpush.php:424
+msgid "Set Notifications to Allow for this site"
+msgstr ""
+
+#: inc/webpush.php:445
+#: inc/webpush.php:447
+msgid "Notify me of new posts"
+msgstr ""
+
+#: inc/webpush.php:446
+msgid "Notifications on"
+msgstr ""
+
+#: page-apps.php:21
+msgid "Free tools that run entirely in your browser — fast, private, no sign-up."
+msgstr ""
+
+#: search.php:28
+msgid "Search results"
+msgstr ""
+
+#: search.php:53
+msgid "Showing results for"
+msgstr ""
+
+#: search.php:55
+msgid "search instead for"
+msgstr ""
+
+#: search.php:116
+msgid "People also searched for"
+msgstr ""
+
+#: search.php:125
+msgid "Search results pages"
+msgstr ""
+
+#: search.php:129
+msgid "&larr; Previous"
+msgstr ""
+
+#: searchform.php:5
+msgid "Site search"
+msgstr ""
+
+#: searchform.php:10
+msgid "Search for:"
+msgstr ""
+
+#: single.php:33
+msgid "By"
+msgstr ""
+
+#. translators: %d: estimated reading time in minutes
+#: single.php:49
+#: template-parts/content.php:50
+#, php-format
+msgid "%d min read"
+msgstr ""
+
+#: template-app.php:34
+msgid "This app needs JavaScript to run."
+msgstr ""
+
+#: template-app.php:39
+msgid "Frequently asked questions"
+msgstr ""
+
+#: template-app.php:48
+msgid "All apps"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Contact Demo (Dev Only)"
+msgstr ""
+
+#: template-contact-demo.php:33
+msgid "You do not have permission to view this page."
+msgstr ""
+
+#: template-contact-demo.php:34
+msgid "Access Restricted"
+msgstr ""
+
+#: template-contact-demo.php:52
+msgid "Contact Form Demo"
+msgstr ""
+
+#: template-contact-demo.php:54
+msgid "Dev only."
+msgstr ""
+
+#: template-contact-demo.php:55
+msgid "This page demonstrates all 10 contact form patterns from the GWill Starter contact form system. Set to Private before deploying."
+msgstr ""
+
+#. Template Name of the theme
+msgid "Contact"
+msgstr ""
+
+#: template-parts/author-box.php:39
+msgid "About the author"
+msgstr ""
+
+#: template-parts/author-box.php:51
+msgid "Written by"
+msgstr ""
+
+#. translators: %s: author display name
+#: template-parts/author-box.php:65
+#, php-format
+msgid "More posts by %s"
+msgstr ""
+
+#: template-parts/back-to-top.php:17
+msgid "Back to top"
+msgstr ""
+
+#: template-parts/content-none.php:26
+msgid "Nothing matched your search"
+msgstr ""
+
+#: template-parts/content-none.php:28
+msgid "Try different keywords, or check for typos."
+msgstr ""
+
+#: template-parts/content-none.php:33
+msgid "Nothing here yet"
+msgstr ""
+
+#: template-parts/content-none.php:35
+msgid "It looks like nothing was found at this location."
+msgstr ""
+
+#: template-parts/cookie-consent.php:26
+msgid "Cookie consent"
+msgstr ""
+
+#. translators: %s: link to the site's configured Privacy Policy page
+#: template-parts/cookie-consent.php:33
+#, php-format
+msgid "This site uses cookies to improve your experience. %s"
+msgstr ""
+
+#: template-parts/cookie-consent.php:34
+msgid "Learn more"
+msgstr ""
+
+#: template-parts/cookie-consent.php:37
+msgid "This site uses cookies to improve your experience."
+msgstr ""
+
+#: template-parts/cookie-consent.php:43
+msgid "Reject"
+msgstr ""
+
+#: template-parts/cookie-consent.php:46
+msgid "Accept"
+msgstr ""
+
+#: template-parts/forms/contact-application.php:29
+#: template-parts/forms/contact-exit-intent.php:55
+#: template-parts/forms/contact-inline.php:35
+#: template-parts/forms/contact-inquiry.php:29
+#: template-parts/forms/contact-multistep.php:49
+#: template-parts/forms/contact-newsletter.php:39
+#: template-parts/forms/contact-partnership.php:29
+#: template-parts/forms/contact-post-feedback.php:37
+#: template-parts/forms/contact-routed.php:30
+#: template-parts/forms/contact-sidebar.php:33
+#: template-parts/forms/contact-simple.php:28
+msgid "Leave this blank"
+msgstr ""
+
+#: template-parts/forms/contact-application.php:38
+msgid "What's the URL of your current site?"
+msgstr ""
+
+#: template-parts/forms/contact-application.php:53
+msgid "What's your current annual revenue?"
+msgstr ""
+
+#: template-parts/forms/contact-application.php:55
+#: template-parts/forms/contact-inquiry.php:83
+#: template-parts/forms/contact-inquiry.php:96
+#: template-parts/forms/contact-multistep.php:115
+#: template-parts/forms/contact-multistep.php:130
+#: template-parts/forms/contact-partnership.php:98
+msgid "Select…"
+msgstr ""
+
+#: template-parts/forms/contact-application.php:56
+msgid "Pre-revenue"
+msgstr ""
+
+#: template-parts/forms/contact-application.php:57
+msgid "Under $10k"
+msgstr ""
+
+#: template-parts/forms/contact-application.php:58
+msgid "$10k–$100k"
+msgstr ""
+
+#: template-parts/forms/contact-application.php:59
+msgid "$100k–$500k"
+msgstr ""
+
+#: template-parts/forms/contact-application.php:60
+msgid "$500k+"
+msgstr ""
+
+#: template-parts/forms/contact-application.php:66
+msgid "What outcome are you hoping for?"
+msgstr ""
+
+#: template-parts/forms/contact-application.php:70
+msgid "In 2–3 sentences…"
+msgstr ""
+
+#: template-parts/forms/contact-application.php:74
+msgid "Why now? (one line)"
+msgstr ""
+
+#: template-parts/forms/contact-application.php:80
+msgid "Best email to reach you"
+msgstr ""
+
+#: template-parts/forms/contact-application.php:88
+msgid "Submit Application"
+msgstr ""
+
+#: template-parts/forms/contact-application.php:89
+msgid "Submitting…"
+msgstr ""
+
+#: template-parts/forms/contact-exit-intent.php:37
+msgid "Close"
+msgstr ""
+
+#: template-parts/forms/contact-exit-intent.php:42
+msgid "Before you go…"
+msgstr ""
+
+#: template-parts/forms/contact-exit-intent.php:45
+msgid "Get the next guide delivered straight to your inbox."
+msgstr ""
+
+#: template-parts/forms/contact-exit-intent.php:65
+msgid "First name"
+msgstr ""
+
+#: template-parts/forms/contact-exit-intent.php:81
+msgid "Yes, send it to me"
+msgstr ""
+
+#: template-parts/forms/contact-exit-intent.php:82
+#: template-parts/forms/contact-newsletter.php:63
+msgid "Subscribing…"
+msgstr ""
+
+#: template-parts/forms/contact-inline.php:25
+msgid "Want me to build this for you?"
+msgstr ""
+
+#: template-parts/forms/contact-inline.php:70
+#: template-parts/forms/contact-newsletter.php:55
+#: template-parts/forms/contact-partnership.php:60
+msgid "Your email"
+msgstr ""
+
+#: template-parts/forms/contact-inline.php:77
+msgid "Let's talk"
+msgstr ""
+
+#: template-parts/forms/contact-inline.php:78
+#: template-parts/forms/contact-inquiry.php:124
+#: template-parts/forms/contact-multistep.php:199
+#: template-parts/forms/contact-partnership.php:109
+#: template-parts/forms/contact-post-feedback.php:67
+#: template-parts/forms/contact-routed.php:80
+#: template-parts/forms/contact-sidebar.php:67
+#: template-parts/forms/contact-simple.php:79
+msgid "Sending…"
+msgstr ""
+
+#: template-parts/forms/contact-inquiry.php:39
+#: template-parts/forms/contact-partnership.php:39
+msgid "Your name"
+msgstr ""
+
+#: template-parts/forms/contact-inquiry.php:56
+msgid "Company or website"
+msgstr ""
+
+#: template-parts/forms/contact-inquiry.php:63
+#: template-parts/forms/contact-multistep.php:58
+msgid "What do you need?"
+msgstr ""
+
+#: template-parts/forms/contact-inquiry.php:67
+msgid "Choose a service…"
+msgstr ""
+
+#: template-parts/forms/contact-inquiry.php:68
+#: template-parts/forms/contact-multistep.php:67
+msgid "Web Design"
+msgstr ""
+
+#: template-parts/forms/contact-inquiry.php:69
+#: template-parts/forms/contact-multistep.php:68
+msgid "Development"
+msgstr ""
+
+#: template-parts/forms/contact-inquiry.php:70
+#: template-parts/forms/contact-multistep.php:70
+msgid "SEO"
+msgstr ""
+
+#: template-parts/forms/contact-inquiry.php:71
+msgid "Copywriting"
+msgstr ""
+
+#: template-parts/forms/contact-inquiry.php:72
+msgid "Consultation"
+msgstr ""
+
+#: template-parts/forms/contact-inquiry.php:73
+#: template-parts/forms/contact-multistep.php:72
+#: template-parts/forms/contact-partnership.php:79
+msgid "Other"
+msgstr ""
+
+#: template-parts/forms/contact-inquiry.php:84
+#: template-parts/forms/contact-multistep.php:116
+msgid "ASAP"
+msgstr ""
+
+#: template-parts/forms/contact-inquiry.php:85
+#: template-parts/forms/contact-multistep.php:117
+msgid "1–3 months"
+msgstr ""
+
+#: template-parts/forms/contact-inquiry.php:86
+#: template-parts/forms/contact-multistep.php:118
+msgid "3–6 months"
+msgstr ""
+
+#: template-parts/forms/contact-inquiry.php:87
+#: template-parts/forms/contact-multistep.php:120
+msgid "Just exploring"
+msgstr ""
+
+#: template-parts/forms/contact-inquiry.php:93
+#: template-parts/forms/contact-multistep.php:126
+msgid "Budget range"
+msgstr ""
+
+#: template-parts/forms/contact-inquiry.php:97
+#: template-parts/forms/contact-multistep.php:131
+msgid "Under $500"
+msgstr ""
+
+#: template-parts/forms/contact-inquiry.php:98
+#: template-parts/forms/contact-multistep.php:132
+#: template-parts/forms/contact-partnership.php:100
+msgid "$500–$2k"
+msgstr ""
+
+#: template-parts/forms/contact-inquiry.php:99
+#: template-parts/forms/contact-multistep.php:133
+msgid "$2k–$5k"
+msgstr ""
+
+#: template-parts/forms/contact-inquiry.php:100
+msgid "$5k+"
+msgstr ""
+
+#: template-parts/forms/contact-inquiry.php:101
+msgid "Let's discuss"
+msgstr ""
+
+#: template-parts/forms/contact-inquiry.php:108
+msgid "Tell me about your project"
+msgstr ""
+
+#: template-parts/forms/contact-inquiry.php:116
+#: template-parts/forms/contact-multistep.php:172
+msgid "How did you find me? (optional)"
+msgstr ""
+
+#: template-parts/forms/contact-inquiry.php:123
+msgid "Send Inquiry"
+msgstr ""
+
+#: template-parts/forms/contact-multistep.php:33
+msgid "Step 1 of 4"
+msgstr ""
+
+#: template-parts/forms/contact-multistep.php:37
+msgid "For the best experience, enable JavaScript. The form will still work — all fields are shown below."
+msgstr ""
+
+#: template-parts/forms/contact-multistep.php:62
+msgid "Service type"
+msgstr ""
+
+#: template-parts/forms/contact-multistep.php:66
+#: template-parts/forms/contact-partnership.php:73
+#: template-parts/forms/contact-routed.php:43
+msgid "Choose…"
+msgstr ""
+
+#: template-parts/forms/contact-multistep.php:69
+msgid "Redesign"
+msgstr ""
+
+#: template-parts/forms/contact-multistep.php:71
+msgid "Support Retainer"
+msgstr ""
+
+#: template-parts/forms/contact-multistep.php:77
+msgid "Project scope"
+msgstr ""
+
+#: template-parts/forms/contact-multistep.php:81
+msgid "Small"
+msgstr ""
+
+#: template-parts/forms/contact-multistep.php:82
+msgid "Medium"
+msgstr ""
+
+#: template-parts/forms/contact-multistep.php:83
+msgid "Large"
+msgstr ""
+
+#: template-parts/forms/contact-multistep.php:103
+#: template-parts/forms/contact-multistep.php:141
+#: template-parts/forms/contact-multistep.php:178
+msgid "Next →"
+msgstr ""
+
+#: template-parts/forms/contact-multistep.php:110
+msgid "Timeline &amp; budget"
+msgstr ""
+
+#: template-parts/forms/contact-multistep.php:113
+msgid "Target timeline"
+msgstr ""
+
+#: template-parts/forms/contact-multistep.php:119
+msgid "6+ months"
+msgstr ""
+
+#: template-parts/forms/contact-multistep.php:134
+msgid "$5k–$10k"
+msgstr ""
+
+#: template-parts/forms/contact-multistep.php:135
+msgid "$10k+"
+msgstr ""
+
+#: template-parts/forms/contact-multistep.php:140
+#: template-parts/forms/contact-multistep.php:177
+#: template-parts/forms/contact-multistep.php:195
+msgid "← Back"
+msgstr ""
+
+#: template-parts/forms/contact-multistep.php:147
+msgid "About you"
+msgstr ""
+
+#: template-parts/forms/contact-multistep.php:167
+msgid "Company or website (optional)"
+msgstr ""
+
+#: template-parts/forms/contact-multistep.php:184
+msgid "Tell me more"
+msgstr ""
+
+#: template-parts/forms/contact-multistep.php:188
+msgid "Project description"
+msgstr ""
+
+#: template-parts/forms/contact-multistep.php:198
+msgid "Submit Request"
+msgstr ""
+
+#: template-parts/forms/contact-newsletter.php:29
+msgid "Get new posts in your inbox."
+msgstr ""
+
+#: template-parts/forms/contact-newsletter.php:62
+msgid "Subscribe"
+msgstr ""
+
+#: template-parts/forms/contact-partnership.php:46
+msgid "Brand / company"
+msgstr ""
+
+#: template-parts/forms/contact-partnership.php:55
+msgid "Brand website"
+msgstr ""
+
+#: template-parts/forms/contact-partnership.php:69
+msgid "Campaign type"
+msgstr ""
+
+#: template-parts/forms/contact-partnership.php:74
+msgid "Sponsored Post"
+msgstr ""
+
+#: template-parts/forms/contact-partnership.php:75
+msgid "Newsletter Mention"
+msgstr ""
+
+#: template-parts/forms/contact-partnership.php:76
+msgid "Social Media"
+msgstr ""
+
+#: template-parts/forms/contact-partnership.php:77
+msgid "Product Review"
+msgstr ""
+
+#: template-parts/forms/contact-partnership.php:78
+msgid "Long-term Partnership"
+msgstr ""
+
+#: template-parts/forms/contact-partnership.php:84
+msgid "Campaign goal"
+msgstr ""
+
+#: template-parts/forms/contact-partnership.php:86
+msgid "What are you trying to achieve?"
+msgstr ""
+
+#: template-parts/forms/contact-partnership.php:90
+msgid "Why is my audience a match?"
+msgstr ""
+
+#: template-parts/forms/contact-partnership.php:92
+msgid "Why does your product fit my readers specifically?"
+msgstr ""
+
+#: template-parts/forms/contact-partnership.php:96
+msgid "Campaign budget"
+msgstr ""
+
+#: template-parts/forms/contact-partnership.php:99
+msgid "Under $500 (gifted-product-only)"
+msgstr ""
+
+#: template-parts/forms/contact-partnership.php:101
+msgid "$2k–$10k"
+msgstr ""
+
+#: template-parts/forms/contact-partnership.php:102
+msgid "Custom — let's discuss"
+msgstr ""
+
+#: template-parts/forms/contact-partnership.php:108
+msgid "Send Partnership Inquiry"
+msgstr ""
+
+#: template-parts/forms/contact-post-feedback.php:27
+msgid "Was this helpful?"
+msgstr ""
+
+#: template-parts/forms/contact-post-feedback.php:52
+msgid "👍 Yes"
+msgstr ""
+
+#: template-parts/forms/contact-post-feedback.php:55
+msgid "👎 No"
+msgstr ""
+
+#: template-parts/forms/contact-post-feedback.php:61
+msgid "What would make this more useful?"
+msgstr ""
+
+#: template-parts/forms/contact-post-feedback.php:66
+msgid "Send Feedback"
+msgstr ""
+
+#: template-parts/forms/contact-routed.php:39
+msgid "What's this about?"
+msgstr ""
+
+#: template-parts/forms/contact-routed.php:44
+msgid "Press &amp; Media"
+msgstr ""
+
+#: template-parts/forms/contact-routed.php:45
+msgid "Brand Partnerships"
+msgstr ""
+
+#: template-parts/forms/contact-routed.php:46
+msgid "Reader Question"
+msgstr ""
+
+#: template-parts/forms/contact-routed.php:47
+msgid "Technical Support"
+msgstr ""
+
+#: template-parts/forms/contact-routed.php:48
+msgid "General"
+msgstr ""
+
+#: template-parts/forms/contact-routed.php:79
+#: template-parts/forms/contact-simple.php:78
+msgid "Send Message"
+msgstr ""
+
+#: template-parts/forms/contact-sidebar.php:24
+msgid "Hire Me"
+msgstr ""
+
+#: template-parts/forms/contact-sidebar.php:58
+msgid "How can I help?"
+msgstr ""
+
+#: template-parts/forms/contact-sidebar.php:66
+msgid "Get in Touch"
+msgstr ""
+
+#: template-parts/pricing-table.php:44
+msgid "Most Popular"
+msgstr ""
+
+#: template-parts/related-posts.php:26
+msgid "Related Posts"
+msgstr ""
+
+#: template-parts/search/search-form-expandable.php:72
+msgid "Type to search…"
+msgstr ""
+
+#: template-parts/search/search-form-modal.php:92
+msgid "Clear search input"
+msgstr ""
+
+#: template-parts/search/search-form-modal.php:103
+msgid "Submit search"
+msgstr ""
+
+#: template-parts/search/search-form-modal.php:112
+msgid "Search suggestions"
+msgstr ""
+
+#. translators: %s: the search term the user entered
+#: template-parts/search/search-no-results.php:34
+#, php-format
+msgid "Nothing found for \"%s\"."
+msgstr ""
+
+#: template-parts/search/search-no-results.php:38
+msgid "Enter a search term above to get started."
+msgstr ""
+
+#: template-parts/search/search-no-results.php:52
+msgid "Did you mean"
+msgstr ""
+
+#: template-parts/search/search-no-results.php:65
+msgid "Or try"
+msgstr ""
+
+#: template-parts/search/search-no-results.php:70
+msgid "Search tips"
+msgstr ""
+
+#: template-parts/search/search-no-results.php:71
+msgid "Double-check the spelling."
+msgstr ""
+
+#: template-parts/search/search-no-results.php:72
+msgid "Try fewer or more general keywords."
+msgstr ""
+
+#: template-parts/search/search-no-results.php:73
+msgid "Search for a single word rather than a phrase."
+msgstr ""
+
+#: template-parts/search/search-no-results.php:79
+msgid "Browse all posts"
+msgstr ""
+
+#: template-parts/search/search-no-results.php:80
+msgid "Go to homepage"
+msgstr ""
+
+#: template-parts/share-button.php:41
+msgid "Share on X"
+msgstr ""
+
+#: template-parts/share-button.php:48
+msgid "Share on Facebook"
+msgstr ""
+
+#: template-parts/share-button.php:55
+msgid "Share on WhatsApp"
+msgstr ""
+
+#: template-parts/share-button.php:62
+msgid "Share on LinkedIn"
+msgstr ""
+
+#: template-parts/share-button.php:72
+msgid "Share this article"
+msgstr ""
+
+#: template-parts/share-button.php:98
+msgid "More"
+msgstr ""
+
+#: template-parts/staging-banner.php:30
+msgid "STAGING — this is not the live site"
+msgstr ""
+
+#. translators: %d: number of items in the cart
+#: template-parts/woocommerce/cart-icon.php:28
+#, php-format
+msgid "Cart, %d items"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Primary"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Accent"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "White"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Muted"
+msgstr ""

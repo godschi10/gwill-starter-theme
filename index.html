@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GWill Starter — PWA Proof</title>
+<meta name="theme-color" content="#1c2430">
+<meta name="application-name" content="GWill Starter">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+<style>
+body{font:16px/1.6 system-ui,sans-serif;background:#1c2430;color:#e8ebee;margin:0;padding:48px 24px;max-width:720px}
+h1{color:#fff;margin-bottom:8px;font-size:22px}
+p{color:#aeb9c4}
+#status{margin-top:24px;padding:16px;border:1px solid #3a4656;border-radius:10px;font-family:ui-monospace,monospace;font-size:13px;white-space:pre-wrap}
+.brand{display:flex;gap:14px;align-items:center;margin-top:28px}
+.brand img{width:64px;height:64px;border-radius:14px}
+</style>
+</head>
+<body>
+<h1>GWill Starter — Chrome-app PWA proof</h1>
+<p>PWA harness built from the starter theme's real manifest route, baked service worker, and icon suite. Served over HTTPS for Chrome installability.</p>
+<div id="status">loading…</div>
+<div class="brand">
+<img src="assets/brand/appicon-512.png" alt="app icon">
+<div>real theme icons:<br>appicon-512 · appicon-192 · badge · apple-touch</div>
+</div>
+<script>
+const s = document.getElementById("status");
+const out = [];
+const t0 = performance.now();
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js", {scope: "/"})
+    .then(r => { out.push("SW REGISTERED: " + r.scope + " @ " + Math.round(performance.now()-t0) + "ms");
+             return navigator.serviceWorker.ready; })
+    .then(() => {
+      out.push("SW READY/ACTIVE");
+      out.push("controller: " + (navigator.serviceWorker.controller ? "YES" : "none-yet"));
+      out.push("secureContext: " + window.isSecureContext);
+      out.push("standalone-display: " + (matchMedia("(display-mode: standalone)").matches));
+      fetch("manifest.webmanifest", {cache: "no-store"})
+        .then(r => { out.push("manifest HTTP " + r.status + " · " + (r.headers.get("content-type")||"")); return r.json(); })
+        .then(m => {
+          out.push("manifest name: " + m.name);
+          out.push("manifest icons: " + m.icons.length + " entries");
+          out.push("512 present: " + m.icons.some(i => i.sizes === "512x512" && i.purpose === "maskable"));
+          s.textContent = out.join("\n");
+        })
+        .catch(e => { out.push("manifest error: " + e); s.textContent = out.join("\n"); });
+    })
+    .catch(e => { out.push("SW REG FAIL: " + e); s.textContent = out.join("\n"); });
+}
+</script>
+</body>
+</html>
