@@ -4,11 +4,12 @@ A clean, custom WordPress starter theme built from scratch. No parent theme. No 
 
 ## ⚖️ Theme Laws — read first
 
-`docs/LAWS.md` ships inside this theme. Ten absolute rules, each paid for by a
+`docs/LAWS.md` ships inside this theme. Eleven absolute rules, each paid for by a
 real incident on a live GWill site — vendor self-containment, sw.js caching,
 the dead-bell subscribe order, 404-status routes, multi-instance binding, the
 busy-button timeout, opt-out escape hatches, version bumps, cache probes,
-deploy diffs. Every build from this starter inherits them. Read `docs/LAWS.md`
+deploy diffs, and the Android WebAPK notification-permission transfer. Every
+build from this starter inherits them. Read `docs/LAWS.md`
 before starting any project, and follow the launch checklist at its end before
 handing a site to a client.
 

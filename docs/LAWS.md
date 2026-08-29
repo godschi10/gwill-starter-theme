@@ -189,6 +189,27 @@ generation marker>` shows the new token.
 
 ---
 
+## L11 — Android PWA installs move the notification permission to the APP
+
+**Rule.** On Android, installing the site as a PWA (WebAPK) transfers the
+origin's notification permission to the installed app. Chrome's site-info
+then misleadingly shows "Notifications: blocked" even though the server
+code is perfect. Do NOT ship server fixes for this — it is the
+installed-app permission model, not a bug. The fix lives on the phone:
+Settings → Apps → [PWA name] → Notifications (enable), or Clear data +
+re-grant.
+
+**Incident.** Finance, Aug 27 (screenshot-proven): after PWA install, push
+stopped on the King's phone; Chrome's site settings read "blocked" while
+every server signal was green. Hours were nearly lost to a phantom server
+bug that was the OS permission model all along.
+
+**Verify.** Server-side: real-browser bell-click E2E (L3) + the push send
+returning 201. Phone-side: the app-level notification toggle — never trust
+Chrome's site-settings label for an installed PWA.
+
+---
+
 ## Fresh-build launch checklist
 
 1. `git clone` → `vendor/autoload.php` present **(L1)**
@@ -201,3 +222,5 @@ generation marker>` shows the new token.
 8. Live page HTML references the new `?ver=` **(L8)**
 9. All probes on PLAIN URLs; caches fully purged **(L9)**
 10. `diff -rq` clean + served-bytes SW proof **(L10)**
+11. On Android: verify the APP-level notification toggle, not Chrome's site
+    settings **(L11)**

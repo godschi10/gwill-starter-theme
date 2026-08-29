@@ -1,3 +1,15 @@
+## [1.4.2] - 2026-08-29
+
+### Added
+- **Law L11** in `docs/LAWS.md` + launch checklist item 11: Android WebAPK
+  install moves the notification permission to the installed APP — verify
+  the app-level toggle, never Chrome's site settings (finance Aug 27 incident).
+- `categories` manifest field (filterable via `gwill_pwa_categories`) —
+  finance-parity, defaults `['news', 'productivity']`.
+
+### Fixed
+- (none — hardening pass)
+
 ## [1.4.1] - 2026-08-29
 
 ### Fixed / Added — PWA completion (finance-parity Chrome-app install set)

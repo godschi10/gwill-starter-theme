@@ -167,6 +167,7 @@ function gwill_pwa_maybe_render_manifest( $template ) {
 		'orientation'      => 'any',
 		'background_color' => gwill_pwa_colors()['background'],
 		'theme_color'      => gwill_pwa_colors()['theme'],
+		'categories'       => apply_filters( 'gwill_pwa_categories', array( 'news', 'productivity' ) ),
 		'icons'            => array(
 			array(
 				'src'   => $icons['192'],
