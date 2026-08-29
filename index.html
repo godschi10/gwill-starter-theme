@@ -34,7 +34,7 @@ const s = document.getElementById("status");
 const out = [];
 const t0 = performance.now();
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js", {scope: "/"})
+  navigator.serviceWorker.register("sw.js")
     .then(r => { out.push("SW REGISTERED: " + r.scope + " @ " + Math.round(performance.now()-t0) + "ms");
              return navigator.serviceWorker.ready; })
     .then(() => {
