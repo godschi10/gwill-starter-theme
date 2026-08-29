@@ -2,6 +2,46 @@
 
 A clean, custom WordPress starter theme built from scratch. No parent theme. No opinions you didn't write. Every line is yours.
 
+## ⚖️ Theme Laws — read first
+
+`docs/LAWS.md` ships inside this theme. Ten absolute rules, each paid for by a
+real incident on a live GWill site — vendor self-containment, sw.js caching,
+the dead-bell subscribe order, 404-status routes, multi-instance binding, the
+busy-button timeout, opt-out escape hatches, version bumps, cache probes,
+deploy diffs. Every build from this starter inherits them. Read `docs/LAWS.md`
+before starting any project, and follow the launch checklist at its end before
+handing a site to a client.
+
+## What every build inherits
+
+### Web push notifications (zero-config, self-hosted)
+
+The complete finance-theme mastery is baked in: VAPID keys self-generate,
+a `gwill_push_subs` table self-creates, and the footer renders a smart
+notification bell — on publish, every subscriber gets a native push.
+The bell opens a status panel with device-specific unblock steps, a
+turn-off that actually sticks (opt-out survives refresh), loading
+spinners, and a graceful unsupported-browser notice. The service worker
+publishes itself to the site root with a per-release token; the manifest
+is a real 200 rewrite. Nothing to configure — activate and it works.
+
+### Custom apps skeleton (/apps/)
+
+Register an app in one place — `gwill_apps_registry()` in `inc/apps.php`
+— and it gets a real page at `/apps/<slug>/`, a card on the `/apps/`
+hub, JSON-LD schema (CollectionPage/ItemList on the hub,
+SoftwareApplication + FAQPage on app pages), and its JS/CSS auto-loaded
+only on its own page. A demo **word-counter** app ships as the reference
+implementation. See the inline documentation in `inc/apps.php`.
+
+### Both need one server rule
+
+Serve `/sw.js` no-cache so releases reach installed clients — the exact
+nginx block is in `docs/LAWS.md` L2 (30 seconds of work at launch, or
+push fixes ship silently broken to installed PWAs).
+
+
+
 > **Note on this document:** an earlier version of this README described the theme as it existed many versions ago — a 5-file `inc/` directory, a FormSubmit.co-based contact form, a 2-control Customizer. None of that has been true for a long time; the code moved forward across 50 versions and this file didn't. It has been rewritten from scratch against the actual v1.0.50 codebase, verified file-by-file rather than carried forward from memory. See `CHANGELOG.md` for the version-by-version history of how it got here.
 
 ---
@@ -161,7 +201,9 @@ gwill-starter-theme/
 ├── .editorconfig                Consistent indentation/line-ending rules across editors
 ├── .gitignore                   Excludes OS files, node_modules, compiled .mo files
 ├── phpcs.xml                    WordPress Coding Standards ruleset (run: vendor/bin/phpcs)
-├── composer.json                Dev dependencies: PHPCS, WPCS, PHPCompatibilityWP
+├── composer.json                Runtime: minishlink/web-push (vendor/ COMMITTED — L1) + dev PHPCS/WPCS
+├── composer.lock                Exact locked versions of the runtime + dev deps
+├── docs/LAWS.md                 ⚖️ The Ten Theme Laws — incident-paid rules for every build
 ├── style.css                    Theme header + all frontend CSS + design tokens
 ├── functions.php                Loader only — eighteen require_once lines, no logic
 ├── theme.json                   Gutenberg configuration — kills default palette/font sizes

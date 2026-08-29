@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: GWill Starter 1.3.9\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/gwill-starter\n"
+"Project-Id-Version: GWill Starter 1.3.10\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/gwill-starter-theme\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-20T13:25:27+00:00\n"
+"POT-Creation-Date: 2026-08-29T11:03:34+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: gwill-starter\n"
@@ -113,6 +113,36 @@ msgstr ""
 
 #: header.php:112
 msgid "Toggle navigation menu"
+msgstr ""
+
+#: inc/apps.php:70
+msgid "Word Counter"
+msgstr ""
+
+#: inc/apps.php:71
+msgid "Count words, characters, sentences and paragraphs as you type — instant, private, all in your browser."
+msgstr ""
+
+#: inc/apps.php:77
+msgid "Does my text leave my device?"
+msgstr ""
+
+#: inc/apps.php:78
+msgid "No. The counter runs entirely in your browser — nothing is uploaded or stored."
+msgstr ""
+
+#: inc/apps.php:81
+msgid "What counts as a sentence or a paragraph?"
+msgstr ""
+
+#: inc/apps.php:82
+msgid "A sentence ends with a period, question mark or exclamation point. A paragraph is a block of text separated by blank lines."
+msgstr ""
+
+#: inc/apps.php:183
+#: inc/apps.php:303
+#: page-apps.php:20
+msgid "Apps"
 msgstr ""
 
 #: inc/author.php:37
@@ -639,6 +669,22 @@ msgstr ""
 msgid "Optional. If set, the grid card links here instead of the project's own page."
 msgstr ""
 
+#: inc/pwa.php:60
+msgid "Install"
+msgstr ""
+
+#: inc/pwa.php:61
+msgid "Add this site to your home screen — read offline, open in one tap."
+msgstr ""
+
+#: inc/pwa.php:62
+msgid "Install app"
+msgstr ""
+
+#: inc/pwa.php:63
+msgid "Not now"
+msgstr ""
+
 #: inc/search.php:204
 msgid "Too many search requests. Please wait a moment and try again."
 msgstr ""
@@ -786,6 +832,215 @@ msgstr[1] ""
 msgid "%d out of 5 stars"
 msgstr ""
 
+#: inc/webpush.php:269
+msgid "New post on"
+msgstr ""
+
+#: inc/webpush.php:347
+#: inc/webpush.php:442
+msgid "Enable notifications"
+msgstr ""
+
+#: inc/webpush.php:348
+msgid "Turn off notifications"
+msgstr ""
+
+#: inc/webpush.php:349
+msgid "Notifications blocked by browser"
+msgstr ""
+
+#: inc/webpush.php:350
+msgid "Could not enable notifications"
+msgstr ""
+
+#: inc/webpush.php:352
+#: inc/webpush.php:443
+msgid "Notifications"
+msgstr ""
+
+#: inc/webpush.php:353
+msgid "status: on"
+msgstr ""
+
+#: inc/webpush.php:354
+msgid "status: off"
+msgstr ""
+
+#: inc/webpush.php:355
+msgid "status: blocked"
+msgstr ""
+
+#: inc/webpush.php:356
+msgid "status: error"
+msgstr ""
+
+#: inc/webpush.php:357
+msgid "You're subscribed — an alert lands on this device the moment a new post goes live."
+msgstr ""
+
+#: inc/webpush.php:358
+msgid "Get notified of every new post. No spam, no marketing — one tap to turn off."
+msgstr ""
+
+#: inc/webpush.php:359
+msgid "Notifications are blocked for this site. Unblock them in your browser, then tap Check again — we detect it instantly."
+msgstr ""
+
+#: inc/webpush.php:360
+msgid "Something went wrong while enabling notifications. Try again."
+msgstr ""
+
+#: inc/webpush.php:361
+msgid "status: unsupported"
+msgstr ""
+
+#: inc/webpush.php:362
+msgid "Push notifications are not supported in this browser."
+msgstr ""
+
+#: inc/webpush.php:363
+msgid "Supported browsers: Chrome, Firefox, Edge, Opera, Safari 16+, Samsung Internet."
+msgstr ""
+
+#: inc/webpush.php:364
+msgid "How to unblock on this device"
+msgstr ""
+
+#: inc/webpush.php:365
+msgid "Check again"
+msgstr ""
+
+#: inc/webpush.php:366
+msgid "Try again"
+msgstr ""
+
+#: inc/webpush.php:367
+msgid "Enabling…"
+msgstr ""
+
+#: inc/webpush.php:368
+msgid "Turning off…"
+msgstr ""
+
+#: inc/webpush.php:369
+msgid "Close notifications panel"
+msgstr ""
+
+#: inc/webpush.php:370
+msgid "Different device or browser? Open the site settings (lock icon in the address bar), set Notifications to Allow, then reload."
+msgstr ""
+
+#: inc/webpush.php:374
+msgid "Tap the lock (or tune) icon at the left of the address bar"
+msgstr ""
+
+#: inc/webpush.php:375
+msgid "Tap Permissions, then Notifications"
+msgstr ""
+
+#: inc/webpush.php:376
+#: inc/webpush.php:386
+#: inc/webpush.php:391
+msgid "Choose Allow, then reload the page"
+msgstr ""
+
+#: inc/webpush.php:379
+msgid "Tap the menu (⋮), then Site Settings"
+msgstr ""
+
+#: inc/webpush.php:380
+msgid "Tap Notifications, then Allow"
+msgstr ""
+
+#: inc/webpush.php:381
+#: inc/webpush.php:398
+#: inc/webpush.php:404
+#: inc/webpush.php:410
+#: inc/webpush.php:415
+#: inc/webpush.php:420
+#: inc/webpush.php:425
+msgid "Reload the page"
+msgstr ""
+
+#: inc/webpush.php:384
+msgid "Tap the menu (☰), then Settings → Sites and downloads"
+msgstr ""
+
+#: inc/webpush.php:385
+msgid "Tap Site permissions → Notifications"
+msgstr ""
+
+#: inc/webpush.php:389
+msgid "Tap Aa in the Safari address bar"
+msgstr ""
+
+#: inc/webpush.php:390
+msgid "Tap Website Settings, then Notifications"
+msgstr ""
+
+#: inc/webpush.php:392
+msgid "If Allow is unavailable: Share → Add to Home Screen first — iOS delivers web push to installed apps"
+msgstr ""
+
+#: inc/webpush.php:395
+#: inc/webpush.php:407
+msgid "Click the lock (or tune) icon at the left of the address bar"
+msgstr ""
+
+#: inc/webpush.php:396
+#: inc/webpush.php:408
+msgid "Open Site settings"
+msgstr ""
+
+#: inc/webpush.php:397
+#: inc/webpush.php:403
+#: inc/webpush.php:409
+#: inc/webpush.php:419
+msgid "Set Notifications to Allow"
+msgstr ""
+
+#: inc/webpush.php:401
+msgid "Click the lock icon at the left of the address bar"
+msgstr ""
+
+#: inc/webpush.php:402
+msgid "Open Site permissions"
+msgstr ""
+
+#: inc/webpush.php:413
+msgid "Click the crossed-out bell (or lock) icon in the address bar"
+msgstr ""
+
+#: inc/webpush.php:414
+msgid "Clear the Blocked permission for Notifications"
+msgstr ""
+
+#: inc/webpush.php:418
+#, php-format
+msgid "In the menu bar choose Safari → Settings for %s…"
+msgstr ""
+
+#: inc/webpush.php:423
+msgid "Open your browser's site settings (lock icon in the address bar)"
+msgstr ""
+
+#: inc/webpush.php:424
+msgid "Set Notifications to Allow for this site"
+msgstr ""
+
+#: inc/webpush.php:445
+#: inc/webpush.php:447
+msgid "Notify me of new posts"
+msgstr ""
+
+#: inc/webpush.php:446
+msgid "Notifications on"
+msgstr ""
+
+#: page-apps.php:21
+msgid "Free tools that run entirely in your browser — fast, private, no sign-up."
+msgstr ""
+
 #: search.php:28
 msgid "Search results"
 msgstr ""
@@ -827,6 +1082,18 @@ msgstr ""
 #: template-parts/content.php:50
 #, php-format
 msgid "%d min read"
+msgstr ""
+
+#: template-app.php:34
+msgid "This app needs JavaScript to run."
+msgstr ""
+
+#: template-app.php:39
+msgid "Frequently asked questions"
+msgstr ""
+
+#: template-app.php:48
+msgid "All apps"
 msgstr ""
 
 #. Template Name of the theme

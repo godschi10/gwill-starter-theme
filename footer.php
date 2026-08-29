@@ -13,13 +13,23 @@
 			 * leaving a ghost <nav> element with no content.
 			 */
 			if ( has_nav_menu( 'footer' ) ) :
-				wp_nav_menu( [
-					'theme_location' => 'footer',
-					'container'      => false,
-					'fallback_cb'    => false,
-					'depth'          => 1,
-				] );
+			wp_nav_menu( [
+				'theme_location' => 'footer',
+				'container'      => false,
+				'fallback_cb'    => false,
+				'depth'          => 1,
+			] );
 			endif;
+			?>
+
+			<?php
+			/*
+			 * Push bell (inc/webpush.php). Rendered in the footer above the
+			 * credit line. Safe to render multiple times — push.js binds ALL
+			 * instances (docs/LAWS.md L5). Rendered only when VAPID keys
+			 * exist (they self-generate on first admin visit).
+			 */
+			gwill_push_bell();
 			?>
 
 			<?php
@@ -36,6 +46,7 @@
 				' &mdash; Built by <a href="https://gwillchijioke.com" target="_blank" rel="noopener noreferrer">G-will Chijioke</a>'
 			);
 			?>
+
 			<p>
 				&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?>
 				<a href="<?php echo esc_url( home_url( '/' ) ); ?>">

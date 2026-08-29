@@ -1,3 +1,28 @@
+## [1.4.0] - 2026-08-29
+
+### Added
+- **Web Push — the complete finance-theme mastery, ported lean** (King's order: "copy everything, migrate it, but not bloated — strip the appearance to starter level"). Zero-config self-hosted push for every future build:
+  - `inc/webpush.php` — VAPID keys auto-generate at first use (autoload-off option), `gwill_push_subs` dbDelta table (prefix-safe), REST `/gwill/v1/push/subscribe|unsubscribe`, push-on-publish (`gwill_push_on_publish` filter), subscriber keys obfuscated at rest (NONCE_KEY-derived), dead-endpoint cleanup (410/404 auto-prune).
+  - `assets/js/push.js` — the smart bell: `requestPermission()` BEFORE `subscribe()` (dead-bell law), `settle()` busy-safe runner (no button may die busy), localStorage opt-out escape hatch (refresh never re-subscribes after Turn off), full browser/OS detection (Firefox-before-Android), device-specific unblock steps + Check-again self-heal, loading spinners, NOSUPPORT panel (bell never silently removed), binds ALL instances via `querySelectorAll`.
+  - `inc/pwa.php` + `assets/js/sw.js` — dynamic `/manifest.webmanifest` as a REAL rewrite (rule + query var + canonical guard), sw.js `@PUBLISH@` token baked to `<version>-<mtime>` and published to WP root, versioned `swUrl` (defeats any CDN cache), push + notificationclick handlers.
+  - `assets/js/gwill-pwa.js` + `.gpwa` styles — custom install-prompt card (beforeinstallprompt captured, 7-day Not-now suppression, yields to cookie-consent banner), SW registration.
+  - `assets/css/push.css` — all finance gold/dark appearance re-mapped to `--color-*` tokens (dark mode inverts free); bell, panel, buttons, spinner, install card.
+  - `assets/brand/push-badge.png` (96×96 white-bell alpha silhouette, Android status-bar correct) + `push-icon.png` (192×192, dark circle) — neutral monochrome, brand-agnostic.
+  - `template-parts/push-bell.php` partial + `gwill_push_bell()` rendered in footer (safe to render multiple times).
+- **`docs/LAWS.md` — the Ten Theme Laws**, by royal order: every incident-paid rule from the finance saga codified inside the theme so no future build repeats them (vendor self-containment, sw.js no-cache, permission-before-subscribe, real-rewrite routes, querySelectorAll binding, settle() timeouts, opt-out escape hatches, version bumps, plain-URL cache probes, deploy diffs). Each law carries its incident + verify step; ends with the fresh-build launch checklist. README points to it.
+- **Custom-apps skeleton** (the tech/finance `/tools/` idea, made generic):
+  - `inc/apps.php` — `gwill_apps_registry()`: register an app (slug/title/excerpt/icon/faq), get a REAL route `/apps/<slug>/` (rewrite + query var + canonical guard, L4-compliant), hub card, CollectionPage+ItemList schema on the hub, SoftwareApplication+FAQPage schema on app pages, per-app JS/CSS auto-enqueued only on its own page.
+  - `page-apps.php` (hub) + `template-app.php` (generic app shell — new apps need NO template) + demo **word-counter** app (`assets/js/apps/word-counter.js` + css) proving the pattern end-to-end.
+- **Vendor self-containment (L1)**: `vendor/` (minishlink/web-push + guzzle + php-http chain, 724 PHP files) COMMITTED inside the theme — a fresh clone from GitHub/GitLab is fully functional with zero composer install. `.gitignore` bare `vendor/` line REMOVED (the exact line that would have prevented this; law comment in its place). `composer.json` gains the runtime `require` block; `composer.lock` committed for exact versions.
+- `functions.php` — requires for pwa.php + webpush.php + apps.php.
+
+### Verified
+- `php -l` clean ×7 (webpush, pwa, apps, push-bell, page-apps, template-app, footer) + functions.php.
+- `node --check` clean ×4 (push.js, sw.js, gwill-pwa.js, word-counter.js).
+- Live-context vendor test: `vendor/autoload.php` + `VAPID::createVapidKeys()` + `Subscription::create()` + `WebPush` stream construct all OK.
+- SW bake test: `@PUBLISH@` → baked token present, raw token gone, baked file is valid JS.
+- POT regenerated: 396 msgids (all push/app strings present).
+
 # Changelog
 
 All notable changes to GWill Starter are documented in this file.

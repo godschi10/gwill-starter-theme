@@ -25,3 +25,6 @@ require_once get_template_directory() . '/inc/pricing-table.php';
 require_once get_template_directory() . '/inc/portfolio.php';
 require_once get_template_directory() . '/inc/woocommerce.php';
 require_once get_template_directory() . '/inc/staging.php';
+require_once get_template_directory() . '/inc/pwa.php';
+require_once get_template_directory() . '/inc/webpush.php';
+require_once get_template_directory() . '/inc/apps.php';
