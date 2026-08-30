@@ -1,3 +1,57 @@
+## [1.8.0] - 2026-08-30
+
+Tier C — the four situational ports, per royal order: print stylesheet
+(fresh), unified inline-SVG icon helper (finance), cross-site feed
+(portfolio), ad slots (tech). All sources read in full before porting
+(L13); the corrupted first write of svg-icons.php was caught by the
+grep-proof ritual and rebuilt via `build-svg-icons.py` — every icon
+extracted verbatim from proven files, zero hand-typed paths.
+
+### Added
+- `inc/svg-icons.php` — `gwill_icon()` unified icon registry (11 icons:
+  x, facebook, instagram, linkedin, youtube, whatsapp, play, sun, moon,
+  arrow-up, chevron-down), all `currentColor` + `1em` intrinsic size,
+  `aria-hidden` + `focusable="false"`. `gwill_icons` filter for
+  adding/overriding.
+- `inc/feed.php` — cross-site feed: transient-cached REST pull
+  (10-minute fresh window, 12-hour stale ceiling) with all four paths —
+  fresh-cache, stale-fallback (remote down → serve the expired copy,
+  never a fatal), fetch-and-cache, expired-refresh. Sources via
+  `gwill_feed_sources`; zero hardcoded URLs in the base.
+- `inc/ad-slots.php` — six placements (leaderboard, in-content,
+  sidebar, sticky, menu, before-footer [inherits leaderboard]) with
+  per-device variants, Customizer-configured under Developer Options
+  (zero ACF — the tech dependency was struck per the starter's law).
+  Sanitizer strips PHP tags, keeps network script tags. In-content:
+  after 2nd paragraph, then every ~5, max 4.
+- `assets/js/ads.js` — ported from tech main.js §9–14; instantiates
+  only the current device's variant client-side (cache-safe: every
+  visitor sees identical HTML).
+- `assets/css/print.css` — print stylesheet (fresh module): chrome
+  stripped, serif 12pt, expanded link URLs, table borders restored,
+  page-break protection for code blocks; wired `media="print"` so it
+  never touches the screen cascade.
+
+### Battery
+- 67-check shim battery, all passing: icon registry verbatim-ness
+  (finance + starter sources), `gwill_icon()` semantics (unknown icon
+  → empty string, never a fatal), feed all four cache paths, ad master
+  switch, device fallback + override, before-footer inheritance,
+  in-content paragraph math (2nd/7th/12th/17th, slot wrappers counted),
+  sanitizer (PHP tags stripped, scripts kept), customizer registration.
+
+### Self-caught (battery/shim defects — never the modules)
+- get_transient shim didn't unwrap the storage form.
+- wp_remote_get shim lacked a success object (Path C always hit WP_Error).
+- x-verbatim assertion used the starter's logo path vs finance's.
+- In-content expectations counted raw ad-code occurrences (3 device
+  variants = 3 textual hits for ONE slot render) — now counts
+  `ad-slot--in-content` wrappers.
+- Builder's width-injection check `'width=' in svg` false-matched
+  `stroke-width="2"` — now a real attribute regex.
+- Slot state-bleed: master switch + code unset mid-section ran later
+  checks against the wrong state.
+
 ## [1.7.0] - 2026-08-30
 
 Tier B — the six UX/feature ports, per royal order. Four from the tech theme (live-proven sources, read in full before porting), two fresh writes (no elder owned them). Plus the requested embed-facade feature VERIFIED already owned since v1.3.0 and proven functional by battery — not rebuilt.

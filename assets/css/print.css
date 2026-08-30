@@ -1,0 +1,215 @@
+/*
+ * Print stylesheet — GWill Starter (v1.8.0).
+ *
+ * FRESH MODULE (no elder theme owns one; recon Aug 30 2026 verified).
+ * Goal: an article prints as a clean document — navigation, chrome,
+ * interactive dead weight, and unprintable regions gone; content,
+ * links (with visible URLs), block images, and code survive.
+ *
+ * Loaded via inc/enqueue.php with array( 'media' => 'print' ) so it
+ * never touches the screen cascade.
+ *
+ * @package GWill_Starter
+ */
+
+@media print {
+
+	/* ── 1. Global: black on white, no backgrounds ──────────────── */
+	*,
+	*::before,
+	*::after {
+		background: transparent !important;
+		color: #000 !important;
+		box-shadow: none !important;
+		text-shadow: none !important;
+	}
+
+	/* ── 2. Hide chrome + dead weight ───────────────────────────── */
+	.site-header,
+	.site-footer,
+	.nav-toggle,
+	.nav-accordion,
+	.reading-progress,
+	#reading-progress,
+	.gwill-pill,
+	.filter-pills,
+	.filter-grid__spinner,
+	.ad-slot,
+	.ad-sticky-media,
+	.back-to-top,
+	.cookie-consent,
+	.gwill-share,
+	.gwill-embed,
+	.copy-btn,
+	.code-lang,
+	.staging-banner,
+	.skip-link,
+	.gwill-search-modal,
+	.search-form,
+	.search-toggle,
+	.comment-respond,
+	.wp-block-embed__wrapper iframe,
+	.wp-block-button,
+	.gwill-contact-form,
+	ins.adsbygoogle {
+		display: none !important;
+	}
+
+	/* ── 3. Layout for paper ────────────────────────────────────── */
+	@page {
+		margin: 2cm;
+	}
+
+	html {
+		font-size: 12pt;
+	}
+
+	body {
+		font-size: 12pt;
+		line-height: 1.5;
+		margin: 0 !important;
+		padding: 0 !important;
+		background: #fff !important;
+		color: #000 !important;
+	}
+
+	/* The dark-mode JS toggle may leave a body class; print is light. */
+	body.dark-mode,
+	body.gwill-dark {
+		background: #fff !important;
+		color: #000 !important;
+	}
+
+	/* Single column: unwind flex/grid layouts the screen relies on. */
+	.site-main,
+	.content-area,
+	.entry-content,
+	.entry-summary,
+	.wp-block-group {
+		display: block !important;
+		width: 100% !important;
+		max-width: 100% !important;
+		margin: 0 !important;
+		padding: 0 !important;
+		float: none !important;
+	}
+
+	/* ── 4. Typography: serif, tight, readable ───────────────────── */
+	body,
+	.entry-content,
+	.entry-summary,
+	.page-content,
+	.comment-content {
+		font-family: Georgia, "Times New Roman", serif;
+	}
+
+	h1, h2, h3, h4, h5, h6 {
+		font-family: Georgia, "Times New Roman", serif;
+		page-break-after: avoid;
+		break-after: avoid;
+		margin-top: 1.2em;
+	}
+
+	p, li, blockquote, figure {
+		orphans: 3;
+		widows: 3;
+	}
+
+	/* ── 5. Links: visible URLs after external links ─────────────── */
+	a,
+	a:visited {
+		color: #000 !important;
+		text-decoration: underline !important;
+	}
+
+	.entry-content a[href^="http"]::after,
+	.entry-summary a[href^="http"]::after,
+	.comment-content a[href^="http"]::after {
+		content: " (" attr(href) ")";
+		font-size: 0.85em;
+		word-break: break-all;
+	}
+
+	/* Anchor-only links and in-page anchors carry no URL noise. */
+	a[href^="#"]::after,
+	a[href^="mailto"]::after,
+	a[href^="tel"]::after {
+		content: "" !important;
+	}
+
+	/* ── 6. Content blocks ─────────────────────────────────────── */
+	img,
+	figure,
+	table,
+	video,
+	.wp-block-image,
+	.wp-block-table {
+		max-width: 100% !important;
+		page-break-inside: avoid;
+		break-inside: avoid;
+	}
+
+	blockquote {
+		margin: 1em 0;
+		padding-left: 1em;
+		border-left: 3px solid #000 !important;
+	}
+
+	pre,
+	code {
+		font-family: "Courier New", Courier, monospace;
+	}
+
+	pre {
+		border: 1px solid #000 !important;
+		padding: 0.5em;
+		white-space: pre-wrap;
+		word-wrap: break-word;
+		page-break-inside: avoid;
+		break-inside: avoid;
+		font-size: 10pt;
+	}
+
+	/* ── 7. Articles: title block + meta ─────────────────────────── */
+	.entry-title,
+	.page-title,
+	.post-title {
+		font-size: 20pt;
+		line-height: 1.25;
+		margin-bottom: 0.4em;
+	}
+
+	.entry-meta,
+	.posted-on,
+	.byline {
+		font-size: 10pt;
+		color: #444 !important;
+		border-bottom: 1px solid #000 !important;
+		padding-bottom: 0.4em;
+		margin-bottom: 1em;
+	}
+
+	/* ── 8. Comments: flat, no avatars ──────────────────────────── */
+	.comment-list,
+	.comment-list .children {
+		list-style: none !important;
+		margin-left: 0 !important;
+		padding-left: 0 !important;
+	}
+
+	.avatar {
+		display: none !important;
+	}
+
+	/* ── 9. Screen-reader + misc utilities ──────────────────────── */
+	.screen-reader-text {
+		display: none !important;
+	}
+
+	/* Table of contents prints as a plain nested list. */
+	.gwill-toc,
+	.toc {
+		page-break-after: always;
+		break-after: page;
+	}
+}

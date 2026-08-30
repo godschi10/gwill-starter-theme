@@ -456,6 +456,29 @@ add_action( 'wp_enqueue_scripts', function () {
 		);
 	}
 
+	// ── Tier C additions (v1.8.0) ────────────────────────────────────────
+
+	// Print stylesheet — 'print' media keeps it out of the screen
+	// cascade entirely; the browser only applies it on Ctrl+P.
+	wp_enqueue_style(
+		'gwill-print',
+		get_template_directory_uri() . '/assets/css/print.css',
+		[],
+		$ver,
+		'print'
+	);
+
+	// Ad slots — self-guarding (scan() no-ops without .ad-slot in the
+	// DOM). Registered/enqueued always so the Customizer preview and
+	// any template that drops gwill_ad_slot() gets the driver.
+	wp_enqueue_script(
+		'gwill-ads',
+		get_template_directory_uri() . '/assets/js/ads.js',
+		[],
+		$ver,
+		[ 'in_footer' => true, 'strategy' => 'defer' ]
+	);
+
 } );
 
 // ── Customizer live preview ───────────────────────────────────────────────────

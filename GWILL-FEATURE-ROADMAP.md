@@ -108,6 +108,22 @@ Plus the **embed-facade verification**: the King's requested click-to-play
 facades were already owned since v1.3.0 — proven functional with 12 battery
 tests (both render paths, all three providers) rather than rebuilt.
 
+## v1.8.0 — Tier C (the four situational ports)
+
+1. **Print stylesheet** (fresh) — article-as-document printing: chrome
+   stripped, serif 12pt, expanded link URLs, table borders, no breaks
+   inside code blocks. Wired `media="print"`.
+2. **Unified inline-SVG icon helper** (finance, unified) — `gwill_icon()`
+   registry of 11 icons extracted verbatim from live-proven sources by
+   `build-svg-icons.py`; `currentColor` + `1em`; `gwill_icons` filter.
+3. **Cross-site feed** (portfolio) — transient-cached REST pull with all
+   four failure paths (fresh/stale-fallback/fetch/expired-refresh);
+   `gwill_feed_sources` filter, zero hardcoded URLs.
+4. **Ad slots** (tech, ACF struck) — six Customizer-configured placements
+   with per-device variants; `ads.js` instantiates only the current
+   device client-side (cache-safe); in-content injection 2nd ¶ + every
+   ~5, max 4; PHP-tag sanitizer keeps network scripts.
+
 ## Candidate pool (unplanned — awaiting royal direction)
 
 - Dark-mode aware app icons
@@ -120,4 +136,4 @@ tests (both render paths, all three providers) rather than rebuilt.
 
 ---
 
-*Last updated: 2026-08-30 (v1.7.0).*
+*Last updated: 2026-08-30 (v1.8.0).*

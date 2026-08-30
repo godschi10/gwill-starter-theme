@@ -106,6 +106,48 @@ home, not wordpress.org. Filterable via `gwill_login_accent`.
 links, `mailto:`, and author-set targets are never touched; existing rel
 tokens (nofollow/ugc/sponsored) are merged, never replaced.
 
+### Unified inline-SVG icon helper
+
+`inc/svg-icons.php` — one `gwill_icon( $name, $size )` call for every icon
+in the base: x, facebook, instagram, linkedin, youtube, whatsapp, play,
+sun, moon, arrow-up, chevron-down. All 11 icons were extracted verbatim
+from live-proven files (finance theme + the starter's own share button
+and back-to-top) by `build-svg-icons.py` — zero hand-typed SVG paths, so
+zero chances of drawing a broken glyph. Every icon is `currentColor` +
+`1em` intrinsic size: it inherits the text color and font size wherever
+you drop it. Add or override icons via the `gwill_icons` filter.
+
+### Cross-site feed (transient-cached REST)
+
+`inc/feed.php` — pull posts from another WP site into this one, rendered
+as cards, fully cached. The ported portfolio strategy keeps its four
+failure-hardened paths: fresh cache, stale-fallback (serve the expired
+copy when the remote is down, never a fatal), fetch-and-cache, and
+refresh-when-expired. Sources are declared via `gwill_feed_sources`
+(no hardcoded URLs in a reusable base). `gwill_feed_posts()` and
+`gwill_feed_all()` return ready card arrays; render them in a template
+or shortcode.
+
+### Ad slots (Customizer-configured, zero ACF)
+
+`inc/ad-slots.php` — six placements (leaderboard, in-content,
+sidebar, sticky, menu, before-footer [inherits leaderboard]) configurable
+per device (desktop/tablet/mobile variants) via the Customizer's
+Developer Options section. `assets/js/ads.js` instantiates ONLY the
+current device's variant — cache-safe (every visitor sees the same HTML,
+the right variant lights up client-side). In-content ads inject after
+the 2nd paragraph, then every ~5, max 4. The ad-code sanitizer strips
+PHP tags but keeps network script tags intact.
+
+### Print stylesheet
+
+`assets/css/print.css` — an article prints as a clean document:
+navigation, ads, facades, buttons, and interactive chrome are stripped;
+typography goes serif 12pt with expanded links (URL printed after
+`href="…"`), table borders restored, and code blocks avoid page breaks
+inside. Wired via `wp_enqueue_style( 'gwill-print', …, 'print' )` so it
+never touches the screen cascade.
+
 ### Web push notifications (zero-config, self-hosted)
 
 The complete finance-theme mastery is baked in: VAPID keys self-generate,

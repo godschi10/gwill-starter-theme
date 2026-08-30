@@ -59,3 +59,12 @@ require_once get_template_directory() . '/inc/code-blocks.php';
 require_once get_template_directory() . '/inc/ajax-filter.php';
 require_once get_template_directory() . '/inc/login-branding.php';
 require_once get_template_directory() . '/inc/external-links.php';
+
+// v1.8.0 — Tier C ports (GWILL-FEATURE-ROADMAP.md):
+//   svg-icons.php      unified inline-SVG icon registry (gwill_icon())
+//   feed.php           cross-site feed, transient-cached REST fetch
+//   ad-slots.php       device-aware ad placements + Customizer config
+//                      (the print stylesheet rides assets/css/print.css)
+require_once get_template_directory() . '/inc/svg-icons.php';
+require_once get_template_directory() . '/inc/feed.php';
+require_once get_template_directory() . '/inc/ad-slots.php';
