@@ -1,3 +1,39 @@
+## [1.7.0] - 2026-08-30
+
+Tier B — the six UX/feature ports, per royal order. Four from the tech theme (live-proven sources, read in full before porting), two fresh writes (no elder owned them). Plus the requested embed-facade feature VERIFIED already owned since v1.3.0 and proven functional by battery — not rebuilt.
+
+### Added
+
+- **Reading progress bar** (`assets/js/reading-progress.js`, 40 lines, from tech) — fixed 3px accent bar at the viewport top on singular posts, driven by `transform: scaleX()` (compositor-only — the browser rasterizes once and slides the scale on the GPU; width mutation would reflow on every scroll frame). The div prints in header.php immediately after `wp_body_open()`; the CSS keys to `--color-accent` so brand skins need one token.
+
+- **Code-block copy button + syntax highlighting** (`inc/code-blocks.php` + `assets/js/code-copy.js` + `assets/vendor/prism/`, from tech) — every `<pre><code>` gets a Copy button (Clipboard API, `execCommand` fallback for insecure contexts) and a language label; `tabindex="0"` on the `<pre>` keeps wide code keyboard-scrollable (WCAG 2.1.1); invalid `lang=` attributes are stripped (WCAG 3.1.1). Unlabeled blocks are sniffed from their first lines (PHP/JS/Python/bash/SQL/JSON/YAML/Rust/Java) and highlighted. Prism self-hosted under `assets/vendor/prism/` (bundle + 18 grammars, 156K — zero CDN), enqueued only on singulars whose content actually contains `<pre`; explicit `language-*` classes beyond the bundle load their single grammar file on demand.
+
+- **AJAX category filter** (`inc/ajax-filter.php` + `assets/js/category-filter.js`, from tech) — public read-only admin-ajax endpoint renders the starter's own card partial (`gwill_part( 'content' )`) for a category, child-category roll-up via `cat` term-ID, per_page clamped 1–30, unknown category → honest empty. Driver self-guards to `.filter-pills` containers; pills speak the `.gwill-pill` dialect with `.is-active` + `aria-pressed` states; spinner overlays the first card's media slot; `aria-busy` on the grid; fetch() with XHR fallback; i18n via `wp_localize_script`.
+
+- **Accessible nav walker** (`inc/nav-walker.php` + `assets/js/nav-accordion.js`, from tech, ADAPTED) — the starter renders ONE menu for both breakpoints (tech had two), so the walker emits the split-button markup for EVERY parent: the link navigates, a real `<button>` chip toggles the sub-menu (`aria-expanded` + `aria-controls`, keyboard operable). CSS turns the chip into the mobile accordion at ≤767px (the starter's own `.nav-toggle` breakpoint — verified, the initial 860 draft was corrected) and hides it for the desktop hover/focus-within dropdown. Fallback is brand-agnostic: Home + published pages (menu_order, title tiebreak) — tech's hardcoded category links must never leak into client builds. Walker injected via `wp_nav_menu_args` filter, only for the `primary` location; footer/social menus keep the default walker.
+
+- **Login page branding** (`inc/login-branding.php`, fresh — no elder owns it) — wp-login.php takes the custom logo (painted as the h1 background, core markup untouched) or a clean site-title wordmark when no logo is set; the logo links to `home_url()` not wordpress.org (`login_headerurl`/`login_headertitle`); the submit button + focus rings take the theme accent (filterable: `gwill_login_accent`). Scope is the login chrome only — form markup, error boxes, and the v1.6.0 2FA field are never restyled (fighting core login CSS from a theme is a maintenance trap).
+
+- **External-link hardening** (`inc/external-links.php`, fresh) — every external `<a>` in post content gets `target="_blank"` + `rel="noopener noreferrer"` (without noopener, the opened page controls `window.opener` — tabnabbing). Internal links are kept on-site (host compared www-stripped, both directions); mailto/tel/# untouched; author-set targets never overridden; existing rel tokens (nofollow/ugc/sponsored) are MERGED, never replaced. Feeds and admin skipped.
+
+### Verified (not rebuilt)
+
+- **Click-to-play embed facades** — the King's requested feature ("embeds into images with a play button to avoid loading excess 3rd party scripts") was **already owned since v1.3.0** (ported from finance then): `inc/embed-facades.php` swaps YouTube/Vimeo/Spotify oEmbeds and Gutenberg core/embed blocks for a cookie-free poster + play-button facade; the 1–2MB third-party player loads only on click; Spotify keeps its branded surface (no keyless poster); posters painted as CSS backgrounds so the lightbox can't hook them. Proven functional by 12 battery tests: both render paths (embed_oembed_html + render_block), all three providers, poster URLs, autoplay semantics, and the inactive-asset fallback (facade never renders without its CSS/JS — external oEmbed consumers keep the plain iframe).
+
+### Changed
+
+- **header.php** — the progress-bar div (singular posts only, immediately after `wp_body_open()`).
+- **inc/enqueue.php** — four new conditional/self-guarding enqueues (reading-progress singular-post; code-copy + nav-accordion everywhere, self-guarding; category-filter front page + posts index with the relative admin-ajax localize).
+- **functions.php** — five new require_once lines, loader-only discipline held.
+- **style.css** — version 1.7.0; Tier-B CSS block appended (progress bar, code copy/label, filter spinner/error, nav dropdown + accordion) — all `--color-*` tokens, `prefers-reduced-motion` respected, 44px touch targets.
+- **GWILL-FEATURE-ROADMAP.md** — Tier B recorded; embed-facade verification noted; stamp v1.7.0.
+
+### Battery evidence
+
+56/56 shim tests PASS (staging): facade 12 (providers, both paths, posters, autoplay, inactive fallback), external-links 8 (www-stripped hosts, target/rel semantics, mailto, merge, feed skip), code-blocks 6 (button, tabindex, label, lang-strip, passthroughs), login-branding 5 (URL/title filters, both logo branches, accent), walker 11 (split-button, aria-controls wiring, leaf/parent, fallback, args filter both ways), ajax-filter 6 (clamp, cat resolution, payload, cards, unknown-cat empty, all-path).
+
+Two battery defects self-caught and fixed (the modules were right): target-count arithmetic (3 anchors, not 4) and the `wp_send_json_success` shim not emulating production's exit (a catchable sentinel now pins that the module never continues past its response).
+
 ## [1.6.0] - 2026-08-30
 
 Tier A — the five battle-tested ports from the elder themes, per royal approval. Every module copied from a live-proven source, then verified against its source function-by-function (Law L13 born from the discipline). The starter's own late-styles hole closed as bugfix-grade work.

@@ -396,6 +396,66 @@ add_action( 'wp_enqueue_scripts', function () {
 		);
 	}
 
+	// ── Tier B additions (v1.7.0) ────────────────────────────────────────
+
+	// Reading progress — singular posts only (the bar div prints in
+	// header.php under the same condition).
+	if ( is_singular( 'post' ) ) {
+		wp_enqueue_script(
+			'gwill-reading-progress',
+			get_template_directory_uri() . '/assets/js/reading-progress.js',
+			[],
+			$ver,
+			[ 'in_footer' => true, 'strategy' => 'defer' ]
+		);
+	}
+
+	// Code copy buttons — self-guarding (no-op without .copy-btn in the
+	// DOM); the Prism assets themselves are conditionally enqueued by
+	// inc/code-blocks.php's own wp_enqueue_scripts hook at priority 5.
+	wp_enqueue_script(
+		'gwill-code-copy',
+		get_template_directory_uri() . '/assets/js/code-copy.js',
+		[],
+		$ver,
+		[ 'in_footer' => true, 'strategy' => 'defer' ]
+	);
+
+	// Nav accordion — self-guarding (no-op without .mno-caret; desktop
+	// viewports are excluded by the JS itself).
+	wp_enqueue_script(
+		'gwill-nav-accordion',
+		get_template_directory_uri() . '/assets/js/nav-accordion.js',
+		[],
+		$ver,
+		[ 'in_footer' => true, 'strategy' => 'defer' ]
+	);
+
+	// AJAX category filter — front page + posts index (the templates
+	// that render .filter-pills). Self-guarding otherwise.
+	if ( is_front_page() || is_home() ) {
+		wp_enqueue_script(
+			'gwill-category-filter',
+			get_template_directory_uri() . '/assets/js/category-filter.js',
+			[],
+			$ver,
+			[ 'in_footer' => true, 'strategy' => 'defer' ]
+		);
+		wp_localize_script(
+			'gwill-category-filter',
+			'GwillCategoryFilter',
+			[
+				// Relative admin-ajax URL — resolves against the browser
+				// origin so it works on any domain (production, staging,
+				// dev tunnel) — the contact form's pattern.
+				'ajaxUrl' => wp_make_link_relative( admin_url( 'admin-ajax.php' ) ),
+				'i18n'    => [
+					'error' => __( 'Could not load posts. Please try again.', 'gwill-starter' ),
+				],
+			]
+		);
+	}
+
 } );
 
 // ── Customizer live preview ───────────────────────────────────────────────────

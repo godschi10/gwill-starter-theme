@@ -91,6 +91,23 @@ Batched as one release, tested as a whole, per plan:
 Plus: `login_errors` obfuscation made 2FA-aware (security.php), the six
 loader lines (functions.php), and Law L13 (port-verification discipline).
 
+## v1.7.0 — Tier B (the six UX/feature ports)
+
+1. **Reading progress bar** (tech) — `transform: scaleX()` compositor bar.
+2. **Code-block copy button + Prism** (tech) — self-hosted, sniffer-driven.
+3. **AJAX category filter** (tech) — endpoint + `.gwill-pill` driver.
+4. **Accessible nav walker** (tech, adapted) — split-button mobile
+   accordion for the starter's ONE-menu reality + brand-agnostic
+   pages-based fallback.
+5. **Login page branding** (fresh) — logo/wordmark + accent via
+   `login_head`; `gwill_login_accent` filter.
+6. **External-link hardening** (fresh) — `_blank` + `noopener noreferrer`,
+   rel tokens merged, author targets respected.
+
+Plus the **embed-facade verification**: the King's requested click-to-play
+facades were already owned since v1.3.0 — proven functional with 12 battery
+tests (both render paths, all three providers) rather than rebuilt.
+
 ## Candidate pool (unplanned — awaiting royal direction)
 
 - Dark-mode aware app icons
@@ -103,4 +120,4 @@ loader lines (functions.php), and Law L13 (port-verification discipline).
 
 ---
 
-*Last updated: 2026-08-30 (v1.6.0).*
+*Last updated: 2026-08-30 (v1.7.0).*

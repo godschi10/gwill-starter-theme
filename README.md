@@ -65,6 +65,47 @@ via `template_redirect:0` output buffering. `<pre>`, `<code>`, `<textarea>`,
 byte-for-byte. Binary routes (the PWA manifest at `?gwill_manifest=`) skip the
 buffer entirely; admin/AJAX/REST/cron/CLI contexts are never touched.
 
+### Accessible nav walker + mobile accordion
+
+`inc/nav-walker.php` — drop-in walker for the primary menu: desktop sub-menus
+as hover/focus dropdowns, mobile sub-menus as a real `<button>` accordion
+(`aria-expanded` + `aria-controls`, WCAG 2.1.1 operable — `assets/js/nav-accordion.js`
+gates the toggle to mobile viewports). Brand-agnostic fallback: no menu
+assigned → Home + published pages, never hardcoded categories.
+
+### Code-block copy button + syntax highlighting
+
+`inc/code-blocks.php` + `assets/js/code-copy.js` — every `<pre><code>` gets a
+Copy button (clipboard API with `execCommand` fallback) and a language label;
+unlabeled blocks are sniffed from their first lines. Prism self-hosted under
+`assets/vendor/prism/` (zero CDN), enqueued only on singulars that actually
+contain a code block.
+
+### AJAX category filter
+
+`inc/ajax-filter.php` + `assets/js/category-filter.js` — public read-only
+admin-ajax endpoint renders fresh cards for a category pill press, with a
+spinner and `aria-busy` states; the driver self-guards to `.filter-pills`
+containers (drop one in any template: `data-target` + `.gwill-pill[data-filter]`).
+
+### Reading progress bar
+
+`assets/js/reading-progress.js` + the header div on singular posts — a fixed
+3px accent bar driven by `transform: scaleX()` (compositor-only, zero CLS).
+
+### Login page branding
+
+`inc/login-branding.php` — wp-login.php takes the custom logo (or a clean
+site-title wordmark) and the theme accent on button/focus; the logo links
+home, not wordpress.org. Filterable via `gwill_login_accent`.
+
+### External-link hardening
+
+`inc/external-links.php` — every external `<a>` in post content gets
+`target="_blank"` + `rel="noopener noreferrer"` (tabnabbing-safe). Internal
+links, `mailto:`, and author-set targets are never touched; existing rel
+tokens (nofollow/ugc/sponsored) are merged, never replaced.
+
 ### Web push notifications (zero-config, self-hosted)
 
 The complete finance-theme mastery is baked in: VAPID keys self-generate,
@@ -338,6 +379,11 @@ gwill-starter-theme/
 │   ├── cache-purge.php            FastCGI cache purge on publish/save
 │   ├── minify.php                 HTML whitespace minification (pre/code/script/style safe)
 │   ├── wp-css-off.php             Core CSS removal + WP 6.9+ late-styles catch
+│   ├── nav-walker.php              Accessible nav walker (split-button mobile accordion)
+│   ├── code-blocks.php             Code copy button + language label + Prism enqueue
+│   ├── ajax-filter.php             AJAX category-pill filter endpoint (admin-ajax)
+│   ├── login-branding.php          wp-login.php branding (logo/wordmark + accent)
+│   ├── external-links.php          External-link hardening (_blank + noopener noreferrer)
 │
 ├── template-parts/
 │   ├── content.php                Article card (index/archive/search listings)

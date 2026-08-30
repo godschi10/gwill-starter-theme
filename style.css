@@ -4,7 +4,7 @@ Theme URI:   https://gwillchijioke.com
 Author:      G-will Chijioke
 Author URI:  https://gwillchijioke.com
 Description: A clean, custom WordPress starter theme built from scratch. No parent theme dependency.
-Version:     1.6.0
+Version:     1.7.0
 Requires at least: 6.4
 Requires PHP:     8.0
 License:     GNU General Public License v2 or later
@@ -2850,5 +2850,232 @@ select:focus {
 @media (prefers-reduced-motion: reduce) {
   .gwill-pill {
     transition: none;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* v1.7.0 — Tier B additions                                           */
+/* ------------------------------------------------------------------ */
+
+/* ── Reading progress bar (ported from tech) ────────────────────────
+   Fixed to the viewport top, driven by transform: scaleX() from
+   reading-progress.js — compositor-only, zero layout/CLS cost (width
+   animation would reflow on every scroll frame). Pointer-events off
+   so it never intercepts a click at the page top. Token-driven so
+   brand skins only override --color-accent. */
+.reading-progress,
+#reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
+  z-index: 10000;
+  background: var(--color-accent);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--color-accent) 45%, transparent);
+  transition: transform 0.1s linear;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #reading-progress {
+    transition-duration: 0.01ms; /* keeps the global motion guard company */
+  }
+}
+
+/* ── Code blocks: copy button + language label (ported from tech) ────
+   Both absolutely positioned INSIDE the relative <pre> that
+   .entry-content pre already provides (position:relative added below).
+   The label reads at 10px uppercase muted; the button keeps a 44px
+   touch target and takes the theme's surface tokens. */
+.entry-content pre {
+  position: relative;
+}
+
+.entry-content .code-lang {
+  position: absolute;
+  top: 0.625rem;
+  right: 3.25rem;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  pointer-events: none;
+}
+
+.entry-content .copy-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  min-height: 44px;
+  padding: 0.55rem 0.9rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.entry-content .copy-btn:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.entry-content .copy-btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.entry-content .copy-btn:active {
+  transform: scale(0.94);
+}
+
+/* Prism theme loads BEFORE the theme stylesheet so these theme rules
+   win on backgrounds/borders (inc/code-blocks.php enqueue order). */
+.entry-content pre[class*="language-"],
+.entry-content code[class*="language-"] {
+  border-radius: inherit;
+  margin: 0;
+}
+
+/* ── AJAX category filter (ported from tech) ────────────────────────
+   .filter-pills containers hold .gwill-pill buttons (the theme's pill
+   dialect, line 2820 base); this adds only the loading/error states
+   the AJAX swap needs. */
+.filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-grid__spinner {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.filter-grid__spinner::before {
+  content: "";
+  width: 28px;
+  height: 28px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: gwill-spin 0.7s linear infinite;
+}
+
+@keyframes gwill-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .filter-grid__spinner::before {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+  }
+}
+
+.filter-grid__error {
+  color: var(--color-muted);
+  padding: 1.5rem 0;
+  text-align: center;
+}
+
+/* ── Nav walker: desktop dropdown + mobile accordion (ported) ──────
+   Desktop: sub-menus drop on hover/focus INSIDE the flex header row.
+   Mobile (≤767px, same breakpoint as .nav-toggle): the caret chip
+   appears, the sub-menu collapses to accordion slides. The chip is a
+   REAL <button> with aria-expanded — nav-accordion.js drives it. */
+
+/* Desktop dropdown (min-width 768px) */
+@media (min-width: 768px) {
+  .site-header nav #primary-menu .menu-item-has-children {
+    position: relative;
+  }
+
+  .site-header nav #primary-menu .mno-caret {
+    display: none; /* hover dropdown — the chip is mobile-only */
+  }
+
+  .site-header nav #primary-menu .sub-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 12rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    padding: 0.5rem 0;
+    display: none;
+    flex-direction: column;
+    gap: 0;
+    z-index: 100;
+  }
+
+  .site-header nav #primary-menu .menu-item-has-children:hover > .sub-menu,
+  .site-header nav #primary-menu .menu-item-has-children:focus-within > .sub-menu {
+    display: flex;
+  }
+
+  .site-header nav #primary-menu .sub-menu a {
+    display: block;
+    padding: 0.55rem 1rem;
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+}
+
+/* Mobile accordion (max-width 767px — mirrors .nav-toggle) */
+@media (max-width: 767px) {
+  .site-header nav #primary-menu .mno-parent {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .site-header nav #primary-menu .mno-caret {
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px; /* WCAG 2.5.5 touch target */
+    background: none;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--color-primary);
+    transition: transform 0.2s ease;
+  }
+
+  .site-header nav #primary-menu .mno-caret[aria-expanded="true"] {
+    transform: rotate(180deg);
+  }
+
+  .site-header nav #primary-menu .mno-caret:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  /* Accordion slide: closed by default, .open reveals. Nested sub-menus
+     inherit the same behaviour via the .sub-menu--nested class. */
+  .site-header nav #primary-menu .sub-menu {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    padding-left: 0.75rem; /* indent children under their parent */
+  }
+
+  .site-header nav #primary-menu li.open > .sub-menu {
+    display: flex;
   }
 }

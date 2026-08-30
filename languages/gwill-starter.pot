@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: GWill Starter 1.6.0\n"
+"Project-Id-Version: GWill Starter 1.7.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/gwill-starter-theme\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-30T10:17:44+00:00\n"
+"POT-Creation-Date: 2026-08-30T13:12:48+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: gwill-starter\n"
@@ -98,14 +98,14 @@ msgstr[1] ""
 msgid "Comments are closed."
 msgstr ""
 
-#: header.php:30
+#: header.php:44
 msgctxt "skip link"
 msgid "Skip to content"
 msgstr ""
 
-#: header.php:74
-#: header.php:82
-#: header.php:84
+#: header.php:88
+#: header.php:96
+#: header.php:98
 #: searchform.php:19
 #: template-parts/search/search-form-expandable.php:64
 #: template-parts/search/search-form-expandable.php:81
@@ -114,28 +114,28 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: header.php:84
+#: header.php:98
 #: searchform.php:16
 #: template-parts/search/search-form-modal.php:80
 msgid "Search…"
 msgstr ""
 
-#: header.php:85
+#: header.php:99
 msgid "Clear search text"
 msgstr ""
 
-#: header.php:89
+#: header.php:103
 #: inc/enqueue.php:208
 #: template-parts/search/search-form-modal.php:118
 msgid "Close search"
 msgstr ""
 
-#: header.php:98
+#: header.php:112
 #: inc/setup.php:68
 msgid "Primary Navigation"
 msgstr ""
 
-#: header.php:112
+#: header.php:126
 msgid "Toggle navigation menu"
 msgstr ""
 
@@ -329,6 +329,14 @@ msgstr ""
 msgid "Social Links"
 msgstr ""
 
+#: inc/code-blocks.php:126
+msgid "Copy code"
+msgstr ""
+
+#: inc/code-blocks.php:126
+msgid "Copy"
+msgstr ""
+
 #: inc/customizer.php:37
 msgid "Header Options"
 msgstr ""
@@ -449,6 +457,10 @@ msgstr ""
 #: inc/enqueue.php:336
 #: template-parts/ui/darkmode-toggle.php:34
 msgid "Switch to light mode"
+msgstr ""
+
+#: inc/enqueue.php:453
+msgid "Could not load posts. Please try again."
 msgstr ""
 
 #: inc/faq.php:41
@@ -675,6 +687,7 @@ msgid "Thanks for reaching out to %s"
 msgstr ""
 
 #: inc/helpers.php:355
+#: inc/nav-walker.php:184
 msgid "Home"
 msgstr ""
 

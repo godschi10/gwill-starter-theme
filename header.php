@@ -26,6 +26,20 @@
 wp_body_open();
 ?>
 
+<?php
+/*
+ * Reading progress bar (v1.7.0) — fixed 3px bar at the viewport top,
+ * driven by assets/js/reading-progress.js on singular posts. Printed
+ * immediately after <body> opens so it never shifts layout. The JS
+ * no-ops when the element is absent, so printing it unconditionally
+ * costs one empty div; the CSS keeps it invisible (scaleX(0)) until
+ * the first scroll on a post.
+ */
+if ( is_singular( 'post' ) ) :
+?>
+<div class="reading-progress" id="reading-progress" aria-hidden="true"></div>
+<?php endif; ?>
+
 <a class="skip-link" href="#content">
 	<?php echo esc_html_x( 'Skip to content', 'skip link', 'gwill-starter' ); ?>
 </a>

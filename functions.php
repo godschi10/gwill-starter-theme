@@ -46,3 +46,16 @@ require_once get_template_directory() . '/inc/cache-purge.php';
 require_once get_template_directory() . '/inc/minify.php';
 require_once get_template_directory() . '/inc/login-rate-limit.php';
 require_once get_template_directory() . '/inc/two-factor.php';
+
+// v1.7.0 — Tier B ports (GWILL-FEATURE-ROADMAP.md):
+//   nav-walker.php      accessible nav (split-button mobile accordion,
+//                       desktop hover dropdown) + pages-based fallback
+//   code-blocks.php     copy button + language label + Prism (self-hosted)
+//   ajax-filter.php     public admin-ajax category-pill filter endpoint
+//   login-branding.php  brand wp-login.php (logo/wordmark + accent)
+//   external-links.php  _blank + noopener noreferrer on external links
+require_once get_template_directory() . '/inc/nav-walker.php';
+require_once get_template_directory() . '/inc/code-blocks.php';
+require_once get_template_directory() . '/inc/ajax-filter.php';
+require_once get_template_directory() . '/inc/login-branding.php';
+require_once get_template_directory() . '/inc/external-links.php';
