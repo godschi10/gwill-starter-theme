@@ -124,6 +124,13 @@ tests (both render paths, all three providers) rather than rebuilt.
    device client-side (cache-safe); in-content injection 2nd ¶ + every
    ~5, max 4; PHP-tag sanitizer keeps network scripts.
 
+## v1.9.1 — vibe-comments integration hardening
+
+Plugin guard 3.5.6→3.6.3; darkmode-vibe enqueue now gated on the plugin's
+own `should_render()` (kills _doing_it_wrong dep notices + dead CSS);
+dark-state coverage ported (pin hover, error/success, counter, banner —
+both selector systems).
+
 ## v1.9.0 — the candidate pool (all seven, per royal order)
 
 1. **Unit-converter expansion** — area/volume/speed/data-size categories
@@ -161,4 +168,4 @@ tests (both render paths, all three providers) rather than rebuilt.
 
 ---
 
-*Last updated: 2026-08-30 (v1.9.0).*
+*Last updated: 2026-08-30 (v1.9.1).*

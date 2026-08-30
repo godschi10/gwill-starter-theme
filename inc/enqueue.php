@@ -356,13 +356,25 @@ add_action( 'wp_enqueue_scripts', function () {
 	);
 
 	if ( in_array( 'vibe-comments/vibe-comments.php', (array) get_option( 'active_plugins', [] ), true ) ) {
-		wp_enqueue_style( 'gwill-darkmode-vibe' );
+		// Mirror the plugin's own render condition (its
+		// Vibe_Comments_Template_Loader::should_render(): singular AND
+		// (comments open OR has comments)). The plugin only REGISTERS its
+		// 'vibe-comments' stylesheet handle when it would render — enqueueing
+		// ours unconditionally made WordPress log "_doing_it_wrong: style
+		// enqueued with dependencies that are not registered" on every page
+		// where the plugin registers nothing, and shipped this sheet as dead
+		// weight everywhere. class_exists() guards the rare case where the
+		// plugin is active but its classes failed to load.
+		if ( class_exists( 'Vibe_Comments_Template_Loader' )
+			&& Vibe_Comments_Template_Loader::should_render() ) {
+			wp_enqueue_style( 'gwill-darkmode-vibe' );
+		}
 
 		// Version mismatch warning (debug only) — catches silent dark-mode breakage
 		// when the plugin updates and renames internal CSS classes that our
 		// darkmode-vibe-comments.css targets via hardcoded selectors.
 		if ( defined( 'VIBE_COMMENTS_VERSION' ) && WP_DEBUG ) {
-			$expected = '3.5.6'; // Update this when you verify compatibility with a new plugin version
+			$expected = '3.6.3'; // Update this when you verify compatibility with a new plugin version
 			if ( version_compare( VIBE_COMMENTS_VERSION, $expected, '!=' ) ) {
 				error_log( sprintf(
 					'[GWill Starter] Vibe Comments version mismatch: expected %s, got %s. Check darkmode-vibe-comments.css for broken overrides.',

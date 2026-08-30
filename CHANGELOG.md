@@ -1,3 +1,32 @@
+## [1.9.1] — 2026-08-30
+
+### Fixed — vibe-comments integration hardening (plugin v3.6.3 alignment)
+
+- **Version guard** — `$expected` in `inc/enqueue.php` 3.5.6 → **3.6.3** (six
+  plugin versions stale; with `WP_DEBUG` on, every page load logged a
+  mismatch warning on any site pairing this starter with the live plugin).
+- **darkmode-vibe enqueue now mirrors the plugin's render condition** — was
+  enqueued unconditionally whenever the plugin was active. The plugin only
+  REGISTERS its `vibe-comments` stylesheet handle when
+  `Vibe_Comments_Template_Loader::should_render()` passes (singular AND
+  (comments open OR has comments)); enqueueing ours everywhere produced
+  WordPress `_doing_it_wrong` "dependencies not registered" notices on
+  every non-rendering page and shipped the sheet as dead weight. Now gated:
+  `class_exists('Vibe_Comments_Template_Loader') && should_render()`.
+- **Dark-state coverage ported** (`assets/css/darkmode-vibe-comments.css`) —
+  the plugin hardcodes LIGHT-ONLY pastels for pin-btn hover
+  (#fef3c7/#fde68a/#b45309), error/success notices (#fee2e2/#991b1b,
+  #dcfce7/#166534), the character counter, and the new-comment banner.
+  Added dark variants for both selector systems the file already uses
+  (`prefers-color-scheme` + `[data-theme="dark"]`): neutral slate pin
+  hover, soft-red error, soft-green success, amber/red counter,
+  slate-blue banner. Brand-neutral by starter design — child themes
+  re-token via their own overrides.
+
+**Verified:** `php -l` clean; CSS braces 35/35 balanced; gate-order shim
+check (should_render gate precedes the single enqueue, guard = 3.6.3);
+both `@media` and `[data-theme]` selector blocks present.
+
 ## [1.9.0] - 2026-08-30
 
 The candidate pool — all seven, per royal order. Four extensions of

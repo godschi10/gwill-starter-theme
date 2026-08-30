@@ -126,3 +126,61 @@
 	color:        #f87171;
 	border-color: #ef4444;
 }
+
+/* ── Message / pin / counter states (plugin hardcodes light pastels) ──
+   Ported from gwill-tech-theme's proven coverage (2026-08-22 audit
+   findings #2/#3): the plugin ships LIGHT-ONLY colors for pin-btn hover,
+   error/success notices, the character counter, and the new-comment
+   banner — unreadable blobs on dark surfaces. Dark variants use neutral
+   slate/red/green pairs (starter is brand-neutral by design; child
+   themes re-token via their own override files). */
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) .vibe-comments-section .vibe-pin-btn:hover {
+		background:   #1e293b;
+		border-color: #475569;
+		color:        #e2e8f0;
+	}
+	:root:not([data-theme="light"]) .vibe-comments-section .vibe-message-error {
+		background:   rgba(248, 113, 113, .12);
+		border:       1px solid rgba(248, 113, 113, .3);
+		color:        #f87171;
+		border-radius: 6px;
+	}
+	:root:not([data-theme="light"]) .vibe-comments-section .vibe-message-success {
+		background:   rgba(74, 222, 128, .1);
+		border:       1px solid rgba(74, 222, 128, .28);
+		color:        #4ade80;
+		border-radius: 6px;
+	}
+	:root:not([data-theme="light"]) .vibe-comments-section .vibe-char-counter.vibe-char-warn { color: #fbbf24 }
+	:root:not([data-theme="light"]) .vibe-comments-section .vibe-char-counter.vibe-char-over  { color: #f87171 }
+	:root:not([data-theme="light"]) .vibe-comments-section .vibe-new-banner {
+		background:   rgba(59, 130, 246, .1);
+		border:       1px solid rgba(59, 130, 246, .28);
+		color:        #93c5fd;
+	}
+}
+[data-theme="dark"] .vibe-comments-section .vibe-pin-btn:hover {
+	background:   #1e293b;
+	border-color: #475569;
+	color:        #e2e8f0;
+}
+[data-theme="dark"] .vibe-comments-section .vibe-message-error {
+	background:   rgba(248, 113, 113, .12);
+	border:       1px solid rgba(248, 113, 113, .3);
+	color:        #f87171;
+	border-radius: 6px;
+}
+[data-theme="dark"] .vibe-comments-section .vibe-message-success {
+	background:   rgba(74, 222, 128, .1);
+	border:       1px solid rgba(74, 222, 128, .28);
+	color:        #4ade80;
+	border-radius: 6px;
+}
+[data-theme="dark"] .vibe-comments-section .vibe-char-counter.vibe-char-warn { color: #fbbf24 }
+[data-theme="dark"] .vibe-comments-section .vibe-char-counter.vibe-char-over  { color: #f87171 }
+[data-theme="dark"] .vibe-comments-section .vibe-new-banner {
+	background:   rgba(59, 130, 246, .1);
+	border:       1px solid rgba(59, 130, 246, .28);
+	color:        #93c5fd;
+}
