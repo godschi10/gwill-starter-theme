@@ -258,3 +258,37 @@ block.
 
 12. Grep every documented `GWILL_*` flag's call sites — handler must
     exist in-tree **(L12)**
+
+---
+
+## Law L13 — Verify ported code against its source, line by line
+
+**Rule.** A port is not done when it runs — it is done when it matches the
+source's semantics. Before shipping any module copied from an elder theme,
+diff the port against the source function-by-function: every return value,
+sentinel, and branch must carry the same truthiness the source guarantees.
+A "semantically equivalent" shortcut that flips a truthy/falsy sentinel is
+a vulnerability wearing a port's clothes.
+
+**Incident.** Starter theme, Aug 30 2026, during the Tier-A v1.6.0 port:
+the backup-code path in the 2FA port introduced `return 2; // Sentinel:
+no backup codes exist` where the tech source returns `false`. PHP's truthy
+`2` would have let `gwill_2fa_authenticate()`'s OR-chain treat a user with
+ZERO backup codes as authenticated on a backup-code attempt — the port's
+own self-review caught it pre-lint, and the 82-test battery pins it
+(`zero backup codes → false`).
+
+**Verify.** After porting any module: read the source's equivalent function
+side-by-side with the port, line by line, and diff the RETURN VALUES first
+(falsy `false`/`null`/`0`/`''` vs truthy anything). Add a battery test that
+pins the sentinel for every security-relevant return. Run the port against
+the RFC/spec vectors where they exist (e.g. RFC 6238 TOTP — computed
+independently, never assumed from a different digit count).
+
+---
+
+## Law L13 checklist item
+
+13. After any port from an elder theme, diff port vs source function-by-function,
+    return values first — and pin every security sentinel with a battery test
+    **(L13)**

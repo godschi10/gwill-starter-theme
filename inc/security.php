@@ -115,7 +115,32 @@ add_action( 'template_redirect', function () {
 
 // Suppress login error specificity — prevents distinguishing bad username
 // from bad password. esc_html__ is used (not __) per WPCS output escaping rules.
-add_filter( 'login_errors', fn() => esc_html__( 'Invalid username or password.', 'gwill-starter' ) );
+//
+// EXCEPTION (v1.6.0): two-factor guidance (gwill_2fa_*) stays visible.
+// By the time a 2FA error fires, the password has ALREADY validated, so the
+// message leaks no enumeration data — and hiding it would leave 2FA users
+// stranded with a misleading "Invalid username or password." after typing
+// a CORRECT password. Mirrors gwill-tech-theme inc/security.php:144.
+// function_exists() guard keeps security.php load-order independent of
+// inc/two-factor.php (the filter fires at login time, long after all
+// requires have run, so the guard is belt-and-braces for child themes
+// that re-require files in odd orders).
+add_filter( 'login_errors', 'gwill_obfuscate_login_error' );
+
+/**
+ * Obfuscate login errors while preserving two-factor guidance.
+ *
+ * @param string|WP_Error $errors Core's login error text.
+ * @return string|WP_Error 2FA guidance untouched; everything else collapsed.
+ * @since 1.6.0
+ */
+function gwill_obfuscate_login_error( $errors ) {
+	$code = function_exists( 'gwill_2fa_last_error' ) ? gwill_2fa_last_error() : null;
+	if ( 'gwill_2fa_required' === $code || 'gwill_2fa_invalid' === $code ) {
+		return $errors;
+	}
+	return esc_html__( 'Invalid username or password.', 'gwill-starter' );
+}
 
 /*
  * Security headers (X-Content-Type-Options, X-Frame-Options, Referrer-Policy,

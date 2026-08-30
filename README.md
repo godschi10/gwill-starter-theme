@@ -4,16 +4,66 @@ A clean, custom WordPress starter theme built from scratch. No parent theme. No 
 
 ## ⚖️ Theme Laws — read first
 
-`docs/LAWS.md` ships inside this theme. Eleven absolute rules, each paid for by a
+`docs/LAWS.md` ships inside this theme. Thirteen absolute rules, each paid for by a
 real incident on a live GWill site — vendor self-containment, sw.js caching,
 the dead-bell subscribe order, 404-status routes, multi-instance binding, the
 busy-button timeout, opt-out escape hatches, version bumps, cache probes,
-deploy diffs, and the Android WebAPK notification-permission transfer. Every
-build from this starter inherits them. Read `docs/LAWS.md`
-before starting any project, and follow the launch checklist at its end before
-handing a site to a client.
+deploy diffs, the Android WebAPK notification-permission transfer, the
+documented-flag call-site grep, and port-verification return-value discipline.
+Every build from this starter inherits them.
+Read `docs/LAWS.md` before starting any project, and follow the launch
+checklist at its end before handing a site to a client.
 
 ## What every build inherits
+
+### Two-factor login (TOTP, zero plugins)
+
+`inc/two-factor.php` + `inc/login-rate-limit.php` — RFC 6238 authenticator codes
+(Google Authenticator / 1Password compatible), 10 one-time backup codes stored
+as `wp_hash()` digests, a per-user profile panel with pending→active pairing
+state machine (never a lockout window during re-pairing), admin force-disable
+on any user, a "2FA" column in the Users list, and a login rate limiter
+(5 failures / 15 min per IP, SHA-256-hashed keys) as the mandatory companion —
+brute-forcing the 6-digit space is throttled by the same lockout because a
+failed 2FA code triggers `wp_login_failed`. The login screen's error
+obfuscation (`inc/security.php`) is 2FA-aware: generic errors stay collapsed,
+2FA guidance stays visible (the password already validated by then — hiding
+it strands a correct-password user with a misleading error).
+
+### Image CLS pass
+
+`inc/images.php` — width/height attributes enforced on every attachment image
+(the #1 CLS killer), `decoding="async"` everywhere except the LCP image, WebP
+upload support, responsive `sizes` hint matched to the theme's 900px content
+column, and the scaled-image threshold capped at 1920px.
+
+### Core CSS removed at both print points
+
+`inc/wp-css-off.php` — block-library + global-styles + classic-theme-styles +
+dashicons (logged-out only) dequeued at `wp_enqueue_scripts:100`, then the
+**late-styles catch**: WP 6.9+/7.x re-enqueues `global-styles` at `wp_footer`
+priority 1 — a head-only dequeue can never catch it, so the module dequeues
+again at `wp_footer:2`, before core's `print_late_styles` (priority 8). Emoji
+script + styles, jQuery Migrate (front end), and front-end heartbeat removed
+too. Safe because the starter's `theme.json` uses default layout settings and
+`style.css` styles `.alignwide`/`.alignfull` itself.
+
+### Cache purge on publish/save
+
+`inc/cache-purge.php` — dev box: wipes the local nginx FastCGI page cache
+(FILES only, never directories — deleting dirs cascades and nukes the cache
+root; unreadable-subtree failures never fatal the save). Production (with
+`PURGE_SECRET` defined): fans a purge of post + home + category URLs to
+`home_url('/api/cache-purge')` — derived from `home_url()` so the purge
+follows the site on migration.
+
+### HTML whitespace minification
+
+`inc/minify.php` — collapses inter-tag whitespace runs in the final buffer
+via `template_redirect:0` output buffering. `<pre>`, `<code>`, `<textarea>`,
+`<script>`, and `<style>` bodies are placeholder-protected and restored
+byte-for-byte. Binary routes (the PWA manifest at `?gwill_manifest=`) skip the
+buffer entirely; admin/AJAX/REST/cron/CLI contexts are never touched.
 
 ### Web push notifications (zero-config, self-hosted)
 
@@ -282,6 +332,12 @@ gwill-starter-theme/
 │   ├── staging.php                Staging-environment banner, Customizer-toggleable, default on
 │   ├── analytics.php              Forms & Newsletter admin page — signup chart (pure SVG), recent log, CSV export; defines gwill_log_submission() (Law L12 fix)
 │   ├── push-dashboard.php         Push Subscribers admin page — stats, subscriber table, test-notification REST send
+│   ├── two-factor.php             TOTP 2FA (RFC 6238) + backup codes + profile panel
+│   ├── login-rate-limit.php       5-failures/15-min login lockout (2FA companion)
+│   ├── images.php                 Image CLS pass (width/height, decoding=async, WebP)
+│   ├── cache-purge.php            FastCGI cache purge on publish/save
+│   ├── minify.php                 HTML whitespace minification (pre/code/script/style safe)
+│   ├── wp-css-off.php             Core CSS removal + WP 6.9+ late-styles catch
 │
 ├── template-parts/
 │   ├── content.php                Article card (index/archive/search listings)
@@ -345,7 +401,7 @@ Every `wp_enqueue_style()`/`wp_enqueue_script()` call in the theme. All version 
 | `/wp-json/wp/v2/users` blocked | Only for unauthenticated requests — logged-in users, WooCommerce, ACF etc. still resolve normally. |
 | `?author=N` blocked | Unconditional 301 — this numeric-enumeration vector is never a valid destination on its own, regardless of any other setting. |
 | `/author/slug/` archive | **Enabled by default.** Disable via `GWILL_ALLOW_AUTHOR_ARCHIVES => false`, which 302s (not 301) to the homepage — deliberately not 301, since this is a toggleable setting, not a permanent URL move, and a 301 would have browsers caching the redirect well past any later change to the setting. |
-| Login errors genericized | "Invalid username or password" regardless of which part was actually wrong — prevents username enumeration via login form. |
+| Login errors genericized | "Invalid username or password" regardless of which part was actually wrong — prevents username enumeration via login form. **2FA-aware (v1.6.0):** two-factor guidance (`gwill_2fa_required` / `gwill_2fa_invalid`) stays visible — the password already validated by then, so it leaks nothing. |
 | Security headers sent in PHP (v1.3.0) | `gwill_security_headers()` on `template_redirect` (priority 20): `X-Content-Type-Options: nosniff`, `X-Frame-Options: SAMEORIGIN`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy: camera=(), microphone=(), geolocation=()`. Skipped on admin/login and when output already started. Values intentionally match the recommended nginx/Cloudflare set — a server layer adding the same headers produces byte-identical duplicates (harmless), so this stays on even behind a CDN. |
 
 ### inc/helpers.php

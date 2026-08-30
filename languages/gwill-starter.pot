@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: GWill Starter 1.5.0\n"
+"Project-Id-Version: GWill Starter 1.6.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/gwill-starter-theme\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-30T06:32:18+00:00\n"
+"POT-Creation-Date: 2026-08-30T10:17:44+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: gwill-starter\n"
@@ -76,7 +76,6 @@ msgstr ""
 #: archive.php:33
 #: author.php:105
 #: home.php:33
-#: index.php:36
 msgid "&larr; Prev"
 msgstr ""
 
@@ -84,7 +83,6 @@ msgstr ""
 #: archive.php:34
 #: author.php:106
 #: home.php:34
-#: index.php:37
 #: search.php:130
 msgid "Next &rarr;"
 msgstr ""
@@ -127,7 +125,7 @@ msgid "Clear search text"
 msgstr ""
 
 #: header.php:89
-#: inc/enqueue.php:210
+#: inc/enqueue.php:208
 #: template-parts/search/search-form-modal.php:118
 msgid "Close search"
 msgstr ""
@@ -392,63 +390,63 @@ msgstr ""
 msgid "Play %s: %s"
 msgstr ""
 
-#: inc/enqueue.php:172
+#: inc/enqueue.php:170
 msgid "Step"
 msgstr ""
 
-#: inc/enqueue.php:173
+#: inc/enqueue.php:171
 msgid "of"
 msgstr ""
 
-#: inc/enqueue.php:174
+#: inc/enqueue.php:172
 msgid "is required."
 msgstr ""
 
-#: inc/enqueue.php:209
+#: inc/enqueue.php:207
 #: template-parts/search/search-form-expandable.php:26
 #: template-parts/search/search-form-modal.php:35
 msgid "Open search"
 msgstr ""
 
-#: inc/enqueue.php:240
+#: inc/enqueue.php:238
 msgid "Searching\\u2026"
 msgstr ""
 
-#: inc/enqueue.php:241
-#: inc/enqueue.php:289
+#: inc/enqueue.php:239
+#: inc/enqueue.php:287
 msgid "No results found."
 msgstr ""
 
-#: inc/enqueue.php:242
-#: inc/enqueue.php:292
+#: inc/enqueue.php:240
+#: inc/enqueue.php:290
 msgid "Search unavailable. Press Enter to search."
 msgstr ""
 
-#: inc/enqueue.php:243
+#: inc/enqueue.php:241
 msgid "View all results \\u2192"
 msgstr ""
 
-#: inc/enqueue.php:288
+#: inc/enqueue.php:286
 msgid "Searching…"
 msgstr ""
 
 #. translators: %s: the search query string.
-#: inc/enqueue.php:291
+#: inc/enqueue.php:289
 #, php-format
 msgid "No matches for \"%s\" — try these recent posts:"
 msgstr ""
 
-#: inc/enqueue.php:293
+#: inc/enqueue.php:291
 msgid "View all results →"
 msgstr ""
 
-#: inc/enqueue.php:337
+#: inc/enqueue.php:335
 #: template-parts/ui/darkmode-toggle.php:31
 #: template-parts/ui/darkmode-toggle.php:33
 msgid "Switch to dark mode"
 msgstr ""
 
-#: inc/enqueue.php:338
+#: inc/enqueue.php:336
 #: template-parts/ui/darkmode-toggle.php:34
 msgid "Switch to light mode"
 msgstr ""
@@ -698,6 +696,10 @@ msgstr ""
 msgid "Breadcrumb"
 msgstr ""
 
+#: inc/login-rate-limit.php:116
+msgid "Too many failed login attempts. Please wait 15 minutes and try again."
+msgstr ""
+
 #: inc/portfolio.php:54
 msgctxt "post type general name"
 msgid "Portfolio"
@@ -932,7 +934,7 @@ msgid_plural "%1$s results for %2$s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/security.php:118
+#: inc/security.php:142
 msgid "Invalid username or password."
 msgstr ""
 
@@ -1059,6 +1061,129 @@ msgstr[1] ""
 #: inc/testimonials.php:291
 #, php-format
 msgid "%d out of 5 stars"
+msgstr ""
+
+#: inc/two-factor.php:236
+msgid "This account has two-factor authentication enabled. Enter the six-digit code from your authenticator app."
+msgstr ""
+
+#: inc/two-factor.php:248
+msgid "That authenticator code is invalid or expired. Try again, or use a backup code."
+msgstr ""
+
+#: inc/two-factor.php:269
+#: inc/two-factor.php:418
+msgid "Authenticator code"
+msgstr ""
+
+#: inc/two-factor.php:357
+#: inc/two-factor.php:487
+msgid "Two-Factor Authentication"
+msgstr ""
+
+#: inc/two-factor.php:360
+#: inc/two-factor.php:490
+msgid "Status"
+msgstr ""
+
+#: inc/two-factor.php:363
+msgid "Enabled — an authenticator code is required at login."
+msgstr ""
+
+#: inc/two-factor.php:365
+msgid "Disabled — password-only login."
+msgstr ""
+
+#: inc/two-factor.php:372
+msgid "Enable"
+msgstr ""
+
+#: inc/two-factor.php:376
+msgid "Enable two-factor authentication"
+msgstr ""
+
+#: inc/two-factor.php:379
+msgid "You will be guided through pairing an authenticator app (Google Authenticator, Microsoft Authenticator, 1Password) after saving."
+msgstr ""
+
+#: inc/two-factor.php:387
+msgid "Pair your app"
+msgstr ""
+
+#: inc/two-factor.php:390
+msgid "Open your authenticator app and add this account manually (or scan via the URI). Then enter the current code below to activate."
+msgstr ""
+
+#: inc/two-factor.php:393
+msgid "Account URI"
+msgstr ""
+
+#: inc/two-factor.php:397
+msgid "Manual entry key"
+msgstr ""
+
+#: inc/two-factor.php:401
+msgid "Code from your app"
+msgstr ""
+
+#: inc/two-factor.php:407
+msgid "Cancel — keep current setup as it is"
+msgstr ""
+
+#: inc/two-factor.php:410
+msgid "Save your profile to activate. Codes rotate every 30 seconds."
+msgstr ""
+
+#: inc/two-factor.php:420
+msgid "To change or disable two-factor, enter your current code (or a backup code) and choose an action below."
+msgstr ""
+
+#: inc/two-factor.php:427
+msgid "Regenerate secret (re-pair your app)"
+msgstr ""
+
+#: inc/two-factor.php:431
+msgid "Disable two-factor authentication"
+msgstr ""
+
+#: inc/two-factor.php:435
+msgid "Generate new backup codes (invalidates old ones)"
+msgstr ""
+
+#: inc/two-factor.php:440
+msgid "Backup codes"
+msgstr ""
+
+#: inc/two-factor.php:447
+msgid "Store these now — they are shown once. Each code works exactly once, then is destroyed."
+msgstr ""
+
+#: inc/two-factor.php:456
+msgid "Backup codes are only shown once at generation. Generate a new set to see fresh ones (old sets stop working)."
+msgstr ""
+
+#: inc/two-factor.php:493
+msgid "Enabled — this user needs their authenticator at login."
+msgstr ""
+
+#: inc/two-factor.php:496
+msgid "Force-disable two-factor for this user (recovery only)"
+msgstr ""
+
+#: inc/two-factor.php:499
+msgid "Disabled."
+msgstr ""
+
+#: inc/two-factor.php:658
+msgid "2FA"
+msgstr ""
+
+#: inc/two-factor.php:677
+msgid "On"
+msgstr ""
+
+#: inc/two-factor.php:678
+msgid "Off"
 msgstr ""
 
 #: inc/webpush.php:269

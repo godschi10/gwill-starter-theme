@@ -30,3 +30,19 @@ require_once get_template_directory() . '/inc/webpush.php';
 require_once get_template_directory() . '/inc/apps.php';
 require_once get_template_directory() . '/inc/analytics.php';
 require_once get_template_directory() . '/inc/push-dashboard.php';
+
+// v1.6.0 — Tier A ports (GWILL-FEATURE-ROADMAP.md):
+//   wp-css-off.php       core-CSS removal — closes the LATE-STYLES HOLE
+//                        (WP 6.9+/7.x re-enqueues global-styles at wp_footer;
+//                        supersedes enqueue.php's old head-only dequeue)
+//   images.php           image CLS pass (width/height, decoding=async, WebP)
+//   cache-purge.php     purge FastCGI cache on publish/save
+//   minify.php          HTML whitespace minification (pre/code/script/style safe)
+//   login-rate-limit.php brute-force lockout — companion REQUIRED by 2FA docs
+//   two-factor.php      TOTP 2FA (RFC 6238) + backup codes + profile panel
+require_once get_template_directory() . '/inc/wp-css-off.php';
+require_once get_template_directory() . '/inc/images.php';
+require_once get_template_directory() . '/inc/cache-purge.php';
+require_once get_template_directory() . '/inc/minify.php';
+require_once get_template_directory() . '/inc/login-rate-limit.php';
+require_once get_template_directory() . '/inc/two-factor.php';

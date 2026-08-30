@@ -1,3 +1,43 @@
+## [1.6.0] - 2026-08-30
+
+Tier A — the five battle-tested ports from the elder themes, per royal approval. Every module copied from a live-proven source, then verified against its source function-by-function (Law L13 born from the discipline). The starter's own late-styles hole closed as bugfix-grade work.
+
+### Added
+
+- **Two-factor login (TOTP)** (`inc/two-factor.php`, 681 lines) — from the tech theme's live-proven 662-line module: RFC 6238 authenticator codes (Google Authenticator / 1Password compatible — verified against independently computed test vectors, never the false 8-digit-prefix assumption), 10 one-time backup codes stored as `wp_hash()` digests (plaintext shown once in a 10-minute transient), a per-user profile panel with pending→active pairing (enable → pending secret → activate with code → promoted + fresh backups; regenerate keeps the active secret until the new one is proven — never a lockout window), admin force-disable on any user, a "2FA" column in the Users list, and `gwill_2fa_last_error()` so the login screen can stay 2FA-aware.
+
+- **Login rate limiter** (`inc/login-rate-limit.php`) — the 2FA companion, ported because the tech theme's 2FA documentation cites it and shipping 2FA alone would make a security claim referencing a protection that doesn't exist (Law L12 mindset). 5 failures / 15 minutes per IP, SHA-256-hashed keys (never the raw IP), priority 9 on `authenticate` so a locked-out IP cannot even probe passwords. A failed 2FA code triggers `wp_login_failed`, so brute-forcing the 6-digit space is throttled by the same lockout.
+
+- **Image CLS pass** (`inc/images.php`) — from the portfolio theme: width/height attributes enforced on every attachment image (the #1 CLS killer), `decoding="async"` everywhere except the LCP image (sync there), WebP upload support, responsive `sizes` hint matched to the starter's 900px content column, and the scaled-image threshold capped at 1920px.
+
+- **Cache purge on publish/save** (`inc/cache-purge.php`) — from the portfolio theme: dev box wipes the local nginx FastCGI page cache (FILES only, never directories — a dir delete cascades and nukes the cache root; unreadable subtrees never fatal the save); production (`PURGE_SECRET` defined) fans a purge of post + home + category URLs to `home_url('/api/cache-purge')` — derived from `home_url()` so the purge follows the site on migration.
+
+- **HTML whitespace minification** (`inc/minify.php`) — from the tech theme's performance.php: collapses inter-tag whitespace runs in the final buffer (`template_redirect:0` output buffering, 2+ newline runs between tags → single newline). `<pre>`, `<code>`, `<textarea>`, `<script>`, and `<style>` bodies placeholder-protected and restored byte-for-byte. The binary guard skips the PWA manifest route (`?gwill_manifest=`) entirely; admin/AJAX/REST/cron/CLI never buffered.
+
+- **Core CSS removal + the late-styles catch** (`inc/wp-css-off.php`) — from the portfolio bloat.php + finance wp-css-off.php, closing a REAL HOLE in the starter's own bloat removal: WP 6.9+/7.x classic themes with on-demand block assets re-enqueue `global-styles` + placeholders at `wp_footer` priority 1 (the late-styles hoist) — the starter's head-only dequeue at `wp_enqueue_scripts:100` could never catch it, so global-styles-inline-css still printed. The module dequeues block-library + global-styles + placeholders + classic-theme-styles at `wp_enqueue_scripts:100`, then re-dequeues at `wp_footer:2`, BEFORE core's `print_late_styles` (priority 8). Emoji detection + styles (all four print points), jQuery Migrate (front end), and front-end heartbeat removed alongside; dashicons dequeued for logged-out visitors only (the admin bar needs it). comment-reply intentionally NOT touched (single path stays enqueue.php — portfolio's deadlock note). Supersedes enqueue.php's old one-line dequeue.
+
+### Fixed
+
+- **`login_errors` obfuscation swallowed 2FA guidance** (interplay fix) — the starter's `security.php:118` collapsed every login error, which would have hidden the 2FA prompt after a CORRECT password, stranding the user with a misleading "Invalid username or password." Now `gwill_obfuscate_login_error()` (tech's pattern, `security.php:144` there) preserves `gwill_2fa_required` / `gwill_2fa_invalid` guidance — the password already validated by then, so it leaks no enumeration data.
+
+### Changed
+
+- **functions.php** — six new require_once lines (wp-css-off, images, cache-purge, minify, login-rate-limit, two-factor), loader-only discipline held.
+
+- **inc/enqueue.php** — the old head-only `wp_dequeue_style( 'wp-block-library' )` block removed; its work now lives in `inc/wp-css-off.php` with the footer catch.
+
+- **Law L13** (`docs/LAWS.md`) — verify ported code against its source, function-by-function, return values first. Born from the self-caught `return 2` sentinel in the 2FA port's backup-code path (truthy `2` where the source returns `false` — an authenticating-with-zero-backup-codes bypass). Launch checklist item 13 added.
+
+- **GWILL-FEATURE-ROADMAP.md** — Tier A recorded as shipped; 13 laws; last-updated stamp v1.6.0.
+
+- **README.md** — five new "What every build inherits" sections (2FA, image CLS, core-CSS removal + late-styles catch, cache purge, minify); file tree gains the six inc/ entries; security table's login-errors row now documents the 2FA exception; laws count 11 → 12 → 13 correct in the Laws preamble.
+
+- **languages/gwill-starter.pot** — regenerated for the new module strings.
+
+### Port-verification evidence
+
+82/82 shim battery: RFC 6238 vectors computed independently in Python (287082/081804/005924/279037 — the naive 8-digit-prefix assumption proven FALSE before the battery ever ran), backup-code sentinel pinned (zero codes → `false`, the fixed `return 2`), the full enable→activate→disable state machine, limiter lockout at 5 failures with 4 passing through, purge fan-out URLs + secret header + revision/draft skips, minify's five protected regions byte-for-byte, the manifest-route buffer skip, all six head-dequeue handles + the footer re-dequeue catch, emoji's four removal points, Migrate stripped, heartbeat deregistered, and the 2FA-aware obfuscation both ways.
+
 ## [1.5.0] - 2026-08-30
 
 The King's five — all five roadmap-candidate features shipped as one batch, per royal order "Do all". Plus the missing GWILL-FEATURE-ROADMAP.md committed at last, and Law L12 born from a latent fatal found during the recon.

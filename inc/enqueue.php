@@ -1,15 +1,13 @@
 <?php
 defined( 'ABSPATH' ) || exit;
 
-// Dequeue the core block-library stylesheet (~10 KB) — the theme styles
-// every element it renders itself (.entry-content typography, lists,
-// blockquote, headings), so core's opinionated block CSS is dead weight
-// per page load. Runs at priority 100 so it fires after core enqueues it
-// (speed & performance audit v1.3.6 — the finance theme's wp-css-off
-// pattern, ported into the base).
-add_action( 'wp_enqueue_scripts', function () {
-	wp_dequeue_style( 'wp-block-library' );
-}, 100 );
+// Core block/front-end CSS removal now lives in inc/wp-css-off.php (v1.6.0)
+// — it supersedes this file's old head-only wp-block-library dequeue, which
+// missed WP 6.9+/7.x's late-styles hoist (global-styles + placeholders
+// re-enqueued at wp_footer priority 1 still printed). wp-css-off dequeues
+// block-library AND global-styles AND emoji AND classic-theme-styles at
+// wp_enqueue_scripts:100, then catches the footer re-enqueue at wp_footer:2
+// BEFORE core's print_late_styles (priority 8).
 
 add_action( 'wp_enqueue_scripts', function () {
 

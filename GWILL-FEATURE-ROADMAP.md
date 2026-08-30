@@ -65,6 +65,32 @@ Batched as one release, tested as a whole, per plan:
    word-counter in `gwill_apps_registry()`; three reference apps now
    demonstrate the skeleton's range.
 
+## v1.6.0 — Tier A (the five battle-tested ports)
+
+1. **Two-factor login (TOTP)** (`inc/two-factor.php` + the mandatory
+   `inc/login-rate-limit.php` companion) — from the tech theme's proven
+   662-line module: RFC 6238 codes verified against independently computed
+   test vectors, `wp_hash()`ed backup codes, pending→active pairing state
+   machine, admin force-disable, Users-list column.
+2. **Image CLS pass** (`inc/images.php`) — from the portfolio theme's
+   images.php: dimensions enforced, decoding=async (sync on LCP), WebP,
+   900px sizes hint, 1920px scaled cap.
+3. **Cache purge on save** (`inc/cache-purge.php`) — from the portfolio
+   theme's cache.php: dev local wipe / production `home_url()`-derived
+   purge fan-out, FILES-only, never fatal.
+4. **HTML whitespace minification** (`inc/minify.php`) — from the tech
+   theme's performance.php: placeholder-protected sensitive regions,
+   manifest-route guard.
+5. **Late-styles bloat catch** (`inc/wp-css-off.php`) — the bugfix-grade
+   close of the starter's own hole: WP 6.9+/7.x re-enqueues global-styles
+   at `wp_footer:1`; the module catches it at `wp_footer:2` before core's
+   priority-8 hoist. Supersedes enqueue.php's head-only dequeue. Emoji,
+   jQuery Migrate, front-end heartbeat, and logged-out dashicons removed
+   alongside.
+
+Plus: `login_errors` obfuscation made 2FA-aware (security.php), the six
+loader lines (functions.php), and Law L13 (port-verification discipline).
+
 ## Candidate pool (unplanned — awaiting royal direction)
 
 - Dark-mode aware app icons
@@ -77,4 +103,4 @@ Batched as one release, tested as a whole, per plan:
 
 ---
 
-*Last updated: 2026-08-30 (v1.5.0).*
+*Last updated: 2026-08-30 (v1.6.0).*
