@@ -28,3 +28,5 @@ require_once get_template_directory() . '/inc/staging.php';
 require_once get_template_directory() . '/inc/pwa.php';
 require_once get_template_directory() . '/inc/webpush.php';
 require_once get_template_directory() . '/inc/apps.php';
+require_once get_template_directory() . '/inc/analytics.php';
+require_once get_template_directory() . '/inc/push-dashboard.php';

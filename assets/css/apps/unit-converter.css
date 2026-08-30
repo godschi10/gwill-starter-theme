@@ -1,0 +1,55 @@
+/**
+ * App: unit-converter — styles for the demo custom app.
+ *
+ * Written against the theme's --color-* tokens only, so dark mode
+ * inverts for free. Loaded only on /apps/unit-converter/ (enqueued by
+ * inc/apps.php).
+ *
+ * @package GWill_Starter
+ * @since   1.5.0
+ */
+
+/*
+Table of Contents
+1. category select + unit row
+2. result line
+*/
+
+/* ── 1. category + unit row ───────────────────────────────────── */
+
+.uc-select {
+	min-height: 44px; /* WCAG 2.5.5 tap target */
+	width: 100%;
+	padding: 0 0.75rem;
+	border: 1px solid var(--color-border-input, var(--color-border));
+	border-radius: var(--form-radius, 8px);
+	background: var(--color-bg);
+	color: var(--color-primary);
+	font: inherit;
+	cursor: pointer;
+}
+
+.uc-row {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+	gap: 0.75rem;
+	margin-top: 1rem;
+}
+
+.uc-field {
+	display: grid;
+	gap: 0.375rem;
+}
+
+/* ── 2. result ───────────────────────────────────────────────── */
+
+.uc-result {
+	margin-top: 1.25rem;
+	padding: 0.875rem 1rem;
+	border: 1px solid var(--color-border);
+	border-radius: var(--form-radius, 8px);
+	background: var(--color-muted, transparent);
+	color: var(--color-primary);
+	font-size: 1.0625rem;
+	font-weight: 600;
+}

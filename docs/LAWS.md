@@ -224,3 +224,37 @@ Chrome's site-settings label for an installed PWA.
 10. `diff -rq` clean + served-bytes SW proof **(L10)**
 11. On Android: verify the APP-level notification toggle, not Chrome's site
     settings **(L11)**
+
+
+---
+
+## Law L12 — A documented flag is a promise: grep call sites before shipping docs
+
+**Rule.** Every optional feature documented behind a wp-config flag is a
+promise that the code behind it works. Before documenting (or keeping)
+any `GWILL_*` constant, grep the FULL tree for its call sites and prove
+the called function EXISTS. A documented flag whose handler fatals is
+worse than no flag — it converts documentation into a loaded weapon.
+
+**Incident.** Starter theme, found Aug 30 2026 during the v1.5.0 recon:
+`inc/forms/ajax.php` called `gwill_log_submission()` behind the
+`GWILL_LOG_FORMS` flag documented since v1.0.20 (six years of
+documentation), yet the function was defined NOWHERE. Any site that
+followed the documented wp-config instructions would have crashed its
+form submit with "Call to undefined function" — the flag was a latent
+fatal. Found only because the v1.5.0 analytics recon grepped for the
+call sites before building on top of them. Fixed by defining the
+function in `inc/analytics.php` (v1.5.0).
+
+**Verify.** For every documented `GWILL_*` flag: `grep -rn
+"<flag>" inc/ --include="*.php"` AND `grep -rn "<handler_function>"
+inc/` — both must return hits, and the handler must be defined in the
+same tree. Run once per release over the whole wp-config documentation
+block.
+
+---
+
+## Law L12 checklist item
+
+12. Grep every documented `GWILL_*` flag's call sites — handler must
+    exist in-tree **(L12)**

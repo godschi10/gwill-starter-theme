@@ -32,8 +32,10 @@ Register an app in one place — `gwill_apps_registry()` in `inc/apps.php`
 — and it gets a real page at `/apps/<slug>/`, a card on the `/apps/`
 hub, JSON-LD schema (CollectionPage/ItemList on the hub,
 SoftwareApplication + FAQPage on app pages), and its JS/CSS auto-loaded
-only on its own page. A demo **word-counter** app ships as the reference
-implementation. See the inline documentation in `inc/apps.php`.
+only on its own page. Three demo apps ship as reference implementations
+spanning the skeleton's range: **word-counter** (text analysis),
+**case-converter** (text transformation) and **unit-converter** (numeric
+conversion). See the inline documentation in `inc/apps.php`.
 
 ### Installable Chrome app (PWA)
 
@@ -43,6 +45,24 @@ apple-touch-icon + status-bar metas, an SVG favicon, and the custom install
 card (Chrome's default infobar suppressed). Re-branding the whole PWA is
 three filters — `gwill_pwa_icons()`, `gwill_pwa_colors()`, `gwill_pwa_manifest`
 — or simply dropping new art into `assets/brand/` under the same filenames.
+
+### Admin tools — analytics + push dashboard (Tools menu)
+
+Every build ships the two site-owner screens under **Tools**:
+
+- **Tools → Forms & Newsletter** (`inc/analytics.php`) — total /
+  newsletter / 7-day / 30-day signup counts, a 30-day stacked bar
+  chart rendered as pure inline SVG by PHP (zero JS libraries), a
+  recent-submissions table and a CSV export. Tells you plainly when
+  `GWILL_LOG_FORMS` is off. This module also defines
+  `gwill_log_submission()` — the function `inc/forms/ajax.php` has
+  called behind that flag since v1.0.20 but which was never defined
+  anywhere until v1.5.0 (Law L12).
+- **Tools → Push Subscribers** (`inc/push-dashboard.php`) — subscriber
+  counts, VAPID readiness, the subscriber table with per-endpoint
+  delete, and a "send test notification" button that queues through the
+  publish path's proven loop (`gwill/v1/push/test`, manage_options +
+  wp_rest nonce).
 
 ### Both need one server rule
 
@@ -219,7 +239,7 @@ gwill-starter-theme/
 ├── theme.json                   Gutenberg configuration — kills default palette/font sizes
 ├── screenshot.png               Theme preview shown in Appearance → Themes
 ├── README.md / CHANGELOG.md / EMAIL-SETUP.md
-├── GWILL-FEATURE-ROADMAP.md     Tiered plan for features beyond what's currently built
+├── GWILL-FEATURE-ROADMAP.md     Tiered feature plan — Tiers 1–3 shipped; candidate pool + v1.4/v1.5 era
 │
 ├── header.php                   <head>, site header, dark-mode flash-prevention script
 ├── footer.php                   Footer credit, back-to-top, cookie consent, wp_footer()
@@ -238,6 +258,8 @@ gwill-starter-theme/
 ├── attachment.php               Redirects attachment URLs to the parent post
 ├── template-contact.php          "Contact" page template — 6 standalone-page-appropriate form patterns
 ├── template-contact-demo.php     "Contact Demo (Dev Only)" — all 11 patterns, edit_posts-gated
+├── single-gwill_portfolio.php    Single project page — CreativeWork schema, project-details card
+├── archive-gwill_portfolio.php   Portfolio archive — grid + type-filter pills + pagination
 │
 ├── inc/
 │   ├── setup.php                Theme supports, nav menus, content_width, image sizes, video meta box
@@ -257,7 +279,9 @@ gwill-starter-theme/
 │   ├── pricing-table.php          Pricing table component — array-driven template tag, no CPT (Tier 3)
 │   ├── portfolio.php              gwill_portfolio CPT + grid display, genuinely public unlike testimonials (Tier 3)
 │   ├── woocommerce.php            WooCommerce compatibility layer — no-op entirely if the plugin isn't active (Tier 3)
-│   └── staging.php                Staging-environment banner, Customizer-toggleable, default on
+│   ├── staging.php                Staging-environment banner, Customizer-toggleable, default on
+│   ├── analytics.php              Forms & Newsletter admin page — signup chart (pure SVG), recent log, CSV export; defines gwill_log_submission() (Law L12 fix)
+│   ├── push-dashboard.php         Push Subscribers admin page — stats, subscriber table, test-notification REST send
 │
 ├── template-parts/
 │   ├── content.php                Article card (index/archive/search listings)

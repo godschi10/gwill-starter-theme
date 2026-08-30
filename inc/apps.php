@@ -83,6 +83,42 @@ function gwill_apps_registry() {
 				),
 			),
 		),
+		array(
+			'slug'    => 'case-converter',
+			'title'   => __( 'Case Converter', 'gwill-starter' ),
+			'excerpt' => __( 'Convert text between UPPER, lower, Title, Sentence, camelCase, snake_case and kebab-case — instant, private, in your browser.', 'gwill-starter' ),
+			'icon'    => '<path d="M4 19V5m10 14V5M4 12h10M17 8l4-4m0 0h-4m4 0v4" stroke-linecap="round" stroke-linejoin="round"/>',
+			'js'      => true,
+			'css'     => true,
+			'faq'     => array(
+				array(
+					'q' => __( 'Does my text leave my device?', 'gwill-starter' ),
+					'a' => __( 'No. The conversion runs entirely in your browser — nothing is uploaded or stored.', 'gwill-starter' ),
+				),
+				array(
+					'q' => __( 'What is Title Case here?', 'gwill-starter' ),
+					'a' => __( 'Every word is capitalised except small connecting words (a, and, of, the…) after the first.', 'gwill-starter' ),
+				),
+			),
+		),
+		array(
+			'slug'    => 'unit-converter',
+			'title'   => __( 'Unit Converter', 'gwill-starter' ),
+			'excerpt' => __( 'Convert between common length, weight and temperature units — metres to feet, kg to pounds, Celsius to Fahrenheit.', 'gwill-starter' ),
+			'icon'    => '<path d="M3 17l4-10 4 10M5 14h4m4 3l3-9 3 9m-5-3h4" stroke-linecap="round" stroke-linejoin="round"/>',
+			'js'      => true,
+			'css'     => true,
+			'faq'     => array(
+				array(
+					'q' => __( 'Which units are supported?', 'gwill-starter' ),
+					'a' => __( 'Length: mm, cm, m, km, in, ft, yd, mi. Weight: mg, g, kg, t, oz, lb. Temperature: Celsius, Fahrenheit, Kelvin.', 'gwill-starter' ),
+				),
+				array(
+					'q' => __( 'How precise are the results?', 'gwill-starter' ),
+					'a' => __( 'Results are shown to six decimal places, using exact international definitions of each unit.', 'gwill-starter' ),
+				),
+			),
+		),
 	);
 	return apply_filters( 'gwill_apps_registry', $apps );
 }

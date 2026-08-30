@@ -1,3 +1,37 @@
+## [1.5.0] - 2026-08-30
+
+The King's five — all five roadmap-candidate features shipped as one batch, per royal order "Do all". Plus the missing GWILL-FEATURE-ROADMAP.md committed at last, and Law L12 born from a latent fatal found during the recon.
+
+### Added
+
+- **Portfolio single + archive templates** (`single-gwill_portfolio.php`, `archive-gwill_portfolio.php`): the dedicated surfaces the v1.0.63 CPT always implied but never shipped. Single: CreativeWork microdata (a project is not a BlogPosting), project-details card (client, live-site link, services — from the existing meta box + taxonomy), featured image, share pills, breadcrumbs. Archive: the SAME grid card as `template-parts/portfolio/portfolio.php` rendered from the native archive query, type-filter pills (the theme's pill dialect with `.is-active` state), real pagination, empty state via `content-none`. Both fall into the template hierarchy automatically — no registration needed, `has_archive: true` + the taxonomy rewrite already route to them.
+
+- **Newsletter analytics** (`inc/analytics.php`): Tools → "Forms & Newsletter" admin page — total/newsletter/7-day/30-day totals, a 30-day stacked bar chart rendered as pure inline SVG by PHP (zero JS libraries, nothing to enqueue or cache-bust), a recent-submissions table, and a CSV export (admin-post handler, nonce-gated, `manage_options`). The page states plainly when `GWILL_LOG_FORMS` is off instead of showing a silent empty chart. **This module also defines `gwill_log_submission()` — see the Fixed section: it closes a latent fatal.**
+
+- **Push dashboard** (`inc/push-dashboard.php`): Tools → "Push Subscribers" admin page — subscriber/new-7/new-30 counts, VAPID readiness + table-existence notices, a subscriber table (truncated endpoint + full value in the title tooltip, per-row delete via nonce-gated admin-post), and a "Send test notification" button wired to a new `gwill/v1/push/test` REST route (`manage_options`-gated, `wp_rest` nonce) that queues through the publish path's PROVEN loop (queueNotification → flush → prune on 410/404) — never re-implemented.
+
+- **Two new demo apps** — `case-converter` (7 case conversions + three-tier copy, `navigator.clipboard` with the `execCommand` fallback) and `unit-converter` (length/weight/temperature, exact international definitions, Kelvin as the temperature base — no chained approximations), both pure client-side like word-counter, auto-enqueued only on their own `/apps/<slug>/` pages. Three reference apps now demonstrate the skeleton's range (text analysis, text transformation, numeric conversion). New FAQ entries feed the existing SoftwareApplication + FAQPage schema automatically.
+
+- **`GWILL-FEATURE-ROADMAP.md` committed at last** — the tiered plan README and CHANGELOG have referenced 5× since v1.0.50 but never existed in-tree. Now the dangling references resolve: Tier 1 (v1.0.50) / Tier 2 (v1.0.62) / Tier 3 (v1.0.60–63) recorded as shipped, the v1.4 era (push/PWA/laws/apps/smart-search) recorded, the v1.5.0 five recorded, and a candidate pool for future royal direction.
+
+- **Law L12** (`docs/LAWS.md`): a documented flag is a promise — grep call sites before shipping docs. Born from the latent fatal below. Launch checklist item 12 added.
+
+### Fixed
+
+- **Latent fatal: `gwill_log_submission()` was called but never defined** (Law L12's incident). `inc/forms/ajax.php` has called it behind the `GWILL_LOG_FORMS` flag since v1.0.20 (newsletter branch since v1.0.58), but the function existed NOWHERE — any site following the documented wp-config instructions would crash its form submit with "Call to undefined function". Now defined in `inc/analytics.php` with the documented schema: raw IP never stored (salted SHA-256 via AUTH_KEY), scalar `gwill_*` fields only, silent-fail in AJAX context (a log row is never worth a lost submission), `error_log` under WP_DEBUG. The table itself is created via dbDelta (`after_switch_theme` + `admin_init`) with EXACTLY the schema documented in `inc/forms.php`'s header since v1.0.20.
+
+### Changed
+
+- **Search modal (Combo B) verified shipped & documented** — the v1.5.0 recon proved it complete since v1.0.23 (`assets/js/search-modal.js` 336 lines + `template-parts/search/search-form-modal.php` + shared `search.css`): REST live-search with 300ms debounce, keyboard navigation (arrows/Enter/Escape), focus trap (WCAG 2.4.3), `role="dialog"` + `aria-modal`. No code change needed; README's search section now lists all three variants with their partial names so the next build knows every option.
+
+- **README.md** — top status now v1.5.0 with the five features; the file-tree section gains `inc/analytics.php` + `inc/push-dashboard.php` + the two templates; the apps section gains the two new demo apps; `GWILL-FEATURE-ROADMAP.md` listed as a real file.
+
+- **functions.php** — two new require_once lines (analytics, push-dashboard), loader-only discipline held.
+
+- **style.css** — version 1.5.0; new portfolio single/archive CSS section at the tail, all `--color-*` tokens (details card + filter pills, 44px tap targets, `prefers-reduced-motion` respected).
+
+- **languages/gwill-starter.pot** — regenerated for the new analytics/dashboard/template/app strings.
+
 ## [1.4.2] - 2026-08-29
 
 ### Added
