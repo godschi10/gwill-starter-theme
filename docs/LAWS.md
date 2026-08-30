@@ -292,3 +292,40 @@ independently, never assumed from a different digit count).
 13. After any port from an elder theme, diff port vs source function-by-function,
     return values first — and pin every security sentinel with a battery test
     **(L13)**
+
+## Law L14 — Generated artifacts are written by the same tool that must read them
+
+**Rule.** When a test battery embeds code in another language inside a
+PHP heredoc (node snippets, shell one-liners), the write tool will
+mangle it: Python heredocs double-escape regex backslashes (`\s`
+arrives as literal `\s` in the JS), PHP heredocs mis-tokenize nested
+syntax, and neither tool can lint what it just wrote. Never embed
+generated artifacts in a host-language heredoc — write them as
+standalone files (write_file, which lints per-language), reference
+them by path from the battery, and lint/run them with their native
+interpreter BEFORE trusting the battery's verdict.
+
+**Incident.** Starter theme, Aug 30 2026, during the v1.9.0 candidate
+pool: the battery's two node snippets were forged inside a Python
+heredoc; both landed with `\s`/`\d` as literal backslash-letter
+poison and computed garbage. The first symptom surfaced as battery
+FAILs on checks the modules had passed in isolation — the standalone
+`node file.js` run exposed the poison immediately. Rewritten via
+write_file with native node execution before re-integration: all
+vectors exact (acre→m² 4046.8564224, gal→L 3.785411784, 60 mph→km/h
+96.56064, MiB→KB 1048.576, all case-count vectors).
+
+**Verify.** Before a battery that execs external scripts: write each
+script with write_file (per-language lint), run it standalone
+(`node x.js`) and read its output, and only then wire the exec into
+the battery. If a battery check fails while the same logic passes
+standalone, suspect the embedding, not the module.
+
+---
+
+## Law L14 checklist item
+
+14. Foreign-language snippets for a battery are standalone write_file
+    artifacts with native-interpreter verification, never heredoc-
+    embedded strings **(L14)**
+

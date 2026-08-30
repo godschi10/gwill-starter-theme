@@ -4,7 +4,7 @@ Theme URI:   https://gwillchijioke.com
 Author:      G-will Chijioke
 Author URI:  https://gwillchijioke.com
 Description: A clean, custom WordPress starter theme built from scratch. No parent theme dependency.
-Version:     1.8.0
+Version:     1.9.0
 Requires at least: 6.4
 Requires PHP:     8.0
 License:     GNU General Public License v2 or later
@@ -3078,4 +3078,64 @@ select:focus {
   .site-header nav #primary-menu li.open > .sub-menu {
     display: flex;
   }
+}
+
+/* ------------------------------------------------------------------ */
+/* v1.9.0 — Portfolio single: two-column meta sidebar                  */
+/* ------------------------------------------------------------------ */
+
+.gwill-project-layout {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 280px;
+	gap: 2.5rem;
+	align-items: start;
+	margin-top: 1.5rem;
+}
+
+.gwill-project-aside {
+	position: sticky;
+	top: 6.5rem;              /* below the sticky header */
+	border: 1px solid var(--color-border, #e2e2e2);
+	border-radius: 12px;
+	padding: 1.25rem 1.35rem;
+	background: var(--color-surface-2, #fafafa);
+}
+
+.gwill-project-aside__title {
+	font-size: 1rem;
+	margin: 0 0 0.9rem;
+}
+
+.gwill-project-aside__row {
+	display: flex;
+	flex-direction: column;
+	gap: 0.15rem;
+	margin: 0 0 0.75rem;
+}
+
+.gwill-project-aside__row:last-child {
+	margin-bottom: 0;
+}
+
+.gwill-project-aside__label {
+	font-size: 0.72rem;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--color-muted, #6b7280);
+}
+
+.gwill-project-aside__value {
+	font-size: 0.95rem;
+	font-weight: 600;
+	overflow-wrap: anywhere;
+}
+
+@media (max-width: 1023px) {
+	.gwill-project-layout {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.gwill-project-aside {
+		position: static;
+	}
 }

@@ -124,6 +124,31 @@ tests (both render paths, all three providers) rather than rebuilt.
    device client-side (cache-safe); in-content injection 2nd ¶ + every
    ~5, max 4; PHP-tag sanitizer keeps network scripts.
 
+## v1.9.0 — the candidate pool (all seven, per royal order)
+
+1. **Unit-converter expansion** — area/volume/speed/data-size categories
+   on the rate-table pattern; `TABLES` map replaces the length/weight
+   ternary throughout.
+2. **Case-converter counts preview** — live words/characters/sentences/
+   paragraphs bar above the buttons; refreshes on input AND after every
+   conversion (the counts must reflect the converted text).
+3. **Apps registry schema variations** — optional `fields` map renders
+   as `data-*` on `#gwill-app-root`; kebab-case keys; scalar-only;
+   backward compatible (no fields → markup unchanged).
+4. **Push open-rate tracking** — `cid` stamped on every notification
+   payload; sw.js pings `gwill/v1/push-click` (keepalive) on click;
+   `gwill_push_stats` option (autoload off, 200-campaign trim) stores
+   sent/clicked/when; Push dashboard gains a Campaign open-rates table.
+5. **Analytics per-form-pattern chart** — `gwill_analytics_pattern_breakdown()`
+   (GROUP BY form_id) + pure-SVG horizontal bars.
+6. **Portfolio single meta sidebar** — `.gwill-project-layout` grid:
+   content + sticky `.gwill-project-aside` (client, live site,
+   services, published); single column < 1024px; CreativeWork schema
+   untouched.
+7. **Dark-mode aware favicon** — `favicon-dark.svg` + media-attr link
+   pair in head; `gwill_pwa_dark_favicon()` filter with light-URL
+   fallback when the dark asset is absent.
+
 ## Candidate pool (unplanned — awaiting royal direction)
 
 - Dark-mode aware app icons
@@ -136,4 +161,4 @@ tests (both render paths, all three providers) rather than rebuilt.
 
 ---
 
-*Last updated: 2026-08-30 (v1.8.0).*
+*Last updated: 2026-08-30 (v1.9.0).*

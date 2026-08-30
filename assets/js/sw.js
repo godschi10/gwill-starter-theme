@@ -150,7 +150,23 @@ self.addEventListener( 'push', function ( event ) {
 // ── 6. notificationclick — open the post (or focus an open tab) ───────
 self.addEventListener( 'notificationclick', function ( event ) {
 	event.notification.close();
-	var target = ( event.notification.data && event.notification.data.url ) || self.location.origin;
+
+	// v1.9.0 — campaign open-rate ping: fire-and-forget, keepalive so the
+	// request survives even if the SW is killed mid-navigation. Never
+	// blocks the click-through itself.
+	var data = event.notification.data || {};
+	if ( data.cid ) {
+		try {
+			fetch( '/wp-json/gwill/v1/push-click', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify( { cid: data.cid } ),
+				keepalive: true
+			} ).catch( function () {} );
+		} catch ( e ) { /* never block the click */ }
+	}
+
+	var target = ( data.url ) || self.location.origin;
 	event.waitUntil(
 		self.clients.matchAll( { type: 'window', includeUncontrolled: true } ).then( function ( clients ) {
 			for ( var i = 0; i < clients.length; i++ ) {

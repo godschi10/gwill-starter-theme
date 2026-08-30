@@ -148,6 +148,45 @@ function gwill_push_dashboard_render(): void {
 			?>
 		</p>
 
+		<h2><?php esc_html_e( 'Campaign open-rates', 'gwill-starter' ); ?></h2>
+		<?php
+		$campaigns = get_option( 'gwill_push_stats', array() );
+		if ( ! is_array( $campaigns ) || empty( $campaigns ) ) :
+			?>
+			<p><?php esc_html_e( 'No push campaigns recorded yet — publish a post (or send a test) and campaign stats appear here.', 'gwill-starter' ); ?></p>
+		<?php else : ?>
+			<p style="font-size:13px;color:#50575e">
+				<?php esc_html_e( 'Clicks are counted when a subscriber taps the notification. Recent campaigns first.', 'gwill-starter' ); ?>
+			</p>
+			<table class="widefat striped" style="max-width:700px">
+				<thead>
+					<tr>
+						<th><?php esc_html_e( 'Campaign', 'gwill-starter' ); ?></th>
+						<th><?php esc_html_e( 'Sent to', 'gwill-starter' ); ?></th>
+						<th><?php esc_html_e( 'Clicked', 'gwill-starter' ); ?></th>
+						<th><?php esc_html_e( 'Open rate', 'gwill-starter' ); ?></th>
+					</tr>
+				</thead>
+				<tbody>
+				<?php
+				$recent = array_reverse( $campaigns, true );
+				$i      = 0;
+				foreach ( $recent as $pid => $c ) :
+					if ( $i++ >= 20 ) { break; }
+					$rate = $c['sent'] > 0 ? round( $c['clicked'] / $c['sent'] * 100, 1 ) : 0;
+					$edit = get_edit_post_link( (int) $pid );
+					?>
+					<tr>
+						<td><?php echo $edit ? '<a href="' . esc_url( $edit ) . '">' . esc_html( get_the_title( (int) $pid ) ?: ( 'Post ' . (int) $pid ) ) . '</a>' : esc_html( get_the_title( (int) $pid ) ?: ( 'Post ' . (int) $pid ) ); ?></td>
+						<td><?php echo esc_html( number_format_i18n( $c['sent'] ) ); ?></td>
+						<td><?php echo esc_html( number_format_i18n( $c['clicked'] ) ); ?></td>
+						<td><?php echo esc_html( $rate . '%' ); ?></td>
+					</tr>
+				<?php endforeach; ?>
+				</tbody>
+			</table>
+		<?php endif; ?>
+
 		<?php if ( $stats['subs'] > 0 ) : ?>
 			<h2><?php esc_html_e( 'Send a test notification', 'gwill-starter' ); ?></h2>
 			<p><?php esc_html_e( 'Sends one notification to every subscriber — the exact send path a post publish takes. Use it to verify the whole chain before relying on it.', 'gwill-starter' ); ?></p>

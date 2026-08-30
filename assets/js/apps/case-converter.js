@@ -29,6 +29,12 @@ Table of Contents
 		'<label class="wc-label" for="cc-input">' + 'Your text' + '</label>' +
 		'<textarea id="cc-input" class="wc-input" rows="6" placeholder="' +
 			'Paste or type text here…' + '" spellcheck="false"></textarea>' +
+		'<div class="cc-preview" id="cc-preview" role="status" aria-live="polite">' +
+			'<span class="cc-count" id="cc-count-words">0 words</span>' +
+			'<span class="cc-count" id="cc-count-chars">0 characters</span>' +
+			'<span class="cc-count" id="cc-count-sentences">0 sentences</span>' +
+			'<span class="cc-count" id="cc-count-paras">0 paragraphs</span>' +
+		'</div>' +
 		'<div class="cc-actions" role="group" aria-label="Case actions">' +
 			'<button type="button" class="cc-btn" data-cc="upper">UPPERCASE</button>' +
 			'<button type="button" class="cc-btn" data-cc="lower">lowercase</button>' +
@@ -41,13 +47,33 @@ Table of Contents
 		'</div>' +
 		'<div class="cc-status" id="cc-status" role="status" aria-live="polite"></div>';
 
-	var input  = document.getElementById( 'cc-input' );
-	var status = document.getElementById( 'cc-status' );
+	var input   = document.getElementById( 'cc-input' );
+	var status  = document.getElementById( 'cc-status' );
+	var counts = {
+		words:     document.getElementById( 'cc-count-words' ),
+		chars:     document.getElementById( 'cc-count-chars' ),
+		sentences: document.getElementById( 'cc-count-sentences' ),
+		paras:     document.getElementById( 'cc-count-paras' )
+	};
 
 	/* ── 2. conversion helpers ──────────────────────────────────── */
 
 	function words( str ) {
 		return str.trim().match( /[A-Za-z0-9']+/g ) || [];
+	}
+
+	/* Live counts preview (v1.9.0): what the visitor has BEFORE
+	   converting — words / characters / sentences / paragraphs. */
+	function updateCounts() {
+		var v = input.value;
+		var w = words( v ).length;
+		var c = v.length;
+		var s = ( v.match( /[.!?](\s|$)/g ) || [] ).length;
+		var p = v.trim() ? v.trim().split( /\n\s*\n/ ).length : 0;
+		counts.words.textContent     = w + ( 1 === w ? ' word' : ' words' );
+		counts.chars.textContent     = c + ( 1 === c ? ' character' : ' characters' );
+		counts.sentences.textContent = s + ( 1 === s ? ' sentence' : ' sentences' );
+		counts.paras.textContent     = p + ( 1 === p ? ' paragraph' : ' paragraphs' );
 	}
 
 	function toTitle( str ) {
@@ -123,8 +149,13 @@ Table of Contents
 
 		if ( ! converters[ mode ] ) { return; }
 		input.value = converters[ mode ]( input.value );
+		updateCounts();
 		status.textContent = '';
 	} );
+
+	// ── v1.9.0: refresh the preview on every keystroke/paste ──
+	input.addEventListener( 'input', updateCounts );
+	updateCounts();
 
 	function ok() { status.textContent = 'Copied.'; }
 	function fail() { status.textContent = 'Copy failed — select the text and copy manually.'; }

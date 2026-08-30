@@ -60,6 +60,16 @@ if ( ! defined( 'ABSPATH' ) ) {
  *   'css'         => assets/css/apps/<slug>.css (auto-enqueued on its page)
  *   'faq'         => optional [ ['q' => ..., 'a' => ...], ... ] — renders
  *                    FAQPage schema on the app page (and a visible list)
+ *   'fields'      => optional registry-driven schema variation (v1.9.0):
+ *                    a flat map of key => value rendered by template-app.php
+ *                    as data-attributes on #gwill-app-root — an app's JS
+ *                    reads its own config without a server round-trip.
+ *                    Use kebab-case keys (the data-attribute convention):
+ *                    'fields' => array( 'max-words' => 500 ) renders
+ *                    data-max-words="500". Nested arrays are ignored (a
+ *                    flat scalar map keeps the attribute surface safe).
+ *                    Backward compatible: entries without 'fields' render
+ *                    exactly as before.
  *
  * @return array[] Apps in display order.
  */

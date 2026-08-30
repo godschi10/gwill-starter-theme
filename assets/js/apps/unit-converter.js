@@ -26,13 +26,23 @@ Table of Contents
 	/* ── 1. unit tables ──────────────────────────────────────────── */
 
 	// Length base = metre; weight base = gram; temperature handled apart.
+	// v1.9.0: area (base m²), volume (base L), speed (base m/s), digital
+	// (base byte) — same pattern, exact international definitions.
 	var LENGTH = { mm: 0.001, cm: 0.01, m: 1, km: 1000, in: 0.0254, ft: 0.3048, yd: 0.9144, mi: 1609.344 };
 	var WEIGHT = { mg: 0.001, g: 1, kg: 1000, t: 1000000, oz: 28.349523125, lb: 453.59237 };
+	var AREA = { mm2: 0.000001, cm2: 0.0001, m2: 1, ha: 10000, km2: 1000000, sq_in: 0.00064516, sq_ft: 0.09290304, sq_yd: 0.83612736, acre: 4046.8564224, sq_mi: 2589988.110336 };
+	var VOLUME = { ml: 0.001, l: 1, m3: 1000, tsp: 0.00492892159375, tbsp: 0.01478676478125, floz: 0.0295735295625, cup: 0.2365882365, pt: 0.473176473, qt: 0.946352946, gal: 3.785411784 };
+	var SPEED = { mms: 0.001, kms: 0.2777777777777778, mph: 0.44704, fps: 0.3048, kn: 0.5144444444444445, mach: 340.29 };
+	var DIGITAL = { b: 0.125, B: 1, KB: 1000, MB: 1000000, GB: 1000000000, TB: 1000000000000, KiB: 1024, MiB: 1048576, GiB: 1073741824, TiB: 1099511627776 };
 
 	var GROUPS = [
 		{ key: 'length', label: 'Length', units: LENGTH },
 		{ key: 'weight', label: 'Weight', units: WEIGHT },
-		{ key: 'temp',   label: 'Temperature', units: null }
+		{ key: 'temp',   label: 'Temperature', units: null },
+		{ key: 'area',   label: 'Area', units: AREA },
+		{ key: 'volume', label: 'Volume', units: VOLUME },
+		{ key: 'speed',  label: 'Speed', units: SPEED },
+		{ key: 'digital', label: 'Data size', units: DIGITAL }
 	];
 
 	function tempUnits() {
@@ -73,6 +83,9 @@ Table of Contents
 
 	/* ── 3. conversion + render ──────────────────────────────────── */
 
+	// Group key → unit table (v1.9.0: all rate-based groups).
+	var TABLES = { length: LENGTH, weight: WEIGHT, area: AREA, volume: VOLUME, speed: SPEED, digital: DIGITAL };
+
 	function unitOptions( group ) {
 		var opts = '';
 		if ( 'temp' === group ) {
@@ -84,7 +97,7 @@ Table of Contents
 			}
 			return opts;
 		}
-		var table = ( 'length' === group ) ? LENGTH : WEIGHT;
+		var table = TABLES[ group ];
 		for ( var u in table ) {
 			if ( Object.prototype.hasOwnProperty.call( table, u ) ) {
 				opts += '<option value="' + u + '">' + u + '</option>';
@@ -101,9 +114,9 @@ Table of Contents
 			fromSel.value = 'C';
 			toSel.value = 'F';
 		} else {
-			var keys = Object.keys( 'length' === group ? LENGTH : WEIGHT );
-			fromSel.value = keys[ 2 ] || keys[ 0 ];   // m / kg
-			toSel.value   = keys[ 5 ] || keys[ 1 ];   // ft / lb
+			var keys = Object.keys( TABLES[ group ] );
+			fromSel.value = keys[ 0 ];
+			toSel.value   = keys[ 1 ] || keys[ 0 ];
 		}
 		render();
 	}
@@ -132,7 +145,7 @@ Table of Contents
 		if ( 'temp' === group ) {
 			out = kTo( cToK( v, fromSel.value ), toSel.value );
 		} else {
-			var table = ( 'length' === group ) ? LENGTH : WEIGHT;
+			var table = TABLES[ group ];
 			out = v * table[ fromSel.value ] / table[ toSel.value ];
 		}
 

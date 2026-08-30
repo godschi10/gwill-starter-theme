@@ -252,6 +252,26 @@ function gwill_pwa_head_links() {
 	echo '<link rel="manifest" href="' . esc_url( home_url( '/manifest.webmanifest' ) ) . '">' . "\n";
 	echo '<meta name="application-name" content="' . esc_attr( get_bloginfo( 'name' ) ) . '">' . "\n";
 	echo '<link rel="icon" type="image/svg+xml" href="' . esc_url( $icons['favicon'] ) . '">' . "\n";
+	// v1.9.0 — dark-mode aware favicon: the browser picks the matching
+	// variant via the media attribute; both are plain SVG (no <picture>).
+	echo '<link rel="icon" type="image/svg+xml" media="(prefers-color-scheme: dark)" href="' . esc_url( gwill_pwa_dark_favicon() ) . '">' . "\n";
 	echo '<link rel="apple-touch-icon" href="' . esc_url( $icons['apple'] ) . '">' . "\n";
+}
+
+/**
+ * v1.9.0 — dark-variant favicon URL, filterable per build alongside
+ * gwill_pwa_icons(). Ships favicon-dark.svg next to the light one; a
+ * build without a dark variant returns the light URL (no dead link).
+ *
+ * @return string
+ */
+function gwill_pwa_dark_favicon() {
+	$base = get_template_directory_uri() . '/assets/brand';
+	if ( file_exists( get_template_directory() . '/assets/brand/favicon-dark.svg' ) ) {
+		$dark = $base . '/favicon-dark.svg';
+	} else {
+		$dark = gwill_pwa_icons()['favicon'];
+	}
+	return apply_filters( 'gwill_pwa_dark_favicon', $dark );
 }
 add_action( 'wp_head', 'gwill_pwa_head_links', 2 );

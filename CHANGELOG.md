@@ -1,3 +1,62 @@
+## [1.9.0] - 2026-08-30
+
+The candidate pool — all seven, per royal order. Four extensions of
+owned modules, one port, two fresh. No elder carried a dark-mode
+favicon or a pattern chart; both were designed on the starter's own
+proven patterns (rate tables, pure-SVG charts, filterable brand).
+
+### Added
+- `assets/brand/favicon-dark.svg` — dark-mode twin of the bell tile:
+  light surface (#f1f5f9) + dark glyph (#0f172a), inverted so the icon
+  reads on dark browser chrome.
+- `inc/pwa.php` — `gwill_pwa_dark_favicon()` helper: returns the dark
+  URL when the asset ships, the light URL otherwise (no dead link);
+  `gwill_pwa_dark_favicon` filter for per-build overrides. The head
+  now emits the icon pair with `media="(prefers-color-scheme: dark)"`.
+- `inc/webpush.php` — campaign open-rate stats: every publish stamps
+  `cid` (post ID) on the notification payload; `gwill_push_stats`
+  option (autoload off) stores per-campaign sent/clicked/first-when,
+  trimmed to the 200 most recent; `gwill/v1/push-click` REST route
+  (public, fire-and-forget) increments the counter.
+- `assets/js/sw.js` — `notificationclick` now pings the click route
+  with `keepalive` before opening/focusing the post, so the open-rate
+  counts even when the notification is dismissed mid-navigation.
+- `inc/push-dashboard.php` — Campaign open-rates table (sent /
+  clicked / open-rate %, newest first, 20 rows) between Overview and
+  the test-send section.
+- `inc/analytics.php` — `gwill_analytics_pattern_breakdown()`
+  (all-time GROUP BY form_id) + `gwill_analytics_pattern_chart_svg()`
+  pure-SVG horizontal bar chart; both escape every dynamic value.
+- `inc/apps.php` + `template-app.php` — registry-driven schema
+  variations: an optional `fields` map on any app entry renders as
+  `data-*` attributes on `#gwill-app-root`; kebab-case keys,
+  scalar-only, skipped when absent — existing apps unchanged.
+- `assets/css/apps/case-converter.css` — counts-preview row styling.
+- `single-gwill_portfolio.php` — two-column project layout: content
+  main + sticky `.gwill-project-aside` (client, live site, services,
+  published with `datePublished` itemprop) — CreativeWork schema
+  untouched.
+- `style.css` — `.gwill-project-layout` grid + aside card styling,
+  single column under 1024px.
+
+### Changed
+- `assets/js/apps/unit-converter.js` — four new categories (area,
+  volume, speed, data size) on the rate-table pattern; `TABLES` map
+  replaces the length/weight ternary in both the option builder and
+  the conversion path.
+- `assets/js/apps/case-converter.js` — live counts preview (words,
+  characters, sentences, paragraphs) above the buttons; refreshes on
+  every input event AND after every conversion apply.
+
+### Battery
+- `gwill-v190-test.php` — 43 checks green: push stats
+  record/trim/click/REST-callback, fields rendering (kebab, nested
+  skipped, no-fields unchanged), dark favicon fallback + head links,
+  pattern breakdown + chart SVG, portfolio template markers, and the
+  converters' true math executed by node (acre→m² 4046.8564224,
+  gal→L 3.785411784, 60 mph→km/h 96.56064, MiB→KB 1048.576 (KB = 1000 B
+  by the international definition, not 1024); case counts vectors exact).
+
 ## [1.8.0] - 2026-08-30
 
 Tier C — the four situational ports, per royal order: print stylesheet

@@ -53,3 +53,9 @@ Table of Contents
 	font-size: 1.0625rem;
 	font-weight: 600;
 }
+
+/* ── v1.9.0: wider selects for longer unit keys (km², sq_ft…) ── */
+
+.uc-select {
+	min-width: 6.5rem;
+}

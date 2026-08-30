@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: GWill Starter 1.8.0\n"
+"Project-Id-Version: GWill Starter 1.9.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/gwill-starter-theme\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-30T14:36:02+00:00\n"
+"POT-Creation-Date: 2026-08-30T18:09:46+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: gwill-starter\n"
@@ -179,52 +179,58 @@ msgstr ""
 msgid "Before footer (728×90, inherits leaderboard when empty)"
 msgstr ""
 
-#: inc/analytics.php:299
-#: inc/analytics.php:300
-#: inc/analytics.php:333
+#: inc/analytics.php:342
+#: inc/analytics.php:430
+msgid "Submissions per form pattern"
+msgstr ""
+
+#: inc/analytics.php:368
+#: inc/analytics.php:369
+#: inc/analytics.php:402
 msgid "Forms & Newsletter"
 msgstr ""
 
-#: inc/analytics.php:338
+#: inc/analytics.php:407
 msgid "Submission logging is off."
 msgstr ""
 
-#: inc/analytics.php:339
+#: inc/analytics.php:408
 msgid "Rows are only written when GWILL_LOG_FORMS is defined as true in wp-config.php. The charts below reflect the table as it stands."
 msgstr ""
 
-#: inc/analytics.php:344
+#: inc/analytics.php:413
 #: inc/push-dashboard.php:138
 msgid "Overview"
 msgstr ""
 
 #. translators: 1: total submissions, 2: newsletter signups, 3: last-7-days count, 4: last-30-days count
-#: inc/analytics.php:349
+#: inc/analytics.php:418
 #, php-format
 msgid "Total logged submissions: %1$s — newsletter signups: %2$s — last 7 days: %3$s — last 30 days: %4$s."
 msgstr ""
 
-#: inc/analytics.php:358
+#: inc/analytics.php:427
 msgid "Signups — last 30 days"
 msgstr ""
 
-#: inc/analytics.php:361
-msgid "Recent submissions"
-msgstr ""
-
-#: inc/analytics.php:363
+#: inc/analytics.php:435
+#: inc/analytics.php:442
 msgid "No logged submissions yet."
 msgstr ""
 
-#: inc/analytics.php:368
+#: inc/analytics.php:440
+msgid "Recent submissions"
+msgstr ""
+
+#: inc/analytics.php:447
 msgid "When (site time)"
 msgstr ""
 
-#: inc/analytics.php:369
+#: inc/analytics.php:448
 msgid "Form"
 msgstr ""
 
-#: inc/analytics.php:370
+#: inc/analytics.php:449
 #: inc/forms/email.php:29
 #: template-parts/forms/contact-exit-intent.php:72
 #: template-parts/forms/contact-inline.php:64
@@ -237,95 +243,95 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: inc/analytics.php:386
+#: inc/analytics.php:465
 msgid "Export CSV"
 msgstr ""
 
-#: inc/analytics.php:389
+#: inc/analytics.php:468
 msgid "Form, email, date and status only — message bodies stay off this page."
 msgstr ""
 
 #. translators: %d: newsletter signup count
-#: inc/analytics.php:447
+#: inc/analytics.php:526
 #, php-format
 msgid "Bar chart of form activity, last 30 days. Newsletter signups: %d."
 msgstr ""
 
-#: inc/analytics.php:471
+#: inc/analytics.php:550
 msgid "You do not have permission to export submissions."
 msgstr ""
 
-#: inc/apps.php:70
+#: inc/apps.php:80
 msgid "Word Counter"
 msgstr ""
 
-#: inc/apps.php:71
+#: inc/apps.php:81
 msgid "Count words, characters, sentences and paragraphs as you type — instant, private, all in your browser."
 msgstr ""
 
-#: inc/apps.php:77
-#: inc/apps.php:95
+#: inc/apps.php:87
+#: inc/apps.php:105
 msgid "Does my text leave my device?"
 msgstr ""
 
-#: inc/apps.php:78
+#: inc/apps.php:88
 msgid "No. The counter runs entirely in your browser — nothing is uploaded or stored."
 msgstr ""
 
-#: inc/apps.php:81
+#: inc/apps.php:91
 msgid "What counts as a sentence or a paragraph?"
 msgstr ""
 
-#: inc/apps.php:82
+#: inc/apps.php:92
 msgid "A sentence ends with a period, question mark or exclamation point. A paragraph is a block of text separated by blank lines."
 msgstr ""
 
-#: inc/apps.php:88
+#: inc/apps.php:98
 msgid "Case Converter"
 msgstr ""
 
-#: inc/apps.php:89
+#: inc/apps.php:99
 msgid "Convert text between UPPER, lower, Title, Sentence, camelCase, snake_case and kebab-case — instant, private, in your browser."
 msgstr ""
 
-#: inc/apps.php:96
+#: inc/apps.php:106
 msgid "No. The conversion runs entirely in your browser — nothing is uploaded or stored."
 msgstr ""
 
-#: inc/apps.php:99
+#: inc/apps.php:109
 msgid "What is Title Case here?"
 msgstr ""
 
-#: inc/apps.php:100
+#: inc/apps.php:110
 msgid "Every word is capitalised except small connecting words (a, and, of, the…) after the first."
 msgstr ""
 
-#: inc/apps.php:106
+#: inc/apps.php:116
 msgid "Unit Converter"
 msgstr ""
 
-#: inc/apps.php:107
+#: inc/apps.php:117
 msgid "Convert between common length, weight and temperature units — metres to feet, kg to pounds, Celsius to Fahrenheit."
 msgstr ""
 
-#: inc/apps.php:113
+#: inc/apps.php:123
 msgid "Which units are supported?"
 msgstr ""
 
-#: inc/apps.php:114
+#: inc/apps.php:124
 msgid "Length: mm, cm, m, km, in, ft, yd, mi. Weight: mg, g, kg, t, oz, lb. Temperature: Celsius, Fahrenheit, Kelvin."
 msgstr ""
 
-#: inc/apps.php:117
+#: inc/apps.php:127
 msgid "How precise are the results?"
 msgstr ""
 
-#: inc/apps.php:118
+#: inc/apps.php:128
 msgid "Results are shown to six decimal places, using exact international definitions of each unit."
 msgstr ""
 
-#: inc/apps.php:219
-#: inc/apps.php:339
+#: inc/apps.php:229
+#: inc/apps.php:349
 #: page-apps.php:20
 msgid "Apps"
 msgstr ""
@@ -843,7 +849,7 @@ msgid "Project Details"
 msgstr ""
 
 #: inc/portfolio.php:140
-#: single-gwill_portfolio.php:67
+#: single-gwill_portfolio.php:68
 msgid "Client"
 msgstr ""
 
@@ -883,61 +889,89 @@ msgstr ""
 msgid "Subscribers: %1$s — new in last 7 days: %2$s — new in last 30 days: %3$s."
 msgstr ""
 
-#: inc/push-dashboard.php:152
-msgid "Send a test notification"
-msgstr ""
-
-#: inc/push-dashboard.php:153
-msgid "Sends one notification to every subscriber — the exact send path a post publish takes. Use it to verify the whole chain before relying on it."
+#: inc/push-dashboard.php:151
+msgid "Campaign open-rates"
 msgstr ""
 
 #: inc/push-dashboard.php:156
-msgid "Send test notification"
+msgid "No push campaigns recorded yet — publish a post (or send a test) and campaign stats appear here."
 msgstr ""
 
-#: inc/push-dashboard.php:161
-msgid "Subscribers"
+#: inc/push-dashboard.php:159
+msgid "Clicks are counted when a subscriber taps the notification. Recent campaigns first."
 msgstr ""
 
 #: inc/push-dashboard.php:164
+msgid "Campaign"
+msgstr ""
+
+#: inc/push-dashboard.php:165
+msgid "Sent to"
+msgstr ""
+
+#: inc/push-dashboard.php:166
+msgid "Clicked"
+msgstr ""
+
+#: inc/push-dashboard.php:167
+msgid "Open rate"
+msgstr ""
+
+#: inc/push-dashboard.php:191
+msgid "Send a test notification"
+msgstr ""
+
+#: inc/push-dashboard.php:192
+msgid "Sends one notification to every subscriber — the exact send path a post publish takes. Use it to verify the whole chain before relying on it."
+msgstr ""
+
+#: inc/push-dashboard.php:195
+msgid "Send test notification"
+msgstr ""
+
+#: inc/push-dashboard.php:200
+msgid "Subscribers"
+msgstr ""
+
+#: inc/push-dashboard.php:203
 msgid "No subscribers yet. The bell in the site footer is where visitors subscribe."
 msgstr ""
 
-#: inc/push-dashboard.php:186
+#: inc/push-dashboard.php:225
 msgid "Endpoint"
 msgstr ""
 
-#: inc/push-dashboard.php:187
+#: inc/push-dashboard.php:226
 msgid "Subscribed"
 msgstr ""
 
-#: inc/push-dashboard.php:207
+#: inc/push-dashboard.php:246
 msgid "Delete"
 msgstr ""
 
-#: inc/push-dashboard.php:230
+#: inc/push-dashboard.php:269
 msgid "Push is not configured — VAPID keys missing."
 msgstr ""
 
-#: inc/push-dashboard.php:235
+#: inc/push-dashboard.php:274
 msgid "Test notification — push is working."
 msgstr ""
 
-#: inc/push-dashboard.php:245
+#: inc/push-dashboard.php:284
 msgid "No subscribers to send to."
 msgstr ""
 
 #. translators: %d: notifications sent
-#: inc/push-dashboard.php:292
+#: inc/push-dashboard.php:331
 #, php-format
 msgid "Queued %d notification(s)."
 msgstr ""
 
-#: inc/push-dashboard.php:326
+#: inc/push-dashboard.php:365
 msgid "You do not have permission to do that."
 msgstr ""
 
-#: inc/push-dashboard.php:356
+#: inc/push-dashboard.php:395
 #: template-parts/forms/contact-inline.php:78
 #: template-parts/forms/contact-inquiry.php:124
 #: template-parts/forms/contact-multistep.php:199
@@ -949,7 +983,7 @@ msgstr ""
 msgid "Sending…"
 msgstr ""
 
-#: inc/push-dashboard.php:357
+#: inc/push-dashboard.php:396
 msgid "Send failed — is the REST API reachable?"
 msgstr ""
 
@@ -1243,204 +1277,204 @@ msgstr ""
 msgid "New post on"
 msgstr ""
 
-#: inc/webpush.php:347
-#: inc/webpush.php:442
+#: inc/webpush.php:357
+#: inc/webpush.php:452
 msgid "Enable notifications"
 msgstr ""
 
-#: inc/webpush.php:348
+#: inc/webpush.php:358
 msgid "Turn off notifications"
 msgstr ""
 
-#: inc/webpush.php:349
+#: inc/webpush.php:359
 msgid "Notifications blocked by browser"
 msgstr ""
 
-#: inc/webpush.php:350
+#: inc/webpush.php:360
 msgid "Could not enable notifications"
 msgstr ""
 
-#: inc/webpush.php:352
-#: inc/webpush.php:443
+#: inc/webpush.php:362
+#: inc/webpush.php:453
 msgid "Notifications"
 msgstr ""
 
-#: inc/webpush.php:353
+#: inc/webpush.php:363
 msgid "status: on"
 msgstr ""
 
-#: inc/webpush.php:354
+#: inc/webpush.php:364
 msgid "status: off"
 msgstr ""
 
-#: inc/webpush.php:355
+#: inc/webpush.php:365
 msgid "status: blocked"
 msgstr ""
 
-#: inc/webpush.php:356
+#: inc/webpush.php:366
 msgid "status: error"
 msgstr ""
 
-#: inc/webpush.php:357
+#: inc/webpush.php:367
 msgid "You're subscribed — an alert lands on this device the moment a new post goes live."
 msgstr ""
 
-#: inc/webpush.php:358
+#: inc/webpush.php:368
 msgid "Get notified of every new post. No spam, no marketing — one tap to turn off."
 msgstr ""
 
-#: inc/webpush.php:359
+#: inc/webpush.php:369
 msgid "Notifications are blocked for this site. Unblock them in your browser, then tap Check again — we detect it instantly."
 msgstr ""
 
-#: inc/webpush.php:360
+#: inc/webpush.php:370
 msgid "Something went wrong while enabling notifications. Try again."
 msgstr ""
 
-#: inc/webpush.php:361
+#: inc/webpush.php:371
 msgid "status: unsupported"
 msgstr ""
 
-#: inc/webpush.php:362
+#: inc/webpush.php:372
 msgid "Push notifications are not supported in this browser."
 msgstr ""
 
-#: inc/webpush.php:363
+#: inc/webpush.php:373
 msgid "Supported browsers: Chrome, Firefox, Edge, Opera, Safari 16+, Samsung Internet."
 msgstr ""
 
-#: inc/webpush.php:364
+#: inc/webpush.php:374
 msgid "How to unblock on this device"
 msgstr ""
 
-#: inc/webpush.php:365
+#: inc/webpush.php:375
 msgid "Check again"
 msgstr ""
 
-#: inc/webpush.php:366
+#: inc/webpush.php:376
 msgid "Try again"
 msgstr ""
 
-#: inc/webpush.php:367
+#: inc/webpush.php:377
 msgid "Enabling…"
 msgstr ""
 
-#: inc/webpush.php:368
+#: inc/webpush.php:378
 msgid "Turning off…"
 msgstr ""
 
-#: inc/webpush.php:369
+#: inc/webpush.php:379
 msgid "Close notifications panel"
 msgstr ""
 
-#: inc/webpush.php:370
+#: inc/webpush.php:380
 msgid "Different device or browser? Open the site settings (lock icon in the address bar), set Notifications to Allow, then reload."
 msgstr ""
 
-#: inc/webpush.php:374
+#: inc/webpush.php:384
 msgid "Tap the lock (or tune) icon at the left of the address bar"
 msgstr ""
 
-#: inc/webpush.php:375
+#: inc/webpush.php:385
 msgid "Tap Permissions, then Notifications"
 msgstr ""
 
-#: inc/webpush.php:376
 #: inc/webpush.php:386
-#: inc/webpush.php:391
+#: inc/webpush.php:396
+#: inc/webpush.php:401
 msgid "Choose Allow, then reload the page"
 msgstr ""
 
-#: inc/webpush.php:379
+#: inc/webpush.php:389
 msgid "Tap the menu (⋮), then Site Settings"
 msgstr ""
 
-#: inc/webpush.php:380
+#: inc/webpush.php:390
 msgid "Tap Notifications, then Allow"
 msgstr ""
 
-#: inc/webpush.php:381
-#: inc/webpush.php:398
-#: inc/webpush.php:404
-#: inc/webpush.php:410
-#: inc/webpush.php:415
+#: inc/webpush.php:391
+#: inc/webpush.php:408
+#: inc/webpush.php:414
 #: inc/webpush.php:420
 #: inc/webpush.php:425
+#: inc/webpush.php:430
+#: inc/webpush.php:435
 msgid "Reload the page"
 msgstr ""
 
-#: inc/webpush.php:384
+#: inc/webpush.php:394
 msgid "Tap the menu (☰), then Settings → Sites and downloads"
 msgstr ""
 
-#: inc/webpush.php:385
+#: inc/webpush.php:395
 msgid "Tap Site permissions → Notifications"
 msgstr ""
 
-#: inc/webpush.php:389
+#: inc/webpush.php:399
 msgid "Tap Aa in the Safari address bar"
 msgstr ""
 
-#: inc/webpush.php:390
+#: inc/webpush.php:400
 msgid "Tap Website Settings, then Notifications"
 msgstr ""
 
-#: inc/webpush.php:392
+#: inc/webpush.php:402
 msgid "If Allow is unavailable: Share → Add to Home Screen first — iOS delivers web push to installed apps"
 msgstr ""
 
-#: inc/webpush.php:395
-#: inc/webpush.php:407
+#: inc/webpush.php:405
+#: inc/webpush.php:417
 msgid "Click the lock (or tune) icon at the left of the address bar"
 msgstr ""
 
-#: inc/webpush.php:396
-#: inc/webpush.php:408
+#: inc/webpush.php:406
+#: inc/webpush.php:418
 msgid "Open Site settings"
 msgstr ""
 
-#: inc/webpush.php:397
-#: inc/webpush.php:403
-#: inc/webpush.php:409
+#: inc/webpush.php:407
+#: inc/webpush.php:413
 #: inc/webpush.php:419
+#: inc/webpush.php:429
 msgid "Set Notifications to Allow"
 msgstr ""
 
-#: inc/webpush.php:401
+#: inc/webpush.php:411
 msgid "Click the lock icon at the left of the address bar"
 msgstr ""
 
-#: inc/webpush.php:402
+#: inc/webpush.php:412
 msgid "Open Site permissions"
 msgstr ""
 
-#: inc/webpush.php:413
+#: inc/webpush.php:423
 msgid "Click the crossed-out bell (or lock) icon in the address bar"
 msgstr ""
 
-#: inc/webpush.php:414
+#: inc/webpush.php:424
 msgid "Clear the Blocked permission for Notifications"
 msgstr ""
 
-#: inc/webpush.php:418
+#: inc/webpush.php:428
 #, php-format
 msgid "In the menu bar choose Safari → Settings for %s…"
 msgstr ""
 
-#: inc/webpush.php:423
+#: inc/webpush.php:433
 msgid "Open your browser's site settings (lock icon in the address bar)"
 msgstr ""
 
-#: inc/webpush.php:424
+#: inc/webpush.php:434
 msgid "Set Notifications to Allow for this site"
 msgstr ""
 
-#: inc/webpush.php:445
-#: inc/webpush.php:447
+#: inc/webpush.php:455
+#: inc/webpush.php:457
 msgid "Notify me of new posts"
 msgstr ""
 
-#: inc/webpush.php:446
+#: inc/webpush.php:456
 msgid "Notifications on"
 msgstr ""
 
@@ -1480,16 +1514,21 @@ msgstr ""
 msgid "Search for:"
 msgstr ""
 
-#: single-gwill_portfolio.php:62
+#: single-gwill_portfolio.php:61
+#: single-gwill_portfolio.php:63
 msgid "Project details"
 msgstr ""
 
-#: single-gwill_portfolio.php:74
+#: single-gwill_portfolio.php:75
 msgid "Live site"
 msgstr ""
 
-#: single-gwill_portfolio.php:85
+#: single-gwill_portfolio.php:86
 msgid "Services"
+msgstr ""
+
+#: single-gwill_portfolio.php:96
+msgid "Published"
 msgstr ""
 
 #: single.php:33
@@ -1503,15 +1542,15 @@ msgstr ""
 msgid "%d min read"
 msgstr ""
 
-#: template-app.php:34
+#: template-app.php:47
 msgid "This app needs JavaScript to run."
 msgstr ""
 
-#: template-app.php:39
+#: template-app.php:52
 msgid "Frequently asked questions"
 msgstr ""
 
-#: template-app.php:48
+#: template-app.php:61
 msgid "All apps"
 msgstr ""
 

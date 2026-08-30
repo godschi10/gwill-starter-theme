@@ -148,6 +148,35 @@ typography goes serif 12pt with expanded links (URL printed after
 inside. Wired via `wp_enqueue_style( 'gwill-print', …, 'print' )` so it
 never touches the screen cascade.
 
+### v1.9.0 — candidate-pool extensions
+
+- **Unit converter** — four new categories (area, volume, speed, data
+  size) on the proven rate-table pattern: acres→m², gallons→litres,
+  mph→km/h, MiB→KB — exact international definitions, six-decimal
+  precision.
+- **Case converter** — live counts preview above the buttons: words,
+  characters, sentences, paragraphs, refreshed on every keystroke and
+  after every conversion.
+- **Apps registry schema variations** — an optional `fields` map on any
+  registry entry renders as `data-*` attributes on the app's mount
+  point; an app reads its own config with zero server round-trips.
+  Kebab-case keys; nested arrays skipped; fully backward compatible.
+- **Push open-rate tracking** — every publish stamps a campaign ID;
+  sw.js pings `gwill/v1/push-click` (fire-and-forget, keepalive) on
+  notification click; the Push dashboard shows per-campaign sent /
+  clicked / open-rate (200 campaigns retained, autoload off).
+- **Analytics per-form-pattern chart** — pure-SVG horizontal bars of
+  submissions by form pattern (newsletter, contact, footer-cta…),
+  same zero-dependency posture as the 30-day chart.
+- **Portfolio single meta sidebar** — desktop two-column layout:
+  sticky details aside (client, live site, services, published) beside
+  the content; collapses to a single column under 1024px.
+- **Dark-mode aware favicon** — `favicon-dark.svg` (inverted tile)
+  ships beside the light one; the head emits the pair with
+  `media="(prefers-color-scheme: dark)"` so the browser picks the
+  right glyph for its chrome. Filterable via `gwill_pwa_dark_favicon`;
+  falls back to the light icon if a build ships no dark variant.
+
 ### Web push notifications (zero-config, self-hosted)
 
 The complete finance-theme mastery is baked in: VAPID keys self-generate,

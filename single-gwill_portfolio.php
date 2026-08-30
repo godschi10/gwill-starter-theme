@@ -34,12 +34,14 @@ while ( have_posts() ) : the_post();
 
 		<h1 class="entry-title" itemprop="name"><?php echo esc_html( get_the_title() ); ?></h1>
 
-		<div class="entry-meta">
-			<link itemprop="url" href="<?php echo esc_url( get_permalink() ); ?>">
-			<meta itemprop="dateModified" content="<?php echo esc_attr( get_the_modified_date( 'c' ) ); ?>">
+		<div class="gwill-project-layout">
+			<div class="gwill-project-layout__main">
+				<div class="entry-meta">
+					<link itemprop="url" href="<?php echo esc_url( get_permalink() ); ?>">
+					<meta itemprop="dateModified" content="<?php echo esc_attr( get_the_modified_date( 'c' ) ); ?>">
 
-			<?php if ( $types && ! is_wp_error( $types ) ) : ?>
-				<span class="entry-cats" itemprop="about">
+					<?php if ( $types && ! is_wp_error( $types ) ) : ?>
+					<span class="entry-cats" itemprop="about">
 					<?php foreach ( $types as $type ) : ?>
 						<a class="entry-cat" href="<?php echo esc_url( get_term_link( $type ) ); ?>">
 							<?php echo esc_html( $type->name ); ?>
@@ -49,30 +51,29 @@ while ( have_posts() ) : the_post();
 			<?php endif; ?>
 		</div>
 
-		<?php gwill_part( 'share-button' ); // top mode — compact pill row ?>
+				<?php gwill_part( 'share-button' ); // top mode — compact pill row ?>
 
-		<div class="entry-content" itemprop="text">
+				<div class="entry-content" itemprop="text">
 			<?php the_content(); ?>
-		</div>
+				</div>
+			</div>
 
-		<?php if ( $client || $live ) : ?>
-			<!-- ═══ Project details card ═══ -->
-			<aside class="gwill-project-details">
-				<h2 class="gwill-project-details__title">
+			<aside class="gwill-project-aside" aria-label="<?php esc_attr_e( 'Project details', 'gwill-starter' ); ?>">
+				<h2 class="gwill-project-aside__title">
 					<?php esc_html_e( 'Project details', 'gwill-starter' ); ?>
 				</h2>
 
 				<?php if ( $client ) : ?>
-					<p class="gwill-project-details__row">
-						<span class="gwill-project-details__label"><?php esc_html_e( 'Client', 'gwill-starter' ); ?></span>
-						<span class="gwill-project-details__value" itemprop="creator"><?php echo esc_html( $client ); ?></span>
+					<p class="gwill-project-aside__row">
+						<span class="gwill-project-aside__label"><?php esc_html_e( 'Client', 'gwill-starter' ); ?></span>
+						<span class="gwill-project-aside__value" itemprop="creator"><?php echo esc_html( $client ); ?></span>
 					</p>
 				<?php endif; ?>
 
 				<?php if ( $live ) : ?>
-					<p class="gwill-project-details__row">
-						<span class="gwill-project-details__label"><?php esc_html_e( 'Live site', 'gwill-starter' ); ?></span>
-						<span class="gwill-project-details__value">
+					<p class="gwill-project-aside__row">
+						<span class="gwill-project-aside__label"><?php esc_html_e( 'Live site', 'gwill-starter' ); ?></span>
+						<span class="gwill-project-aside__value">
 							<a href="<?php echo esc_url( $live ); ?>" target="_blank" rel="noopener noreferrer" itemprop="url">
 								<?php echo esc_html( wp_parse_url( $live, PHP_URL_HOST ) ?: $live ); ?>
 							</a>
@@ -81,17 +82,24 @@ while ( have_posts() ) : the_post();
 				<?php endif; ?>
 
 				<?php if ( is_array( $types ) && ! is_wp_error( $types ) ) : ?>
-					<p class="gwill-project-details__row">
-						<span class="gwill-project-details__label"><?php esc_html_e( 'Services', 'gwill-starter' ); ?></span>
-						<span class="gwill-project-details__value">
+					<p class="gwill-project-aside__row">
+						<span class="gwill-project-aside__label"><?php esc_html_e( 'Services', 'gwill-starter' ); ?></span>
+						<span class="gwill-project-aside__value">
 							<?php
 							echo esc_html( implode( ', ', wp_list_pluck( $types, 'name' ) ) );
 							?>
 						</span>
 					</p>
 				<?php endif; ?>
-			</aside>
-		<?php endif; ?>
+
+				<p class="gwill-project-aside__row">
+					<span class="gwill-project-aside__label"><?php esc_html_e( 'Published', 'gwill-starter' ); ?></span>
+					<time class="gwill-project-aside__value" datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>" itemprop="datePublished">
+						<?php echo esc_html( get_the_date() ); ?>
+					</time>
+				</p>
+				</aside>
+		</div>
 
 	</article>
 

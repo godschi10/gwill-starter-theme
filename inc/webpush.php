@@ -270,6 +270,9 @@ function gwill_push_send_to_all( $post ) {
 		'icon'    => $icon,
 		'badge'   => $badge,
 		'url'     => $url,
+		// v1.9.0 — campaign id (post ID): sw.js pings it back on click so
+		// the dashboard can show open-rates per campaign.
+		'cid'     => (int) $post->ID,
 	);
 
 	$sent = 0;
@@ -289,6 +292,13 @@ function gwill_push_send_to_all( $post ) {
 			continue;
 		}
 	}
+
+	// v1.9.0 — record the campaign: sent-count + zero clicks, merged into
+	// the stats option (per post ID, most recent 200 campaigns kept).
+	if ( $sent ) {
+		gwill_push_stats_record( (int) $post->ID, $sent );
+	}
+
 	if ( $sent ) {
 		$reports = $stream->flush();
 		if ( is_object( $reports ) && method_exists( $reports, 'current' ) ) {
@@ -448,3 +458,77 @@ function gwill_push_bell() {
 	</button>
 	<?php
 }
+
+/* ── 8. Campaign open-rate stats (v1.9.0) ────────────────────────────── */
+
+/**
+ * Record a sent campaign (post ID + sent count) into the stats option.
+ * Keeps the most recent 200 campaigns — an admin screen reads this, so
+ * autoload is OFF (a 200-entry option never rides every page load).
+ *
+ * @since 1.9.0
+ *
+ * @param int $post_id Campaign post ID.
+ * @param int $sent    Subscribers the campaign went to.
+ */
+function gwill_push_stats_record( $post_id, $sent ) {
+	$stats = get_option( 'gwill_push_stats', array() );
+	if ( ! is_array( $stats ) ) {
+		$stats = array();
+	}
+	$stats[ (int) $post_id ] = array(
+		'sent'    => (int) $sent,
+		'clicked' => isset( $stats[ (int) $post_id ]['clicked'] ) ? (int) $stats[ (int) $post_id ]['clicked'] : 0,
+		'when'    => time(),
+	);
+	// Most recent 200 campaigns only (oldest trimmed, keys preserved).
+	if ( count( $stats ) > 200 ) {
+		$stats = array_slice( $stats, -200, 200, true );
+	}
+	update_option( 'gwill_push_stats', $stats, false );
+}
+
+/**
+ * Count one click on a campaign (called by the REST route below).
+ *
+ * @since 1.9.0
+ *
+ * @param int $post_id Campaign post ID.
+ */
+function gwill_push_stats_click( $post_id ) {
+	$post_id = (int) $post_id;
+	if ( $post_id < 1 ) {
+		return;
+	}
+	$stats = get_option( 'gwill_push_stats', array() );
+	if ( ! is_array( $stats ) || ! isset( $stats[ $post_id ] ) ) {
+		return;
+	}
+	$stats[ $post_id ]['clicked'] = ( isset( $stats[ $post_id ]['clicked'] ) ? (int) $stats[ $post_id ]['clicked'] : 0 ) + 1;
+	update_option( 'gwill_push_stats', $stats, false );
+}
+
+/**
+ * REST route: POST /wp-json/gwill/v1/push-click — sw.js pings it with the
+ * campaign id on notificationclick (fetch keepalive survives the SW
+ * lifetime). Public by design: the payload is a bare post ID, it only ever
+ * increments a counter, and rate-limiting a click-count is counter to the
+ * feature's purpose (same posture as the ajax-filter endpoint).
+ *
+ * @since 1.9.0
+ */
+function gwill_push_click_route() {
+	register_rest_route(
+		'gwill/v1',
+		'/push-click',
+		array(
+			'methods'             => 'POST',
+			'callback'            => function ( WP_REST_Request $request ) {
+				gwill_push_stats_click( $request->get_param( 'cid' ) );
+				return rest_ensure_response( array( 'ok' => true ) );
+			},
+			'permission_callback' => '__return_true',
+		)
+	);
+}
+add_action( 'rest_api_init', 'gwill_push_click_route' );

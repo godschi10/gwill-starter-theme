@@ -285,6 +285,75 @@ function gwill_analytics_daily_series(): array {
 	return $series;
 }
 
+/**
+ * Per-form-pattern totals for ALL time, biggest first.
+ *
+ * @return array<int,array{form:string,total:int}> Patterns in desc order.
+ * @since 1.9.0
+ */
+function gwill_analytics_pattern_breakdown(): array {
+	global $wpdb;
+	$table = $wpdb->prefix . 'gwill_form_submissions';
+
+	$rows = $wpdb->get_results(
+		"SELECT form_id, COUNT(*) AS n
+		 FROM $table
+		 GROUP BY form_id
+		 ORDER BY n DESC",
+		ARRAY_A
+	);
+
+	$out = [];
+	foreach ( (array) $rows as $r ) {
+		$out[] = [
+			'form'  => (string) $r['form_id'],
+			'total' => (int) $r['n'],
+		];
+	}
+	return $out;
+}
+
+/**
+ * Horizontal bar chart, pure SVG — same zero-dependency posture as the
+ * 30-day chart. Every dynamic value esc_attr'd inside the builder.
+ *
+ * @param array<int,array{form:string,total:int}> $patterns
+ * @return string SVG markup.
+ * @since 1.9.0
+ */
+function gwill_analytics_pattern_chart_svg( array $patterns ): string {
+	if ( empty( $patterns ) ) {
+		return '';
+	}
+	$max = 0;
+	foreach ( $patterns as $p ) {
+		$max = max( $max, $p['total'] );
+	}
+	if ( $max < 1 ) {
+		$max = 1;
+	}
+
+	$bar_h = 22;
+	$gap   = 10;
+	$label_w = 120;
+	$bar_max = 360;   // widest bar in px
+	$h = count( $patterns ) * ( $bar_h + $gap ) + $gap;
+
+	$svg = '<svg viewBox="0 0 500 ' . $h . '" width="100%" height="' . $h . '" role="img" aria-label="' . esc_attr__( 'Submissions per form pattern', 'gwill-starter' ) . '" xmlns="http://www.w3.org/2000/svg">';
+	$y   = $gap;
+	foreach ( $patterns as $p ) {
+		$w   = (int) round( $p['total'] / $max * $bar_max );
+		$svg .= '<g>';
+		$svg .= '<text x="' . ( $label_w - 8 ) . '" y="' . ( $y + $bar_h * 0.72 ) . '" text-anchor="end" font-size="12" fill="#50575e">' . esc_html( $p['form'] ) . '</text>';
+		$svg .= '<rect x="' . $label_w . '" y="' . $y . '" width="' . $w . '" height="' . $bar_h . '" rx="3" fill="#2271b1"></rect>';
+		$svg .= '<text x="' . ( $label_w + $w + 8 ) . '" y="' . ( $y + $bar_h * 0.72 ) . '" font-size="12" fill="#1d2327">' . esc_html( number_format_i18n( $p['total'] ) ) . '</text>';
+		$svg .= '</g>';
+		$y   += $bar_h + $gap;
+	}
+	$svg .= '</svg>';
+	return $svg;
+}
+
 /* ── 5. Admin page registration ──────────────────────────────────────── */
 
 /**
@@ -357,6 +426,16 @@ function gwill_analytics_render_page(): void {
 
 		<h2><?php esc_html_e( 'Signups — last 30 days', 'gwill-starter' ); ?></h2>
 		<?php echo gwill_analytics_chart_svg( $series ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- builder escapes every value it emits ?>
+
+		<h2><?php esc_html_e( 'Submissions per form pattern', 'gwill-starter' ); ?></h2>
+		<?php
+		$patterns = gwill_analytics_pattern_breakdown();
+		if ( empty( $patterns ) ) :
+			?>
+			<p><?php esc_html_e( 'No logged submissions yet.', 'gwill-starter' ); ?></p>
+		<?php else : ?>
+			<?php echo gwill_analytics_pattern_chart_svg( $patterns ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- builder escapes every value it emits ?>
+		<?php endif; ?>
 
 		<h2><?php esc_html_e( 'Recent submissions', 'gwill-starter' ); ?></h2>
 		<?php if ( empty( $recent ) ) : ?>
