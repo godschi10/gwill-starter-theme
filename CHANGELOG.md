@@ -1,3 +1,16 @@
+## [1.9.2] — 2026-08-30
+
+### Fixed — vibe-comments guard 3.7.0 alignment
+
+- **Version guard** — `$expected` in `inc/enqueue.php` 3.6.3 → **3.7.0**.
+  The plugin's v3.7.0 shipped Reply Push Notifications (self-hosted
+  web-push on comment replies), which integrate with a providing theme's
+  existing push rail. No other starter-side changes; the
+  `should_render()` enqueue gate and dark-state coverage from 1.9.1 are
+  untouched.
+
+**Verified:** `php -l` clean; 1.9.1 battery (5/5) still applies unchanged.
+
 ## [1.9.1] — 2026-08-30
 
 ### Fixed — vibe-comments integration hardening (plugin v3.6.3 alignment)
