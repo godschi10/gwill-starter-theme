@@ -1,3 +1,11 @@
+## [1.9.5] — 2026-08-31
+
+### Fixed — vibe-comments guard 3.11.0 alignment
+
+- **Version guard** — `$expected` in `inc/enqueue.php` 3.10.0 → **3.11.0**. The plugin's v3.11.0 shipped the "Top" sort mode (total-reactions ranking, client-side — works everywhere; no rail needed) plus a Settings-submenu callable hardening. The enqueue gate and dark-state coverage are untouched.
+
+**Verified:** `php -l` clean; battery 5/5 re-run after the constant bump.
+
 ## [1.9.4] — 2026-08-31
 
 ### Fixed — vibe-comments guard 3.10.0 alignment
