@@ -374,7 +374,7 @@ add_action( 'wp_enqueue_scripts', function () {
 		// when the plugin updates and renames internal CSS classes that our
 		// darkmode-vibe-comments.css targets via hardcoded selectors.
 		if ( defined( 'VIBE_COMMENTS_VERSION' ) && WP_DEBUG ) {
-			$expected = '3.8.0'; // Update this when you verify compatibility with a new plugin version
+			$expected = '3.10.0'; // Update this when you verify compatibility with a new plugin version
 			if ( version_compare( VIBE_COMMENTS_VERSION, $expected, '!=' ) ) {
 				error_log( sprintf(
 					'[GWill Starter] Vibe Comments version mismatch: expected %s, got %s. Check darkmode-vibe-comments.css for broken overrides.',

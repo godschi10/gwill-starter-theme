@@ -1,3 +1,11 @@
+## [1.9.4] — 2026-08-31
+
+### Fixed — vibe-comments guard 3.10.0 alignment
+
+- **Version guard** — `$expected` in `inc/enqueue.php` 3.8.0 → **3.10.0**. The plugin's v3.9.0/3.10.0 shipped reply-email notifications (wp_mail rail) and the Comment Analytics Dashboard — all plugin-side; the enqueue gate and dark-state coverage are untouched.
+
+**Verified:** `php -l` clean; battery 5/5 re-run after the constant bump.
+
 ## [1.9.3] — 2026-08-31
 
 ### Fixed — vibe-comments guard 3.8.0 alignment
