@@ -1,3 +1,11 @@
+## [1.9.6] — 2026-08-31
+
+### Fixed — vibe-comments guard 3.12.0 alignment
+
+- **Version guard** — `$expected` in `inc/enqueue.php` 3.11.0 → **3.12.0**. The plugin's v3.12.0 fixed the analytics dashboard mobile layout blowout (King-reported: the Most-reacted table's two 420px nowrap excerpt columns stretched the whole page to ~972px on 375px phones; now exact-fit with `overflow-wrap:anywhere`). No theme-side changes — the enqueue gate + dark-state coverage are untouched.
+
+**Verified:** `php -l` clean; battery 5/5 re-run at 3.12.0.
+
 ## [1.9.5] — 2026-08-31
 
 ### Fixed — vibe-comments guard 3.11.0 alignment
