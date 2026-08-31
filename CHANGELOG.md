@@ -1,3 +1,11 @@
+## [1.9.7] — 2026-08-31
+
+### Fixed — vibe-comments guard 3.13.0 alignment
+
+- **Version guard** — `$expected` in `inc/enqueue.php` 3.12.0 → **3.13.0**. The plugin's v3.13.0 added the 5-minute comment edit window (guests via `_vibe_owner` token rail, members via user_id; window anchored to original date — never extends; pending comments editable; `(edited)` badge + inline editor — all client-side render, no theme CSS coupling). The enqueue gate + dark-state coverage are untouched.
+
+**Verified:** `php -l` clean; battery 5/5 re-run at 3.13.0.
+
 ## [1.9.6] — 2026-08-31
 
 ### Fixed — vibe-comments guard 3.12.0 alignment
