@@ -1,3 +1,17 @@
+## [1.9.3] — 2026-08-31
+
+### Fixed — vibe-comments guard 3.8.0 alignment
+
+- **Version guard** — `$expected` in `inc/enqueue.php` 3.7.0 → **3.8.0**.
+  The plugin's v3.8.0 shipped @Mentions with autocomplete (self-hosted
+  push notifications on `@Name` mentions, riding the v3.7.0 rail — the
+  STARTER has no push rail, so on a starter-built site mention NOTIFICATIONS
+  stay unarmed by design; the client-side pills and `@` autocomplete still
+  work everywhere, portability law). The `should_render()` enqueue gate
+  and dark-state coverage from 1.9.1/1.9.2 are untouched.
+
+**Verified:** `php -l` clean; battery 5/5 re-run after the constant bump.
+
 ## [1.9.2] — 2026-08-30
 
 ### Fixed — vibe-comments guard 3.7.0 alignment
