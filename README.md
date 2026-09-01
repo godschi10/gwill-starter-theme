@@ -236,7 +236,7 @@ push fixes ship silently broken to installed PWAs).
 
 > **Note on this document:** an earlier version of this README described the theme as it existed many versions ago — a 5-file `inc/` directory, a FormSubmit.co-based contact form, a 2-control Customizer. None of that has been true for a long time; the code moved forward across 50 versions and this file didn't. It has been rewritten from scratch against the actual v1.0.50 codebase, verified file-by-file rather than carried forward from memory. See `CHANGELOG.md` for the version-by-version history of how it got here.
 
-**Latest version: 1.10.0** — vibe-comments integration hardening (guard 3.6.3, `should_render()` enqueue gate, dark-state coverage port). Full history in `CHANGELOG.md`.
+**Latest version: 1.10.1** — vibe-comments integration hardening (guard 3.6.3, `should_render()` enqueue gate, dark-state coverage port). Full history in `CHANGELOG.md`.
 
 ---
 
