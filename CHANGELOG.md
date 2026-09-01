@@ -1,3 +1,11 @@
+## [1.10.6] — 2026-09-01
+
+### Fixed - vibe-comments guard 3.17.4 alignment
+
+- **Version guard** - `$expected` in `inc/enqueue.php` 3.17.3 → **3.17.4**. Plugin v3.17.4 resolved the carried audit findings (admin assets consolidated into hook-gated enqueues, neutral secret placeholder, loop queries batched). The enqueue gate + dark-state coverage are untouched.
+
+**Verified:** `php -l` clean; battery 5/5 re-run at 3.17.4.
+
 ## [1.10.5] — 2026-09-01
 
 ### Fixed - vibe-comments guard 3.17.3 alignment
