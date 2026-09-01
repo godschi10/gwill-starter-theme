@@ -1,3 +1,11 @@
+## [1.10.5] — 2026-09-01
+
+### Fixed - vibe-comments guard 3.17.3 alignment
+
+- **Version guard** - `$expected` in `inc/enqueue.php` 3.17.2 → **3.17.3**. Plugin v3.17.3 was the AI-fingerprint cleanup pass (em-dash removal from comments/docs, three microcopy strings refreshed; zero functional changes). The enqueue gate + dark-state coverage are untouched.
+
+**Verified:** `php -l` clean; battery 5/5 re-run at 3.17.3.
+
 ## [1.10.4] — 2026-09-01
 
 ### Fixed — vibe-comments guard 3.17.2 alignment
