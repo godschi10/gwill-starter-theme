@@ -1,3 +1,11 @@
+## [1.10.7] — 2026-09-01
+
+### Fixed - vibe-comments guard 3.18.0 alignment
+
+- **Version guard** - `$expected` in `inc/enqueue.php` 3.17.4 → **3.18.0**. Plugin v3.18.0 added the unsubscribe system for all notification rails (token links in email footers, push unsub_url, Notify bell toggle on own comments). The enqueue gate + dark-state coverage are untouched.
+
+**Verified:** `php -l` clean; battery 5/5 re-run at 3.18.0.
+
 ## [1.10.6] — 2026-09-01
 
 ### Fixed - vibe-comments guard 3.17.4 alignment
