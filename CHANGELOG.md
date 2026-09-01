@@ -1,3 +1,11 @@
+## [1.9.8] — 2026-08-31
+
+### Fixed — vibe-comments guard 3.14.0 alignment
+
+- **Version guard** — `$expected` in `inc/enqueue.php` 3.13.0 → **3.14.0**. The plugin's v3.14.0 added the heuristic spam scorer (admin-only "Spam" column + badges in the WP comments list — display-only, stateless, no theme coupling). The enqueue gate + dark-state coverage are untouched.
+
+**Verified:** `php -l` clean; battery 5/5 re-run at 3.14.0.
+
 ## [1.9.7] — 2026-08-31
 
 ### Fixed — vibe-comments guard 3.13.0 alignment
