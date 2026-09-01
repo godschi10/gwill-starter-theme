@@ -1,3 +1,11 @@
+## [1.10.4] — 2026-09-01
+
+### Fixed — vibe-comments guard 3.17.2 alignment
+
+- **Version guard** — `$expected` in `inc/enqueue.php` 3.17.1 → **3.17.2**. Plugin v3.17.2 fixed the mega-security-audit findings (XFF rate-limit delegation to the hardened resolver, Google sign-up role hard-cap at subscriber, draft persistence 24h, edit-window pre-write re-check). The enqueue gate + dark-state coverage are untouched.
+
+**Verified:** `php -l` clean; battery 5/5 re-run at 3.17.2.
+
 ## [1.10.3] — 2026-09-01
 
 ### Fixed — vibe-comments guard 3.17.1 alignment
