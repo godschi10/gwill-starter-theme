@@ -1,3 +1,11 @@
+## [1.10.2] — 2026-09-01
+
+### Fixed — vibe-comments guard 3.17.0 alignment
+
+- **Version guard** — `$expected` in `inc/enqueue.php` 3.16.0 → **3.17.0**. Plugin v3.17.0 added the daily digest email (admin morning paper with spam-scored moderation queue, single-event self-chaining cron, SMTP-free preview). The enqueue gate + dark-state coverage are untouched.
+
+**Verified:** `php -l` clean; battery 5/5 re-run at 3.17.0.
+
 ## [1.10.1] — 2026-09-01
 
 ### Fixed — vibe-comments guard 3.16.0 alignment
