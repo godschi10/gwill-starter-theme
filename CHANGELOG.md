@@ -1,3 +1,11 @@
+## [1.10.0] — 2026-09-01
+
+### Fixed — vibe-comments guard 3.15.0 alignment
+
+- **Version guard** — `$expected` in `inc/enqueue.php` 3.14.1 → **3.15.0**. Plugin v3.15.0 added Q&A mode per post (editor sidebar toggle, accepted-answer + green badge + hoist, QAPage/Question/Answer schema on Q&A posts, author/mod-only accept endpoint). The enqueue gate + dark-state coverage are untouched.
+
+**Verified:** `php -l` clean; battery 5/5 re-run at 3.15.0.
+
 ## [1.9.9] — 2026-08-31
 
 ### Fixed — vibe-comments guard 3.14.1 alignment
