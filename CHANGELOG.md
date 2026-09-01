@@ -1,3 +1,11 @@
+## [1.10.3] — 2026-09-01
+
+### Fixed — vibe-comments guard 3.17.1 alignment
+
+- **Version guard** — `$expected` in `inc/enqueue.php` 3.17.0 → **3.17.1**. Plugin v3.17.1 fixed the conflict-audit findings (uninstall sweeps for Q&A postmeta + digest options; unconditional nonce refresh at boot). The enqueue gate + dark-state coverage are untouched.
+
+**Verified:** `php -l` clean; battery 5/5 re-run at 3.17.1.
+
 ## [1.10.2] — 2026-09-01
 
 ### Fixed — vibe-comments guard 3.17.0 alignment
