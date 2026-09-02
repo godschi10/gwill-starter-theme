@@ -1,3 +1,11 @@
+## [1.10.12] — 2026-09-02
+
+### Vibe Comments guard - 3.19.2 alignment
+
+- **Version guard** - `$expected` in `inc/enqueue.php` 3.19.1 → **3.19.2**. Plugin v3.19.2 ships the Responsive & Mobile Audit fixes (44px touch floor on all interactive families, 16px iOS zoom floor, focus-visible parity, admin collapse at 782px, analytics tables scroll-wrapped). Starter inherits the plugin's 16px toolbar (no restyle).
+
+**Verified:** `php -l` clean.
+
 ## [1.10.11] — 2026-09-02
 
 ### Vibe Comments guard - 3.19.1 alignment
