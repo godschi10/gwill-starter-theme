@@ -1,3 +1,11 @@
+## [1.10.8] — 2026-09-01
+
+### Fixed - vibe-comments guard 3.18.1 alignment
+
+- **Version guard** - `$expected` in `inc/enqueue.php` 3.18.0 → **3.18.1**. Plugin v3.18.1 completed the push-rail unsubscribe (dual-rail Notify pill covering email+push, sw.js "Stop these alerts" action). The enqueue gate + dark-state coverage are untouched.
+
+**Verified:** `php -l` clean; battery 5/5 re-run at 3.18.1.
+
 ## [1.10.7] — 2026-09-01
 
 ### Fixed - vibe-comments guard 3.18.0 alignment
