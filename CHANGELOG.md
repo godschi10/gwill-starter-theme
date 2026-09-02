@@ -1,3 +1,11 @@
+## [1.10.9] — 2026-09-01
+
+### Fixed - vibe-comments guard 3.18.2 alignment
+
+- **Version guard** - `$expected` in `inc/enqueue.php` 3.18.1 → **3.18.2**. Plugin v3.18.2 seals the Google client_secret at rest (sodium secretbox, AUTH_KEY-derived key, legacy-plaintext migration). The enqueue gate + dark-state coverage are untouched.
+
+**Verified:** `php -l` clean; battery 5/5 re-run at 3.18.2.
+
 ## [1.10.8] — 2026-09-01
 
 ### Fixed - vibe-comments guard 3.18.1 alignment
