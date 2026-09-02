@@ -1,3 +1,11 @@
+## [1.10.10] — 2026-09-02
+
+### Vibe Comments guard - 3.19.0 alignment
+
+- **Version guard** - `$expected` in `inc/enqueue.php` 3.18.2 → **3.19.0**. Plugin v3.19.0 ships the Portability Audit fixes (JS i18n, .pot, theme-dir template override, migration docs). The enqueue gate + dark-state coverage are untouched.
+
+**Verified:** `php -l` clean.
+
 ## [1.10.9] — 2026-09-01
 
 ### Fixed - vibe-comments guard 3.18.2 alignment
