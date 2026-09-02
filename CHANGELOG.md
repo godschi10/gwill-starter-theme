@@ -1,3 +1,11 @@
+## [1.10.11] — 2026-09-02
+
+### Vibe Comments guard - 3.19.1 alignment
+
+- **Version guard** - `$expected` in `inc/enqueue.php` 3.19.0 → **3.19.1**. Plugin v3.19.1 completes the i18n sweep (20 more strings, reviewer-caught). The enqueue gate + dark-state coverage are untouched.
+
+**Verified:** `php -l` clean.
+
 ## [1.10.10] — 2026-09-02
 
 ### Vibe Comments guard - 3.19.0 alignment
