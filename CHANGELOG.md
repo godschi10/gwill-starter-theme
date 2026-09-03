@@ -1,3 +1,11 @@
+## [1.10.17] — 2026-09-03
+
+### Vibe Comments guard - 3.20.1 alignment
+
+- **Version guard** - `$expected` in `inc/enqueue.php` 3.20.0 → **3.20.1**. Plugin v3.20.1 ships the SEO Audit fixes (DiscussionPosting schema entity + filterable comment cap). The enqueue gate + dark-state coverage are untouched.
+
+**Verified:** `php -l` clean.
+
 ## [1.10.16] — 2026-09-03
 
 ### Vibe Comments guard - 3.20.0 alignment
