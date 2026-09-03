@@ -1,3 +1,11 @@
+## [1.10.15] — 2026-09-03
+
+### Vibe Comments guard - 3.19.5 alignment
+
+- **Version guard** - `$expected` in `inc/enqueue.php` 3.19.4 → **3.19.5**. Plugin v3.19.5 ships the Speed & Performance Audit fixes (relative-time background skip; nginx split-TTL is server-side). The enqueue gate + dark-state coverage are untouched.
+
+**Verified:** `php -l` clean.
+
 ## [1.10.14] — 2026-09-02
 
 ### Vibe Comments guard - 3.19.4 alignment
