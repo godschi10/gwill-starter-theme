@@ -1,3 +1,11 @@
+## [1.10.18] — 2026-09-03
+
+### Vibe Comments guard - 3.20.2 alignment
+
+- **Version guard** - `$expected` in `inc/enqueue.php` 3.20.1 → **3.20.2**. Plugin v3.20.2 ships the Design Consistency & UX Audit fixes (auth focus rings, fallback unification, hover-taxonomy docs, casing). The enqueue gate + dark-state coverage are untouched.
+
+**Verified:** `php -l` clean.
+
 ## [1.10.17] — 2026-09-03
 
 ### Vibe Comments guard - 3.20.1 alignment
