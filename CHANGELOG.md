@@ -1,3 +1,11 @@
+## [1.10.14] — 2026-09-02
+
+### Vibe Comments guard - 3.19.4 alignment
+
+- **Version guard** - `$expected` in `inc/enqueue.php` 3.19.3 → **3.19.4**. Plugin v3.19.4 ships the Cross-Browser Audit fixes (NodeList.forEach ponyfill, AbortController guard). The enqueue gate + dark-state coverage are untouched.
+
+**Verified:** `php -l` clean.
+
 ## [1.10.13] — 2026-09-02
 
 ### Vibe Comments guard - 3.19.3 alignment
