@@ -1,3 +1,11 @@
+## [1.10.16] — 2026-09-03
+
+### Vibe Comments guard - 3.20.0 alignment
+
+- **Version guard** - `$expected` in `inc/enqueue.php` 3.19.5 → **3.20.0**. Plugin v3.20.0 ships the Cloudflare Full-Cache Audit fixes (vibe_session_state identity reconciliation + README Cache-Everything guidance). The enqueue gate + dark-state coverage are untouched.
+
+**Verified:** `php -l` clean.
+
 ## [1.10.15] — 2026-09-03
 
 ### Vibe Comments guard - 3.19.5 alignment
