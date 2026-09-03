@@ -1,3 +1,11 @@
+## [1.10.13] — 2026-09-02
+
+### Vibe Comments guard - 3.19.3 alignment
+
+- **Version guard** - `$expected` in `inc/enqueue.php` 3.19.2 → **3.19.3**. Plugin v3.19.3 ships the Accessibility Audit fixes (banner keyboard operability, autocomplete tokens, role=alert announcements, picker focus flow, sort aria-label, reduced-motion scrolling). The enqueue gate + dark-state coverage are untouched.
+
+**Verified:** `php -l` clean.
+
 ## [1.10.12] — 2026-09-02
 
 ### Vibe Comments guard - 3.19.2 alignment
