@@ -1,3 +1,11 @@
+## [1.10.19] — 2026-09-03
+
+### Vibe Comments guard - 3.20.3 alignment
+
+- **Version guard** - `$expected` in `inc/enqueue.php` 3.20.2 → **3.20.3**. Plugin v3.20.3 unifies all CSS fallbacks to `:root` canonical values. The enqueue gate + dark-state coverage are untouched.
+
+**Verified:** `php -l` clean.
+
 ## [1.10.18] — 2026-09-03
 
 ### Vibe Comments guard - 3.20.2 alignment
