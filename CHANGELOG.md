@@ -1,3 +1,9 @@
+## [1.10.25] - 2026-09-05
+
+### Review-repair round
+
+- Mid-line double-space-hyphen residue collapsed to house style; README status line current (1.10.24 was stale).
+
 ## [1.10.24] - 2026-09-05
 
 ### dbDelta once-per-request guard
