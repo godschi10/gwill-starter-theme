@@ -2002,7 +2002,7 @@ All 27 findings from the v1.0.13 audit resolved. No intentional behaviour change
 [1.0.2]: https://github.com/gwillchijioke/gwill-starter-theme/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/gwillchijioke/gwill-starter-theme/releases/tag/v1.0.1
 
-## [1.10.21] — 2026-09-05
+## [1.10.21]  -  2026-09-05
 
 ### Fleet-wide em-dash removal (writing-voice pass)
 
