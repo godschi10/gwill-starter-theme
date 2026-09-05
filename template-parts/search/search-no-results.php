@@ -12,7 +12,7 @@
  *
  * Since v1.1.0 - Google-style "Did you mean?" suggestions (ported from
  * GWill Tech): when the query returns nothing, up to 3 corrected words
- * are offered via the same Damerau–Levenshtein engine the tech theme
+ * are offered via the same Damerau - Levenshtein engine the tech theme
  * uses. The block renders only when suggestions exist; the tips + CTA
  * below it always render.
  *

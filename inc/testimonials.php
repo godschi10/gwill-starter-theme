@@ -11,7 +11,7 @@
  *                       the card layout waiting on a photo that may not
  *                       exist yet)
  *   - Two actual custom fields, because nothing built-in covers them:
- *     role/company (text) and star rating (1–5)
+ *     role/company (text) and star rating (1-5)
  *
  * Not publicly queryable on purpose - no single-testimonial page, no
  * archive. A testimonial isn't content anyone navigates to directly, it's
@@ -267,14 +267,14 @@ function gwill_testimonials_shortcode( $atts ): string {
 // ── Star rating render helper ───────────────────────────────────────────────
 
 /**
- * Render a 1–5 star rating as inline SVG markup.
+ * Render a 1-5 star rating as inline SVG markup.
  *
  * Filled and outline stars are the exact same <path>, switched by a CSS
  * class rather than two different SVGs - half the markup, and it means a
  * future style change to "what a star looks like" only ever has to happen
  * in one path definition.
  *
- * @param  int $rating 1–5. Already clamped by the save handler, but
+ * @param  int $rating 1-5. Already clamped by the save handler, but
  *                      clamped again here too - this function has no way
  *                      to know whether its caller already validated input,
  *                      so it doesn't assume.

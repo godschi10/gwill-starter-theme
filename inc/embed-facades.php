@@ -3,7 +3,7 @@
  * Click-to-play embed facades - GWill Starter (v1.3.0, ported from finance).
  *
  * YouTube, Vimeo and Spotify oEmbeds are swapped for a lightweight
- * play-button facade. The third-party player (1–2 MB of JS/CSS each)
+ * play-button facade. The third-party player (1-2 MB of JS/CSS each)
  * is only fetched when the visitor actually clicks play - the pattern
  * Lighthouse recommends for embed-heavy pages, and the difference
  * between a 50 and a ~95 Performance score on embed-heavy pages.

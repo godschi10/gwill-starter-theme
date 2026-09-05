@@ -27,7 +27,7 @@
 	//    ~16 ms after exit. On mobile WebViews / in-app browsers
 	//    (Android custom-view fullscreen, iOS native fullscreen) the
 	//    page scroll resets to the top LATE - after the exit transition,
-	//    ~300–800 ms later - so the single restore was overwritten.
+	//    ~300-800 ms later - so the single restore was overwritten.
 	//  - v1.0.188 added: (1) the facade button KEPT in the DOM, hidden
 	//    under the iframe (stable anchor, zero layout shift); (2) a
 	//    GUARDED rAF restore loop (~1.5 s) so the LAST write wins;

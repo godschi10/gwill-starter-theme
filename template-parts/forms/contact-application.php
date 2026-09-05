@@ -55,8 +55,8 @@ $hp_name = gwill_get_honeypot_name( $uid );
 			<option value=""><?php esc_html_e( 'Select…', 'gwill-starter' ); ?></option>
 			<option value="Pre-revenue"><?php esc_html_e( 'Pre-revenue', 'gwill-starter' ); ?></option>
 			<option value="Under $10k"><?php esc_html_e( 'Under $10k', 'gwill-starter' ); ?></option>
-			<option value="$10k-$100k"><?php esc_html_e( '$10k–$100k', 'gwill-starter' ); ?></option>
-			<option value="$100k-$500k"><?php esc_html_e( '$100k–$500k', 'gwill-starter' ); ?></option>
+			<option value="$10k-$100k"><?php esc_html_e( '$10k - $100k', 'gwill-starter' ); ?></option>
+			<option value="$100k-$500k"><?php esc_html_e( '$100k - $500k', 'gwill-starter' ); ?></option>
 			<option value="$500k+"><?php esc_html_e( '$500k+', 'gwill-starter' ); ?></option>
 		</select>
 	</div>
@@ -67,7 +67,7 @@ $hp_name = gwill_get_honeypot_name( $uid );
 			<span class="gwill-form__required" aria-hidden="true">*</span>
 		</label>
 		<textarea id="outcome_<?php echo esc_attr( $uid ); ?>" name="gwill_outcome" rows="3" required
-			placeholder="<?php esc_attr_e( 'In 2–3 sentences…', 'gwill-starter' ); ?>"></textarea>
+			placeholder="<?php esc_attr_e( 'In 2-3 sentences…', 'gwill-starter' ); ?>"></textarea>
 	</div>
 
 	<div class="gwill-form__field">

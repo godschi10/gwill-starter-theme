@@ -308,7 +308,7 @@ function gwill_search_results_count( WP_Query $query ): string {
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * Damerau–Levenshtein distance (optimal string alignment) - the typo model.
+ * Damerau - Levenshtein distance (optimal string alignment) - the typo model.
  *
  * Classic Levenshtein counts an adjacent transposition ("reids" → "redis")
  * as TWO edits; Damerau counts it as ONE, which is the reality of human
@@ -565,13 +565,13 @@ add_action( 'template_redirect', function () {
 function gwill_search_normalize( string $s ): string {
 	// Lowercase FIRST, then strip - the character class is deliberately
 	// lowercase-only because strtolower() already ran (v1.16.87 fixed the
-	// original reverse order + missing A–Z, which silently dropped the
+	// original reverse order + missing A - Z, which silently dropped the
 	// first letter of every capitalised word: "Redis" → "edis").
 	return preg_replace( '/[^a-z0-9]+/', ' ', strtolower( $s ) );
 }
 
 /**
- * Similarity score between a query and a title, 0.0–1.0 (higher = closer).
+ * Similarity score between a query and a title, 0.0-1.0 (higher = closer).
  *
  * Google-grade matcher (v1.16.88 - King: "bring results from misspelled
  * words even if it's the first middle or last letter or spacing"):

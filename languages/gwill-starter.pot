@@ -1682,11 +1682,11 @@ msgid "Under $10k"
 msgstr ""
 
 #: template-parts/forms/contact-application.php:58
-msgid "$10k–$100k"
+msgid "$10k - $100k"
 msgstr ""
 
 #: template-parts/forms/contact-application.php:59
-msgid "$100k–$500k"
+msgid "$100k - $500k"
 msgstr ""
 
 #: template-parts/forms/contact-application.php:60
@@ -1698,7 +1698,7 @@ msgid "What outcome are you hoping for?"
 msgstr ""
 
 #: template-parts/forms/contact-application.php:70
-msgid "In 2–3 sentences…"
+msgid "In 2-3 sentences…"
 msgstr ""
 
 #: template-parts/forms/contact-application.php:74
@@ -1810,12 +1810,12 @@ msgstr ""
 
 #: template-parts/forms/contact-inquiry.php:85
 #: template-parts/forms/contact-multistep.php:117
-msgid "1–3 months"
+msgid "1-3 months"
 msgstr ""
 
 #: template-parts/forms/contact-inquiry.php:86
 #: template-parts/forms/contact-multistep.php:118
-msgid "3–6 months"
+msgid "3-6 months"
 msgstr ""
 
 #: template-parts/forms/contact-inquiry.php:87
@@ -1836,12 +1836,12 @@ msgstr ""
 #: template-parts/forms/contact-inquiry.php:98
 #: template-parts/forms/contact-multistep.php:132
 #: template-parts/forms/contact-partnership.php:100
-msgid "$500–$2k"
+msgid "$500 - $2k"
 msgstr ""
 
 #: template-parts/forms/contact-inquiry.php:99
 #: template-parts/forms/contact-multistep.php:133
-msgid "$2k–$5k"
+msgid "$2k - $5k"
 msgstr ""
 
 #: template-parts/forms/contact-inquiry.php:100
@@ -1926,7 +1926,7 @@ msgid "6+ months"
 msgstr ""
 
 #: template-parts/forms/contact-multistep.php:134
-msgid "$5k–$10k"
+msgid "$5k - $10k"
 msgstr ""
 
 #: template-parts/forms/contact-multistep.php:135
@@ -2024,7 +2024,7 @@ msgid "Under $500 (gifted-product-only)"
 msgstr ""
 
 #: template-parts/forms/contact-partnership.php:101
-msgid "$2k–$10k"
+msgid "$2k - $10k"
 msgstr ""
 
 #: template-parts/forms/contact-partnership.php:102

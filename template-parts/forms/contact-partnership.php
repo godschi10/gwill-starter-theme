@@ -97,8 +97,8 @@ $hp_name = gwill_get_honeypot_name( $uid );
 		<select id="budget_<?php echo esc_attr( $uid ); ?>" name="gwill_budget">
 			<option value=""><?php esc_html_e( 'Select…', 'gwill-starter' ); ?></option>
 			<option value="Under $500"><?php esc_html_e( 'Under $500 (gifted-product-only)', 'gwill-starter' ); ?></option>
-			<option value="$500-$2k"><?php esc_html_e( '$500–$2k', 'gwill-starter' ); ?></option>
-			<option value="$2k-$10k"><?php esc_html_e( '$2k–$10k', 'gwill-starter' ); ?></option>
+			<option value="$500-$2k"><?php esc_html_e( '$500 - $2k', 'gwill-starter' ); ?></option>
+			<option value="$2k-$10k"><?php esc_html_e( '$2k - $10k', 'gwill-starter' ); ?></option>
 			<option value="Custom"><?php esc_html_e( "Custom \u{2014} let's discuss", 'gwill-starter' ); ?></option>
 		</select>
 	</div>

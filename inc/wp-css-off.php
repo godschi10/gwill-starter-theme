@@ -108,7 +108,7 @@ add_action( 'wp_default_scripts', function ( $scripts ) {
 } );
 
 // ── 6. Heartbeat front-end deregister ────────────────────
-// Removes the periodic admin-ajax POST every 15–60s that the front end
+// Removes the periodic admin-ajax POST every 15-60s that the front end
 // never uses. Admin keeps heartbeat (autosave, lock notifications).
 add_action( 'init', function () {
 	if ( ! is_admin() ) {

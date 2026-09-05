@@ -179,7 +179,7 @@
 [CLEAN] PHP version - the theme uses PHP 8.0+ syntax (typed properties,
         union types, match expressions, named arguments in WP_Query?  - 
         checked: WP_Query uses array syntax, not named args). Compatible
-        with PHP 8.0–8.4. The style.css header declares no minimum
+        with PHP 8.0-8.4. The style.css header declares no minimum
         (defaults to WP core's minimum).
 [CLEAN] OPcache - the theme's composer.json is dev-only (phpcs), no runtime
         vendor/ directory. No OPcache issues.

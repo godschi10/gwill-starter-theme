@@ -30,7 +30,7 @@ Batched as one release, tested as a whole, per plan:
 3. Testimonials CPT (grid + carousel) - v1.0.62
 4. Staging banner (Customizer toggle) - v1.0.57/59/62
 
-## Tier 3 - Opt-in modules (zero cost unused) - ✅ SHIPPED v1.0.60–63
+## Tier 3 - Opt-in modules (zero cost unused) - ✅ SHIPPED v1.0.60-63
 
 1. WooCommerce compatibility layer - v1.0.60
 2. Pricing table component - v1.0.63
@@ -39,7 +39,7 @@ Batched as one release, tested as a whole, per plan:
 ## Beyond the roadmap - shipped in the v1.4 era
 
 1. **Web push, self-hosted VAPID** (`inc/webpush.php`) - v1.4.0
-2. **Installable Chrome app PWA** (`inc/pwa.php`, true icon suite) - v1.4.0–1.4.2
+2. **Installable Chrome app PWA** (`inc/pwa.php`, true icon suite) - v1.4.0-1.4.2
 3. **Theme Laws** (`docs/LAWS.md`, 11 laws + launch checklist) - v1.4.0
 4. **Custom-apps skeleton** (`inc/apps.php`, `/apps/<slug>/`) - v1.4.0
 5. **Smart search** (FTS5 + typo correction + live dropdown/modal) - v1.1.0

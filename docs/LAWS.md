@@ -145,7 +145,7 @@ refresh the page and it was back.
 ## L8 - A version bump travels with every asset change
 
 **Rule.** Any CSS/JS edit bumps `Version:` in `style.css` (the cache-buster)
- -  and the bump must reach the LIVE file, not just the repo.
+ - and the bump must reach the LIVE file, not just the repo.
 
 **Incident.** Finance v1.0.137: old sheet kept serving, new rules silently
 never parsed. v1.0.255: repo bumped, live not → the version-keyed rewrite flush

@@ -114,7 +114,7 @@ add_action( 'customize_register', function ( WP_Customize_Manager $wp_customize 
 	// ── Header padding ──────────────────────────────────────────────────────
 	//
 	// Default: 24px  (= 1.5rem at a 16px browser base - matches --spacing)
-	// Range:   0–200 px
+	// Range:   0-200 px
 	//
 	// Uses postMessage transport so the preview iframe updates live as the
 	// user types, without a full page refresh. The JS handler lives in
@@ -145,7 +145,7 @@ add_action( 'customize_register', function ( WP_Customize_Manager $wp_customize 
 	// the width control sits directly below the logo field - matching the
 	// UX of commercial themes (Astra, GeneratePress, OceanWP).
 	//
-	// Default: 160px.  Range: 20–400 px.
+	// Default: 160px.  Range: 20-400 px.
 	//
 	// Applied as the CSS custom property --logo-width on :root.
 	// style.css reads it via: .custom-logo { max-width: var(--logo-width, 160px) }
@@ -270,7 +270,7 @@ function gwill_sanitize_image_setting( $value ): int {
  * excessively large values before either reaches inline CSS output.
  *
  * @param mixed $value Raw value from the Customizer.
- * @return int Pixel value in the range 0–200.
+ * @return int Pixel value in the range 0-200.
  */
 function gwill_sanitize_header_padding( $value ): int {
 	return max( 0, min( 200, (int) $value ) );
@@ -283,7 +283,7 @@ function gwill_sanitize_header_padding( $value ): int {
  * the logo from being set to an unusably small size.
  *
  * @param mixed $value Raw value from the Customizer.
- * @return int Pixel value in the range 20–400.
+ * @return int Pixel value in the range 20-400.
  */
 function gwill_sanitize_logo_width( $value ): int {
 	return max( 20, min( 400, (int) $value ) );

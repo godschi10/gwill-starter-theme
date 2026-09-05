@@ -82,8 +82,8 @@ $hp_name = gwill_get_honeypot_name( $uid );
 			<select id="timeline_<?php echo esc_attr( $uid ); ?>" name="gwill_timeline">
 				<option value=""><?php esc_html_e( 'Select…', 'gwill-starter' ); ?></option>
 				<option value="ASAP"><?php esc_html_e( 'ASAP', 'gwill-starter' ); ?></option>
-				<option value="1-3 months"><?php esc_html_e( '1–3 months', 'gwill-starter' ); ?></option>
-				<option value="3-6 months"><?php esc_html_e( '3–6 months', 'gwill-starter' ); ?></option>
+				<option value="1-3 months"><?php esc_html_e( '1-3 months', 'gwill-starter' ); ?></option>
+				<option value="3-6 months"><?php esc_html_e( '3-6 months', 'gwill-starter' ); ?></option>
 				<option value="Exploring"><?php esc_html_e( 'Just exploring', 'gwill-starter' ); ?></option>
 			</select>
 		</div>
@@ -95,8 +95,8 @@ $hp_name = gwill_get_honeypot_name( $uid );
 			<select id="budget_<?php echo esc_attr( $uid ); ?>" name="gwill_budget">
 				<option value=""><?php esc_html_e( 'Select…', 'gwill-starter' ); ?></option>
 				<option value="Under $500"><?php esc_html_e( 'Under $500', 'gwill-starter' ); ?></option>
-				<option value="$500-$2k"><?php esc_html_e( '$500–$2k', 'gwill-starter' ); ?></option>
-				<option value="$2k-$5k"><?php esc_html_e( '$2k–$5k', 'gwill-starter' ); ?></option>
+				<option value="$500-$2k"><?php esc_html_e( '$500 - $2k', 'gwill-starter' ); ?></option>
+				<option value="$2k-$5k"><?php esc_html_e( '$2k - $5k', 'gwill-starter' ); ?></option>
 				<option value="$5k+"><?php esc_html_e( '$5k+', 'gwill-starter' ); ?></option>
 				<option value="Let's discuss"><?php esc_html_e( "Let's discuss", 'gwill-starter' ); ?></option>
 			</select>

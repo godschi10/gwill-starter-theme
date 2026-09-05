@@ -1,3 +1,10 @@
+## [1.10.23] - 2026-09-05
+
+### Review-repair round (portability review)
+
+- En-dash pass: 82 removed; " -  " spacing normalized (6 lines).
+- Lazy-load webpush (vendor stack needs PHP 8.2; theme declares 7.4).
+
 ## [1.10.22] - 2026-09-05
 
 ### Review-repair batch
@@ -367,7 +374,7 @@ extracted verbatim from proven files, zero hand-typed paths.
   (zero ACF - the tech dependency was struck per the starter's law).
   Sanitizer strips PHP tags, keeps network script tags. In-content:
   after 2nd paragraph, then every ~5, max 4.
-- `assets/js/ads.js` - ported from tech main.js §9–14; instantiates
+- `assets/js/ads.js` - ported from tech main.js §9-14; instantiates
   only the current device's variant client-side (cache-safe: every
   visitor sees identical HTML).
 - `assets/css/print.css` - print stylesheet (fresh module): chrome
@@ -405,7 +412,7 @@ Tier B - the six UX/feature ports, per royal order. Four from the tech theme (li
 
 - **Code-block copy button + syntax highlighting** (`inc/code-blocks.php` + `assets/js/code-copy.js` + `assets/vendor/prism/`, from tech) - every `<pre><code>` gets a Copy button (Clipboard API, `execCommand` fallback for insecure contexts) and a language label; `tabindex="0"` on the `<pre>` keeps wide code keyboard-scrollable (WCAG 2.1.1); invalid `lang=` attributes are stripped (WCAG 3.1.1). Unlabeled blocks are sniffed from their first lines (PHP/JS/Python/bash/SQL/JSON/YAML/Rust/Java) and highlighted. Prism self-hosted under `assets/vendor/prism/` (bundle + 18 grammars, 156K - zero CDN), enqueued only on singulars whose content actually contains `<pre`; explicit `language-*` classes beyond the bundle load their single grammar file on demand.
 
-- **AJAX category filter** (`inc/ajax-filter.php` + `assets/js/category-filter.js`, from tech) - public read-only admin-ajax endpoint renders the starter's own card partial (`gwill_part( 'content' )`) for a category, child-category roll-up via `cat` term-ID, per_page clamped 1–30, unknown category → honest empty. Driver self-guards to `.filter-pills` containers; pills speak the `.gwill-pill` dialect with `.is-active` + `aria-pressed` states; spinner overlays the first card's media slot; `aria-busy` on the grid; fetch() with XHR fallback; i18n via `wp_localize_script`.
+- **AJAX category filter** (`inc/ajax-filter.php` + `assets/js/category-filter.js`, from tech) - public read-only admin-ajax endpoint renders the starter's own card partial (`gwill_part( 'content' )`) for a category, child-category roll-up via `cat` term-ID, per_page clamped 1-30, unknown category → honest empty. Driver self-guards to `.filter-pills` containers; pills speak the `.gwill-pill` dialect with `.is-active` + `aria-pressed` states; spinner overlays the first card's media slot; `aria-busy` on the grid; fetch() with XHR fallback; i18n via `wp_localize_script`.
 
 - **Accessible nav walker** (`inc/nav-walker.php` + `assets/js/nav-accordion.js`, from tech, ADAPTED) - the starter renders ONE menu for both breakpoints (tech had two), so the walker emits the split-button markup for EVERY parent: the link navigates, a real `<button>` chip toggles the sub-menu (`aria-expanded` + `aria-controls`, keyboard operable). CSS turns the chip into the mobile accordion at ≤767px (the starter's own `.nav-toggle` breakpoint - verified, the initial 860 draft was corrected) and hides it for the desktop hover/focus-within dropdown. Fallback is brand-agnostic: Home + published pages (menu_order, title tiebreak) - tech's hardcoded category links must never leak into client builds. Walker injected via `wp_nav_menu_args` filter, only for the `primary` location; footer/social menus keep the default walker.
 
@@ -415,7 +422,7 @@ Tier B - the six UX/feature ports, per royal order. Four from the tech theme (li
 
 ### Verified (not rebuilt)
 
-- **Click-to-play embed facades** - the King's requested feature ("embeds into images with a play button to avoid loading excess 3rd party scripts") was **already owned since v1.3.0** (ported from finance then): `inc/embed-facades.php` swaps YouTube/Vimeo/Spotify oEmbeds and Gutenberg core/embed blocks for a cookie-free poster + play-button facade; the 1–2MB third-party player loads only on click; Spotify keeps its branded surface (no keyless poster); posters painted as CSS backgrounds so the lightbox can't hook them. Proven functional by 12 battery tests: both render paths (embed_oembed_html + render_block), all three providers, poster URLs, autoplay semantics, and the inactive-asset fallback (facade never renders without its CSS/JS - external oEmbed consumers keep the plain iframe).
+- **Click-to-play embed facades** - the King's requested feature ("embeds into images with a play button to avoid loading excess 3rd party scripts") was **already owned since v1.3.0** (ported from finance then): `inc/embed-facades.php` swaps YouTube/Vimeo/Spotify oEmbeds and Gutenberg core/embed blocks for a cookie-free poster + play-button facade; the 1-2MB third-party player loads only on click; Spotify keeps its branded surface (no keyless poster); posters painted as CSS backgrounds so the lightbox can't hook them. Proven functional by 12 battery tests: both render paths (embed_oembed_html + render_block), all three providers, poster URLs, autoplay semantics, and the inactive-asset fallback (facade never renders without its CSS/JS - external oEmbed consumers keep the plain iframe).
 
 ### Changed
 
@@ -485,7 +492,7 @@ The King's five - all five roadmap-candidate features shipped as one batch, per 
 
 - **Two new demo apps** - `case-converter` (7 case conversions + three-tier copy, `navigator.clipboard` with the `execCommand` fallback) and `unit-converter` (length/weight/temperature, exact international definitions, Kelvin as the temperature base - no chained approximations), both pure client-side like word-counter, auto-enqueued only on their own `/apps/<slug>/` pages. Three reference apps now demonstrate the skeleton's range (text analysis, text transformation, numeric conversion). New FAQ entries feed the existing SoftwareApplication + FAQPage schema automatically.
 
-- **`GWILL-FEATURE-ROADMAP.md` committed at last** - the tiered plan README and CHANGELOG have referenced 5× since v1.0.50 but never existed in-tree. Now the dangling references resolve: Tier 1 (v1.0.50) / Tier 2 (v1.0.62) / Tier 3 (v1.0.60–63) recorded as shipped, the v1.4 era (push/PWA/laws/apps/smart-search) recorded, the v1.5.0 five recorded, and a candidate pool for future royal direction.
+- **`GWILL-FEATURE-ROADMAP.md` committed at last** - the tiered plan README and CHANGELOG have referenced 5× since v1.0.50 but never existed in-tree. Now the dangling references resolve: Tier 1 (v1.0.50) / Tier 2 (v1.0.62) / Tier 3 (v1.0.60-63) recorded as shipped, the v1.4 era (push/PWA/laws/apps/smart-search) recorded, the v1.5.0 five recorded, and a candidate pool for future royal direction.
 
 - **Law L12** (`docs/LAWS.md`): a documented flag is a promise - grep call sites before shipping docs. Born from the latent fatal below. Launch checklist item 12 added.
 
@@ -707,7 +714,7 @@ The King's responsive audit protocol (`responsive_audit.txt`, 8 sections) execut
 
 - 🛠️ **6 SHOULD - all fixed**:
   - **Tap targets → 44px (WCAG 2.5.5)** - the header's three primary controls were sub-44px: `.nav-toggle` 40×40 → **44×44** (style.css), `.gwill-darkmode-toggle` 2.25rem/36px → **2.75rem/44px** (darkmode.css), `.gwill-search-toggle` 36px → **44px** (search.css), `.search-clear` 32×32 → **36×36** (search.css), mobile `#primary-menu li` ~37px → **min-height: 44px** (style.css).
-  - **Nav breakpoint 640 → 767px** - the header hamburger now engages at 767px max (matching iPad portrait 768px and landscape phones ≈667–740px), closing the 641–767px squeeze zone where the desktop nav + branding + 36px controls overflowed the unwrapped header flex row.
+  - **Nav breakpoint 640 → 767px** - the header hamburger now engages at 767px max (matching iPad portrait 768px and landscape phones ≈667-740px), closing the 641-767px squeeze zone where the desktop nav + branding + 36px controls overflowed the unwrapped header flex row.
 - 🧹 **7 NICE-TO-HAVE - all fixed**: carousel arrows 36→44px, pagination `.page-numbers` 40→44px, cookie-consent buttons ~37→44px, share pills ~31→44px, **outside-click close** for the mobile menu (main.js - focusin alone doesn't fire on touch taps of non-focusable elements), **submenu column on mobile** (`#primary-menu .sub-menu { flex-direction: column }` - the base `.site-header nav ul` flex row would otherwise render submenu items as an unwrapped horizontal row clipping at 360px), **mobile menu max-height** (`calc(100dvh - 100%)` + `overflow-y: auto` - tall menus no longer trap items below the fold).
 - ✅ **All other sections CLEAN**: breakpoint map (480/600/640→767/900/1300 + reduced-motion + prefers-color-scheme + hover), 320px support (no overflow, header fits), forms 16px everywhere (iOS zoom safe), body 16px/1.6 line-height, no fixed-width elements, WP core srcset on all thumbnails, embed facades fluid via aspect-ratio, no jQuery/no double-firing handlers, Esc + focus-outside + (now) click-outside menu closes, all interactive elements have :focus-visible.
 - ✅ **Verified**: `node --check` main.js clean; grep-verified all dimension changes (767×1, 2.75rem×2 in darkmode.css + ×2 in search.css, 44px×4 in style.css, outside-click listener present); installed with explicit-path `sudo cp` + `chown www-data:www-data`.
@@ -738,7 +745,7 @@ The King's conflict-audit protocol (`PLUGIN & THEME CONFLICT AUDIT.txt`, 7 secti
   - `gwill_security_headers()` (`template_redirect`, priority 20) sends `X-Content-Type-Options: nosniff`, `X-Frame-Options: SAMEORIGIN`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy: camera=(), microphone=(), geolocation=()`.
   - Guarded: skips admin, login, and any request where output already started (`headers_sent()`). Duplicate-safe by design - values intentionally match the recommended nginx/Cloudflare set, so a server layer adding the same headers produces byte-identical duplicates (harmless). Replaces the old "intentionally not set in PHP" comment block.
 - **`inc/embed-facades.php` + `assets/css/embeds.css` + `assets/js/embeds.js` - click-to-play embed facades**:
-  - YouTube/Vimeo/Spotify oEmbeds swap for a lightweight play-button facade; the third-party player (1–2 MB of JS/CSS each) only loads when the visitor actually clicks play.
+  - YouTube/Vimeo/Spotify oEmbeds swap for a lightweight play-button facade; the third-party player (1-2 MB of JS/CSS each) only loads when the visitor actually clicks play.
   - TWO render paths: `embed_oembed_html` (classic shortcodes/fresh oEmbed) and `render_block` core/embed (Gutenberg baked iframes - WP 7.x core/embed has no server render callback, so the baked HTML is swapped instead).
   - Keyless cookie-free posters: `i.ytimg.com/<id>/hqdefault.jpg` + `i.vimeocdn.com/video/<id>_640x360.jpg`, painted as the button's own inline CSS background (no `<img>` - lightbox/audit-safe). Spotify keeps its branded `#191414` surface.
   - **Fullscreen-exit scroll restore + scroll watchdog (v1.0.189 pattern)**: guarded rAF restore loop (~1.5 s, LAST write wins, never fights user input), coarse-pointer resize/orientationchange fallbacks, and the SCROLL WATCHDOG - a single >200 px jump landing at the top with no user gesture in 600 ms (iOS native fullscreen fires NO events at all) is treated as the failure signature and snapped back to the video. This is the mobile fullscreen scroll-jump fix the King reported on Android Chrome.
@@ -785,7 +792,7 @@ Every future build now inherits a complete no-plugin SEO layer, same approach as
 
 The starter now ships the tech theme's full smart-search stack, so every future build inherits it. v1.0.65 → 1.1.0 (minor - new feature, backwards compatible).
 
-- **`inc/search.php` - combined engine (replaces the slim original)**: `gwill_execute_search()` (filterable via `gwill_search_backend`), `gwill_search_suggest()` (Damerau–Levenshtein typo correction, same engine as the tech theme), `gwill_search_corrected_term()`, `gwill_search_related_terms()`, `gwill_highlight_search_terms()`, `gwill_search_normalize()`, `gwill_search_fuzzy_match_ids()`, `gwill_search_rate_limit_check()` (REST permission callback: 20 req / 10 s per IP, `edit_posts` exempt - was already in v1.0.64, kept). All FTS calls guarded with `function_exists()` - the engine degrades gracefully if the FTS modules are removed.
+- **`inc/search.php` - combined engine (replaces the slim original)**: `gwill_execute_search()` (filterable via `gwill_search_backend`), `gwill_search_suggest()` (Damerau - Levenshtein typo correction, same engine as the tech theme), `gwill_search_corrected_term()`, `gwill_search_related_terms()`, `gwill_highlight_search_terms()`, `gwill_search_normalize()`, `gwill_search_fuzzy_match_ids()`, `gwill_search_rate_limit_check()` (REST permission callback: 20 req / 10 s per IP, `edit_posts` exempt - was already in v1.0.64, kept). All FTS calls guarded with `function_exists()` - the engine degrades gracefully if the FTS modules are removed.
 - **`inc/search-fts.php` - SQLite FTS5 engine**: `gwill_fts_path/pdo/available/ensure/sync_post/rebuild/search/match_ids/relaxed_candidate_ids`. Zero-config: creates its own SQLite DB under `wp-content/uploads/gwill-search/`, indexes titles as posts are saved, scales to 100k+ posts while staying fast.
 - **`inc/search-index.php` - client-side index**: `GET /wp-json/gwill/v1/search-index` - up to `GWILL_SEARCH_INDEX_MAX` (200) published posts cached in a `DAY_IN_SECONDS` transient, busted on `save_post`/`deleted_post`/`wp_trash_post`. Payload: `id, title, url, excerpt, cat, cat_slug, date`.
 - **`assets/js/search-dropdown.js` - header live-search dropdown**: 120 ms debounce, 2-char minimum, 8 max results, sessionStorage index cache (1 h TTL), keyboard navigation with `aria-activedescendant`, loading/empty states, "View all results" footer link.
@@ -807,7 +814,7 @@ The starter now ships the tech theme's full smart-search stack, so every future 
 
 A 30-item self-described "exhaustive audit" of the v1.0.63 codebase was checked line-by-line against the actual files rather than taken on its own word. Most of it did not hold up - not "slightly overcautious," but describing specific mechanisms, files, and line numbers that don't exist in this codebase:
 
-- Claimed a literal duplicate `theme-color` meta tag at "header.php lines 22–24." `header.php` contains zero occurrences of `theme-color` at all.
+- Claimed a literal duplicate `theme-color` meta tag at "header.php lines 22-24." `header.php` contains zero occurrences of `theme-color` at all.
 - Claimed the table of contents is cached via `set_transient()` with a 12-hour TTL and has no invalidation on save. `inc/table-of-contents.php` has no caching of any kind - zero matches for `transient` or `cache` in the file. There is no cache to invalidate because there is no cache.
 - Claimed a `gwill_staging_banner_dismissed` option and "dismissal persistence" as a positive ("smart staging banner system with dismissal persistence"). No dismiss button, no dismissal state, no such option exists anywhere in `inc/staging.php` or its template part - this describes a feature that was never built.
 - Claimed `inc/search.php`'s query has no explicit `post_status => 'publish'`. Line 73 sets it explicitly.
@@ -866,8 +873,8 @@ None of this means treating future audits as worthless - it means this one wasn'
 
 **Testimonials CPT** (`inc/testimonials.php`, `template-parts/testimonials/testimonials.php`, `assets/js/testimonials-carousel.js`)
 - `gwill_testimonial` post type - `public: false`, `publicly_queryable: false`, no archive: a testimonial is a card pulled into a grid/carousel wherever a developer places it, not content anyone navigates to at its own URL.
-- Field mapping deliberately reuses what WordPress already has rather than inventing meta fields for everything: title = name, content = quote, featured image = photo (falls back to a generic avatar glyph when absent). Two real custom fields where nothing built-in covers them - role/company (text) and a 1–5 star rating - via a "Testimonial Details" meta box following the identical nonce/capability-check ordering already established by the video-embed meta box in `inc/setup.php`.
-- Public API: `gwill_testimonials_grid( $args )` called directly from a template, or the `[gwill_testimonials]` shortcode with matching attribute names. `mode: 'grid'` (CSS grid, 2–4 columns via `columns`) or `mode: 'carousel'`.
+- Field mapping deliberately reuses what WordPress already has rather than inventing meta fields for everything: title = name, content = quote, featured image = photo (falls back to a generic avatar glyph when absent). Two real custom fields where nothing built-in covers them - role/company (text) and a 1-5 star rating - via a "Testimonial Details" meta box following the identical nonce/capability-check ordering already established by the video-embed meta box in `inc/setup.php`.
+- Public API: `gwill_testimonials_grid( $args )` called directly from a template, or the `[gwill_testimonials]` shortcode with matching attribute names. `mode: 'grid'` (CSS grid, 2-4 columns via `columns`) or `mode: 'carousel'`.
 - Carousel mode needs no JavaScript to function at all - native `overflow-x` + `scroll-snap-type: x mandatory` track, fully swipeable/scrollable without `testimonials-carousel.js`. That script only adds Prev/Next buttons, and *creates* them via JS rather than rendering inert ones in PHP - a button whose only behaviour comes from JS that might not load would be worse than no button, so no JS genuinely means no buttons here, not broken ones.
 
 **Staging-environment banner - restored, with a toggle this time** (`inc/staging.php`, `template-parts/staging-banner.php`)
@@ -965,7 +972,7 @@ None of this means treating future audits as worthless - it means this one wasn'
 
 ### Fixed
 
-- **Breadcrumbs silently dropping a category level on some single posts** (`inc/helpers.php`) - the actual root cause of the issue left open in 1.0.51–1.0.53. `gwill_get_primary_category()` was reading the RankMath primary-category postmeta under the wrong key: `rank_math_primary_term_category`, which RankMath has never actually written. Because that lookup never matched anything, the function silently fell through to its fallback, `$cats[0]` - the first category in the array `get_the_category()` returns, which WordPress core sorts alphabetically by name, not by what's actually marked primary in the editor. This produced inconsistent-looking breadcrumbs depending on alphabetical luck: if the alphabetically-first category happened to be a top-level one, its ancestors list is empty and the breadcrumb trail looked one level short (`Home › Parent › Title`, skipping a child category that genuinely was assigned to the post); if it happened to be a child category, the trail looked complete only by coincidence, for the wrong reason. Confirmed against two real posts with side-by-side screenshots showing exactly this pattern before fixing. Corrected to the real key, `rank_math_primary_category`.
+- **Breadcrumbs silently dropping a category level on some single posts** (`inc/helpers.php`) - the actual root cause of the issue left open in 1.0.51-1.0.53. `gwill_get_primary_category()` was reading the RankMath primary-category postmeta under the wrong key: `rank_math_primary_term_category`, which RankMath has never actually written. Because that lookup never matched anything, the function silently fell through to its fallback, `$cats[0]` - the first category in the array `get_the_category()` returns, which WordPress core sorts alphabetically by name, not by what's actually marked primary in the editor. This produced inconsistent-looking breadcrumbs depending on alphabetical luck: if the alphabetically-first category happened to be a top-level one, its ancestors list is empty and the breadcrumb trail looked one level short (`Home › Parent › Title`, skipping a child category that genuinely was assigned to the post); if it happened to be a child category, the trail looked complete only by coincidence, for the wrong reason. Confirmed against two real posts with side-by-side screenshots showing exactly this pattern before fixing. Corrected to the real key, `rank_math_primary_category`.
 - This also retires the 1.0.53 "flex-wrap" and "RankMath title-filter" hypotheses for the open breadcrumbs item - both were reasonable given the evidence available at the time (the post's own title was never actually the thing going missing; a *category level* was), but neither was the real cause.
 
 ### Note - not a bug, flagging for awareness
@@ -1233,7 +1240,7 @@ Final pre-release audit. Every file in the theme reviewed individually; every cr
 
 - **Category and tags on single posts** (`single.php`): Categories added inline in `.entry-meta` (all assigned categories, comma-separated, primary first). Tags rendered as pill links in `.entry-tags` between `</article>` and the footer share row. Both use the same RankMath/Yoast primary-term meta awareness as cards.
 
-- **Logo width Customizer control** (`inc/customizer.php`, `assets/js/customizer-preview.js`): "Logo width (px)" number input added to Appearance → Customize → **Site Identity** - the same section as the logo and favicon uploads, matching the UX of commercial themes. Range 20–400 px, default 160 px, `postMessage` transport for live preview. Applied via `--logo-width` CSS custom property; sanitised by `gwill_sanitize_logo_width()`.
+- **Logo width Customizer control** (`inc/customizer.php`, `assets/js/customizer-preview.js`): "Logo width (px)" number input added to Appearance → Customize → **Site Identity** - the same section as the logo and favicon uploads, matching the UX of commercial themes. Range 20-400 px, default 160 px, `postMessage` transport for live preview. Applied via `--logo-width` CSS custom property; sanitised by `gwill_sanitize_logo_width()`.
 
 - **Logo width CSS variable** (`style.css`): `.custom-logo { max-width: var(--logo-width, 160px) }` replaces the old `max-width: 100%`. Inline `:root { --logo-width: Npx }` is written by `wp_enqueue_scripts` at priority 20 only when the saved value differs from the default, keeping the stylesheet clean.
 
@@ -1277,7 +1284,7 @@ Final pre-release audit. Every file in the theme reviewed individually; every cr
 - **REST nonce endpoint** (`GET /wp-json/gwill/v1/form-nonce`): Returns a fresh
   `gwill_contact_form` nonce on every request. REST bypasses LiteSpeed HTML
   cache, so the nonce is always valid - unlike one baked into cached page HTML
-  which expires silently after 12–24 hours.
+  which expires silently after 12-24 hours.
 - **`wp_mail_from_name` / `wp_mail_from` filters** in `inc/forms.php`: Sender
   name defaults to `get_bloginfo('name')` (overridable via `GWILL_FROM_NAME`
   constant); From address is only overridden when `GWILL_FROM_EMAIL` is
@@ -1445,7 +1452,7 @@ Final pre-release audit. Every file in the theme reviewed individually; every cr
 
 ### Fixed
 
-- **Headings black in dark mode** (`assets/css/darkmode.css`): Added explicit `color: var(--color-primary)` declarations on all heading levels (`h1`–`h6`) and named heading classes (`.entry-title`, `.page-title`, `.comments-title`, `.wp-block-heading`) under both `[data-theme="dark"]` and the `prefers-color-scheme: dark` media rule. Headings previously relied on color inheritance from `body` which CSS combining (LiteSpeed) or plugin interference can silently break. Explicit declarations are immune to cascade disruption.
+- **Headings black in dark mode** (`assets/css/darkmode.css`): Added explicit `color: var(--color-primary)` declarations on all heading levels (`h1` - `h6`) and named heading classes (`.entry-title`, `.page-title`, `.comments-title`, `.wp-block-heading`) under both `[data-theme="dark"]` and the `prefers-color-scheme: dark` media rule. Headings previously relied on color inheritance from `body` which CSS combining (LiteSpeed) or plugin interference can silently break. Explicit declarations are immune to cascade disruption.
 
 - **Contact form inputs rendering white in dark mode** (`assets/css/darkmode.css`): `.gwill-form__field input`, `textarea`, and `select` had hardcoded `background: #fff` in `style.css` (not tokenized). Added targeted overrides in `darkmode.css` forcing `background: #1e293b` (slightly lighter than body bg for visual depth), `color: var(--color-primary)`, and `border-color: var(--color-border-input)`. Same fix applied to `.gwill-exit-intent__panel`, `.gwill-feedback-wrap`, and `.gwill-feedback-wrap__btn` which also used hardcoded light backgrounds.
 
@@ -1713,7 +1720,7 @@ Custom contact form system - no plugin dependency, free forever. Applies to `gwi
 
 ### Changed
 
-- `inc/customizer.php` - replaced "Header size" select (compact / normal / large) with "Header padding" number input. Accepts any integer 0–200 px. Transport changed from `refresh` to `postMessage` for live preview (no reload). Removed `gwill_sanitize_header_size()`; added `gwill_sanitize_header_padding()` which clamps to [0, 200]. Default: 24 px (≈ 1.5 rem - matches the existing `--spacing` default). Fixed `@package` tag from `GWillStarter` to `GWill_Starter` for consistency with all other files.
+- `inc/customizer.php` - replaced "Header size" select (compact / normal / large) with "Header padding" number input. Accepts any integer 0-200 px. Transport changed from `refresh` to `postMessage` for live preview (no reload). Removed `gwill_sanitize_header_size()`; added `gwill_sanitize_header_padding()` which clamps to [0, 200]. Default: 24 px (≈ 1.5 rem - matches the existing `--spacing` default). Fixed `@package` tag from `GWillStarter` to `GWill_Starter` for consistency with all other files.
 - `inc/enqueue.php` - added `customize_preview_init` hook that enqueues `gwill-customizer-preview` with `['customize-preview']` dependency. Fires only inside the Customizer iframe; never loaded on the public frontend.
 - `phpcs.xml` - removed the `WordPress.PHP.DevelopmentFunctions` severity-0 suppression. The previous comment claimed it suppressed arrow function warnings; it does not - that sniff governs `var_dump`, `error_log`, `print_r`, and related debug functions. Suppressing it silently hid real debug code leaking into production. Arrow functions (`fn() =>`) require no PHPCS suppression in WPCS 3.x targeting WP 6.4+. Updated the `WordPress.WhiteSpace.ControlStructureSpacing` comment to accurately describe what the sniff covers (blank lines inside brace-delimited structures).
 - `style.css` - added `:focus` and `:focus:not(:focus-visible)` rules alongside the existing `:focus-visible` rule. Without the `:focus` fallback, keyboard users in browsers lacking `:focus-visible` support (Safari < 15.4) saw no focus ring - a WCAG 2.4.7 violation. The three-rule pattern is the canonical progressive-enhancement approach.
@@ -1766,7 +1773,7 @@ All 16 findings from Audit 2 resolved.
 - `style.css` - `--color-border-input: #6b7280` CSS custom property. Form input borders were using `--color-border` (`#e5e7eb`, 1.24:1 contrast on white), which fails WCAG 2.1 SC 1.4.11 Non-text Contrast (3.0:1 required for UI component boundaries). `#6b7280` is the existing `--color-muted` value and gives 4.83:1 on white - passes AA comfortably. Decorative separators (site-header border-bottom, post dividers, blockquote, pre) continue to use `--color-border`; only form inputs use the new higher-contrast variable.
 - `style.css` - `.content-none` and `.content-none__title` rules. The empty-state section existed in the HTML since v1.0.13 but had no CSS - it rendered with default browser spacing and no visual treatment. Added `padding: 2rem 0` and `text-align: center`.
 - `style.css` - `.entry-body` rule. The content card body wrapper existed in `template-parts/content.php` since v1.0.14 but had no CSS. Added `padding: 1.25rem 0 0`, `display: flex`, `flex-direction: column`, `gap: 0.5rem` to give consistent internal spacing.
-- `theme.json` - `h4`, `h5`, `h6` added to `styles.elements`. Only `h1`–`h3` were defined; the block editor used WordPress defaults for `h4`/`h5`/`h6` while the frontend used `clamp()` values from `style.css`. A client inserting an `h4` in the editor saw a different size than what published. `h6` uppercase + letter-spacing treatment was completely invisible in the editor. All three now match `style.css` exactly.
+- `theme.json` - `h4`, `h5`, `h6` added to `styles.elements`. Only `h1` - `h3` were defined; the block editor used WordPress defaults for `h4`/`h5`/`h6` while the frontend used `clamp()` values from `style.css`. A client inserting an `h4` in the editor saw a different size than what published. `h6` uppercase + letter-spacing treatment was completely invisible in the editor. All three now match `style.css` exactly.
 
 ### Changed
 
@@ -1847,7 +1854,7 @@ All 27 findings from the v1.0.13 audit resolved. No intentional behaviour change
 - `header.php` - added hamburger toggle button inside `<nav>` before the menu. Button carries `aria-expanded="false"`, `aria-controls="primary-menu"`, and a translatable `aria-label`. Added `'menu_id' => 'primary-menu'` to `wp_nav_menu()` args so the `<ul>` has the `id` that `aria-controls` references. Button renders three `<span aria-hidden="true">` bars - styled via `.nav-toggle` and `.nav-toggle__bar` in project CSS.
 - `assets/js/main.js` - replaced empty comment placeholder with a self-contained IIFE implementing the full mobile nav interaction: click toggles `aria-expanded` + `is-open` on the menu + `is-active` on the button; Escape closes and returns focus to the toggle; `focusin` delegation closes when focus moves outside the nav entirely. No dependencies. CSS contract documented in an inline comment block.
 - `inc/enqueue.php` - uncommented `wp_enqueue_script( 'gwill-main' )`. The JS file is now populated; loading it was previously suppressed because the file was empty.
-- `theme.json` - added `styles` block. `styles.typography` sets global base font size (`1rem`), line height (`1.6`), and system-font stack - values flow into the block editor and frontend simultaneously. `styles.color` sets global text and background defaults from the palette. `styles.elements` adds link colour with hover state, fluid heading sizes for `h1`–`h3` via `clamp()`, shared heading colour, and basic button colours. Previously `theme.json` only disabled features; it now establishes a design token system shared by the editor and the frontend.
+- `theme.json` - added `styles` block. `styles.typography` sets global base font size (`1rem`), line height (`1.6`), and system-font stack - values flow into the block editor and frontend simultaneously. `styles.color` sets global text and background defaults from the palette. `styles.elements` adds link colour with hover state, fluid heading sizes for `h1` - `h3` via `clamp()`, shared heading colour, and basic button colours. Previously `theme.json` only disabled features; it now establishes a design token system shared by the editor and the frontend.
 
 ---
 

@@ -38,13 +38,38 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require_once get_template_directory() . '/vendor/autoload.php';
-
-use Minishlink\WebPush\WebPush;
-use Minishlink\WebPush\Subscription;
-use Minishlink\WebPush\VAPID;
-
 const GWILL_PUSH_TABLE = 'gwill_push_subs';
+
+/*
+ * PORTABILITY LAW (2026-09-05 review, King-decreed lazy-load): the committed
+ * web-push vendor stack requires PHP 8.2, while this theme declares Requires
+ * PHP 7.4. The vendor stack is therefore loaded LAZILY - only when push
+ * actually needs the library - and every touchpoint guards on
+ * gwill_push_lib_available(). A PHP 7.4/8.0/8.1 host runs the whole site
+ * fine: the bell hides, REST endpoints 503 politely, no 8.2-only class file
+ * ever parses. Do NOT move this back to an eager require.
+ */
+function gwill_push_lib_loaded(): bool {
+	static $done = false;
+	if ( $done ) {
+		return true;
+	}
+	$autoload = get_template_directory() . '/vendor/autoload.php';
+	if ( ! file_exists( $autoload ) ) {
+		return false;
+	}
+	require_once $autoload;
+	$done = true;
+	return true;
+}
+
+function gwill_push_php_ok(): bool {
+	return version_compare( PHP_VERSION, '8.2.0', '>=' );
+}
+
+function gwill_push_lib_available(): bool {
+	return gwill_push_php_ok() && gwill_push_lib_loaded();
+}
 
 /* ── 1. Table ────────────────────────────────────────────────────────── */
 
@@ -76,6 +101,10 @@ function gwill_push_vapid() {
 	if ( is_array( $keys ) && ! empty( $keys['publicKey'] ) && ! empty( $keys['privateKey'] ) ) {
 		return $keys;
 	}
+	// Key GENERATION needs the vendor stack. On a PHP < 8.2 host fail soft.
+	if ( ! gwill_push_lib_available() ) {
+		return false;
+	}
 	try {
 		$keys = VAPID::createVapidKeys();
 	} catch ( \Throwable $e ) {
@@ -86,6 +115,10 @@ function gwill_push_vapid() {
 }
 
 function gwill_push_stream() {
+	// Lazy-load law: dispatch needs the vendor stack. Soft-fail, not fatal.
+	if ( ! gwill_push_lib_available() ) {
+		return null;
+	}
 	$vapid_key = gwill_push_vapid();
 	if ( ! $vapid_key ) {
 		return null;
@@ -181,6 +214,11 @@ function gwill_push_subscribe_cb( WP_REST_Request $req ) {
 		return new WP_Error( 'not_https', 'Endpoint must be https', array( 'status' => 400 ) );
 	}
 
+	// Lazy-load law: without the vendor stack (PHP < 8.2) push is
+	// unavailable - reject politely instead of parse-fataling on the class.
+	if ( ! gwill_push_lib_available() ) {
+		return new WP_Error( 'push_unavailable', 'Push requires PHP 8.2+ on this host', array( 'status' => 503 ) );
+	}
 	try {
 		Subscription::create( array(
 			'endpoint'        => $endpoint,

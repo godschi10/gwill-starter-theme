@@ -1,10 +1,10 @@
 /**
  * Ad slots - device-aware variant instantiation - GWill Starter (v1.8.0).
  *
- * Ported from gwill-tech-theme assets/js/main.js §9–14 (live-proven),
+ * Ported from gwill-tech-theme assets/js/main.js §9-14 (live-proven),
  * extracted to its own file (the starter keeps main.js lean):
  *   1. picks the visitor's device via matchMedia (mobile ≤767,
- *      tablet 768–1023, desktop ≥1024);
+ *      tablet 768-1023, desktop ≥1024);
  *   2. instantiates ONLY that variant into .ad-slot__content (one ad
  *      request per slot - the other variants' scripts never execute;
  *      cache-safe since every cached page carries all variants);

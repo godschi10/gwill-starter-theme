@@ -46,7 +46,7 @@ defined( 'ABSPATH' ) || exit;
  * @param array<int, array{
  *   base:      string,  Remote blog home URL.
  *   transient: string, Cache key (prefix with the build slug).
- *   count:     int,     Posts to fetch, 1–6.
+ *   count:     int,     Posts to fetch, 1-6.
  * }> $sources
  * @return array
  */

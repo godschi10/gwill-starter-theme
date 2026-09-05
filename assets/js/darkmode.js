@@ -22,9 +22,9 @@
  *
  * The flash-prevention inline script in header.php has already set
  * data-theme on <html> before first paint. This script handles:
- *   – Button click → toggle and persist to localStorage
- *   – ARIA state sync (aria-label, aria-pressed) on load and on toggle
- *   – OS-level preference changes (e.g. auto-switch at sunset) when the
+ *    - Button click → toggle and persist to localStorage
+ *    - ARIA state sync (aria-label, aria-pressed) on load and on toggle
+ *    - OS-level preference changes (e.g. auto-switch at sunset) when the
  *     user has not made an explicit stored choice
  *
  * Storage key : 'gwill-color-scheme'

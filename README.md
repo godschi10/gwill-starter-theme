@@ -191,7 +191,7 @@ is a real 200 rewrite. Nothing to configure - activate and it works.
 ### Custom apps skeleton (/apps/)
 
 Register an app in one place - `gwill_apps_registry()` in `inc/apps.php`
- -  and it gets a real page at `/apps/<slug>/`, a card on the `/apps/`
+ - and it gets a real page at `/apps/<slug>/`, a card on the `/apps/`
 hub, JSON-LD schema (CollectionPage/ItemList on the hub,
 SoftwareApplication + FAQPage on app pages), and its JS/CSS auto-loaded
 only on its own page. Three demo apps ship as reference implementations
@@ -206,7 +206,7 @@ Every build ships the complete install set: a dynamic `manifest.webmanifest`
 apple-touch-icon + status-bar metas, an SVG favicon, and the custom install
 card (Chrome's default infobar suppressed). Re-branding the whole PWA is
 three filters - `gwill_pwa_icons()`, `gwill_pwa_colors()`, `gwill_pwa_manifest`
- -  or simply dropping new art into `assets/brand/` under the same filenames.
+ - or simply dropping new art into `assets/brand/` under the same filenames.
 
 ### Admin tools - analytics + push dashboard (Tools menu)
 
@@ -403,7 +403,7 @@ gwill-starter-theme/
 ├── theme.json                   Gutenberg configuration - kills default palette/font sizes
 ├── screenshot.png               Theme preview shown in Appearance → Themes
 ├── README.md / CHANGELOG.md / EMAIL-SETUP.md
-├── GWILL-FEATURE-ROADMAP.md     Tiered feature plan - Tiers 1–3 shipped; candidate pool + v1.4/v1.5 era
+├── GWILL-FEATURE-ROADMAP.md     Tiered feature plan - Tiers 1-3 shipped; candidate pool + v1.4/v1.5 era
 │
 ├── header.php                   <head>, site header, dark-mode flash-prevention script
 ├── footer.php                   Footer credit, back-to-top, cookie consent, wp_footer()
@@ -552,7 +552,7 @@ See [The Contact Form System](#the-contact-form-system) below.
 
 The Google-like smart search engine (ported from the GWill Tech theme, v1.1.0). Registers `GET /wp-json/gwill/v1/search` (public, intentionally - it only returns published-post search data, the same as the native `?s=` query). Routes through `gwill_execute_search()`, which is filterable via `gwill_search_backend` for swapping in a third-party search service without touching any template. Smart features:
 
-- **Typo correction** - `gwill_search_suggest()` / `gwill_search_corrected_term()` (Damerau–Levenshtein). Drives the "Showing results for X - Search instead for Y?" banner on the results page and the "Did you mean?" block in the empty state.
+- **Typo correction** - `gwill_search_suggest()` / `gwill_search_corrected_term()` (Damerau - Levenshtein). Drives the "Showing results for X - Search instead for Y?" banner on the results page and the "Did you mean?" block in the empty state.
 - **Term highlighting** - `gwill_highlight_search_terms()` wraps matched terms in `<mark class="search-term">` on result titles.
 - **Related terms** - `gwill_search_related_terms()` powers the "People also searched for" chips.
 - **Fuzzy matching** - `gwill_search_fuzzy_match_ids()` finds near-miss titles.
@@ -594,7 +594,7 @@ Three generic, dependency-free performance wins (ported from the GWill Finance t
 
 ### inc/embed-facades.php, assets/css/embeds.css, assets/js/embeds.js
 
-Click-to-play embed facades (ported from the GWill Finance theme, v1.3.0): YouTube/Vimeo/Spotify oEmbeds swap for a lightweight play-button facade - the third-party player (1–2 MB of JS/CSS each) is only fetched when the visitor actually clicks play. The facade lives inside the block's own `.wp-block-embed__wrapper`, so the aspect-ratio box and caption are untouched; layout is identical before and after the click.
+Click-to-play embed facades (ported from the GWill Finance theme, v1.3.0): YouTube/Vimeo/Spotify oEmbeds swap for a lightweight play-button facade - the third-party player (1-2 MB of JS/CSS each) is only fetched when the visitor actually clicks play. The facade lives inside the block's own `.wp-block-embed__wrapper`, so the aspect-ratio box and caption are untouched; layout is identical before and after the click.
 
 - **Two render paths covered** - `embed_oembed_html` (classic `[embed]` shortcodes and fresh oEmbed fetches) and `render_block` for `core/embed` Gutenberg blocks (whose iframe HTML is baked into post content at save time - no oEmbed filter ever runs on it).
 - **Keyless cookie-free posters** - `i.ytimg.com/<id>/hqdefault.jpg` (YouTube) and `i.vimeocdn.com/video/<id>_640x360.jpg` (Vimeo), painted as the button's own inline CSS background (no `<img>` element). Spotify keeps its branded `#191414` surface.
@@ -693,7 +693,7 @@ See `GWILL-FEATURE-ROADMAP.md` for the full tiered plan. All four items are now 
 
 - **Newsletter signup** (`template-parts/forms/contact-newsletter.php`, v1.0.58) - the 11th contact-form pattern, reusing the existing nonce/AJAX/honeypot/rate-limit architecture wholesale. Adds the submitted address to a Brevo contact list via `gwill_brevo_add_contact()` in `inc/forms.php` - requires `GWILL_BREVO_API_KEY` and `GWILL_BREVO_LIST_ID` in `wp-config.php` (see constants above); without them, submission fails gracefully with a translated error rather than a fatal. This is a different credential from the SMTP settings used for the rest of the contact form system - see the warning in the wp-config block above.
 - **Table of contents** (`inc/table-of-contents.php`, v1.0.62) - auto-generated from a post's actual `<h2>`/`<h3>` structure via one `the_content` filter pass (no second pass, no risk of the nav and the headings' ids drifting apart from each other - they're built from the same loop). Only appears with at least 3 headings (`gwill_toc_min_headings`), only on post types listed in `gwill_toc_post_types` (post only, by default). `<details>`/`<summary>` - collapsed by default everywhere (mobile-appropriate baseline); CSS visually forces it open and `position: sticky` past a 1300px viewport width, dropping the collapse interaction entirely at that width rather than leaving a sticky box a visitor could collapse and then have follow them down the page empty.
-- **Testimonials CPT** (`inc/testimonials.php`, v1.0.62) - `gwill_testimonial` post type (title = name, content = quote, featured image = photo, two custom fields for role/company and a 1–5 star rating). Not publicly queryable - no single page, no archive; call `gwill_testimonials_grid( $args )` directly in a template, or use the `[gwill_testimonials]` shortcode (same attribute names as the function's array keys). `mode: 'grid'` (default, CSS grid, 2–4 columns) or `mode: 'carousel'` (CSS scroll-snap, fully swipeable/scrollable with zero JavaScript - `assets/js/testimonials-carousel.js` only adds Prev/Next buttons as progressive enhancement, and creates them in JS rather than rendering inert ones in PHP, so no-JS means no buttons rather than broken ones).
+- **Testimonials CPT** (`inc/testimonials.php`, v1.0.62) - `gwill_testimonial` post type (title = name, content = quote, featured image = photo, two custom fields for role/company and a 1-5 star rating). Not publicly queryable - no single page, no archive; call `gwill_testimonials_grid( $args )` directly in a template, or use the `[gwill_testimonials]` shortcode (same attribute names as the function's array keys). `mode: 'grid'` (default, CSS grid, 2-4 columns) or `mode: 'carousel'` (CSS scroll-snap, fully swipeable/scrollable with zero JavaScript - `assets/js/testimonials-carousel.js` only adds Prev/Next buttons as progressive enhancement, and creates them in JS rather than rendering inert ones in PHP, so no-JS means no buttons rather than broken ones).
 - **Staging-environment banner** (`inc/staging.php`, v1.0.57, removed v1.0.59, restored with a Customizer toggle v1.0.62) - shown automatically on a recognised staging domain pattern (`gwill_staging_domain_patterns`). The first version had no way to turn it off short of removing the feature entirely, which is what happened; the toggle (Appearance → Customize → Developer Options → "Show staging-environment banner") fixes that, **defaulting to ON** - deliberately, since a toggle that's off until someone remembers to enable it defeats the banner's whole point just as much as having no toggle at all.
 
 ---
@@ -716,13 +716,13 @@ Opt-in modules - each one costs nothing on a site that never uses it. All three 
 |---|---|---|---|
 | Display tagline | Checkbox | On | `postMessage` |
 | Enable sticky header | Checkbox | On | `refresh` |
-| Header padding (px) | Number, 0–200 | 24 | `postMessage` |
+| Header padding (px) | Number, 0-200 | 24 | `postMessage` |
 
 **Site Identity** (`title_tagline` - WordPress core's own section, extended here):
 
 | Control | Type | Default |
 |---|---|---|
-| Logo width (px) | Number, 20–400 | 160 |
+| Logo width (px) | Number, 20-400 | 160 |
 | Default Social Share Image | Image upload | none |
 
 **Developer Options** (`gwill_developer` section, priority 200 - sits below every visual section, since nothing in it changes how the site looks):

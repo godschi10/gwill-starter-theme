@@ -24,9 +24,9 @@
 
 ```
 [SHOULD] [all] style.css: header hamburger breakpoint is 640px max
-[ISSUE] The primary nav breakpoint is max-width:640px - at 641–767px (large
+[ISSUE] The primary nav breakpoint is max-width:640px - at 641-767px (large
         phones in landscape, small Android tablets, iPhone SE/Pixel landscape:
-        ≈667–740px wide) the desktop nav shows inline, but the header .inner
+        ≈667-740px wide) the desktop nav shows inline, but the header .inner
         has NO flex-wrap (style.css:201-208). Branding + dark-toggle (36px) +
         search-toggle (36px) + gap (1rem×3) + 4 nav items (~85px avg + 24px
         gap = ~412px) = ~692px - exceeding 667px. At 667px the nav items
@@ -156,7 +156,7 @@
 [CLEAN] 1024 as a breakpoint: the grid chain (3→2 at 900, 2→1 at 600) means
         1024 is solidly in the desktop 3-column zone. The header nav is the
         desktop full-width layout. No accidental middle ground. ✓
-[CLEAN] 768–1023 gap: the 900px breakpoint cleanly divides the 768-1023
+[CLEAN] 768-1023 gap: the 900px breakpoint cleanly divides the 768-1023
         tablet range into two sub-ranges (768-900: 2-col, 901-1023: 3-col).
         No gap. ✓
 [CLEAN] Max-width: 1200px container. Content readability is a base-theme

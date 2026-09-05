@@ -75,7 +75,7 @@ function gwill_front_page_title( string $title ): string {
 
 	$name      = (string) get_bloginfo( 'name' );
 	$tagline   = (string) apply_filters( 'gwill_front_page_tagline', (string) get_bloginfo( 'description' ) );
-	$sep       = (string) apply_filters( 'document_title_separator', '–' );
+	$sep       = (string) apply_filters( 'document_title_separator', ' - ' );
 	$candidate = $name . ' ' . $sep . ' ' . $tagline;
 
 	if ( mb_strlen( $candidate ) <= 60 ) {

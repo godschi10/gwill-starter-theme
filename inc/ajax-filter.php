@@ -24,7 +24,7 @@ Table of Contents
  *
  * Parameters (GET):
  *   category  - category slug, or 'all' for the latest posts.
- *   per_page  - how many posts (clamped 1–30, default 9).
+ *   per_page  - how many posts (clamped 1-30, default 9).
  *
  * No nonce: the endpoint only ever returns PUBLIC published posts, so
  * it is functionally equivalent to the public REST search the theme
