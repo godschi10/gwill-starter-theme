@@ -1,3 +1,10 @@
+## [1.10.20] — 2026-09-05
+
+### Vibe Comments guard — 3.20.4 alignment
+
+- **Version guard** `$expected` 3.20.3 → 3.20.4 (vibe-comments v3.20.4: spam-scorer property reads null-coalesced — no behavioral change to the starter).
+- Companion release to vibe-comments 3.20.4 / gwill-tech-theme 1.21.72.
+
 ## [1.10.19] — 2026-09-03
 
 ### Vibe Comments guard - 3.20.3 alignment
