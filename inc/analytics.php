@@ -1,33 +1,33 @@
 <?php
 /**
- * GWill Starter  -  Form & Newsletter Analytics (admin).
+ * GWill Starter - Form & Newsletter Analytics (admin).
  *
  * Closes TWO gaps in one module:
  *
  *   1. THE LATENT FATAL (fixed here, Law L12): inc/forms/ajax.php calls
  *      gwill_log_submission() behind the GWILL_LOG_FORMS flag, but that
- *      function was NEVER defined anywhere  -  every site that followed the
+ *      function was NEVER defined anywhere - every site that followed the
  *      documented wp-config instructions would have crashed its form
  *      submit with "Call to undefined function". Found during the v1.5.0
  *      recon, Aug 30 2026, by grepping the full tree for the call sites.
  *      This file is the definition, so the flag finally works as documented.
  *
  *   2. NEWSLETTER ANALYTICS: a Tools → "Forms & Newsletter" admin page
- *      with a 30-day signup chart (pure inline SVG  -  zero JS libraries),
- *      totals, recent-submission log, and CSV export  -  everything a build
+ *      with a 30-day signup chart (pure inline SVG - zero JS libraries),
+ *      totals, recent-submission log, and CSV export - everything a build
  *      needs to see who subscribed, when, and from which form pattern.
  *
  * Data source: the {prefix}gwill_form_submissions table, whose schema has
  * been documented in inc/forms.php's header comment since v1.0.20. This
  * module CREATES that table (dbDelta, same lifecycle pattern as the push
- * table in inc/webpush.php  -  after_switch_theme + admin_init, both
+ * table in inc/webpush.php - after_switch_theme + admin_init, both
  * contexts where dbDelta is available). Rows are only written when
- * GWILL_LOG_FORMS is true  -  the opt-in privacy stance is unchanged; the
+ * GWILL_LOG_FORMS is true - the opt-in privacy stance is unchanged; the
  * page simply tells the admin when logging is off instead of showing a
  * silent empty chart.
  *
  * Admin-page footprint: registering this file on every request costs two
- * add_action calls  -  all queries run inside the page callbacks only.
+ * add_action calls - all queries run inside the page callbacks only.
  *
  * @package GWill_Starter
  * @since   1.5.0
@@ -37,22 +37,22 @@ defined( 'ABSPATH' ) || exit;
 
 /*
 Table of Contents
-1. Table  -  gwill_form_submissions (dbDelta, gwill_ prefixed)
-2. gwill_log_submission()  -  the missing definition (Law L12 fix)
-3. Row helpers  -  sanitize + CSV-safe values
-4. Stats queries  -  totals, 7-day, 30-day series
+1. Table - gwill_form_submissions (dbDelta, gwill_ prefixed)
+2. gwill_log_submission() - the missing definition (Law L12 fix)
+3. Row helpers - sanitize + CSV-safe values
+4. Stats queries - totals, 7-day, 30-day series
 5. Admin page registration (Tools → Forms & Newsletter)
-6. Admin page render  -  state banner, chart, recent log
-7. SVG chart renderer  -  pure PHP bars, no JS libs
-8. CSV export  -  admin-post handler
+6. Admin page render - state banner, chart, recent log
+7. SVG chart renderer - pure PHP bars, no JS libs
+8. CSV export - admin-post handler
 */
 
-/* ── 1. Table  -  gwill_form_submissions ─────────────────────────────── */
+/* ── 1. Table - gwill_form_submissions ─────────────────────────────── */
 
 /**
  * Create the submissions table if it does not exist. Guarded by a static
  * flag so repeated admin_init hits cost one function call. dbDelta is
- * loaded on demand  -  admin-ajax.php reaches gwill_log_submission() before
+ * loaded on demand - admin-ajax.php reaches gwill_log_submission() before
  * any admin page render, and depending on load path upgrade.php may not
  * be in memory yet.
  *
@@ -100,15 +100,15 @@ function gwill_analytics_ensure_table(): void {
 add_action( 'after_switch_theme', 'gwill_analytics_ensure_table' );
 add_action( 'admin_init', 'gwill_analytics_ensure_table' );
 
-/* ── 2. gwill_log_submission()  -  the Law L12 fix ────────────────────── */
+/* ── 2. gwill_log_submission() - the Law L12 fix ────────────────────── */
 
 /**
  * Log one form submission to the table. This is the function
  * inc/forms/ajax.php has called since v1.0.58 (newsletter) / v1.0.20
- * (contact patterns) behind GWILL_LOG_FORMS  -  defined only here, at last.
+ * (contact patterns) behind GWILL_LOG_FORMS - defined only here, at last.
  *
  * Privacy stance (unchanged from the documented behaviour):
- *   - The raw IP is NEVER stored  -  only a salted SHA-256 hash, so the log
+ *   - The raw IP is NEVER stored - only a salted SHA-256 hash, so the log
  *     can prove two submissions came from different machines without
  *     ever holding a tracking identifier. The salt comes from AUTH_KEY,
  *     so hashes are not comparable across sites either.
@@ -117,7 +117,7 @@ add_action( 'admin_init', 'gwill_analytics_ensure_table' );
  *     honeypot name never reaches $fields here in practice; still, the
  *     allowlist below drops anything non-scalar as defense in depth).
  *
- * Called from an AJAX context, so it must never wp_die()  -  a logging
+ * Called from an AJAX context, so it must never wp_die() - a logging
  * failure fails SILENTLY (error_log under WP_DEBUG) rather than breaking
  * the visitor's form submit. A log row is never worth a lost submission.
  *
@@ -145,7 +145,7 @@ function gwill_log_submission( string $form_id, array $fields ): bool {
 
 	// The table is created on admin_init; an admin-ajax request passes
 	// through admin context before this runs, but if anything exotic
-	// skipped it, insert() into a missing table returns false  -  handled.
+	// skipped it, insert() into a missing table returns false - handled.
 	$ok = $wpdb->insert(
 		$wpdb->prefix . 'gwill_form_submissions',
 		[
@@ -169,7 +169,7 @@ function gwill_log_submission( string $form_id, array $fields ): bool {
 /* ── 3. Row helpers ─────────────────────────────────────────────────── */
 
 /**
- * The fields JSON for one row  -  used by the recent-log view. Decoded and
+ * The fields JSON for one row - used by the recent-log view. Decoded and
  * reduced to a short "label: value" summary so the table stays readable;
  * full values stay in the CSV export.
  *
@@ -193,7 +193,7 @@ function gwill_analytics_decode_fields( string $fields_json ): array {
 
 /**
  * CSV-injection guard: a cell starting with = + - @ can execute as a
- * formula in Excel/Sheets. Standard mitigation  -  prefix a single quote.
+ * formula in Excel/Sheets. Standard mitigation - prefix a single quote.
  *
  * @param string $value Raw cell value.
  * @return string Safe cell value.
@@ -219,7 +219,7 @@ function gwill_analytics_stats(): array {
 	global $wpdb;
 	$table = $wpdb->prefix . 'gwill_form_submissions';
 
-	// No user input reaches any of these queries  -  every fragment is a
+	// No user input reaches any of these queries - every fragment is a
 	// literal, so prepare() adds nothing here (mirrors webpush's reads).
 	$total = (int) $wpdb->get_var( "SELECT COUNT(*) FROM $table" );
 	$news  = (int) $wpdb->get_var( "SELECT COUNT(*) FROM $table WHERE form_id = 'newsletter'" );
@@ -314,7 +314,7 @@ function gwill_analytics_pattern_breakdown(): array {
 }
 
 /**
- * Horizontal bar chart, pure SVG  -  same zero-dependency posture as the
+ * Horizontal bar chart, pure SVG - same zero-dependency posture as the
  * 30-day chart. Every dynamic value esc_attr'd inside the builder.
  *
  * @param array<int,array{form:string,total:int}> $patterns
@@ -415,7 +415,7 @@ function gwill_analytics_render_page(): void {
 			<?php
 			printf(
 				/* translators: 1: total submissions, 2: newsletter signups, 3: last-7-days count, 4: last-30-days count */
-				esc_html__( 'Total logged submissions: %1$s  -  newsletter signups: %2$s  -  last 7 days: %3$s  -  last 30 days: %4$s.', 'gwill-starter' ),
+				esc_html__( 'Total logged submissions: %1$s - newsletter signups: %2$s - last 7 days: %3$s - last 30 days: %4$s.', 'gwill-starter' ),
 				'<strong>' . esc_html( number_format_i18n( $stats['total'] ) ) . '</strong>',
 				'<strong>' . esc_html( number_format_i18n( $stats['newsletter'] ) ) . '</strong>',
 				'<strong>' . esc_html( number_format_i18n( $stats['last7'] ) ) . '</strong>',
@@ -424,7 +424,7 @@ function gwill_analytics_render_page(): void {
 			?>
 		</p>
 
-		<h2><?php esc_html_e( 'Signups  -  last 30 days', 'gwill-starter' ); ?></h2>
+		<h2><?php esc_html_e( 'Signups - last 30 days', 'gwill-starter' ); ?></h2>
 		<?php echo gwill_analytics_chart_svg( $series ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- builder escapes every value it emits ?>
 
 		<h2><?php esc_html_e( 'Submissions per form pattern', 'gwill-starter' ); ?></h2>
@@ -465,7 +465,7 @@ function gwill_analytics_render_page(): void {
 					<?php esc_html_e( 'Export CSV', 'gwill-starter' ); ?>
 				</a>
 				<span style="display:inline-block;margin-left:8px;color:#787c82">
-					<?php esc_html_e( 'Form, email, date and status only  -  message bodies stay off this page.', 'gwill-starter' ); ?>
+					<?php esc_html_e( 'Form, email, date and status only - message bodies stay off this page.', 'gwill-starter' ); ?>
 				</span>
 			</p>
 		<?php endif; ?>
@@ -476,7 +476,7 @@ function gwill_analytics_render_page(): void {
 /* ── 7. SVG chart renderer ──────────────────────────────────────────── */
 
 /**
- * Render the 30-day stacked bar chart as inline SVG. Pure PHP  -  no chart
+ * Render the 30-day stacked bar chart as inline SVG. Pure PHP - no chart
  * library, no JS, nothing to enqueue or cache-bust. Newsletter signups
  * stack in the theme accent colour, other submissions in a neutral tone.
  * Heights scale to the busiest day; empty series renders a flat baseline
@@ -540,7 +540,7 @@ function gwill_analytics_chart_svg( array $series ): string {
 
 /**
  * admin-post handler: stream the submissions table as CSV. No message
- * bodies are exported  -  form, email, status, date only  -  so the export
+ * bodies are exported - form, email, status, date only - so the export
  * can be shared freely without dragging private message text along.
  *
  * @since 1.5.0

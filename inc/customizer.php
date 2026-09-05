@@ -1,10 +1,10 @@
 <?php
 /**
- * Theme Customizer  -  GWill Starter
+ * Theme Customizer - GWill Starter
  *
  * Registers the "Header Options" section with two controls:
- *   • Display tagline (checkbox)     -  show or hide the site description
- *   • Header padding (number, px)    -  direct pixel input for top/bottom padding
+ *   • Display tagline (checkbox)    - show or hide the site description
+ *   • Header padding (number, px)   - direct pixel input for top/bottom padding
  *
  * Architecture note: Customizer logic lives here, not in inc/setup.php,
  * because setup.php runs unconditionally on every request. Customizer
@@ -31,7 +31,7 @@ add_action( 'customize_register', function ( WP_Customize_Manager $wp_customize 
 	 * "Header Options" section.
 	 *
 	 * Priority 30 sits between the default "Site Identity" (20) and
-	 * "Colors" (40)  -  natural reading order for header-related controls.
+	 * "Colors" (40) - natural reading order for header-related controls.
 	 */
 	$wp_customize->add_section( 'gwill_header', [
 		'title'    => __( 'Header Options', 'gwill-starter' ),
@@ -41,7 +41,7 @@ add_action( 'customize_register', function ( WP_Customize_Manager $wp_customize 
 	/**
 	 * "Developer Options" section.
 	 *
-	 * Low priority (200)  -  deliberately sits well below every visual
+	 * Low priority (200) - deliberately sits well below every visual
 	 * design section, since nothing in here changes how the site looks.
 	 * This is the home for theme-level developer/environment settings,
 	 * starting with the staging banner; the Tier 4 roadmap item for a
@@ -54,7 +54,7 @@ add_action( 'customize_register', function ( WP_Customize_Manager $wp_customize 
 
 	// ── Staging-environment banner ───────────────────────────────────────
 	//
-	// Default ON, deliberately  -  see inc/staging.php's file-level docblock
+	// Default ON, deliberately - see inc/staging.php's file-level docblock
 	// for why "off until someone remembers to turn it on" defeats the
 	// banner's whole purpose just as much as having no toggle. The banner
 	// itself only ever shows on a recognised staging host pattern
@@ -69,7 +69,7 @@ add_action( 'customize_register', function ( WP_Customize_Manager $wp_customize 
 
 	$wp_customize->add_control( 'gwill_show_staging_banner', [
 		'label'       => __( 'Show staging-environment banner', 'gwill-starter' ),
-		'description' => __( 'Only ever appears on a recognised staging domain (qzz.io, .local, staging./dev./test. subdomains)  -  never on the live site regardless of this setting. On by default so it can\'t be silently forgotten about; turn off if a project genuinely doesn\'t want it.', 'gwill-starter' ),
+		'description' => __( 'Only ever appears on a recognised staging domain (qzz.io, .local, staging./dev./test. subdomains) - never on the live site regardless of this setting. On by default so it can\'t be silently forgotten about; turn off if a project genuinely doesn\'t want it.', 'gwill-starter' ),
 		'section'     => 'gwill_developer',
 		'type'        => 'checkbox',
 	] );
@@ -91,11 +91,11 @@ add_action( 'customize_register', function ( WP_Customize_Manager $wp_customize 
 
 	// ── Sticky header ─────────────────────────────────────────────────────
 	//
-	// Default ON  -  most sites want this. Adds .gwill-sticky-header to
+	// Default ON - most sites want this. Adds .gwill-sticky-header to
 	// body_class() (gwill_sticky_header_body_class() below), which both
 	// the CSS (.gwill-sticky-header .site-header { position: sticky }) and
 	// assets/js/sticky-header.js are scoped to. Refresh transport, not
-	// postMessage  -  this changes server-rendered body_class() output, and
+	// postMessage - this changes server-rendered body_class() output, and
 	// scroll-triggered behaviour isn't meaningfully previewable live in the
 	// Customizer iframe anyway.
 
@@ -113,7 +113,7 @@ add_action( 'customize_register', function ( WP_Customize_Manager $wp_customize 
 
 	// ── Header padding ──────────────────────────────────────────────────────
 	//
-	// Default: 24px  (= 1.5rem at a 16px browser base  -  matches --spacing)
+	// Default: 24px  (= 1.5rem at a 16px browser base - matches --spacing)
 	// Range:   0–200 px
 	//
 	// Uses postMessage transport so the preview iframe updates live as the
@@ -139,10 +139,10 @@ add_action( 'customize_register', function ( WP_Customize_Manager $wp_customize 
 		],
 	] );
 
-	// ── Logo width  -  added to Site Identity (title_tagline) ─────────────────
+	// ── Logo width - added to Site Identity (title_tagline) ─────────────────
 	//
 	// Placed in the same Customizer section as the logo/favicon upload so
-	// the width control sits directly below the logo field  -  matching the
+	// the width control sits directly below the logo field - matching the
 	// UX of commercial themes (Astra, GeneratePress, OceanWP).
 	//
 	// Default: 160px.  Range: 20–400 px.
@@ -169,16 +169,16 @@ add_action( 'customize_register', function ( WP_Customize_Manager $wp_customize 
 		],
 	] );
 
-	// ── Default Social Share Image  -  added to Site Identity ─────────────────
+	// ── Default Social Share Image - added to Site Identity ─────────────────
 	//
 	// Used by inc/social-meta.php as the og:image / twitter:image fallback
-	// for any page that has no featured image of its own  -  and, on a site
+	// for any page that has no featured image of its own - and, on a site
 	// running an SEO plugin, simply unused (gwill_output_social_meta() bails
 	// before this setting is ever read). Same section as the logo/favicon
 	// for the same reason logo width is here: this is the one other "site
 	// identity" image a site owner sets once and rarely touches again.
 	//
-	// Stores an attachment ID (absint), not a URL  -  consistent with how
+	// Stores an attachment ID (absint), not a URL - consistent with how
 	// WordPress core's own custom_logo theme_mod works, and lets
 	// inc/social-meta.php request it at whatever registered image size it
 	// needs (gwill-hero) rather than being stuck with whatever size was
@@ -207,7 +207,7 @@ add_action( 'customize_register', function ( WP_Customize_Manager $wp_customize 
  * Add .gwill-sticky-header to body_class() when the Customizer toggle is on.
  *
  * Both the CSS (.gwill-sticky-header .site-header { position: sticky })
- * and assets/js/sticky-header.js are scoped to this class  -  when the
+ * and assets/js/sticky-header.js are scoped to this class - when the
  * toggle is off, neither does anything, regardless of being loaded.
  *
  * @param  string[] $classes
@@ -241,7 +241,7 @@ function gwill_sanitize_checkbox( $value ): bool {
  * Sanitize the Default Social Share Image setting.
  *
  * BUG FIX (found 1.0.51): the original sanitize_callback was the bare
- * absint()  -  which silently zeroes out the setting if WP_Customize_Image_Control
+ * absint() - which silently zeroes out the setting if WP_Customize_Image_Control
  * ever sends back a URL string rather than a numeric attachment ID.
  * absint() calls intval() internally, and intval() on a string that
  * doesn't start with a digit (e.g. "https://example.com/...") returns 0  - 
@@ -250,7 +250,7 @@ function gwill_sanitize_checkbox( $value ): bool {
  *
  * Handles either value type correctly rather than assuming one.
  *
- * @param mixed $value Raw value from the Customizer  -  either a numeric
+ * @param mixed $value Raw value from the Customizer - either a numeric
  *                      attachment ID or a URL string, depending on context.
  * @return int Attachment ID, or 0 if it can't be resolved.
  * @since 1.0.51
@@ -289,7 +289,7 @@ function gwill_sanitize_logo_width( $value ): int {
 	return max( 20, min( 400, (int) $value ) );
 }
 
-// ── Header padding  -  frontend inline CSS ─────────────────────────────────────
+// ── Header padding - frontend inline CSS ─────────────────────────────────────
 
 /**
  * Append a header-padding override to the main stylesheet as inline CSS.

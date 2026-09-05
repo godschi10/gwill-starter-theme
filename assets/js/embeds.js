@@ -1,5 +1,5 @@
 /**
- * Click-to-play embed facades  -  GWill Starter (v1.3.0).
+ * Click-to-play embed facades - GWill Starter (v1.3.0).
  *
  * Deferred, dependency-free. Swaps the facade <button> for the real
  * iframe on activation. A <button> gives Enter/Space activation for
@@ -9,7 +9,7 @@
  *
  * Also ships the FULLSCREEN-EXIT SCROLL RESTORE (v1.0.189 pattern):
  * on phones, exiting video fullscreen can jump the page to the top
- * silently  -  iOS native fullscreen fires no fullscreenchange/resize/
+ * silently - iOS native fullscreen fires no fullscreenchange/resize/
  * orientationchange at all. The scroll watchdog below catches that
  * failure signature and snaps the page back to the video.
  */
@@ -26,21 +26,21 @@
 	//  - v1.0.187 fixed the closure bug and restored EXACTLY ONCE at
 	//    ~16 ms after exit. On mobile WebViews / in-app browsers
 	//    (Android custom-view fullscreen, iOS native fullscreen) the
-	//    page scroll resets to the top LATE  -  after the exit transition,
-	//    ~300–800 ms later  -  so the single restore was overwritten.
+	//    page scroll resets to the top LATE - after the exit transition,
+	//    ~300–800 ms later - so the single restore was overwritten.
 	//  - v1.0.188 added: (1) the facade button KEPT in the DOM, hidden
 	//    under the iframe (stable anchor, zero layout shift); (2) a
 	//    GUARDED rAF restore loop (~1.5 s) so the LAST write wins;
 	//    (3) coarse-pointer resize/orientationchange fallback triggers
 	//    for WebViews that never fire fullscreenchange.
 	//  - v1.0.189 (THIS) adds the SCROLL WATCHDOG: on phones, exiting
-	//    fullscreen can jump the page to the top SILENTLY  -  iOS native
+	//    fullscreen can jump the page to the top SILENTLY - iOS native
 	//    fullscreen fires no fullscreenchange/resize/orientationchange
 	//    at all. So while a video is active, ANY single scroll jump of
 	//    >200 px that lands at the top (~120 px) with no user gesture
 	//    in the last 600 ms is treated as the failure signature and the
 	//    guarded restore snaps the page straight back to the video.
-	//    (Gesture gate: taps inside the player are cross-origin  -  they
+	//    (Gesture gate: taps inside the player are cross-origin - they
 	//    never reach the parent, so exit-jumps are caught; page-side
 	//    touch/wheel always exempt the user's own scrolling.)
 	// ------------------------------------------------------------------
@@ -64,7 +64,7 @@
 		var deadline = Date.now() + 1500; // outlast the WebView's late reset
 		var cancelled = false;
 
-		// Rotation + resize fire back-to-back for the same exit  -  one
+		// Rotation + resize fire back-to-back for the same exit - one
 		// guarded restore is enough.
 		if (active && active.lastRestoreAt && Date.now() - active.lastRestoreAt < 500) {
 			return;
@@ -73,7 +73,7 @@
 			active.lastRestoreAt = Date.now();
 		}
 
-		html.style.scrollBehavior = 'auto'; // instant  -  never animate the restore
+		html.style.scrollBehavior = 'auto'; // instant - never animate the restore
 
 		function apply() {
 			if (cancelled || Date.now() > deadline) {
@@ -111,7 +111,7 @@
 		if (inFullscreen()) {
 			// Entered fullscreen. Refresh the anchor on fine pointers
 			// (desktop: the page has not scrolled yet). On touch devices
-			// the layout may already be rotating  -  trust the activation
+			// the layout may already be rotating - trust the activation
 			// offset instead of reading a possibly-clobbered position.
 			if (!isCoarse) {
 				var y = pageY();
@@ -130,7 +130,7 @@
 			return;
 		}
 		// Mobile WebViews that use a rotating custom view (or iOS native
-		// fullscreen) may never fire fullscreenchange  -  the viewport
+		// fullscreen) may never fire fullscreenchange - the viewport
 		// resize IS the fullscreen signal. Width grows when rotating to
 		// landscape; height grows when the system UI hides without any
 		// rotation.
@@ -154,9 +154,9 @@
 			return;
 		}
 		if (Math.abs(window.orientation) === 90) {
-			active.armed = true; // landscape  -  fullscreen-ish
+			active.armed = true; // landscape - fullscreen-ish
 		} else if (active.armed) {
-			active.armed = false; // back to portrait  -  exit fullscreen
+			active.armed = false; // back to portrait - exit fullscreen
 			restoreScroll(active.y);
 		}
 	}
@@ -187,10 +187,10 @@
 			return; // gesture scrolling / momentum steps
 		}
 		if (y > 120) {
-			return; // not the top  -  leave it
+			return; // not the top - leave it
 		}
 		if (active.y < 300) {
-			return; // the anchor is near the top anyway  -  nothing to save
+			return; // the anchor is near the top anyway - nothing to save
 		}
 		if (Date.now() - lastGesture < 600) {
 			return; // the user's own gesture drove this
@@ -220,7 +220,7 @@
 		iframe.setAttribute('frameborder', '0');
 
 		if (facade.classList.contains('gwill-embed--spotify')) {
-			// No aspect-ratio class  -  the iframe provides its own box.
+			// No aspect-ratio class - the iframe provides its own box.
 			iframe.style.width = '100%';
 			iframe.style.height = '152px';
 			iframe.style.borderRadius = '12px';
@@ -241,7 +241,7 @@
 			facade.parentNode.insertBefore(iframe, facade.nextSibling);
 		}
 
-		// Hand focus to the player (keyboard path)  -  also gives the
+		// Hand focus to the player (keyboard path) - also gives the
 		// browser a stable focus target for its own exit restoration.
 		iframe.focus();
 

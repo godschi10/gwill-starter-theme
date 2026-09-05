@@ -1,5 +1,5 @@
 /**
- * GWill Starter  -  Customizer Live Preview
+ * GWill Starter - Customizer Live Preview
  *
  * Handles postMessage transport for Customizer controls.
  * Loaded ONLY inside the Customizer preview iframe via customize_preview_init.
@@ -8,7 +8,7 @@
  * How postMessage transport works:
  *   1. User changes a control in the Customizer sidebar.
  *   2. WordPress posts the new value to the preview iframe via postMessage.
- *   3. This script receives it and updates the DOM directly  -  no page reload.
+ *   3. This script receives it and updates the DOM directly - no page reload.
  *
  * For each setting using transport: 'postMessage', register a binding here
  * via wp.customize( 'setting_name', function( setting ) { ... } ).
@@ -21,7 +21,7 @@
 	'use strict';
 
 	/**
-	 * Header padding  -  live update via CSS custom property.
+	 * Header padding - live update via CSS custom property.
 	 *
 	 * Sets --header-padding directly on :root so all elements reading
 	 * that variable update immediately without a style recalculation
@@ -43,7 +43,7 @@
 	} );
 
 	/**
-	 * Tagline visibility  -  live toggle via the HTML `hidden` attribute.
+	 * Tagline visibility - live toggle via the HTML `hidden` attribute.
 	 *
 	 * header.php always renders .site-description when description text
 	 * exists, using the `hidden` attribute to hide it when the toggle is
@@ -51,7 +51,7 @@
 	 * it without a page reload.
 	 *
 	 * If the site has no tagline text set, querySelector returns null and
-	 * the handler is a no-op  -  correct behaviour.
+	 * the handler is a no-op - correct behaviour.
 	 *
 	 * Corresponds to: inc/customizer.php → 'gwill_show_tagline' setting.
 	 */
@@ -65,7 +65,7 @@
 	} );
 
 	/**
-	 * Logo width  -  live preview.
+	 * Logo width - live preview.
 	 *
 	 * Updates the --logo-width CSS custom property on :root so any element
 	 * using var(--logo-width) (i.e. .custom-logo) reflects the change instantly.

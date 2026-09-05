@@ -3,12 +3,12 @@
  * FAQ accordion + Schema.org FAQPage markup.
  *
  * Uses WordPress core's native <details>/<summary> block (no custom block,
- * no JS accordion library  -  the browser's own <details> element is already
+ * no JS accordion library - the browser's own <details> element is already
  * a fully accessible, keyboard-operable accordion with zero JavaScript).
  * This file's actual job is two things: provide an editor-friendly block
  * pattern so building an FAQ section doesn't mean writing raw HTML, and
  * detect that pattern's output in rendered content to emit matching
- * FAQPage JSON-LD  -  so the visible accordion and the invisible schema are
+ * FAQPage JSON-LD - so the visible accordion and the invisible schema are
  * always built from the exact same source and can never drift apart.
  *
  * @package GWill_Starter
@@ -25,14 +25,14 @@ add_action( 'wp_head', 'gwill_output_faq_schema' );
  *
  * A Group block (class gwill-faq) containing three pre-filled Details
  * blocks. An editor inserts the pattern from the block inserter and just
- * edits the question/answer text  -  no schema, no markup to write by hand.
+ * edits the question/answer text - no schema, no markup to write by hand.
  *
  * @since 1.0.50
  */
 function gwill_register_faq_block_pattern(): void {
 
 	if ( ! function_exists( 'register_block_pattern' ) ) {
-		return; // WP < 5.5  -  patterns API doesn't exist yet.
+		return; // WP < 5.5 - patterns API doesn't exist yet.
 	}
 
 	register_block_pattern(
@@ -74,7 +74,7 @@ function gwill_register_faq_block_pattern(): void {
  * Scan rendered content for .gwill-faq sections and extract question/answer
  * pairs from each.
  *
- * Uses DOMDocument rather than regex  -  far more reliable for parsing real
+ * Uses DOMDocument rather than regex - far more reliable for parsing real
  * HTML, which can vary in whitespace/attribute order in ways a regex would
  * need to fight to handle correctly.
  *
@@ -92,7 +92,7 @@ function gwill_extract_faq_items( string $html ): array {
 
 	$dom = new DOMDocument();
 	// LIBXML_NOERROR | LIBXML_NOWARNING: post content is rendered HTML, not
-	// a full document  -  loadHTML() would otherwise emit warnings for the
+	// a full document - loadHTML() would otherwise emit warnings for the
 	// missing <html>/<body> wrapper that aren't actionable here.
 	$dom->loadHTML( '<?xml encoding="utf-8" ?>' . $html, LIBXML_NOERROR | LIBXML_NOWARNING );
 
@@ -136,7 +136,7 @@ function gwill_extract_faq_items( string $html ): array {
 /**
  * Output FAQPage JSON-LD for any singular content containing FAQ sections.
  *
- * Deliberately not gated behind gwill_seo_plugin_active()  -  RankMath ships
+ * Deliberately not gated behind gwill_seo_plugin_active() - RankMath ships
  * its own FAQ block with its own schema output, but that's a different,
  * distinctly-classed block; this only ever fires for content actually
  * built from THIS theme's own block pattern (.gwill-faq), so there's no
@@ -150,17 +150,17 @@ function gwill_output_faq_schema(): void {
 		return;
 	}
 
-	// Raw post_content, not apply_filters('the_content', ...)  -  Gutenberg
+	// Raw post_content, not apply_filters('the_content', ...) - Gutenberg
 	// stores static blocks' rendered HTML directly in post_content; the
 	// <!-- wp:details --> wrapper comments are editor metadata DOMDocument
 	// simply ignores (they're comment nodes, not elements). Using raw
 	// content avoids running the entire the_content filter pipeline a
-	// second time on every singular page load, for content that  -  most of
-	// the time  -  has no FAQ section at all.
-	// get_queried_object_id(), not get_the_ID()  -  this runs on wp_head,
+	// second time on every singular page load, for content that - most of
+	// the time - has no FAQ section at all.
+	// get_queried_object_id(), not get_the_ID() - this runs on wp_head,
 	// outside the formal post loop. Both are populated by WordPress's own
 	// query-resolution phase before the template even loads, so there's no
-	// actual difference in reliability here  -  but get_queried_object_id()
+	// actual difference in reliability here - but get_queried_object_id()
 	// is the more semantically precise choice for "what page is this
 	// request for" outside a the_post() context.
 	$content = get_post_field( 'post_content', get_queried_object_id() );

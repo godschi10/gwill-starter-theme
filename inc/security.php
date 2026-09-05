@@ -4,20 +4,20 @@ defined( 'ABSPATH' ) || exit;
 /*
  * Note: remove_action( 'wp_head', 'rsd_link' ) and wlwmanifest_link were
  * previously included here. Both were removed from WordPress core in WP 6.3
- * and are no longer output  -  no removal needed on WP 6.4+ (our minimum).
+ * and are no longer output - no removal needed on WP 6.4+ (our minimum).
  */
 
 // Remove WP version from <head>
 remove_action( 'wp_head', 'wp_generator' );
 
-// Remove WP version from RSS/Atom feeds  -  wp_generator removal alone only
+// Remove WP version from RSS/Atom feeds - wp_generator removal alone only
 // covers the HTML <head>; the feed generator tag requires a separate filter.
 add_filter( 'the_generator', '__return_empty_string' );
 
-// Remove WP shortlink from <head>  -  no SEO value; exposes post IDs.
+// Remove WP shortlink from <head> - no SEO value; exposes post IDs.
 remove_action( 'wp_head', 'wp_shortlink_wp_head' );
 
-// Disable XML-RPC  -  not needed for sites not using the WordPress mobile app
+// Disable XML-RPC - not needed for sites not using the WordPress mobile app
 // or Jetpack Publicize. Re-enable via a project-specific filter if required.
 add_filter( 'xmlrpc_enabled', '__return_false' );
 
@@ -70,18 +70,18 @@ add_filter( 'rest_endpoints', function ( $endpoints ) {
 // Why the old default was wrong: the previous code defaulted this constant to
 // false, which blocked ALL author archive pages despite the theme shipping a
 // full author.php template. The enumeration threat and the archive page are
-// different concerns  -  conflating them silently killed a core theme feature.
+// different concerns - conflating them silently killed a core theme feature.
 // ─────────────────────────────────────────────────────────────────────────────
 if ( ! defined( 'GWILL_ALLOW_AUTHOR_ARCHIVES' ) ) {
 	define( 'GWILL_ALLOW_AUTHOR_ARCHIVES', true );
 }
 
-// Priority 1  -  fires before redirect_canonical (priority 10), which would
+// Priority 1 - fires before redirect_canonical (priority 10), which would
 // otherwise redirect /?author=1 to /author/loginname/ and expose the login name.
 add_action( 'template_redirect', function () {
 
 	// Block numeric ?author= enumeration unconditionally.
-	// /?author=1 is never a valid user-facing URL  -  it only exists as an
+	// /?author=1 is never a valid user-facing URL - it only exists as an
 	// enumeration attack vector. Redirect it to homepage before redirect_canonical
 	// can forward it to the author slug page.
 	$raw = isset( $_GET['author'] ) ? (string) $_GET['author'] : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.NonceVerification.Recommended
@@ -95,16 +95,16 @@ add_action( 'template_redirect', function () {
 	//
 	// 302, not 301: this redirect's existence is conditional on a site-owner
 	// toggleable constant, not a genuine permanent URL move. A 301 here would
-	// tell browsers to cache the redirect essentially forever  -  Chrome in
+	// tell browsers to cache the redirect essentially forever - Chrome in
 	// particular holds 301s in its own internal redirect cache well past a
 	// normal cache-clear. If a site owner ever flips GWILL_ALLOW_AUTHOR_ARCHIVES
 	// back to true (or upgrades from a version where this redirect had a bug
 	// affecting whether it fired), visitors with an already-cached 301 would
 	// keep landing on the homepage regardless of what the server now actually
-	// does  -  a "fixed in code, browser won't let go of the old behaviour"
+	// does - a "fixed in code, browser won't let go of the old behaviour"
 	// failure mode that's indistinguishable from the bug never having been
 	// fixed at all. The unconditional ?author=N enumeration block above stays
-	// 301  -  that one IS permanent, unconditional behaviour, so 301 is correct
+	// 301 - that one IS permanent, unconditional behaviour, so 301 is correct
 	// there.
 	if ( ! GWILL_ALLOW_AUTHOR_ARCHIVES && is_author() ) {
 		wp_safe_redirect( home_url( '/' ), 302 );
@@ -113,12 +113,12 @@ add_action( 'template_redirect', function () {
 
 }, 1 );
 
-// Suppress login error specificity  -  prevents distinguishing bad username
+// Suppress login error specificity - prevents distinguishing bad username
 // from bad password. esc_html__ is used (not __) per WPCS output escaping rules.
 //
 // EXCEPTION (v1.6.0): two-factor guidance (gwill_2fa_*) stays visible.
 // By the time a 2FA error fires, the password has ALREADY validated, so the
-// message leaks no enumeration data  -  and hiding it would leave 2FA users
+// message leaks no enumeration data - and hiding it would leave 2FA users
 // stranded with a misleading "Invalid username or password." after typing
 // a CORRECT password. Mirrors gwill-tech-theme inc/security.php:144.
 // function_exists() guard keeps security.php load-order independent of
@@ -144,7 +144,7 @@ function gwill_obfuscate_login_error( $errors ) {
 
 /*
  * Security headers (X-Content-Type-Options, X-Frame-Options, Referrer-Policy,
- * Permissions-Policy)  -  sent as PHP headers on the front end (v1.3.0).
+ * Permissions-Policy) - sent as PHP headers on the front end (v1.3.0).
  *
  * HISTORY: v1.2.x intentionally did NOT set these in PHP (server/CDN layer
  * recommended). The portability pass changed that calculus: on a fresh
@@ -152,7 +152,7 @@ function gwill_obfuscate_login_error( $errors ) {
  * the theme now sends them itself via gwill_security_headers() below.
  *
  * Duplicate-safety: when a server/CDN already sends the same header, the
- * final response may carry both  -  identical values are harmless and every
+ * final response may carry both - identical values are harmless and every
  * major browser accepts them (only conflicting values get ignored, e.g.
  * X-Frame-Options DENY vs SAMEORIGIN). Values intentionally match the
  * recommended nginx set so any server layer that adds them produces

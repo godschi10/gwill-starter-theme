@@ -8,7 +8,7 @@ while ( have_posts() ) : the_post();
 
 	/*
 	 * Schema.org BlogPosting microdata.
-	 * Applied directly to <article>  -  no extra wrapper needed.
+	 * Applied directly to <article> - no extra wrapper needed.
 	 */
 	$schema_attrs = 'itemscope itemtype="https://schema.org/BlogPosting"';
 	?>
@@ -22,7 +22,7 @@ while ( have_posts() ) : the_post();
 	<div class="entry-meta">
 		<?php
 		/*
-		 * <link> and <meta> for Schema.org microdata inside <article>  -  valid in
+		 * <link> and <meta> for Schema.org microdata inside <article> - valid in
 		 * HTML5. dateModified is required by Google's Article structured data spec.
 		 */
 		?>
@@ -53,16 +53,16 @@ while ( have_posts() ) : the_post();
 		</span>
 
 		<?php
-		// Categories  -  inline with meta. Shows ALL assigned categories (unlike
+		// Categories - inline with meta. Shows ALL assigned categories (unlike
 		// content.php's card view, which intentionally shows only the primary
-		// one)  -  sorted so the primary category, if set, appears first.
+		// one) - sorted so the primary category, if set, appears first.
 		$gwill_cats = get_the_category();
 		if ( $gwill_cats ) :
 			$gwill_primary_cat = gwill_get_primary_category();
 			if ( $gwill_primary_cat ) {
 				usort( $gwill_cats, static function ( $a, $b ) use ( $gwill_primary_cat ) {
 					// BUG FIX (1.0.52): the previous version returned 1 for any
-					// non-primary $a regardless of $b  -  meaning compare(X, Y) and
+					// non-primary $a regardless of $b - meaning compare(X, Y) and
 					// compare(Y, X) both returned 1 whenever NEITHER X nor Y was
 					// the primary category. That's a contradiction (a valid
 					// comparator can't say X>Y and Y>X simultaneously), and
@@ -90,7 +90,7 @@ while ( have_posts() ) : the_post();
 		<?php endif; ?>
 	</div>
 
-	<?php gwill_part( 'share-button' ); // top mode  -  compact pill row ?>
+	<?php gwill_part( 'share-button' ); // top mode - compact pill row ?>
 
 	<div class="entry-content" itemprop="articleBody">
 		<?php the_content(); ?>
@@ -100,7 +100,7 @@ while ( have_posts() ) : the_post();
 </article>
 
 <?php
-// Tags  -  below the article, above the footer share row.
+// Tags - below the article, above the footer share row.
 $gwill_tags = get_the_tags();
 if ( $gwill_tags ) :
 ?>

@@ -2,7 +2,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * GWill Nav Walker  -  GWill Starter (v1.7.0).
+ * GWill Nav Walker - GWill Starter (v1.7.0).
  *
  * Ported from gwill-tech-theme inc/nav-walker.php (198 lines,
  * live-proven on the tech site), adapted to the starter dialect:
@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
  *     walker plugs into the header wp_nav_menu() call as a drop-in;
  *   - the mobile split-button (.mno-parent > .mno-caret) accordion
  *     pattern is preserved EXACTLY (aria-expanded + aria-controls,
- *     WCAG 2.1.1 operable)  -  main.js binds the accordion toggle;
+ *     WCAG 2.1.1 operable) - main.js binds the accordion toggle;
  *   - the fallback is BRAND-AGNOSTIC: tech's fallback hardcoded its
  *     own category links (Home/Android/Web-Dev/…); the starter's
  *     fallback lists published PAGES + Home, so every build gets a
@@ -20,12 +20,12 @@ defined( 'ABSPATH' ) || exit;
  *
  * Desktop: .site-nav list, sub-menus as hover dropdowns (CSS).
  * Mobile overlay: flat links, sub-menus as collapsible accordions
- * (real <button> toggles + .open class  -  main.js drives it).
+ * (real <button> toggles + .open class - main.js drives it).
  *
  * Used for the header wp_nav_menu() so a single Appearance → Menus
  * assignment drives all devices.
  *
- * INTERPLAY  -  header.php renders wp_nav_menu() with depth 2; the
+ * INTERPLAY - header.php renders wp_nav_menu() with depth 2; the
  * walker adds 'walker' => new GWill_Nav_Walker() via the filter below
  * so the header template itself needs no edit.
  *
@@ -124,7 +124,7 @@ class GWill_Nav_Walker extends Walker_Nav_Menu {
 
 		$item_output  = $args->before;
 
-		// Split-button pattern for EVERY parent  -  the starter renders ONE
+		// Split-button pattern for EVERY parent - the starter renders ONE
 		// menu (#primary-menu) for both breakpoints, so the markup cannot
 		// differ per device (tech had two menus; this adapts): the parent
 		// link navigates and a REAL <button> (.mno-caret chip) toggles the
@@ -173,7 +173,7 @@ endif;
  * Renders Home + published pages (menu_order, alphabetical tiebreak) so
  * the header never goes empty before the user builds a menu in
  * Appearance → Menus. Brand-agnostic by design: no hardcoded content
- * categories (tech's fallback shipped its own site structure  -  that
+ * categories (tech's fallback shipped its own site structure - that
  * must not leak into client builds).
  *
  * @param array $args wp_nav_menu() args (used for the container class).
@@ -199,7 +199,7 @@ function gwill_nav_fallback( $args = array() ) {
  *
  * Only themes that use the 'primary' location get the walker; any
  * other location (a footer menu, a social strip) keeps the default
- * walker  -  those are flat by convention and the split-button mobile
+ * walker - those are flat by convention and the split-button mobile
  * pattern would be wrong there.
  *
  * @param array $args wp_nav_menu() args.

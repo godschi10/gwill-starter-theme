@@ -34,16 +34,16 @@ function gwill_part( string $slug, array $data = [] ): void {
  * WordPress applies esc_attr() internally when building <img> attribute
  * strings (inside wp_get_attachment_image()). Pre-escaping with esc_attr()
  * here would cause double-escaping for any alt text containing &, ", <, or >
- *  -  the browser would render "Dog &amp; cat" instead of "Dog & cat".
+ * - the browser would render "Dog &amp; cat" instead of "Dog & cat".
  *
- * Usage (correct  -  WP handles escaping):
+ * Usage (correct - WP handles escaping):
  *   the_post_thumbnail( 'gwill-hero', [ 'alt' => gwill_featured_image_alt() ] );
  *
- * Usage (also correct  -  escape manually for direct HTML output):
+ * Usage (also correct - escape manually for direct HTML output):
  *   <img alt="<?php echo esc_attr( gwill_featured_image_alt() ); ?>">
  *
  * @param int|null $post_id  Post ID. Defaults to current post in The Loop.
- * @return string            Sanitized alt text  -  call esc_attr() only for direct HTML output.
+ * @return string            Sanitized alt text - call esc_attr() only for direct HTML output.
  */
 function gwill_featured_image_alt( ?int $post_id = null ): string {
 	$post_id      = $post_id ?? get_the_ID();
@@ -57,7 +57,7 @@ function gwill_featured_image_alt( ?int $post_id = null ): string {
 
 	if ( '' !== $media_alt ) {
 		// sanitize_text_field: strips HTML tags, removes excess whitespace,
-		// removes invalid UTF-8. Does NOT HTML-encode  -  WP handles that.
+		// removes invalid UTF-8. Does NOT HTML-encode - WP handles that.
 		return sanitize_text_field( $media_alt );
 	}
 
@@ -68,7 +68,7 @@ function gwill_featured_image_alt( ?int $post_id = null ): string {
  * Return the caption for the featured image, if set in the media library.
  *
  * Returns an empty string when no caption exists. Callers must check the
- * return value before rendering  -  do not output an empty <figcaption>.
+ * return value before rendering - do not output an empty <figcaption>.
  *
  * The return value is esc_html()'d and safe for direct output in HTML text
  * content (not attributes). Do not apply additional escaping at the call site.
@@ -99,7 +99,7 @@ function gwill_featured_image_caption( ?int $post_id = null ): string {
 add_filter( 'excerpt_length', fn() => (int) apply_filters( 'gwill_excerpt_length', 25 ), 999 );
 
 // &#8230; is the numeric XML entity for the ellipsis character (U+2026).
-// Unlike &hellip; (an HTML named entity), &#8230; is valid in XML  -  which
+// Unlike &hellip; (an HTML named entity), &#8230; is valid in XML - which
 // matters for RSS/Atom feeds where WordPress also uses the excerpt. Named
 // entities other than &amp; &lt; &gt; &quot; &apos; are not valid XML.
 add_filter( 'excerpt_more', fn() => '&#8230;' );
@@ -143,13 +143,13 @@ function gwill_youtube_id( string $url ): string {
  * Detect whether a major SEO plugin is active.
  *
  * Used as a guard before outputting anything this theme would otherwise
- * generate itself  -  Open Graph / Twitter Card meta tags, for instance  - 
+ * generate itself - Open Graph / Twitter Card meta tags, for instance  - 
  * since every one of these plugins already outputs its own equivalent, and
  * outputting both would create duplicate, conflicting meta tags in <head>.
  *
  * [Likely], not [Certain]: detection uses each plugin's standard, long-
- * documented version constant  -  the most stable, intentionally-maintained
- * compatibility surface plugin authors keep for exactly this purpose  -  but
+ * documented version constant - the most stable, intentionally-maintained
+ * compatibility surface plugin authors keep for exactly this purpose - but
  * these are still third-party internals this theme has no control over.
  * Filterable for a specific build that needs to override or extend it:
  *
@@ -162,7 +162,7 @@ function gwill_seo_plugin_active(): bool {
 	$active = defined( 'RANK_MATH_VERSION' )                 // RankMath
 		|| defined( 'WPSEO_VERSION' )                        // Yoast SEO
 		|| defined( 'AIOSEO_VERSION' )                       // All in One SEO
-		|| function_exists( 'aioseo' )                       // AIOSEO 4.x accessor  -  extra check, constant names shift between major versions
+		|| function_exists( 'aioseo' )                       // AIOSEO 4.x accessor - extra check, constant names shift between major versions
 		|| defined( 'SEOPRESS_VERSION' )                     // SEOPress
 		|| defined( 'THE_SEO_FRAMEWORK_VERSION' );           // The SEO Framework
 
@@ -205,7 +205,7 @@ function gwill_article_author_name(): string {
 
 
 /**
- * Resolve "the" category for a post  -  the deepest (most specific) category
+ * Resolve "the" category for a post - the deepest (most specific) category
  * actually assigned to it, so breadcrumbs and related content show the full
  * parent → child path rather than stopping wherever an SEO plugin happens
  * to have marked "primary."
@@ -214,16 +214,16 @@ function gwill_article_author_name(): string {
  * (gwill_breadcrumbs(), template-parts/content.php, single.php) that had
  * accumulated independently as each was built. A fourth consumer
  * (related posts) was the trigger to finally consolidate rather than
- * copy-paste a fourth time  -  all four now call this one function, so a
+ * copy-paste a fourth time - all four now call this one function, so a
  * future fix to the primary-term logic only ever needs to happen once.
  *
  * v1.0.54 fixed the RankMath meta key itself (was checking a key it never
  * writes). v1.0.55 added a depth-based fallback for when that meta failed
  * to resolve, but still let a validly-resolving explicit primary override
- * depth  -  which meant a post with its PARENT category deliberately marked
+ * depth - which meant a post with its PARENT category deliberately marked
  * primary still stopped at the parent even with a more specific child also
  * checked. That's exactly what was happening on the "Android Malware" post,
- * and by explicit decision (not a bug fix  -  a deliberate choice) that
+ * and by explicit decision (not a bug fix - a deliberate choice) that
  * carve-out is gone as of 1.0.56: every post's breadcrumb now always shows
  * the full path down to whichever assigned category is deepest, full stop.
  * No SEO-plugin meta is read here anymore at all. Matches the West
@@ -294,7 +294,7 @@ function gwill_reading_time( int $post_id = 0 ): int {
  *
  * Never outputs anything on the front page (is_front_page()).
  * Call after the_post() on singular templates; safe to call before the
- * loop on archive/search templates  -  those use get_queried_object().
+ * loop on archive/search templates - those use get_queried_object().
  *
  * SEO-plugin integration: if you prefer Yoast or RankMath breadcrumbs,
  * return false from the filter and output the plugin's breadcrumb in its
@@ -312,13 +312,13 @@ function gwill_reading_time( int $post_id = 0 ): int {
  */
 
 /**
- * Get the blog index page title  -  the H1 for listing templates.
+ * Get the blog index page title - the H1 for listing templates.
  *
  * When a static front page is set and a "Posts page" is assigned under
  * Settings → Reading, the posts page title is used. Otherwise (posts on
  * front, or a CPT fallback via index.php), the site name is returned.
  *
- * This is the VISIBLE H1 rendered in the page body  -  not a replacement
+ * This is the VISIBLE H1 rendered in the page body - not a replacement
  * for the <title> tag (handled by gwill_front_page_title /
  * gwill_document_title_parts in inc/seo.php). The two serve different
  * roles (SEO audit v1.3.8).
@@ -494,7 +494,7 @@ function gwill_breadcrumbs(): void {
 		];
 
 	} elseif ( is_archive() ) {
-		// Generic fallback  -  post type archives, taxonomy archives, etc.
+		// Generic fallback - post type archives, taxonomy archives, etc.
 		$crumbs[] = [
 			'label'   => get_the_archive_title(),
 			'url'     => '',
@@ -503,7 +503,7 @@ function gwill_breadcrumbs(): void {
 	}
 
 	// Nothing useful was built (e.g. only Home, on a non-singular non-archive
-	// page)  -  bail silently.
+	// page) - bail silently.
 	if ( count( $crumbs ) <= 1 ) {
 		return;
 	}

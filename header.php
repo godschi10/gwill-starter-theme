@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<?php
 	/*
-	 * Flash prevention  -  must run before wp_head() outputs any stylesheet.
+	 * Flash prevention - must run before wp_head() outputs any stylesheet.
 	 * Reads localStorage and sets data-theme on <html> synchronously so the
 	 * correct colour tokens are active before the first paint.
 	 * See: inc/darkmode.php
@@ -19,7 +19,7 @@
 <body <?php body_class(); ?>>
 <?php
 /*
- * wp_body_open() fires the 'wp_body_open' action  -  the standard hook for
+ * wp_body_open() fires the 'wp_body_open' action - the standard hook for
  * content immediately after <body> (GTM noscript, accessibility overlays).
  * Never remove this call.
  */
@@ -28,7 +28,7 @@ wp_body_open();
 
 <?php
 /*
- * Reading progress bar (v1.7.0)  -  fixed 3px bar at the viewport top,
+ * Reading progress bar (v1.7.0) - fixed 3px bar at the viewport top,
  * driven by assets/js/reading-progress.js on singular posts. Printed
  * immediately after <body> opens so it never shifts layout. The JS
  * no-ops when the element is absent, so printing it unconditionally
@@ -69,7 +69,7 @@ if ( is_singular( 'post' ) ) :
 				 * toggle visibility live without a page reload.
 				 *
 				 * The HTML `hidden` attribute is the WAI-ARIA-safe way to hide
-				 * an element  -  assistive technology respects it and the attribute
+				 * an element - assistive technology respects it and the attribute
 				 * has no visual side effects of its own.
 				 */
 				if ( $description ) :
@@ -116,7 +116,7 @@ if ( is_singular( 'post' ) ) :
 				 * The toggle button appears before the menu in DOM order so keyboard
 				 * users encounter it first. aria-controls references the menu <ul> id,
 				 * set via 'menu_id' in wp_nav_menu() below. aria-expanded starts false
-				 *  -  JS sets it to true when the menu opens.
+				 * - JS sets it to true when the menu opens.
 				 */
 				?>
 				<button

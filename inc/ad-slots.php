@@ -11,7 +11,7 @@ Table of Contents
 */
 
 /**
- * Ad slots  -  GWill Starter (v1.8.0).
+ * Ad slots - GWill Starter (v1.8.0).
  *
  * Ported from tech inc/ad-slots.php (live-proven on the tech site),
  * adapted:
@@ -31,10 +31,10 @@ Table of Contents
  *
  * DEVICE-AWARE SLOTS: each placement carries up to 3 codes; the slot
  * renders ALL variants as inert <template> tags and assets/js/ads.js
- * instantiates ONLY the visitor's device variant  -  cache-safe (every
+ * instantiates ONLY the visitor's device variant - cache-safe (every
  * cached page carries all variants) and fires ONE ad request per slot.
  *
- * Usage: gwill_ad_slot( 'leaderboard' );  -  or drop nothing: empty
+ * Usage: gwill_ad_slot( 'leaderboard' ); - or drop nothing: empty
  * placements render NOTHING (no dead-space spinners).
  *
  * @package GWill_Starter
@@ -47,7 +47,7 @@ if ( ! function_exists( 'gwill_ads_enabled' ) ) :
 // ── 1. gwill_ads_enabled ──────────────────────────────────
 /**
  * Master switch. Customize → Developer Options → "Show ad placements".
- * Default ON (the tech default)  -  sites with no codes render nothing
+ * Default ON (the tech default) - sites with no codes render nothing
  * anyway (empty placements collapse).
  */
 function gwill_ads_enabled(): bool {
@@ -95,7 +95,7 @@ if ( ! function_exists( 'gwill_ad_slot_has_code' ) ) :
 /**
  * True when ANY device variant has ad code for a placement.
  *
- * Empty placements must not render  -  a spinner-only box is dead space
+ * Empty placements must not render - a spinner-only box is dead space
  * the King reads as a gap, not an ad.
  *
  * @param string $placement
@@ -142,12 +142,12 @@ function gwill_ad_slot( string $placement = 'leaderboard' ) {
 		</div>
 		<div class="ad-slot__content">
 			<?php if ( $base ) : ?>
-			<template class="ad-variant" data-device="desktop"><?php echo $base; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped  -  admin-configured ad code (raw HTML/JS by nature); Customizer is manage_options-gated ?></template>
+			<template class="ad-variant" data-device="desktop"><?php echo $base; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped - admin-configured ad code (raw HTML/JS by nature); Customizer is manage_options-gated ?></template>
 			<?php endif; ?>
 			<?php foreach ( $devices as $device ) :
 				$code = gwill_ad_code( $placement, $device );
 				if ( $code ) : ?>
-			<template class="ad-variant" data-device="<?php echo esc_attr( $device ); ?>"><?php echo $code; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped  -  admin-configured ad code ?></template>
+			<template class="ad-variant" data-device="<?php echo esc_attr( $device ); ?>"><?php echo $code; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped - admin-configured ad code ?></template>
 			<?php endif; endforeach; ?>
 		</div>
 	</div>
@@ -157,7 +157,7 @@ endif;
 
 // ── 5. gwill_ad_customizer ────────────────────────────────
 /**
- * Customizer config surface (replaces tech's ACF field group  -  the
+ * Customizer config surface (replaces tech's ACF field group - the
  * starter is ACF-free BY LAW). Customize → Developer Options → Ad
  * Placements: master switch + per-placement codes with device variants.
  *
@@ -168,12 +168,12 @@ function gwill_ad_customizer( WP_Customize_Manager $wp_customize ) {
 	if ( ! isset( $wp_customize->sections['gwill_developer'] ) ) {
 		$wp_customize->add_section( 'gwill_ads', array(
 			'title'       => __( 'Ad Placements', 'gwill-starter' ),
-			'description' => __( 'Paste ad network code (AdSense, Mediavine…) per placement. Device variants let you serve different sizes per viewport; the matching variant fires on the current device  -  one request per slot.', 'gwill-starter' ),
+			'description' => __( 'Paste ad network code (AdSense, Mediavine…) per placement. Device variants let you serve different sizes per viewport; the matching variant fires on the current device - one request per slot.', 'gwill-starter' ),
 			'priority'    => 55,
 		) );
 		$section = 'gwill_ads';
 	} else {
-		// Developer Options exists (starter default)  -  nest there.
+		// Developer Options exists (starter default) - nest there.
 		$section = 'gwill_developer';
 	}
 
@@ -200,7 +200,7 @@ function gwill_ad_customizer( WP_Customize_Manager $wp_customize ) {
 	);
 
 	foreach ( $placements as $placement => $label ) {
-		foreach ( array( '' => $label, '_tablet' => $label . '  -  tablet', '_mobile' => $label . '  -  mobile' ) as $suffix => $ctl_label ) {
+		foreach ( array( '' => $label, '_tablet' => $label . ' - tablet', '_mobile' => $label . ' - mobile' ) as $suffix => $ctl_label ) {
 			$setting = 'gwill_ad_code_' . $placement . $suffix;
 			$wp_customize->add_setting( $setting, array(
 				'default'           => '',
@@ -229,7 +229,7 @@ add_action( 'customize_register', 'gwill_ad_customizer' );
  */
 function gwill_sanitize_ad_code( $code ) {
 	$code = (string) $code;
-	// Strip PHP open/close tags  -  theme_mods are evaluated nowhere, but
+	// Strip PHP open/close tags - theme_mods are evaluated nowhere, but
 	// defense-in-depth against a pasted <?php payload.
 	$code = preg_replace( '/<\?(?:php|=)?\s*/i', '', $code );
 	$code = str_replace( '?>', '', $code );
@@ -240,7 +240,7 @@ if ( ! function_exists( 'gwill_in_content_ad' ) ) :
 // ── 6. gwill_in_content_ad ────────────────────────────────
 /**
  * Insert the in-content ad after the 2nd paragraph on single posts
- * (+ every ~5 paragraphs on long reads, max 4  -  the tech distribution).
+ * (+ every ~5 paragraphs on long reads, max 4 - the tech distribution).
  */
 function gwill_in_content_ad( $content ) {
 	// single.php applies the_content filter outside the main loop,
@@ -260,7 +260,7 @@ function gwill_in_content_ad( $content ) {
 	// entries (text + delimiter), so N paragraphs = 2N entries.
 	$paragraphs = preg_split( '/(<\/p>)/i', $content, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
 	if ( ! is_array( $paragraphs ) || count( $paragraphs ) < 6 ) {
-		return $content; // Too short  -  skip the ads.
+		return $content; // Too short - skip the ads.
 	}
 
 	$para_count = (int) ( count( $paragraphs ) / 2 );
@@ -269,7 +269,7 @@ function gwill_in_content_ad( $content ) {
 	gwill_ad_slot( 'in-content' );
 	$ad = ob_get_clean();
 
-	// Ad 1  -  after the 2nd paragraph (index 3 = 2nd ¶ + delimiter).
+	// Ad 1 - after the 2nd paragraph (index 3 = 2nd ¶ + delimiter).
 	$paragraphs[3] .= $ad;
 
 	// More ads every ~5 paragraphs on longer posts: 7th, 12th, 17th…

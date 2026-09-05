@@ -8,12 +8,12 @@ Table of Contents
 */
 
 /**
- * Cross-site feed  -  GWill Starter (v1.8.0).
+ * Cross-site feed - GWill Starter (v1.8.0).
  *
  * Ported from portfolio inc/feed.php (live-proven on the King's own
  * site), made brand-agnostic:
  *   - the portfolio hardcodes its blog sources; the starter ships ZERO
- *     sources and exposes them via the gwill_feed_sources filter  -  a
+ *     sources and exposes them via the gwill_feed_sources filter - a
  *     build opts in with one add_filter, nothing to edit in-theme;
  *   - the proven caching strategy carries over EXACTLY:
  *       fresh transient -> serve, no network call
@@ -40,7 +40,7 @@ defined( 'ABSPATH' ) || exit;
 
 // ── 1. gwill_feed_sources ─────────────────────────────────
 /**
- * The configured remote feeds. Ships EMPTY  -  the starter is
+ * The configured remote feeds. Ships EMPTY - the starter is
  * brand-agnostic; builds opt in via the filter (see docblock above).
  *
  * @param array<int, array{
@@ -61,7 +61,7 @@ function gwill_feed_sources(): array {
 
 /**
  * Cards from ALL configured sources (newest first). Empty when nothing
- * is configured  -  callers hide the section entirely (the portfolio
+ * is configured - callers hide the section entirely (the portfolio
  * pattern: a hidden section beats a dead one).
  *
  * @param int $count Max cards overall (after interleave, newest first).
@@ -133,7 +133,7 @@ function gwill_feed_posts( $source ) {
 	}
 
 	// 1. Fresh transient? (A cached EMPTY array is a valid short-TTL
-	//    failure marker  -  "recently unreachable, do not re-hit".)
+	//    failure marker - "recently unreachable, do not re-hit".)
 	$cached = get_transient( $source['transient'] );
 	if ( is_array( $cached ) ) {
 		return array_slice( $cached, 0, $count );
@@ -143,7 +143,7 @@ function gwill_feed_posts( $source ) {
 	$stale = get_option( $source['transient'] . '_stale', array() );
 
 	// Failure shortcut: never return from a failure path without
-	// caching the outcome  -  otherwise EVERY cache-miss render
+	// caching the outcome - otherwise EVERY cache-miss render
 	// re-attempts the remote fetch (up to 4s each), turning a down
 	// remote into a page-load tax. Cache the fallback for 10 minutes.
 	$cache_failure = function () use ( $source, $stale ) {

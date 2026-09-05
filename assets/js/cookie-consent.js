@@ -1,11 +1,11 @@
 /**
- * GWill Starter  -  Cookie Consent Banner
+ * GWill Starter - Cookie Consent Banner
  *
  * Shows the banner once per visitor (no stored choice in localStorage yet),
  * dismisses on either button, and dispatches a DOM event on Accept so any
  * future tracking script added to a specific build can load conditionally.
  *
- * Deferred loading is fine here  -  unlike the dark-mode toggle, a consent
+ * Deferred loading is fine here - unlike the dark-mode toggle, a consent
  * banner appearing slightly after first paint is completely normal,
  * expected behaviour seen on virtually every site. There's no "flash of
  * wrong state" risk the way there was with theme colour.
@@ -24,10 +24,10 @@
 
 	try {
 		if ( localStorage.getItem( STORAGE_KEY ) ) {
-			return; // Already chosen  -  stay hidden.
+			return; // Already chosen - stay hidden.
 		}
 	} catch ( e ) {
-		return; // Private/incognito mode blocking localStorage  -  fail closed, don't show a banner that can't remember the choice.
+		return; // Private/incognito mode blocking localStorage - fail closed, don't show a banner that can't remember the choice.
 	}
 
 	banner.removeAttribute( 'hidden' );
@@ -38,7 +38,7 @@
 
 			try {
 				localStorage.setItem( STORAGE_KEY, choice );
-			} catch ( e ) { /* private mode  -  choice won't persist, but still dismiss for this pageview */ }
+			} catch ( e ) { /* private mode - choice won't persist, but still dismiss for this pageview */ }
 
 			banner.setAttribute( 'hidden', '' );
 

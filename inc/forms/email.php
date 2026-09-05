@@ -1,6 +1,6 @@
 <?php
 /**
- * Email Building  -  GWill Starter
+ * Email Building - GWill Starter
  *
  * Functions for building email subjects, headers, and HTML bodies.
  *
@@ -62,7 +62,7 @@ function gwill_get_field_labels(): array {
  *   - Submission metadata (timestamp + referring page)
  *   - Light footer: "Sent via [site name] contact form"
  *
- * Site icon is fetched via get_site_icon_url(64)  -  the image set under
+ * Site icon is fetched via get_site_icon_url(64) - the image set under
  * Appearance → Customize → Site Identity. Falls back to text-only header
  * silently if no icon is uploaded.
  *
@@ -80,7 +80,7 @@ function gwill_build_email_body( array $fields ): string {
 	$site_name = esc_html( get_bloginfo( 'name' ) );
 	$icon_url  = get_site_icon_url( 64 );
 
-	// Inline styles only  -  email clients strip <style> blocks.
+	// Inline styles only - email clients strip <style> blocks.
 	$html  = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' . $site_name . '</title></head>';
 	$html .= '<body style="margin:0;padding:0;background:#f4f4f5;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Helvetica,Arial,sans-serif;">';
 

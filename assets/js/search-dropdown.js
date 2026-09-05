@@ -1,5 +1,5 @@
 /*
- * TOC  -  search-dropdown.js (v1.16.80  -  smart search)
+ * TOC - search-dropdown.js (v1.16.80 - smart search)
  *
  * 01. gwillFetch shim ······································· line 30
  * 02. State + config ······································· line 71
@@ -12,15 +12,15 @@
  * 09. escape helpers ······································· line 410
  */
 /**
- * GWill Starter  -  Search Dropdown (Inline Header Search)  -  SMART (v1.16.80)
+ * GWill Starter - Search Dropdown (Inline Header Search) - SMART (v1.16.80)
  *
  * Smart live search WITHOUT bloat: downloads the theme's compact search
- * index (/wp-json/gwill/v1/search-index  -  one cached JSON of every post's
+ * index (/wp-json/gwill/v1/search-index - one cached JSON of every post's
  * title/excerpt/category/url) ONCE per session, then matches entirely
  * CLIENT-SIDE: case/diacritic-insensitive, typo-tolerant (edit distance),
  * title-weighted relevance ranking, token AND + phrase bonus, matched-term
  * <mark> highlighting, and a recent-posts fallback on no match. ZERO
- * network per keystroke, ZERO server load per keystroke  -  no plugin, no
+ * network per keystroke, ZERO server load per keystroke - no plugin, no
  * search service.
  *
  * Falls back to the per-keystroke REST posts search only if the index
@@ -32,7 +32,7 @@
 
 ( function () {
 	/**
-	 * gwillFetch  -  fetch() with an XMLHttpRequest fallback for browsers that
+	 * gwillFetch - fetch() with an XMLHttpRequest fallback for browsers that
 	 * lack the Fetch API (Safari <10.1, Chrome <42, Firefox <39). Resolves
 	 * with a fetch-compatible response ({ ok, status, json(), text() }).
 	 * The theme's ES6+ floor already requires Promise (Safari 8+, Chrome 32+),
@@ -81,12 +81,12 @@
 	var I18N          = GwillDropdown.i18n || {};
 	var T_LOADING     = I18N.loading   || 'Searching…';
 	var T_NO_RESULTS  = I18N.noResults || 'No results found.';
-	var T_NO_MATCHES  = I18N.noMatches || 'No matches for “%s”  -  try these recent posts:';
+	var T_NO_MATCHES  = I18N.noMatches || 'No matches for “%s” - try these recent posts:';
 	var T_ERROR       = I18N.error     || 'Search unavailable. Press Enter to search.';
 	var T_VIEW_ALL    = I18N.viewAll   || 'View all results →';
 	var HOME_URL      = GwillDropdown.homeUrl || window.location.origin + '/';
 
-	var DEBOUNCE_MS   = 120; // matching is local now  -  respond almost instantly
+	var DEBOUNCE_MS   = 120; // matching is local now - respond almost instantly
 	var MIN_CHARS     = 2;
 	var MAX_RESULTS   = 8;
 	var STORAGE_KEY   = 'gwill-si';      // sessionStorage cache of the index
@@ -101,7 +101,7 @@
 
 	if ( ! toggles.length || ! dropdown || ! input ) return;
 
-	// v1.16.94: enforce the X-visibility contract on page load too  -  the
+	// v1.16.94: enforce the X-visibility contract on page load too - the
 	// server renders #search-clear with the hidden attribute, but CSS
 	// display:flex defeats it; syncClear() (hidden ⇔ empty field) must run
 	// at init so the in-field X is in the right state before any interaction.
@@ -125,7 +125,7 @@
 		return n ? n.split( ' ' ) : [];
 	}
 
-	// Bounded Levenshtein  -  typo tolerance (returns 9 when clearly too far).
+	// Bounded Levenshtein - typo tolerance (returns 9 when clearly too far).
 	function editDist( a, b ) {
 		var la = a.length, lb = b.length;
 		if ( a === b ) return 0;
@@ -147,7 +147,7 @@
 	// A query token tolerates a small typo in a title word (len >= 4 only,
 	// so 2-char tokens never fuzzy-match into junk). The first-letter anchor
 	// blocks unrelated words that happen to sit within edit distance
-	// ("battery" vs "matter" = dist 2  -  same length, unrelated meaning).
+	// ("battery" vs "matter" = dist 2 - same length, unrelated meaning).
 	function fuzzyOk( tok, word ) {
 		var l = word.length;
 		if ( l >= 6 ) return editDist( tok, word ) <= 2 && tok[ 0 ] === word[ 0 ];
@@ -186,7 +186,7 @@
 				if ( ! Array.isArray( data ) ) throw new Error( 'bad index' );
 				try {
 					sessionStorage.setItem( STORAGE_KEY, JSON.stringify( { t: Date.now(), d: data } ) );
-				} catch ( e ) { /* private mode  -  cache is a nicety */ }
+				} catch ( e ) { /* private mode - cache is a nicety */ }
 				return data;
 			} );
 		return indexPromise;
@@ -302,7 +302,7 @@
 	}
 
 	// v1.16.81: render a plain array of post objects (local index items or
-	// FTS5 endpoint items  -  same shape) with highlight + footer.
+	// FTS5 endpoint items - same shape) with highlight + footer.
 	function renderPosts( q, posts ) {
 		currentData = posts;
 		activeIndex = -1;
@@ -334,7 +334,7 @@
 	}
 
 	// v1.16.81: query the FTS5 full-coverage endpoint. Fired only when local
-	// results are thin (< 3)  -  for common queries the zero-network local
+	// results are thin (< 3) - for common queries the zero-network local
 	// layer answers alone. Merges server results after local ones (dedup by
 	// id); on failure or empty response the local rendering stands.
 	function fetchFts( q, localMatches ) {
@@ -408,7 +408,7 @@
 		}
 	}
 
-	// ── search()  -  client-side, instant after the first index load ────────
+	// ── search() - client-side, instant after the first index load ────────
 	function search( q ) {
 		getIndex()
 			.then( function ( all ) {
@@ -418,7 +418,7 @@
 			} )
 			.catch( function () {
 				if ( ( input.value || '' ).trim() !== q ) return;
-				// Index unavailable  -  fall back to the old per-keystroke REST search.
+				// Index unavailable - fall back to the old per-keystroke REST search.
 				results.innerHTML = '<div class="search-loading">' + escapeHtml( T_LOADING ) + '</div>';
 				results.classList.add( 'has-results' );
 				gwillFetch( REST_URL + encodeURIComponent( q ) )
@@ -463,7 +463,7 @@
 		currentData = [];
 		activeIndex = -1;
 		// v1.16.91 (King): close() KEEPS the typed text so the user can
-		// edit it  -  closing the form never touches the query; the inner x
+		// edit it - closing the form never touches the query; the inner x
 		// (#search-clear) is the ONLY text clearer.
 	}
 
@@ -475,7 +475,7 @@
 	}
 
 	// v1.16.92 (King clarification): the in-field "x" clears ALL text
-	// WITHOUT closing the search form  -  the dropdown stays open.
+	// WITHOUT closing the search form - the dropdown stays open.
 	function clearOnly() {
 		input.value = '';
 		results.innerHTML = '';
@@ -490,7 +490,7 @@
 	// In-field "x": clear all text, form stays open.
 	if ( clearBtn ) clearBtn.addEventListener( 'click', clearOnly );
 
-	// The King's outer X (#search-close): closes the form ONLY  -  the
+	// The King's outer X (#search-close): closes the form ONLY - the
 	// typed text stays in the field (v1.16.93). Esc does the same.
 	if ( closeBtn ) closeBtn.addEventListener( 'click', function () {
 		closeOnly();
@@ -541,7 +541,7 @@
 	}
 
 	// v1.16.91 (King): the dropdown stays open until the user presses
-	// X (clears) or Esc (dismisses)  -  clicking elsewhere does NOT close
+	// X (clears) or Esc (dismisses) - clicking elsewhere does NOT close
 	// it anymore; the typed text is always preserved for editing.
 	// document.addEventListener( 'click', function ( e ) {
 	// 	var isToggle = false;

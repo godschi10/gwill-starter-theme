@@ -2,10 +2,10 @@
 /**
  * Template: single app (/apps/<slug>/)
  *
- * Renders any app from gwill_apps_registry()  -  the markup is one generic
+ * Renders any app from gwill_apps_registry() - the markup is one generic
  * shell (icon + title + description + #gwill-app-root mount point + FAQ);
  * the app's own JS/CSS (auto-enqueued by inc/apps.php) renders its UI
- * into #gwill-app-root. A new app needs NO template  -  only a registry
+ * into #gwill-app-root. A new app needs NO template - only a registry
  * entry + its JS/CSS files.
  *
  * @package GWill_Starter
@@ -31,9 +31,9 @@ get_header();
 	</header>
 
 	<div id="gwill-app-root" class="gwill-app-root" data-gwill-app="<?php echo esc_attr( $gwill_app['slug'] ); ?>"<?php
-	// v1.9.0  -  registry-driven schema variations: a flat 'fields' map on the
+	// v1.9.0 - registry-driven schema variations: a flat 'fields' map on the
 	// registry entry renders as data-* attributes here. An app's JS reads its
-	// own config straight off its mount point  -  no server round-trip, no
+	// own config straight off its mount point - no server round-trip, no
 	// wp_localize_script per app. Scalar values only; nested arrays are
 	// skipped (keeps the attribute surface safe and predictable).
 	if ( ! empty( $gwill_app['fields'] ) && is_array( $gwill_app['fields'] ) ) {

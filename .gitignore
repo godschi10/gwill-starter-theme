@@ -10,7 +10,7 @@ Thumbs.db
 
 # WordPress build artifacts
 node_modules/
-# ⚖️ LAW L1 (docs/LAWS.md): vendor/ is COMMITTED — NEVER exclude it.
+# ⚖️ LAW L1 (docs/LAWS.md): vendor/ is COMMITTED - NEVER exclude it.
 # A bare `vendor/` line here silently strips the WebPush library from fresh
 # clones (broken GitHub/GitLab download) and an unanchored rsync
 # --exclude='vendor/' drops it from live deploys (require_once fatal).

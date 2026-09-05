@@ -2,20 +2,20 @@
 
 /*
 Table of Contents
-1. Table  -  gwill_push_subs (dbDelta, gwill_ prefixed)
+1. Table - gwill_push_subs (dbDelta, gwill_ prefixed)
 2. VAPID keys (library-generated, stored autoload-off in wp_options)
 3. Subscriber key obfuscation (NONCE_KEY-derived, decoded on send)
-4. REST endpoints  -  /gwill/v1/push/subscribe + /unsubscribe
-5. Publish trigger  -  transition_post_status -> send to all
+4. REST endpoints - /gwill/v1/push/subscribe + /unsubscribe
+5. Publish trigger - transition_post_status -> send to all
 6. Enqueue bell + localize (REST url + X-WP-Nonce pattern)
 7. Bell markup (echoed into the footer)
 */
 
 /**
- * GWill Starter  -  Web Push (self-hosted VAPID).
+ * GWill Starter - Web Push (self-hosted VAPID).
  *
  * PORTED from gwill-finance-theme v1.2.3 (the configuration that finally
- * mastered push on real devices  -  every root cause of the August 2026 saga
+ * mastered push on real devices - every root cause of the August 2026 saga
  * is baked in; see docs/LAWS.md). The finance implementation is itself the
  * proven gwill-tech-theme lineage. Nothing was re-invented here; only the
  * appearance was stripped to starter tokens (assets/css/push.css) and the
@@ -26,8 +26,8 @@ Table of Contents
  *     stored in wp_options (autoload off, never hardcoded).
  *   - Subscriber keys obfuscated at rest (NONCE_KEY-derived), decoded on send.
  *   - Notifications triggered on post publish (transition_post_status).
- *   - Footer bell  -  permission-gated, never nags pre-consent.
- *   - vendor/minishlink/web-push is COMMITTED (docs/LAWS.md L1)  -  a fresh
+ *   - Footer bell - permission-gated, never nags pre-consent.
+ *   - vendor/minishlink/web-push is COMMITTED (docs/LAWS.md L1) - a fresh
  *     clone from GitHub/GitLab is fully functional, no composer install.
  *
  * @package GWill_Starter
@@ -270,7 +270,7 @@ function gwill_push_send_to_all( $post ) {
 		'icon'    => $icon,
 		'badge'   => $badge,
 		'url'     => $url,
-		// v1.9.0  -  campaign id (post ID): sw.js pings it back on click so
+		// v1.9.0 - campaign id (post ID): sw.js pings it back on click so
 		// the dashboard can show open-rates per campaign.
 		'cid'     => (int) $post->ID,
 	);
@@ -293,7 +293,7 @@ function gwill_push_send_to_all( $post ) {
 		}
 	}
 
-	// v1.9.0  -  record the campaign: sent-count + zero clicks, merged into
+	// v1.9.0 - record the campaign: sent-count + zero clicks, merged into
 	// the stats option (per post ID, most recent 200 campaigns kept).
 	if ( $sent ) {
 		gwill_push_stats_record( (int) $post->ID, $sent );
@@ -358,15 +358,15 @@ function gwill_push_enqueue() {
 				'unsubscribe'   => __( 'Turn off notifications', 'gwill-starter' ),
 				'blocked'       => __( 'Notifications blocked by browser', 'gwill-starter' ),
 				'error'         => __( 'Could not enable notifications', 'gwill-starter' ),
-				/* ── Bell panel  -  %s in step text = site name ── */
+				/* ── Bell panel - %s in step text = site name ── */
 				'title'         => __( 'Notifications', 'gwill-starter' ),
 				'statusOn'      => __( 'status: on', 'gwill-starter' ),
 				'statusOff'     => __( 'status: off', 'gwill-starter' ),
 				'statusBlocked' => __( 'status: blocked', 'gwill-starter' ),
 				'statusError'   => __( 'status: error', 'gwill-starter' ),
-				'bodyOn'        => __( "You're subscribed  -  an alert lands on this device the moment a new post goes live.", 'gwill-starter' ),
-				'bodyOff'       => __( 'Get notified of every new post. No spam, no marketing  -  one tap to turn off.', 'gwill-starter' ),
-				'bodyBlocked'   => __( 'Notifications are blocked for this site. Unblock them in your browser, then tap Check again  -  we detect it instantly.', 'gwill-starter' ),
+				'bodyOn'        => __( "You're subscribed - an alert lands on this device the moment a new post goes live.", 'gwill-starter' ),
+				'bodyOff'       => __( 'Get notified of every new post. No spam, no marketing - one tap to turn off.', 'gwill-starter' ),
+				'bodyBlocked'   => __( 'Notifications are blocked for this site. Unblock them in your browser, then tap Check again - we detect it instantly.', 'gwill-starter' ),
 				'bodyError'     => __( 'Something went wrong while enabling notifications. Try again.', 'gwill-starter' ),
 				'statusUnsupported' => __( 'status: unsupported', 'gwill-starter' ),
 				'bodyUnsupported'   => __( 'Push notifications are not supported in this browser.', 'gwill-starter' ),
@@ -399,7 +399,7 @@ function gwill_push_enqueue() {
 						__( 'Tap Aa in the Safari address bar', 'gwill-starter' ),
 						__( 'Tap Website Settings, then Notifications', 'gwill-starter' ),
 						__( 'Choose Allow, then reload the page', 'gwill-starter' ),
-						__( 'If Allow is unavailable: Share → Add to Home Screen first  -  iOS delivers web push to installed apps', 'gwill-starter' ),
+						__( 'If Allow is unavailable: Share → Add to Home Screen first - iOS delivers web push to installed apps', 'gwill-starter' ),
 					),
 					'desktop-chrome'  => array(
 						__( 'Click the lock (or tune) icon at the left of the address bar', 'gwill-starter' ),
@@ -463,7 +463,7 @@ function gwill_push_bell() {
 
 /**
  * Record a sent campaign (post ID + sent count) into the stats option.
- * Keeps the most recent 200 campaigns  -  an admin screen reads this, so
+ * Keeps the most recent 200 campaigns - an admin screen reads this, so
  * autoload is OFF (a 200-entry option never rides every page load).
  *
  * @since 1.9.0
@@ -509,7 +509,7 @@ function gwill_push_stats_click( $post_id ) {
 }
 
 /**
- * REST route: POST /wp-json/gwill/v1/push-click  -  sw.js pings it with the
+ * REST route: POST /wp-json/gwill/v1/push-click - sw.js pings it with the
  * campaign id on notificationclick (fetch keepalive survives the SW
  * lifetime). Public by design: the payload is a bare post ID, it only ever
  * increments a counter, and rate-limiting a click-count is counter to the

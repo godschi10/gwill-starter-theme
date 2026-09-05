@@ -2,10 +2,10 @@
  * search.css
  *
  * Styles for all search components:
- *   .gwill-search-expand   -  Combo A: expandable header search
- *   .gwill-search-modal    -  Combo B: full-viewport modal + live results
- *   .search-results        -  search.php results page
- *   .search-no-results     -  no-results state
+ *   .gwill-search-expand  - Combo A: expandable header search
+ *   .gwill-search-modal   - Combo B: full-viewport modal + live results
+ *   .search-results       - search.php results page
+ *   .search-no-results    - no-results state
  *
  * Design tokens used (with fallbacks):
  *   --color-primary, --color-accent, --color-bg, --color-muted,
@@ -18,7 +18,7 @@
 
 
 /* ═══════════════════════════════════════════════════════════════════════
-   COMBO A  -  EXPANDABLE HEADER SEARCH
+   COMBO A - EXPANDABLE HEADER SEARCH
    Three-zone layout: [ icon | input | Search ]
    One outer border, two internal vertical dividers. No input box border.
    ═══════════════════════════════════════════════════════════════════════ */
@@ -29,10 +29,10 @@
 	align-items: center;
 }
 
-/* Keyboard focus for the expandable input  -  the input itself suppresses its
+/* Keyboard focus for the expandable input - the input itself suppresses its
    outline (Android Chrome blue-ring fix), so the CONTAINER carries the ring
    via :focus-within. Without this, tabbing to the field shows no focus
-   indicator at all (WCAG 2.4.7  -  accessibility audit v1.3.9). */
+   indicator at all (WCAG 2.4.7 - accessibility audit v1.3.9). */
 .gwill-search-expand:focus-within {
 	outline: 2px solid var(--color-accent, #2563eb);
 	outline-offset: 2px;
@@ -139,7 +139,7 @@
 	font-size: 1rem;
 	color: var(--color-primary, #111);
 	background: transparent;
-	/* Nuclear suppression  -  Android Chrome UA stylesheet applies a blue ring
+	/* Nuclear suppression - Android Chrome UA stylesheet applies a blue ring
 	   to input[type="search"] on focus that survives outline:none alone.
 	   All focus styling intentionally moved to the container, not the input. */
 	border: none !important;
@@ -191,10 +191,10 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
-   COMBO B  -  MODAL OVERLAY + LIVE SEARCH
+   COMBO B - MODAL OVERLAY + LIVE SEARCH
    ═══════════════════════════════════════════════════════════════════════ */
 
-/* Trigger button  -  identical to expandable toggle */
+/* Trigger button - identical to expandable toggle */
 .gwill-search-modal__trigger {
 	display: flex;
 	align-items: center;
@@ -216,7 +216,7 @@
 	outline-offset: 2px;
 }
 
-/* The overlay  -  full viewport */
+/* The overlay - full viewport */
 .gwill-search-modal {
 	position: fixed;
 	inset: 0;
@@ -237,7 +237,7 @@
 	cursor: pointer;
 }
 
-/* Panel  -  the search card above the backdrop */
+/* Panel - the search card above the backdrop */
 .gwill-search-modal__panel {
 	position: relative;
 	z-index: 1;
@@ -286,9 +286,9 @@
 .gwill-search-modal__input::placeholder { color: var(--color-muted, #6b7280); }
 .gwill-search-modal__input::-webkit-search-cancel-button { display: none; }
 
-/* Keyboard focus for the modal input row  -  same pattern as the expandable
+/* Keyboard focus for the modal input row - same pattern as the expandable
    search: the input suppresses its outline, so the row carries the ring via
-   :focus-within (WCAG 2.4.7  -  accessibility audit v1.3.9). */
+   :focus-within (WCAG 2.4.7 - accessibility audit v1.3.9). */
 .gwill-search-modal__input-row:focus-within {
 	outline: 2px solid var(--color-accent, #2563eb);
 	outline-offset: 2px;
@@ -314,7 +314,7 @@
 
 .gwill-search-modal__clear:hover { background: #d1d5db; }
 
-/* Close button  -  top-right of the panel */
+/* Close button - top-right of the panel */
 .gwill-search-modal__close {
 	position: absolute;
 	top: 0.625rem;
@@ -498,7 +498,7 @@
 
 /* Suppress browser-injected focus ring on the results page search field.
    Android Chrome applies a UA outline to input[type="search"] that survives
-   outline:none alone  -  same treatment as .gwill-search-expand__input. */
+   outline:none alone - same treatment as .gwill-search-expand__input. */
 .search-results__header .search-field,
 .search-results__header .search-field:focus,
 .search-results__header .search-field:focus-visible,
@@ -619,7 +619,7 @@
 	border-color: var(--color-border-input);
 }
 
-/* Current page uses btn tokens  -  correct in both light (#2563eb bg, #fff text)
+/* Current page uses btn tokens - correct in both light (#2563eb bg, #fff text)
    and dark (#60a5fa bg, #0f172a text) with no darkmode.css override needed. */
 .search-results__pagination .page-numbers.current {
 	background: var(--color-btn-bg);
@@ -688,9 +688,9 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   SEARCH DROPDOWN  -  Google-like inline header search (v1.1.0)
+   SEARCH DROPDOWN - Google-like inline header search (v1.1.0)
    Fixed-position overlay, triggered by the magnifier toggle.
-   All tokens from the starter's --color-* system  -  adapts to light/dark.
+   All tokens from the starter's --color-* system - adapts to light/dark.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* ── Toggle button ─────────────────────────────────────────────────────── */
@@ -961,12 +961,12 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   SMART SEARCH RESULTS  -  search.php enhancements (v1.1.0)
+   SMART SEARCH RESULTS - search.php enhancements (v1.1.0)
    "Did you mean?", "Showing results for X. Search instead for Y?",
    "People also searched for", and term highlighting.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* ── Correction banner  -  "Showing results for X. Search instead for Y?" ── */
+/* ── Correction banner - "Showing results for X. Search instead for Y?" ── */
 
 .search-correct {
 	font-size: 15px;
@@ -1045,7 +1045,7 @@
 	text-decoration: underline solid;
 }
 
-/* ── "People also searched for"  -  related terms ────────────────────────── */
+/* ── "People also searched for" - related terms ────────────────────────── */
 
 .search-related {
 	margin: 1rem 0 2.5rem;

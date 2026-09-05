@@ -1,6 +1,6 @@
 <?php
 /**
- * Sidebar Template  -  Stub
+ * Sidebar Template - Stub
  *
  * This file exists to satisfy the WordPress template hierarchy and prevent
  * warnings when plugins or page builders call get_sidebar(). The theme does

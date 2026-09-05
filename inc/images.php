@@ -1,6 +1,6 @@
 <?php
 /**
- * inc/images.php  -  Image optimisation
+ * inc/images.php - Image optimisation
  *
  * 1. WebP upload support (WP 6.1+)
  * 2. Ensures width + height on all attachment images (prevents CLS)
@@ -65,7 +65,7 @@ add_filter( 'wp_get_attachment_image_attributes', 'gwill_image_decoding_async', 
 // ── 2. gwill_image_decoding_async ─────────────────────────
 function gwill_image_decoding_async( $attr ) {
 	if ( isset( $attr['fetchpriority'] ) && 'high' === $attr['fetchpriority'] ) {
-		// LCP image  -  synchronous decode is faster
+		// LCP image - synchronous decode is faster
 		$attr['decoding'] = 'sync';
 	} else {
 		$attr['decoding'] = 'async';
@@ -73,10 +73,10 @@ function gwill_image_decoding_async( $attr ) {
 	return $attr;
 }
 
-// ── 4. RESPONSIVE CONTENT IMAGES  -  sizes hint ───────────────────────────────
+// ── 4. RESPONSIVE CONTENT IMAGES - sizes hint ───────────────────────────────
 // WP auto-generates srcset on post content images. This filter ensures
 // the sizes attribute gives the browser correct viewport-width hints
-// matching the theme's actual content column width (900px  -  style.css
+// matching the theme's actual content column width (900px - style.css
 // .entry-content, 1200px --max-width minus gutters).
 add_filter( 'wp_calculate_image_sizes', 'gwill_content_image_sizes', 10, 5 );
 

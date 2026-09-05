@@ -1,5 +1,5 @@
 /**
- * GWill Starter  -  Multi-step Form
+ * GWill Starter - Multi-step Form
  *
  * Manages step visibility, progress bar, and back/next navigation
  * for .gwill-form--multistep. AJAX submission is handled by forms.js.
@@ -156,7 +156,7 @@
 
 		Object.keys( data ).forEach( function ( name ) {
 			// Radio groups: find the specific radio with the stored value and check it.
-			// Setting .value on a radio input is a no-op  -  .checked must be set instead.
+			// Setting .value on a radio input is a no-op - .checked must be set instead.
 			var radio = form.querySelector(
 				'[name="' + name + '"][type="radio"][value="' + data[ name ].replace( /"/g, '\\"' ) + '"]'
 			);

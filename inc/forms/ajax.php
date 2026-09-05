@@ -1,6 +1,6 @@
 <?php
 /**
- * Main AJAX Handler  -  GWill Starter
+ * Main AJAX Handler - GWill Starter
  *
  * Processes all contact form submissions via a single WordPress AJAX action.
  * Every form type in template-parts/forms/ routes through gwill_handle_contact_form().
@@ -30,7 +30,7 @@ add_action( 'wp_ajax_nopriv_gwill_contact_form', 'gwill_handle_contact_form' );
  * Returns JSON consumed by assets/js/forms.js.
  *
  * One exception to "→ send": form_id 'newsletter' branches to
- * gwill_brevo_add_contact() instead of the email-send path below  -  a list
+ * gwill_brevo_add_contact() instead of the email-send path below - a list
  * subscription has no message for anyone to receive by email. Rate
  * limiting and the optional DB log still apply to it identically.
  *
@@ -46,7 +46,7 @@ function gwill_handle_contact_form(): void {
 		ob_clean();
 	}
 
-	// Nonce  -  wp_ajax actions receive a nonce from the hidden field set by
+	// Nonce - wp_ajax actions receive a nonce from the hidden field set by
 	// wp_nonce_field() in each form template. check_ajax_referer() dies/returns
 	// false; the third argument (false) makes it return false on failure instead
 	// of calling wp_die(), so we can send a proper JSON error.
@@ -57,12 +57,12 @@ function gwill_handle_contact_form(): void {
 		);
 	}
 
-	// Honeypot  -  fake success so bots do not know they were caught.
+	// Honeypot - fake success so bots do not know they were caught.
 	if ( gwill_form_honeypot_triggered() ) {
 		wp_send_json_success( [ 'message' => __( 'Thank you. Your message has been sent.', 'gwill-starter' ) ] );
 	}
 
-	// Rate limit  -  5 minutes between submissions per IP.
+	// Rate limit - 5 minutes between submissions per IP.
 	if ( gwill_form_rate_limited() ) {
 		wp_send_json_error(
 			[ 'message' => __( 'Please wait a few minutes before sending another message.', 'gwill-starter' ) ],
@@ -90,7 +90,7 @@ function gwill_handle_contact_form(): void {
 		);
 	}
 
-	// Newsletter signup branches here, entirely  -  it doesn't email anyone
+	// Newsletter signup branches here, entirely - it doesn't email anyone
 	// (there's no "message" for G-will to receive about a list subscribe),
 	// it adds the address to a Brevo list via the REST API. Rate limit and
 	// optional DB log still apply, same as every other form; only the
@@ -110,7 +110,7 @@ function gwill_handle_contact_form(): void {
 		}
 
 		wp_send_json_success(
-			[ 'message' => __( "Thanks  -  you're subscribed.", 'gwill-starter' ) ]
+			[ 'message' => __( "Thanks - you're subscribed.", 'gwill-starter' ) ]
 		);
 	}
 
@@ -139,7 +139,7 @@ function gwill_handle_contact_form(): void {
 		// Surface the raw SMTP error in the browser when WP_DEBUG is on
 		// so you can diagnose without needing server log access.
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG && $smtp_error ) {
-			$msg .= '  -  SMTP: ' . $smtp_error;
+			$msg .= ' - SMTP: ' . $smtp_error;
 		}
 		wp_send_json_error( [ 'message' => $msg ] );
 	}
@@ -161,6 +161,6 @@ function gwill_handle_contact_form(): void {
 	}
 
 	wp_send_json_success(
-		[ 'message' => __( "Thank you  -  your message has been sent. I'll be in touch soon.", 'gwill-starter' ) ]
+		[ 'message' => __( "Thank you - your message has been sent. I'll be in touch soon.", 'gwill-starter' ) ]
 	);
 }

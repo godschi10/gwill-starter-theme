@@ -1,6 +1,6 @@
 <?php
 /**
- * Modal live-search form  -  Combo B (opt-in).
+ * Modal live-search form - Combo B (opt-in).
  *
  * Full-viewport overlay with as-you-type results via REST API.
  * Enter key falls through to search.php for a full results page.
@@ -104,7 +104,7 @@ wp_enqueue_style( 'gwill-search' );
 			</button>
 		</form>
 
-		<?php /* Live results list  -  populated entirely by search-modal.js */ ?>
+		<?php /* Live results list - populated entirely by search-modal.js */ ?>
 		<div
 			id="gwill-search-modal-results"
 			class="gwill-search-modal__results"

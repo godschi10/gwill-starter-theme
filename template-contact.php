@@ -5,7 +5,7 @@
  *
  * Standard contact page. Displays the page title and content from the editor
  * above the form. The form partial is controlled by a custom field (ACF or
- * post meta)  -  falls back to contact-simple.
+ * post meta) - falls back to contact-simple.
  *
  * Custom field: gwill_form_type (string, optional)
  * Accepted values: simple | inquiry | routed | multistep | application | partnership

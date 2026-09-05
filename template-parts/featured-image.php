@@ -3,11 +3,11 @@
  * Template Part: Featured Image / Video Embed
  *
  * Priority order:
- *   1. YouTube video  -  if _gwill_video_url post meta is set and contains a
+ *   1. YouTube video - if _gwill_video_url post meta is set and contains a
  *      valid YouTube URL (singular context only; suppressed in archive/home
  *      loops to prevent multiple iframes on one page load).
- *   2. Featured image  -  standard hero treatment with LCP attributes.
- *   3. Nothing  -  silent bail; callers need no has_post_thumbnail() guard.
+ *   2. Featured image - standard hero treatment with LCP attributes.
+ *   3. Nothing - silent bail; callers need no has_post_thumbnail() guard.
  *
  * Set _gwill_video_url via the "Video Embed" meta box in the post editor
  * sidebar (inc/setup.php → gwill_register_video_meta_box).
@@ -35,13 +35,13 @@ if ( is_singular() ) {
 			<div class="gwill-video-embed">
 				<?php
 				/*
-				 * loading="eager", not "lazy"  -  found inconsistent during the
+				 * loading="eager", not "lazy" - found inconsistent during the
 				 * v1.0.49 audit. This iframe occupies the exact same hero slot
 				 * the image branch below treats as the LCP candidate
 				 * (fetchpriority="high" + loading="eager" + decoding="sync",
 				 * explicitly reasoned in this file's header docblock). A video
 				 * set here is, by definition, always above the fold on a single
-				 * post  -  lazy-loading it works against fast LCP for the one
+				 * post - lazy-loading it works against fast LCP for the one
 				 * case it's guaranteed to matter.
 				 *
 				 * Counter-argument, for the record: YouTube's embed is genuinely
@@ -49,11 +49,11 @@ if ( is_singular() ) {
 				 * deliberately lazy-load it even above the fold to keep that
 				 * cost off the critical path, accepting a slightly later visual
 				 * paint in exchange for lower Total Blocking Time elsewhere on
-				 * the page. That's a legitimate, defensible tradeoff  -  it just
+				 * the page. That's a legitimate, defensible tradeoff - it just
 				 * wasn't the one already made (and explicitly justified) for
 				 * the image case right below, so the two were inconsistent
 				 * with no comment explaining why. If you want lazy back for
-				 * this specific reason, that's a one-word revert  -  just leave
+				 * this specific reason, that's a one-word revert - just leave
 				 * a comment next time saying so, the way the image branch
 				 * already does.
 				 */
@@ -67,7 +67,7 @@ if ( is_singular() ) {
 				></iframe>
 			</div>
 			<?php
-			return; // Video rendered  -  skip featured image.
+			return; // Video rendered - skip featured image.
 		}
 	}
 }

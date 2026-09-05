@@ -3,13 +3,13 @@
  * Template Part: WooCommerce Cart Icon
  *
  * Re-rendered wholesale on every AJAX cart fragment update (see
- * gwill_woocommerce_cart_fragment() in inc/woocommerce.php)  -  the whole
+ * gwill_woocommerce_cart_fragment() in inc/woocommerce.php) - the whole
  * <a> tag is the fragment, not just the count, so the badge's visibility
  * (hidden at 0 items) stays correct without separate JS logic for it.
  *
  * Only ever included from contexts that have already confirmed
  * WooCommerce is active (gwill_render_cart_icon() / the fragment filter
- * above)  -  no class_exists() guard needed in here as a result.
+ * above) - no class_exists() guard needed in here as a result.
  *
  * @package GWill_Starter
  * @since   1.0.60

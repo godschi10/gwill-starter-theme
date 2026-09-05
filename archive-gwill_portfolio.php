@@ -1,12 +1,12 @@
 <?php
 /**
- * Portfolio Archive  -  gwill_portfolio CPT + gwill_portfolio_type taxonomy.
+ * Portfolio Archive - gwill_portfolio CPT + gwill_portfolio_type taxonomy.
  *
  * The dedicated archive template the roadmap always intended (README
  * v1.0.63 recorded its absence as deliberate "within stated scope"  - 
  * v1.5.0 ships it for real). Renders the SAME grid card as
  * template-parts/portfolio/portfolio.php, but from the native archive
- * query  -  plus type-filter pills (the starter's pill-dialect used by
+ * query - plus type-filter pills (the starter's pill-dialect used by
  * category pills) and pagination.
  *
  * Falls back here automatically for both /portfolio/ and
@@ -49,8 +49,8 @@ gwill_breadcrumbs();
 
 	<?php
 	/*
-	 * Type-filter pills  -  same dialect as the theme's category pills:
-	 * <a> elements with a .is-active state, not a <form>  -  the archive
+	 * Type-filter pills - same dialect as the theme's category pills:
+	 * <a> elements with a .is-active state, not a <form> - the archive
 	 * itself IS the filter result, so pills are pure navigation.
 	 */
 	$filter_types = get_terms( array(

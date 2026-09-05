@@ -7,7 +7,7 @@ Table of Contents
 */
 
 /**
- * Unified inline-SVG icon helper  -  GWill Starter (v1.8.0).
+ * Unified inline-SVG icon helper - GWill Starter (v1.8.0).
  *
  * Ported from finance inc/svg-icons.php (live-proven), unified and made
  * brand-agnostic:
@@ -15,12 +15,12 @@ Table of Contents
  *     (social + toggle); partials never hand-roll <svg> again;
  *   - every icon string is lifted VERBATIM from a proven live file
  *     (finance svg-icons, starter share-button, embed-facades,
- *     back-to-top, nav-walker)  -  never hand-typed;
+ *     back-to-top, nav-walker) - never hand-typed;
  *   - the registry is filterable (gwill_icons) so builds append brand
  *     icons without touching partials; single icons filter via gwill_icon;
  *   - icons inherit font-size (width/height="1em") and paint via
  *     currentColor, so dark mode + brand skins recolour them free;
- *   - aria-hidden + focusable="false" everywhere  -  icons are decorative,
+ *   - aria-hidden + focusable="false" everywhere - icons are decorative,
  *     adjacent text carries the meaning (WCAG 1.1.1).
  *
  * Usage: gwill_icon( 'x' );  gwill_icon( 'instagram', [ 'size' => 20 ] );
@@ -83,12 +83,12 @@ function gwill_icon( string $name, array $args = array() ) {
 
 // ── 2. gwill_icons ────────────────────────────────────────
 /**
- * The icon registry  -  inline SVG only, no icon fonts, no external
+ * The icon registry - inline SVG only, no icon fonts, no external
  * requests (the finance law). Stroke icons share one 2px family so
  * they read as a set.
  *
  * Build-time note: every value below was extracted verbatim from a
- * proven live file by build-svg-icons.py  -  do not hand-edit paths.
+ * proven live file by build-svg-icons.py - do not hand-edit paths.
  *
  * @return array<string, string> name => SVG markup.
  */
@@ -113,7 +113,7 @@ function gwill_icons(): array {
 	);
 
 	/**
-	 * Filter the whole registry  -  append brand icons without touching
+	 * Filter the whole registry - append brand icons without touching
 	 * partials: add_filter( 'gwill_icons', fn( $i ) => $i + [ ... ] );
 	 *
 	 * @param array<string, string> $icons

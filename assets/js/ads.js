@@ -1,12 +1,12 @@
 /**
- * Ad slots  -  device-aware variant instantiation  -  GWill Starter (v1.8.0).
+ * Ad slots - device-aware variant instantiation - GWill Starter (v1.8.0).
  *
  * Ported from gwill-tech-theme assets/js/main.js §9–14 (live-proven),
  * extracted to its own file (the starter keeps main.js lean):
  *   1. picks the visitor's device via matchMedia (mobile ≤767,
  *      tablet 768–1023, desktop ≥1024);
  *   2. instantiates ONLY that variant into .ad-slot__content (one ad
- *      request per slot  -  the other variants' scripts never execute;
+ *      request per slot - the other variants' scripts never execute;
  *      cache-safe since every cached page carries all variants);
  *   3. hides the .ad-slot::before "Advertisement" corner label once
  *      the content div has real (non-template) children.
@@ -67,7 +67,7 @@ Table of Contents
 		var device = getDevice();
 		var tpl = content.querySelector( 'template.ad-variant[data-device="' + device + '"]' );
 		if ( ! tpl ) {
-			// No device-specific code  -  fall back to desktop/base.
+			// No device-specific code - fall back to desktop/base.
 			tpl = content.querySelector( 'template.ad-variant[data-device="desktop"]' );
 		}
 		if ( ! tpl ) { return; }
@@ -91,7 +91,7 @@ Table of Contents
 		} );
 	}
 
-	// Initial pass  -  server-rendered slots are in the DOM already.
+	// Initial pass - server-rendered slots are in the DOM already.
 	scan( document );
 
 	// Watch for dynamically injected slots and runtime fill.

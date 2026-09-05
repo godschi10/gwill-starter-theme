@@ -3,8 +3,8 @@
  * Theme-owned sitemap.xml (no plugin).
  *
  * Serves /sitemap.xml with published posts, pages, and any public custom
- * post types  -  excluding content that is noindexed or hidden (pages whose
- * slugs are in gwill_hidden_slugs()  -  see inc/seo.php  -  are never in the
+ * post types - excluding content that is noindexed or hidden (pages whose
+ * slugs are in gwill_hidden_slugs() - see inc/seo.php - are never in the
  * sitemap; tag/author/date archives are never in a post sitemap). The XML
  * is cached in a transient and rebuilt on every save_post
  * (publish/update/trash), so the sitemap never goes stale after content
@@ -33,7 +33,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.2.0
  */
 function gwill_sitemap_rewrite(): void {
-	// Defer to a major SEO plugin when one is active  -  same rule as every
+	// Defer to a major SEO plugin when one is active - same rule as every
 	// other theme-owned SEO output. AIOSEO and The SEO Framework both
 	// serve their main sitemap at /sitemap.xml; registering this rule
 	// anyway would hijack theirs (finance v1.0.201 lesson).
@@ -41,7 +41,7 @@ function gwill_sitemap_rewrite(): void {
 		return;
 	}
 
-	// Match with or without trailing slash  -  WP's redirect_canonical 301s
+	// Match with or without trailing slash - WP's redirect_canonical 301s
 	// /sitemap.xml to /sitemap.xml/ otherwise, an extra hop for crawlers.
 	add_rewrite_rule( '^sitemap\.xml/?$', 'index.php?gwill_sitemap=1', 'top' );
 }
@@ -90,14 +90,14 @@ function gwill_sitemap_template( string $template ): string {
 add_filter( 'template_include', 'gwill_sitemap_template' );
 
 /**
- * Serve /sitemap.xml directly  -  no trailing-slash canonical redirect.
+ * Serve /sitemap.xml directly - no trailing-slash canonical redirect.
  *
  * The rewrite rule above accepts both /sitemap.xml and /sitemap.xml/, but
  * WP's redirect_canonical still 301s the no-slash form to the slashed one
  * on some installs (observed live on finance: /sitemap.xml → 301 →
  * /sitemap.xml/), defeating the rule's documented zero-hop intent. The
  * sitemap URL is not a real routed object, so a canonical redirect adds
- * nothing  -  suppress it while the sitemap query var is set.
+ * nothing - suppress it while the sitemap query var is set.
  *
  * @param string|false $redirect_url Canonical redirect URL, false when none.
  * @return string|false Unchanged for every request except the sitemap.
@@ -122,13 +122,13 @@ add_filter( 'redirect_canonical', 'gwill_sitemap_canonical' );
  *
  * Includes every published post, page, and public (non-attachment,
  * non-nav-menu) custom post type. Excludes:
- *   - pages whose slug is in gwill_hidden_slugs() (inc/seo.php)  -  they
+ *   - pages whose slug is in gwill_hidden_slugs() (inc/seo.php) - they
  *     are noindexed and must never appear in a sitemap
  *   - posts whose canonical URL is empty (shouldn't happen, but a broken
  *     permalink must not emit a broken <loc>)
  *
  * lastmod uses post_modified (GMT) so crawlers see real change times.
- * One <url> entry per content row  -  no paged/archive URLs (those are
+ * One <url> entry per content row - no paged/archive URLs (those are
  * duplicates of the canonical page, and paginated archives are noindexed
  * by gwill_robots_meta).
  *
@@ -149,7 +149,7 @@ function gwill_sitemap_build(): string {
 		]
 	);
 
-	// Public custom post types  -  future-proof: any CPT the site adds
+	// Public custom post types - future-proof: any CPT the site adds
 	// later is included automatically, matching WP core's own sitemap
 	// behaviour. Attachments/menus are excluded.
 	$cpts = get_post_types(
@@ -209,12 +209,12 @@ function gwill_sitemap_build(): string {
 /**
  * Clear the cached sitemap whenever content changes.
  *
- * save_post fires on publish, update, and trash  -  exactly the moments the
+ * save_post fires on publish, update, and trash - exactly the moments the
  * sitemap contents can change. The transient is rebuilt lazily on the next
  * /sitemap.xml request.
  *
  * @since 1.2.0
- * @param int $post_id Post ID (unused  -  any save invalidates).
+ * @param int $post_id Post ID (unused - any save invalidates).
  */
 function gwill_sitemap_invalidate( int $post_id ): void {
 	delete_transient( 'gwill_sitemap_xml' );

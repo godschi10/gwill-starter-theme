@@ -3,7 +3,7 @@
  * Template Part: Testimonials Grid / Carousel
  *
  * Call via gwill_testimonials_grid( $args ) or the [gwill_testimonials]
- * shortcode  -  never include this file directly, since $args needs to
+ * shortcode - never include this file directly, since $args needs to
  * arrive through gwill_part()'s data-passing mechanism.
  *
  * @package GWill_Starter
@@ -21,8 +21,8 @@ $testimonials = gwill_get_testimonials( $args );
 
 if ( ! $testimonials ) {
 	// Loud in debug (a developer placed this tag and almost certainly
-	// wants to know why nothing's showing  -  most likely "no testimonials
-	// published yet"), completely silent in production  -  an empty HTML
+	// wants to know why nothing's showing - most likely "no testimonials
+	// published yet"), completely silent in production - an empty HTML
 	// comment is harmless but an empty section isn't worth rendering at
 	// all for a real visitor.
 	if ( WP_DEBUG ) {
@@ -100,7 +100,7 @@ if ( 'carousel' === $mode ) {
 
 	<?php if ( 'carousel' === $mode ) : ?>
 		<!-- Prev/Next buttons are inserted by assets/js/testimonials-carousel.js,
-		     not rendered here  -  a button with no JS behind it to actually
+		     not rendered here - a button with no JS behind it to actually
 		     scroll the track would be worse than no button at all. Without
 		     JS, the track is still fully usable: native touch swipe, or
 		     shift+scroll-wheel on desktop, via plain CSS scroll-snap. -->

@@ -1,6 +1,6 @@
 <?php
 /**
- * Spam Protection  -  GWill Starter
+ * Spam Protection - GWill Starter
  *
  * Honeypot, rate limiting, and client IP resolution.
  *
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * Honeypot helper  -  generates a unique field name per page load and stores
+ * Honeypot helper - generates a unique field name per page load and stores
  * it in a transient so validation knows what to expect. Bots that scrape
  * the form and fill all fields will use the stale name, triggering the trap.
  *
@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit;
  */
 function gwill_get_honeypot_name( string $prefix ): string {
 	$name = 'gwill_hp_' . $prefix;
-	// Store expected name in transient (5 min  -  covers form load + submit)
+	// Store expected name in transient (5 min - covers form load + submit)
 	set_transient( 'gwill_hp_expected_' . $name, true, 5 * MINUTE_IN_SECONDS );
 	return $name;
 }
@@ -40,18 +40,18 @@ function gwill_form_honeypot_triggered(): bool {
 		if ( str_starts_with( $key, 'gwill_hp_' ) ) {
 			// Check if this name was expected (transient exists)
 			if ( ! get_transient( 'gwill_hp_expected_' . $key ) ) {
-				// Submitted a name we didn't generate  -  bot using stale scraped name
+				// Submitted a name we didn't generate - bot using stale scraped name
 				return true;
 			}
-			// Name was expected  -  check if value is non-empty (human wouldn't fill it)
+			// Name was expected - check if value is non-empty (human wouldn't fill it)
 			if ( ! empty( $value ) ) {
 				return true;
 			}
-			// Valid name and empty  -  clean, not a bot
+			// Valid name and empty - clean, not a bot
 			return false;
 		}
 	}
-	// No honeypot field submitted at all  -  suspicious but allow (could be JS-disabled)
+	// No honeypot field submitted at all - suspicious but allow (could be JS-disabled)
 	return false;
 }
 
@@ -62,11 +62,11 @@ function gwill_form_honeypot_triggered(): bool {
 /**
  * Resolve the real client IP, accounting for CDN and reverse-proxy headers.
  *
- * SECURITY  -  proxy headers are NOT trusted by default.
+ * SECURITY - proxy headers are NOT trusted by default.
  *
  * HTTP_X_FORWARDED_FOR (and, by extension, HTTP_CF_CONNECTING_IP) are only
  * trustworthy when EVERY request genuinely passes through the proxy that
- * sets them  -  i.e. the origin server is firewalled to reject connections
+ * sets them - i.e. the origin server is firewalled to reject connections
  * that don't come from Cloudflare. On typical shared cPanel hosting, the
  * origin is usually reachable directly via its own IP unless that firewall
  * rule is explicitly configured. If it isn't, a request straight to the
@@ -76,12 +76,12 @@ function gwill_form_honeypot_triggered(): bool {
  * reopens the form to unlimited rapid-fire spam.
  *
  * Default behaviour (GWILL_TRUST_PROXY_HEADERS undefined or false): always
- * use REMOTE_ADDR. It's the actual TCP peer address  -  enforced by the
- * network stack, not an HTTP header  -  so it cannot be spoofed by the
+ * use REMOTE_ADDR. It's the actual TCP peer address - enforced by the
+ * network stack, not an HTTP header - so it cannot be spoofed by the
  * client. Behind Cloudflare without the origin firewalled, REMOTE_ADDR
  * will be Cloudflare's edge IP rather than the visitor's, which makes
  * rate-limiting coarser (many visitors briefly share an edge IP) but never
- * spoofable  -  a strictly safer failure mode than trusting an attacker-
+ * spoofable - a strictly safer failure mode than trusting an attacker-
  * controlled header.
  *
  * To restore per-visitor accuracy when the origin genuinely IS firewalled
@@ -90,7 +90,7 @@ function gwill_form_honeypot_triggered(): bool {
  *
  *   define( 'GWILL_TRUST_PROXY_HEADERS', true );
  *
- * @return string  Raw IP string (not validated  -  immediately hashed by callers).
+ * @return string  Raw IP string (not validated - immediately hashed by callers).
  * @since  1.0.21
  * @since  1.0.49  Gated proxy-header trust behind an explicit opt-in constant.
  */
@@ -106,7 +106,7 @@ function gwill_get_client_ip(): string {
 
 		// Validate REMOTE_ADDR is within Cloudflare's published IP ranges
 		// See: https://www.cloudflare.com/ips/
-		// This is the ACTUAL TCP connection source  -  cannot be spoofed.
+		// This is the ACTUAL TCP connection source - cannot be spoofed.
 		if ( gwill_is_cloudflare_ip( $remote_addr ) ) {
 
 			if ( ! empty( $_SERVER['HTTP_CF_CONNECTING_IP'] ) ) {
@@ -119,7 +119,7 @@ function gwill_get_client_ip(): string {
 				return trim( $ips[0] );
 			}
 		}
-		// If REMOTE_ADDR is not Cloudflare, ignore proxy headers entirely  -  fall through to return REMOTE_ADDR
+		// If REMOTE_ADDR is not Cloudflare, ignore proxy headers entirely - fall through to return REMOTE_ADDR
 	}
 
 	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- hashed immediately by callers
@@ -152,7 +152,7 @@ function gwill_is_cloudflare_ip( string $ip ): bool {
 		if ( ! empty( $ranges ) ) {
 			set_transient( 'gwill_cloudflare_ip_ranges', $ranges, DAY_IN_SECONDS );
 		} else {
-			// Hardcoded fallback (as of 2024-01)  -  covers vast majority of Cloudflare edges
+			// Hardcoded fallback (as of 2024-01) - covers vast majority of Cloudflare edges
 			$ranges = [
 				// IPv4
 				'173.245.48.0/20', '103.21.244.0/22', '103.22.200.0/22', '103.31.4.0/22',
@@ -258,11 +258,11 @@ function gwill_ip_in_cidr( string $ip, string $cidr ): bool {
 /**
  * Check whether the current IP is within the rate-limit window.
  *
- * Bypassed for users with at least edit_posts capability  -  the same gate
+ * Bypassed for users with at least edit_posts capability - the same gate
  * template-contact-demo.php itself uses. Without this, testing multiple
  * form patterns in quick succession (exactly what the demo page is for)
- * trips the same 5-minute cooldown meant for anonymous spam, and  -  until
- * v1.0.49's forms.js fix  -  surfaced as an indistinguishable generic error
+ * trips the same 5-minute cooldown meant for anonymous spam, and - until
+ * v1.0.49's forms.js fix - surfaced as an indistinguishable generic error
  * instead of the actual "please wait" message.
  *
  * Rate limit window defaults to 5 minutes; override via filter:

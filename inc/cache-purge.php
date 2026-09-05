@@ -2,7 +2,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Cache Purge Hook  -  GWill Starter.
+ * Cache Purge Hook - GWill Starter.
  *
  * Ported from gwillchijioke-theme inc/cache.php (portfolio, live-proven),
  * stripped of the portfolio-specific LiteSpeed settings doc-block (the
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  * nginx layer), fan out a purge of the affected URLs to the site's
  * /api/cache-purge endpoint (derived from home_url() so the purge
  * follows the site on migration). Otherwise (dev box) wipe the local
- * nginx FastCGI page cache  -  FILES only, never directories.
+ * nginx FastCGI page cache - FILES only, never directories.
  *
  * @package GWill_Starter
  * @since   1.6.0
@@ -33,7 +33,7 @@ function gwill_trigger_cache_purge( $post_id ) {
 	if ( get_post_status( $post_id ) !== 'publish' ) return;
 
 	// Dev box (no PURGE_SECRET): purge the local nginx FastCGI page cache so
-	// anonymous visitors see the edit immediately. FILES only  -  never dirs
+	// anonymous visitors see the edit immediately. FILES only - never dirs
 	// (deleting dirs cascades and nukes the cache root; see workflow skill).
 	if ( ! defined( 'PURGE_SECRET' ) ) {
 		gwill_purge_local_fastcgi_cache();
@@ -45,7 +45,7 @@ function gwill_trigger_cache_purge( $post_id ) {
 		$urls[] = home_url( '/' . $slug . '/' );
 	}
 
-	// Purge endpoint  -  derived from home_url() so the purge follows the site
+	// Purge endpoint - derived from home_url() so the purge follows the site
 	// on migration (portability audit 2026-08-20 on the source theme: a
 	// hardcoded domain broke on any domain change).
 	$purge_url = home_url( '/api/cache-purge' );
@@ -73,7 +73,7 @@ function gwill_purge_local_fastcgi_cache() {
 		return;
 	}
 
-	// A purge failure must NEVER break a post save  -  the cache dirs can be
+	// A purge failure must NEVER break a post save - the cache dirs can be
 	// unreadable (root-owned after nginx reloads, perms drift, SELinux, …).
 	// Wrap the walk in try/catch and skip unreadable subtrees.
 	// (Hit Aug 15 2026 on the source theme: save_post fatals when
@@ -90,7 +90,7 @@ function gwill_purge_local_fastcgi_cache() {
 			}
 		}
 	} catch ( UnexpectedValueException $e ) {
-		// Unreadable subtree  -  purge what we can, never fatal.
+		// Unreadable subtree - purge what we can, never fatal.
 		return;
 	}
 }

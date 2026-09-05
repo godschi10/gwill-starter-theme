@@ -1,5 +1,5 @@
 /**
- * Dark mode toggle  -  DEPRECATED, no longer enqueued anywhere.
+ * Dark mode toggle - DEPRECATED, no longer enqueued anywhere.
  *
  * As of v1.0.47 this entire file's logic lives inline in
  * gwill_darkmode_head_script() (inc/darkmode.php), output directly in
@@ -70,7 +70,7 @@
 		try {
 			stored = localStorage.getItem( STORAGE_KEY );
 		} catch ( e ) {
-			stored = ''; // Private/incognito mode  -  fail closed (cross-browser audit v1.3.4).
+			stored = ''; // Private/incognito mode - fail closed (cross-browser audit v1.3.4).
 		}
 		if ( stored ) return stored;
 		return window.matchMedia( '(prefers-color-scheme: dark)' ).matches ? 'dark' : 'light';
@@ -84,7 +84,7 @@
 		var next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
 		try {
 			localStorage.setItem( STORAGE_KEY, next );
-		} catch ( e ) { /* private mode  -  theme still applies for this visit */ }
+		} catch ( e ) { /* private mode - theme still applies for this visit */ }
 		applyTheme( next );
 	} );
 
@@ -95,7 +95,7 @@
 		try {
 			stored = localStorage.getItem( STORAGE_KEY );
 		} catch ( e ) {
-			stored = ''; // Private mode  -  follow OS preference (v1.3.4).
+			stored = ''; // Private mode - follow OS preference (v1.3.4).
 		}
 		if ( ! stored ) {
 			applyTheme( e.matches ? 'dark' : 'light' );

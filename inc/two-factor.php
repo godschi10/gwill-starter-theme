@@ -2,7 +2,7 @@
 
 /*
 Table of Contents
-1. TOTP PRIMITIVES (RFC 6238  -  HMAC-SHA1, 30s, 6 digits)
+1. TOTP PRIMITIVES (RFC 6238 - HMAC-SHA1, 30s, 6 digits)
 2. gwill_base32_decode
 3. gwill_totp_code_at
 4. gwill_totp_verify
@@ -19,9 +19,9 @@ Table of Contents
 15. BACKUP CODES
 16. gwill_2fa_generate_backup_codes
 17. gwill_2fa_consume_backup_code
-18. PROFILE PANEL (own profile  -  show_user_profile)
+18. PROFILE PANEL (own profile - show_user_profile)
 19. gwill_2fa_profile_panel
-20. ADMIN FORCE-DISABLE (other users  -  edit_user_profile)
+20. ADMIN FORCE-DISABLE (other users - edit_user_profile)
 21. gwill_2fa_profile_panel_admin
 22. SAVE HANDLERS
 23. gwill_2fa_save_gate
@@ -34,12 +34,12 @@ Table of Contents
 */
 
 /**
- * GWill Starter  -  Two-Factor Authentication (TOTP), zero plugins.
+ * GWill Starter - Two-Factor Authentication (TOTP), zero plugins.
  *
  * Ported from gwill-tech-theme v1.8.0 (live-proven on the tech site),
  * adapted to the starter dialect: text domain gwill-starter, the
  * starter's own security interplay (login_errors obfuscation at
- * inc/security.php:118 must keep 2FA guidance visible  -  patched there
+ * inc/security.php:118 must keep 2FA guidance visible - patched there
  * in this release), and the login rate limiter that also ships in
  * this release (bad 2FA codes count against it by design).
  *
@@ -53,7 +53,7 @@ Table of Contents
 
 defined( 'ABSPATH' ) || exit;
 
-// ── 1. TOTP PRIMITIVES (RFC 6238  -  HMAC-SHA1, 30s, 6 digits) ─────
+// ── 1. TOTP PRIMITIVES (RFC 6238 - HMAC-SHA1, 30s, 6 digits) ─────
 
 // ── 2. gwill_base32_decode ────────────────────────────────
 /**
@@ -69,7 +69,7 @@ function gwill_base32_decode( $b32 ) {
 	foreach ( str_split( $b32 ) as $char ) {
 		$pos = strpos( $alphabet, $char );
 		if ( false === $pos ) {
-			continue; // Invalid char  -  skip (lenient like most authenticators).
+			continue; // Invalid char - skip (lenient like most authenticators).
 		}
 		$bits .= str_pad( decbin( $pos ), 5, '0', STR_PAD_LEFT );
 	}
@@ -127,7 +127,7 @@ function gwill_totp_verify( $secret, $code, $window = 1 ) {
 
 // ── 5. gwill_2fa_new_secret ───────────────────────────────
 /**
- * Generate a new 160-bit base32 secret (32 chars  -  Google Authenticator
+ * Generate a new 160-bit base32 secret (32 chars - Google Authenticator
  * compatible). 20 random bytes → 160 bits → exactly 32 base32 chars.
  *
  * @return string
@@ -209,9 +209,9 @@ function gwill_2fa_last_error( $set = null ) {
 /**
  * Require the authenticator code once the password checks out.
  *
- * Priority 30  -  after wp_authenticate_username_password (20). A WP_Error
+ * Priority 30 - after wp_authenticate_username_password (20). A WP_Error
  * here triggers wp_login_failed, so bad codes ALSO count against the
- * login rate limiter in this release (5 failures / 15 min)  -  brute-forcing
+ * login rate limiter in this release (5 failures / 15 min) - brute-forcing
  * the 6-digit space is throttled by design.
  *
  * @param mixed  $user     WP_User|WP_Error|null from earlier filters.
@@ -221,13 +221,13 @@ function gwill_2fa_last_error( $set = null ) {
  */
 function gwill_2fa_authenticate( $user, $username, $password ) {
 	if ( ! $user instanceof WP_User ) {
-		return $user; // Password already failed  -  don't stack errors.
+		return $user; // Password already failed - don't stack errors.
 	}
 	if ( ! gwill_2fa_is_enabled( $user->ID ) ) {
-		return $user; // 2FA not enabled on this account  -  pass through.
+		return $user; // 2FA not enabled on this account - pass through.
 	}
 	$code = isset( $_POST['gwill_2fa_code'] )
-		? wp_unslash( $_POST['gwill_2fa_code'] ) // Raw  -  each verifier normalizes (TOTP digits / backup alnum).
+		? wp_unslash( $_POST['gwill_2fa_code'] ) // Raw - each verifier normalizes (TOTP digits / backup alnum).
 		: '';
 	if ( '' === $code ) {
 		gwill_2fa_last_error( 'gwill_2fa_required' );
@@ -252,7 +252,7 @@ add_filter( 'authenticate', 'gwill_2fa_authenticate', 30, 3 );
 
 // ── 13. gwill_2fa_login_field ─────────────────────────────
 /**
- * Inject the authenticator-code field on the login form  -  only when the
+ * Inject the authenticator-code field on the login form - only when the
  * submitted username actually has 2FA enabled (no field otherwise, so
  * non-2FA users see an untouched login form).
  */
@@ -293,7 +293,7 @@ add_action( 'login_head', 'gwill_2fa_login_css' );
  * in a 10-minute transient so it can be shown exactly ONCE.
  *
  * The digests are hashed over the NORMALIZED form (uppercase, no dashes)
- * so gwill_2fa_consume_backup_code()  -  which normalizes before hashing  - 
+ * so gwill_2fa_consume_backup_code() - which normalizes before hashing  - 
  * always matches, whether the user types the pretty dashes or not.
  *
  * @param int $user_id User ID.
@@ -305,7 +305,7 @@ function gwill_2fa_generate_backup_codes( $user_id ) {
 	for ( $i = 0; $i < 10; $i++ ) {
 		$raw          = strtoupper( wp_generate_password( 16, false, false ) );
 		$codes[]     = substr( chunk_split( $raw, 4, '-' ), 0, -1 ); // ABCD-EFGH-IJKL-MNOP
-		$normalized[] = $raw; // ABCDEFGHIJKLMNOP  -  the form verification hashes.
+		$normalized[] = $raw; // ABCDEFGHIJKLMNOP - the form verification hashes.
 	}
 	update_user_meta( $user_id, 'gwill_2fa_backup', array_map( 'wp_hash', $normalized ) );
 	set_transient( 'gwill_2fa_codes_' . $user_id, $codes, 10 * MINUTE_IN_SECONDS );
@@ -322,7 +322,7 @@ function gwill_2fa_generate_backup_codes( $user_id ) {
  * @return bool
  */
 function gwill_2fa_consume_backup_code( $user_id, $code ) {
-	$code = preg_replace( '/[^A-Z0-9]/', '', strtoupper( (string) $code ) ); // Uppercase FIRST  -  a lowercase strip would delete letters.
+	$code = preg_replace( '/[^A-Z0-9]/', '', strtoupper( (string) $code ) ); // Uppercase FIRST - a lowercase strip would delete letters.
 	if ( strlen( $code ) < 8 ) {
 		return false;
 	}
@@ -341,7 +341,7 @@ function gwill_2fa_consume_backup_code( $user_id, $code ) {
 	return false;
 }
 
-// ── 18. PROFILE PANEL (own profile  -  show_user_profile) ───────────
+// ── 18. PROFILE PANEL (own profile - show_user_profile) ───────────
 
 // ── 19. gwill_2fa_profile_panel ───────────────────────────
 /**
@@ -360,9 +360,9 @@ function gwill_2fa_profile_panel( $user ) {
 			<th scope="row"><?php esc_html_e( 'Status', 'gwill-starter' ); ?></th>
 			<td>
 				<?php if ( $enabled ) : ?>
-					<span class="gwill-2fa-on"><?php esc_html_e( 'Enabled  -  an authenticator code is required at login.', 'gwill-starter' ); ?></span>
+					<span class="gwill-2fa-on"><?php esc_html_e( 'Enabled - an authenticator code is required at login.', 'gwill-starter' ); ?></span>
 				<?php else : ?>
-					<span class="gwill-2fa-off"><?php esc_html_e( 'Disabled  -  password-only login.', 'gwill-starter' ); ?></span>
+					<span class="gwill-2fa-off"><?php esc_html_e( 'Disabled - password-only login.', 'gwill-starter' ); ?></span>
 				<?php endif; ?>
 			</td>
 		</tr>
@@ -404,7 +404,7 @@ function gwill_2fa_profile_panel( $user ) {
 					</p>
 					<label style="display:block;margin:6px 0;">
 						<input type="checkbox" name="gwill_2fa_cancel_pending" value="1" />
-						<?php esc_html_e( 'Cancel  -  keep current setup as it is', 'gwill-starter' ); ?>
+						<?php esc_html_e( 'Cancel - keep current setup as it is', 'gwill-starter' ); ?>
 					</label>
 					<p class="description">
 						<?php esc_html_e( 'Save your profile to activate. Codes rotate every 30 seconds.', 'gwill-starter' ); ?>
@@ -444,7 +444,7 @@ function gwill_2fa_profile_panel( $user ) {
 					if ( is_array( $plain ) ) :
 						?>
 						<p class="description" style="color:#b32d2e;">
-							<?php esc_html_e( 'Store these now  -  they are shown once. Each code works exactly once, then is destroyed.', 'gwill-starter' ); ?>
+							<?php esc_html_e( 'Store these now - they are shown once. Each code works exactly once, then is destroyed.', 'gwill-starter' ); ?>
 						</p>
 						<ol style="columns:2;max-width:480px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;">
 							<?php foreach ( $plain as $code ) : ?>
@@ -465,7 +465,7 @@ function gwill_2fa_profile_panel( $user ) {
 }
 add_action( 'show_user_profile', 'gwill_2fa_profile_panel' );
 
-// ── 20. ADMIN FORCE-DISABLE (other users  -  edit_user_profile) ─────
+// ── 20. ADMIN FORCE-DISABLE (other users - edit_user_profile) ─────
 
 // ── 21. gwill_2fa_profile_panel_admin ─────────────────────
 /**
@@ -476,7 +476,7 @@ add_action( 'show_user_profile', 'gwill_2fa_profile_panel' );
  */
 function gwill_2fa_profile_panel_admin( $user ) {
 	if ( get_current_user_id() === (int) $user->ID ) {
-		return; // Own profile  -  handled by the panel above.
+		return; // Own profile - handled by the panel above.
 	}
 	if ( ! current_user_can( 'edit_user', (int) $user->ID ) ) {
 		return;
@@ -490,7 +490,7 @@ function gwill_2fa_profile_panel_admin( $user ) {
 			<th scope="row"><?php esc_html_e( 'Status', 'gwill-starter' ); ?></th>
 			<td>
 				<?php if ( $enabled ) : ?>
-					<span class="gwill-2fa-on"><?php esc_html_e( 'Enabled  -  this user needs their authenticator at login.', 'gwill-starter' ); ?></span>
+					<span class="gwill-2fa-on"><?php esc_html_e( 'Enabled - this user needs their authenticator at login.', 'gwill-starter' ); ?></span>
 					<label style="display:block;margin-top:8px;color:#b32d2e;">
 						<input type="checkbox" name="gwill_2fa_force_disable" value="1" />
 						<?php esc_html_e( 'Force-disable two-factor for this user (recovery only)', 'gwill-starter' ); ?>
@@ -527,7 +527,7 @@ function gwill_2fa_save_gate( $user_id ) {
 
 // ── 24. gwill_2fa_submitted_code ──────────────────────────
 /**
- * Clean a submitted code  -  raw (wp_unslash only). Digits vs alphanumeric
+ * Clean a submitted code - raw (wp_unslash only). Digits vs alphanumeric
  * normalization is owned by the verifiers: gwill_totp_verify() strips to
  * 6 digits, gwill_2fa_consume_backup_code() normalizes to uppercase
  * alnum. Stripping here would destroy alphanumeric backup codes.
@@ -605,7 +605,7 @@ function gwill_2fa_save_own( $user_id ) {
 		|| gwill_2fa_consume_backup_code( $user_id, $code );
 
 	if ( ! $ok ) {
-		return; // Invalid code  -  no action taken.
+		return; // Invalid code - no action taken.
 	}
 
 	if ( ! empty( $_POST['gwill_2fa_disable'] ) ) {
@@ -630,7 +630,7 @@ add_action( 'personal_options_update', 'gwill_2fa_save_own' );
  */
 function gwill_2fa_save_admin( $user_id ) {
 	if ( get_current_user_id() === (int) $user_id ) {
-		return; // Own profile  -  handled by the own-save handler.
+		return; // Own profile - handled by the own-save handler.
 	}
 	if ( ! gwill_2fa_save_gate( $user_id ) ) {
 		return;

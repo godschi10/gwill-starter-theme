@@ -44,7 +44,7 @@ interface RequestInterface extends MessageInterface
     /**
      * Return an instance with the specific request-target.
      *
-     * If the request needs a non-origin-form request-target  -  e.g., for
+     * If the request needs a non-origin-form request-target - e.g., for
      * specifying an absolute-form, authority-form, or asterisk-form  - 
      * this method may be used to create an instance with the specified
      * request-target, verbatim.

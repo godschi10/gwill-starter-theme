@@ -1,6 +1,6 @@
 {
 	"name": "gwillchijioke/gwill-starter-theme",
-	"description": "GWill Starter  -  a custom WordPress starter theme. No parent theme dependency. Ships web push (self-hosted VAPID) and a custom-apps skeleton.",
+	"description": "GWill Starter - a custom WordPress starter theme. No parent theme dependency. Ships web push (self-hosted VAPID) and a custom-apps skeleton.",
 	"type": "wordpress-theme",
 	"license": "GPL-2.0-or-later",
 	"require": {

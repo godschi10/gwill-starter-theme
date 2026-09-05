@@ -6,15 +6,15 @@ Table of Contents
 */
 
 /**
- * AJAX post filter  -  GWill Starter (v1.7.0).
+ * AJAX post filter - GWill Starter (v1.7.0).
  *
  * Ported from gwill-tech-theme inc/ajax-posts.php (live-proven on the
  * tech site), adapted to the starter dialect:
- *   - cards render via gwill_part( 'content' )  -  the starter's own
+ *   - cards render via gwill_part( 'content' ) - the starter's own
  *     article card partial (tech had two contexts; the starter renders
  *     one canonical card, so the context param narrows to 'blog');
  *   - category resolution keeps the `cat` (term-ID) query so child-
- *     category posts roll up into the parent  -  the behaviour site
+ *     category posts roll up into the parent - the behaviour site
  *     owners expect from the homepage sections (tech pattern);
  *   - CTA renders in the theme's pill/button dialect with esc classes.
  *
@@ -23,19 +23,19 @@ Table of Contents
  * place (with a spinner) instead of show/hiding already-rendered cards.
  *
  * Parameters (GET):
- *   category   -  category slug, or 'all' for the latest posts.
- *   per_page   -  how many posts (clamped 1–30, default 9).
+ *   category  - category slug, or 'all' for the latest posts.
+ *   per_page  - how many posts (clamped 1–30, default 9).
  *
  * No nonce: the endpoint only ever returns PUBLIC published posts, so
  * it is functionally equivalent to the public REST search the theme
  * already exposes. A nonce baked into page HTML would go stale under
- * the site's FastCGI full-page cache  -  the same reason the contact
+ * the site's FastCGI full-page cache - the same reason the contact
  * form fetches its nonce separately.
  *
- * INTERPLAY  -  search-index.php exposes REST search under
+ * INTERPLAY - search-index.php exposes REST search under
  * gwill/v1/search-index; this endpoint is admin-ajax by design (the
  * filter JS uses the same relative admin-ajax URL pattern as the
- * contact form  -  resolves against the browser origin on any domain).
+ * contact form - resolves against the browser origin on any domain).
  *
  * @package GWill_Starter
  * @since   1.7.0
@@ -71,7 +71,7 @@ function gwill_filter_posts_ajax(): void {
 		if ( $cat ) {
 			$args['cat'] = (int) $cat->term_id;
 		} else {
-			// Unknown category  -  return an honest empty result.
+			// Unknown category - return an honest empty result.
 			wp_send_json_success( array(
 				'html'  => '',
 				'count' => 0,

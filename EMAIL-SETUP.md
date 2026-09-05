@@ -2,12 +2,12 @@
 
 Contact form notifications use `wp_mail()`. On most cPanel/LiteSpeed hosts,
 `wp_mail()` works out of the box via Exim (the server's built-in mail agent)
-with zero configuration. Start there  -  only add SMTP if delivery is actually
+with zero configuration. Start there - only add SMTP if delivery is actually
 failing.
 
 ---
 
-## Step 1  -  Test server mail first
+## Step 1 - Test server mail first
 
 1. Publish any page using a contact form template.
 2. Submit a test message to yourself.
@@ -21,7 +21,7 @@ move to SMTP.
 
 ---
 
-## Step 2  -  Add SMTP (only if server mail fails)
+## Step 2 - Add SMTP (only if server mail fails)
 
 SMTP guarantees delivery from a trusted sending domain. Add constants to
 `wp-config.php` above the `/* That's all, stop editing! */` line.
@@ -57,7 +57,7 @@ Any provider with SMTP credentials works. Common free-tier options:
 | Mailgun        | 1,000/month      | Requires DNS records                |
 | SendGrid       | 100/day          | Requires sender verification        |
 | Gmail (App PW) | Personal use     | Requires 2FA + App Password enabled |
-| cPanel SMTP    | Varies by host   | Same server  -  no external account needed |
+| cPanel SMTP    | Varies by host   | Same server - no external account needed |
 
 For Brevo specifically: the SMTP password is the **SMTP key** found under
 SMTP & API → SMTP tab. It starts with `xsmtpsib-`. The API key (`xkeysib-`)
@@ -80,9 +80,9 @@ If the GWILL_SMTP_* constants are defined, `inc/forms.php` hooks into
 
 Notifications are sent as branded HTML emails:
 
-- **Header**: Dark `#111111` strip  -  site icon (if set) + site name.
+- **Header**: Dark `#111111` strip - site icon (if set) + site name.
   Upload a site icon under Appearance → Customize → Site Identity.
-- **Body**: One card per field  -  label in small-caps, value left-bordered.
+- **Body**: One card per field - label in small-caps, value left-bordered.
 - **Footer**: "Sent via [site name] contact form."
 
 ---

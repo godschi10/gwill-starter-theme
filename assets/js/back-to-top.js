@@ -1,11 +1,11 @@
 /**
- * GWill Starter  -  Back to Top
+ * GWill Starter - Back to Top
  *
  * @package GWill_Starter
  * @since   1.0.50
  * @since   1.0.59 Switched from a fixed 400px threshold to a percentage of
  *                 actual scrollable distance (default 30%, filterable via
- *                 gwill_back_to_top_percent in inc/enqueue.php)  -  a fixed
+ *                 gwill_back_to_top_percent in inc/enqueue.php) - a fixed
  *                 pixel count meant something different on a short post
  *                 than a long one; a percentage scales with the page.
  */
@@ -17,7 +17,7 @@
 	if ( ! btn ) return;
 
 	// GwillBackToTop is only present when this script is actually enqueued
-	// (see inc/enqueue.php)  -  the || 0.3 fallback exists purely for the
+	// (see inc/enqueue.php) - the || 0.3 fallback exists purely for the
 	// edge case of the localize data failing to print for any reason, not
 	// because it's expected to ever actually be missing in practice.
 	var SHOW_AFTER_PERCENT = ( window.GwillBackToTop && window.GwillBackToTop.showAfterPercent ) || 0.3;
@@ -30,7 +30,7 @@
 	function update() {
 		ticking = false;
 		var distance = scrollableDistance();
-		// A page shorter than the viewport has nothing to scroll  -  never show.
+		// A page shorter than the viewport has nothing to scroll - never show.
 		var visible = distance > 0 && ( window.scrollY / distance ) > SHOW_AFTER_PERCENT;
 		btn.classList.toggle( 'is-visible', visible );
 	}
@@ -42,7 +42,7 @@
 		}
 	}, { passive: true } );
 
-	// Recompute on resize too  -  scrollableDistance() depends on viewport
+	// Recompute on resize too - scrollableDistance() depends on viewport
 	// height, which changes on rotation/resize independently of scrolling.
 	window.addEventListener( 'resize', function () {
 		if ( ! ticking ) {

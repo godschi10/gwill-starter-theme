@@ -2,7 +2,7 @@
 /**
  * Blog Posts Index (home.php)
  *
- * Displays the blog posts index  -  the page assigned under
+ * Displays the blog posts index - the page assigned under
  * Settings → Reading → "Posts page" when a static front page is set,
  * or the default front when no static page is configured.
  *

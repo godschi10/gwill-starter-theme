@@ -29,7 +29,7 @@ function gwill_get_related_posts( int $post_id = 0, int $count = 3 ): array {
 	$primary_cat = gwill_get_primary_category( $post_id );
 
 	if ( $primary_cat ) {
-		// Primary category set  -  match on that one term specifically. Tighter
+		// Primary category set - match on that one term specifically. Tighter
 		// relevance than "any shared category" when a primary term exists,
 		// since that's the author's own explicit signal of what this post is
 		// really about.
@@ -50,7 +50,7 @@ function gwill_get_related_posts( int $post_id = 0, int $count = 3 ): array {
 		'orderby'             => 'date',
 		'order'               => 'DESC',
 		'category__in'        => $cat_ids,
-		'no_found_rows'       => true, // pagination never needed here  -  skip the COUNT query.
+		'no_found_rows'       => true, // pagination never needed here - skip the COUNT query.
 	], $post_id );
 
 	$query = new WP_Query( $args );

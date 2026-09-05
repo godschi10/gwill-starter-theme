@@ -14,6 +14,6 @@ indent_style = space
 indent_size = 2
 
 # Two trailing spaces at the end of a Markdown line produce a <br> in
-# rendered output — trimming them silently breaks line breaks in docs.
+# rendered output - trimming them silently breaks line breaks in docs.
 [*.md]
 trim_trailing_whitespace = false

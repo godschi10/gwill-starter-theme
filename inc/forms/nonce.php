@@ -1,6 +1,6 @@
 <?php
 /**
- * REST Nonce Endpoints  -  GWill Starter
+ * REST Nonce Endpoints - GWill Starter
  *
  * Provides nonce endpoints for contact forms.
  * Primary: admin-ajax.php (excluded from LiteSpeed Cache by default).
@@ -13,11 +13,11 @@
 defined( 'ABSPATH' ) || exit;
 
 // ─────────────────────────────────────────────────────────────────────────────
-// REST nonce endpoint (legacy  -  kept for backwards compatibility)
+// REST nonce endpoint (legacy - kept for backwards compatibility)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * REST nonce endpoint  -  kept for backwards compatibility only.
+ * REST nonce endpoint - kept for backwards compatibility only.
  *
  * Superseded as forms.js's nonce source by gwill_ajax_get_nonce() /
  * admin-ajax.php in v1.0.46 (REST's rest_cookie_check_errors check was
@@ -29,7 +29,7 @@ defined( 'ABSPATH' ) || exit;
  * Response: { "nonce": "abc123..." }
  *
  * The nonce action ("gwill_contact_form") matches check_ajax_referer() in
- * gwill_handle_contact_form()  -  no handler changes needed.
+ * gwill_handle_contact_form() - no handler changes needed.
  */
 add_action( 'rest_api_init', function () {
 	register_rest_route(
@@ -52,14 +52,14 @@ add_action( 'rest_api_init', function () {
  * source for forms.js. admin-ajax.php is excluded from LiteSpeed Cache by
  * default, so nonces are always fresh. It also sidesteps the REST API
  * cookie-auth check (rest_cookie_check_errors at priority 100) that caused
- * logged-in users to receive a 403  -  the error that surfaced as "Network
+ * logged-in users to receive a 403 - the error that surfaced as "Network
  * error" in all demo page forms.
  *
  * The REST endpoint is kept for backwards compatibility but is no longer
  * called by forms.js. The admin-ajax endpoint is referenced via
  * GwillForms.nonceUrl in inc/enqueue.php.
  *
- * Response shape: { "nonce": "abc123" }  -  identical to the REST endpoint,
+ * Response shape: { "nonce": "abc123" } - identical to the REST endpoint,
  * so forms.js needs no changes.
  *
  * @since 1.0.46
@@ -81,7 +81,7 @@ function gwill_ajax_get_nonce(): void {
 	if ( ob_get_level() > 0 ) {
 		ob_clean();
 	}
-	// wp_send_json() outputs the array directly  -  no success/data wrapper  - 
+	// wp_send_json() outputs the array directly - no success/data wrapper  - 
 	// matching the REST endpoint's { "nonce": "..." } shape.
 	wp_send_json( [ 'nonce' => wp_create_nonce( 'gwill_contact_form' ) ] );
 }
@@ -102,12 +102,12 @@ function gwill_ajax_get_nonce(): void {
  * Fix: run at priority 99 (before the cookie check at 100). If no prior auth
  * decision was made (null) and the request is for our public nonce route,
  * return true ("authenticated" / no error). The permission callback
- * (__return_true) remains the authoritative access gate  -  returning true here
+ * (__return_true) remains the authoritative access gate - returning true here
  * only prevents the spurious 403, not the endpoint's own access control.
  */
 add_filter( 'rest_authentication_errors', function ( $result ) {
 	if ( null !== $result ) {
-		return $result; // Another plugin already made an auth decision  -  honour it.
+		return $result; // Another plugin already made an auth decision - honour it.
 	}
 	$uri = (string) ( $_SERVER['REQUEST_URI'] ?? '' ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- used for URL path comparison only
 	if ( false !== strpos( $uri, '/gwill/v1/form-nonce' ) ) {

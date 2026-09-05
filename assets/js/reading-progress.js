@@ -1,5 +1,5 @@
 /**
- * Reading Progress Bar  -  GWill Starter (v1.7.0).
+ * Reading Progress Bar - GWill Starter (v1.7.0).
  *
  * Ported from gwill-tech-theme assets/js/reading-progress.js (live-proven
  * on the tech site): updates a fixed top progress bar based on scroll

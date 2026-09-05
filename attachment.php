@@ -7,10 +7,10 @@
  *
  * WordPress creates an attachment page for every uploaded file. Without a
  * redirect, visitors land on a sparse page that renders just the image with
- * default styling  -  no navigation, no context, poor UX and weak SEO.
+ * default styling - no navigation, no context, poor UX and weak SEO.
  *
  * To disable the redirect and build full attachment pages instead:
- *   1. Delete this file  -  WordPress falls through to index.php.
+ *   1. Delete this file - WordPress falls through to index.php.
  *   2. Or replace the redirect block below with get_header() + your markup.
  *
  * @package GWill_Starter

@@ -2,20 +2,20 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * External-link hardening  -  GWill Starter.
+ * External-link hardening - GWill Starter.
  *
- * FRESH MODULE (v1.7.0  -  no elder theme owns this; recon verified Aug 30
+ * FRESH MODULE (v1.7.0 - no elder theme owns this; recon verified Aug 30
  * 2026: tech/finance only hand-write rel on their own markup, nothing
  * filters user content). Every external <a> in post content gets
  * target="_blank" + rel="noopener noreferrer":
  *
- *   - target="_blank"       -  the visitor keeps their place on the site
+ *   - target="_blank"      - the visitor keeps their place on the site
  *                            (mobile especially: an external link would
  *                            otherwise replace the page in the same tab).
- *   - rel="noopener"        -  REQUIRED with _blank: without it the opened
+ *   - rel="noopener"       - REQUIRED with _blank: without it the opened
  *                            page can control `window.opener` and
  *                            redirect the referring tab (tabnabbing).
- *   - rel="noreferrer"      -  hides the Referer, so the destination never
+ *   - rel="noreferrer"     - hides the Referer, so the destination never
  *                            learns the visitor's exact on-site URL.
  *
  * Scope: the_content only (post bodies). Feeds and admin are skipped  - 
@@ -25,7 +25,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * Interplay: never touches mailto:/tel:/# anchors, internal links
  * (host compared www-stripped, both directions), or links that already
- * carry a target attribute (author intent wins  -  if the author set
+ * carry a target attribute (author intent wins - if the author set
  * target="_self" deliberately, hardening must not override it). Existing
  * rel tokens are MERGED, never replaced (rel="nofollow" stays
  * rel="nofollow noopener noreferrer").
@@ -46,7 +46,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Is the link host a different site than this one? Both sides are
  * compared with their "www." prefix stripped, so www.example.com links
- * from example.com (and the reverse) count as internal  -  that is the
+ * from example.com (and the reverse) count as internal - that is the
  * behaviour site owners expect.
  *
  * @param string $link_host Host from the href (already lowercased).
@@ -94,7 +94,7 @@ function gwill_harden_external_links( $content ) {
 			}
 
 			if ( ! gwill_is_external_link_host( strtolower( $h[2] ), $site_host ) ) {
-				return $m[0]; // internal  -  untouched.
+				return $m[0]; // internal - untouched.
 			}
 
 			// Author intent wins: an explicit target is never overridden.

@@ -1,5 +1,5 @@
 /**
- * GWill Starter  -  PWA install prompt + service worker registration.
+ * GWill Starter - PWA install prompt + service worker registration.
  *
  * PORTED from gwill-finance-theme (tech-theme lineage). Expert pattern
  * (not the generic Chrome mini-infobar): capture the
@@ -74,7 +74,7 @@ Table of Contents
 				'<div class="gpwa-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22Zm6-6V11a6 6 0 0 0-4.5-5.8V4a1.5 1.5 0 0 0-3 0v1.2A6 6 0 0 0 6 11v5l-1.7 1.7a1 1 0 0 0 .7 1.7h14a1 1 0 0 0 .7-1.7L18 16Z"/></svg></div>' +
 				'<div class="gpwa-body">' +
 					'<p class="gpwa-title">' + ( I18N.installTitle || 'Install' ) + '</p>' +
-					'<p class="gpwa-copy">' + ( I18N.installCopy || 'Add this site to your home screen  -  read offline, open in one tap.' ) + '</p>' +
+					'<p class="gpwa-copy">' + ( I18N.installCopy || 'Add this site to your home screen - read offline, open in one tap.' ) + '</p>' +
 				'</div>' +
 				'<div class="gpwa-acts">' +
 					'<button type="button" class="gpwa-install" data-gpwa="install">' + ( I18N.installBtn || 'Install app' ) + '</button>' +

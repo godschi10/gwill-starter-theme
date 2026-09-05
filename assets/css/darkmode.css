@@ -1,5 +1,5 @@
 /**
- * Dark Mode  -  Token overrides and toggle button
+ * Dark Mode - Token overrides and toggle button
  *
  * Three-state system (matches inc/darkmode.php and assets/js/darkmode.js):
  *   1. No data-theme set + OS prefers dark  → @media rule applies (no JS req'd)
@@ -8,7 +8,7 @@
  *      light tokens, beating the system-preference @media rule
  *
  * The flash-prevention script in header.php sets data-theme before wp_head()
- * loads any CSS  -  zero FOUC on page load.
+ * loads any CSS - zero FOUC on page load.
  *
  * @package GWill_Starter
  * @since   1.0.30
@@ -16,21 +16,21 @@
 
 /* ── Dark token set ──────────────────────────────────────────────────────── */
 
-/* Case 1  -  System preference, no stored choice (no JS required)           */
+/* Case 1 - System preference, no stored choice (no JS required)           */
 @media (prefers-color-scheme: dark) {
 	:root:not([data-theme="light"]) {
 		--color-primary:      #f1f5f9;
-		--color-accent:       #60a5fa;  /* lightened blue  -  sufficient contrast on dark bg */
+		--color-accent:       #60a5fa;  /* lightened blue - sufficient contrast on dark bg */
 		--color-bg:           #0f172a;
 		--color-muted:        #94a3b8;
 		--color-border:       #1e293b;
 		--color-border-input: #475569;
-		--color-btn-bg:       #60a5fa;  /* matches --color-accent in dark  -  ~8:1 on dark bg */
-		--color-btn-text:     #0f172a;  /* dark navy text  -  ~8:1 contrast on #60a5fa */
+		--color-btn-bg:       #60a5fa;  /* matches --color-accent in dark - ~8:1 on dark bg */
+		--color-btn-text:     #0f172a;  /* dark navy text - ~8:1 contrast on #60a5fa */
 	}
 }
 
-/* Case 2  -  User explicitly chose dark                                     */
+/* Case 2 - User explicitly chose dark                                     */
 [data-theme="dark"] {
 	--color-primary:      #f1f5f9;
 	--color-accent:       #60a5fa;
@@ -42,7 +42,7 @@
 	--color-btn-text:     #0f172a;
 }
 
-/* Case 3  -  User explicitly chose light (beats system dark preference)     */
+/* Case 3 - User explicitly chose light (beats system dark preference)     */
 [data-theme="light"] {
 	--color-primary:      #111111;
 	--color-accent:       #2563eb;
@@ -63,7 +63,7 @@
 }
 
 /* ── Toggle button ───────────────────────────────────────────────────────── */
-/* Visually matches .gwill-search-expand__toggle  -  same size, same reset.  */
+/* Visually matches .gwill-search-expand__toggle - same size, same reset.  */
 
 .gwill-darkmode-toggle {
 	display: flex;
@@ -91,7 +91,7 @@
 /* Convention: moon shown in light mode (click to go dark),                */
 /*             sun shown in dark mode (click to go light).                 */
 
-/* Default: light mode  -  show moon, hide sun */
+/* Default: light mode - show moon, hide sun */
 .gwill-darkmode-toggle__sun  { display: none; }
 .gwill-darkmode-toggle__moon { display: flex; }
 
@@ -140,7 +140,7 @@
 
 /* ── Contact / gwill-form inputs ─────────────────────────────────────────── */
 /* style.css line ~891 hardcodes background:#fff on .gwill-form__field       */
-/* elements  -  not tokenized, so the CSS variable override doesn't reach it.  */
+/* elements - not tokenized, so the CSS variable override doesn't reach it.  */
 
 @media (prefers-color-scheme: dark) {
 	:root:not([data-theme="light"]) .gwill-form__field input,
@@ -211,7 +211,7 @@
 }
 
 /* ── pre / code / Gutenberg code blocks ─────────────────────────────────── */
-/* style.css hardcodes background:#f3f4f6 on .entry-content pre/code  -  not  */
+/* style.css hardcodes background:#f3f4f6 on .entry-content pre/code - not  */
 /* tokenized, so the CSS variable override doesn't reach it. Same applies    */
 /* to Gutenberg's .wp-block-code and .wp-block-preformatted.                 */
 
@@ -240,7 +240,7 @@
 /* ── Submit / CTA buttons ────────────────────────────────────────────────── */
 /* Button backgrounds are now driven by --color-btn-bg / --color-btn-text    */
 /* tokens defined in the dark token blocks above. All selectors in style.css  */
-/* and search.css use var(--color-btn-bg)  -  no per-selector overrides needed. */
+/* and search.css use var(--color-btn-bg) - no per-selector overrides needed. */
 /*                                                                            */
 /* The only remaining override is the search expand submit border-left, which */
 /* is a separator issue (not a button color issue) and cannot be tokenised    */

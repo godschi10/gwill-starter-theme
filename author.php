@@ -12,7 +12,7 @@
  * This file covers the general case.
  *
  * get_queried_object() returns a WP_User on author archive pages.
- * The instanceof guard is defensive  -  it protects against any edge case
+ * The instanceof guard is defensive - it protects against any edge case
  * where WordPress routes a non-author query through this template.
  *
  * @package GWill_Starter
@@ -79,14 +79,14 @@ gwill_breadcrumbs();
 		<?php else : ?>
 			<?php
 			/*
-			 * wp_kses_post(), NOT esc_html()  -  found the hard way in 1.0.53.
+			 * wp_kses_post(), NOT esc_html() - found the hard way in 1.0.53.
 			 * get_the_archive_title() deliberately returns a string containing
 			 * real HTML: WordPress core wraps the dynamic portion in a <span>
 			 * for styling purposes. esc_html() converts those tags to literal
 			 * visible text instead of letting them work as actual markup.
 			 * wp_kses_post() preserves the legitimate <span> while still
 			 * stripping anything genuinely dangerous. See archive.php for the
-			 * full writeup  -  identical bug, identical cause, fixed together.
+			 * full writeup - identical bug, identical cause, fixed together.
 			 */
 			?>
 			<h1 class="archive-title"><?php echo wp_kses_post( get_the_archive_title() ); ?></h1>

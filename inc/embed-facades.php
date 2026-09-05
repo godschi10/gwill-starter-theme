@@ -1,30 +1,30 @@
 <?php
 /**
- * Click-to-play embed facades  -  GWill Starter (v1.3.0, ported from finance).
+ * Click-to-play embed facades - GWill Starter (v1.3.0, ported from finance).
  *
  * YouTube, Vimeo and Spotify oEmbeds are swapped for a lightweight
  * play-button facade. The third-party player (1–2 MB of JS/CSS each)
- * is only fetched when the visitor actually clicks play  -  the pattern
+ * is only fetched when the visitor actually clicks play - the pattern
  * Lighthouse recommends for embed-heavy pages, and the difference
  * between a 50 and a ~95 Performance score on embed-heavy pages.
  *
  * The facade lives INSIDE the block's own .wp-block-embed__wrapper,
  * so the existing aspect-ratio box (wp-has-aspect-ratio) and caption
- * are untouched  -  layout is identical before and after the click.
+ * are untouched - layout is identical before and after the click.
  * On activation, assets/js/embeds.js recreates the original iframe
  * (same attributes, autoplay added) and swaps it in.
  *
  * TWO render paths are covered:
- *   1. embed_oembed_html  -  classic [embed] shortcodes and any fresh
+ *   1. embed_oembed_html - classic [embed] shortcodes and any fresh
  *      oEmbed fetch (the iframe is produced at render time).
- *   2. render_block (core/embed)  -  Gutenberg blocks whose rendered
+ *   2. render_block (core/embed) - Gutenberg blocks whose rendered
  *      HTML was baked into the post content at save time. Since
  *      core/embed has no server render callback in WP 7.x, that
  *      baked HTML is echoed verbatim and NO oEmbed filter ever
- *      runs  -  the baked iframe is swapped here instead.
+ *      runs - the baked iframe is swapped here instead.
  *
  * Only transforms when the facade assets are actually enqueued
- * (singulars containing a core/embed block)  -  external oEmbed
+ * (singulars containing a core/embed block) - external oEmbed
  * consumers, feeds and admin contexts always get the plain iframe.
  *
  * @package GWill_Starter
@@ -37,7 +37,7 @@ add_filter( 'embed_oembed_html', 'gwill_embed_facade', 10, 4 );
 add_filter( 'render_block', 'gwill_facade_render_block', 10, 2 );
 
 /**
- * Path 1: classic oEmbed render  -  replace a provider iframe with a
+ * Path 1: classic oEmbed render - replace a provider iframe with a
  * click-to-play facade button.
  *
  * @param string|false $html    The cached oEmbed HTML.
@@ -94,7 +94,7 @@ function gwill_facade_render_block( $block_content, $block ) {
 		return $block_content;
 	}
 
-	// Already a facade (repeat renders, previews)  -  leave it alone.
+	// Already a facade (repeat renders, previews) - leave it alone.
 	if ( false !== strpos( $block_content, 'gwill-embed--' ) ) {
 		return $block_content;
 	}
@@ -177,7 +177,7 @@ function gwill_facade_button( $iframe, $provider ) {
 
 	$button  = '<button type="button" class="gwill-embed gwill-embed--' . $provider . '"';
 	if ( $thumb ) {
-		// Painted as the button's OWN CSS background  -  no <img> element,
+		// Painted as the button's OWN CSS background - no <img> element,
 		// so lightbox.js has nothing to hook and the a11y tree stays
 		// well-formed (tech-theme v1.16.79 pattern).
 		$button .= ' style="background-image:url(\'' . esc_url( $thumb ) . '\')"';
@@ -222,7 +222,7 @@ function gwill_embed_provider( $url ) {
 /**
  * Extract the iframe attributes we replay on click.
  *
- * src/title/allow/referrerpolicy are enough  -  sizing comes from the
+ * src/title/allow/referrerpolicy are enough - sizing comes from the
  * block's aspect-ratio CSS. Values are entity-decoded (Vimeo srcs
  * ship &amp;) and re-escaped on output.
  *
@@ -255,20 +255,20 @@ function gwill_embed_play_src( $src, $provider ) {
 
 /**
  * Cookie-free poster URL for the facade backdrop (tech-theme v1.16.79
- * pattern  -  restores the preview, done right).
+ * pattern - restores the preview, done right).
  *
- * YouTube: i.ytimg.com <id>/hqdefault.jpg  -  keyless, zero Set-Cookie
+ * YouTube: i.ytimg.com <id>/hqdefault.jpg - keyless, zero Set-Cookie
  *          (tech-theme live-verified).
- * Vimeo:   i.vimeocdn.com <id>_640x360.jpg  -  the keyless Vimeo poster
+ * Vimeo:   i.vimeocdn.com <id>_640x360.jpg - the keyless Vimeo poster
  *          (no API key was ever needed; tech-theme live-verified).
- * Spotify: no keyless poster API  -  keeps the branded #191414 surface.
+ * Spotify: no keyless poster API - keeps the branded #191414 surface.
  *
- * Painted as the button's own inline CSS background-image  -  NOT an <img>
- * element  -  so the lightbox hook (querySelectorAll('img')) can't capture
+ * Painted as the button's own inline CSS background-image - NOT an <img>
+ * element - so the lightbox hook (querySelectorAll('img')) can't capture
  * it and the presentational-element audit violation is impossible.
  *
  * NOTE: i.ytimg.com can 403 from Google's PSI/Lighthouse browser infra
- * specifically  -  real visitors get 200. A failed poster just leaves the
+ * specifically - real visitors get 200. A failed poster just leaves the
  * muted surface color visible, so the facade never breaks.
  *
  * @param string $src      Original iframe src.
@@ -286,7 +286,7 @@ function gwill_embed_thumb( $src, $provider ) {
 }
 
 /**
- * Play glyph  -  inline SVG, no icon-font dependency.
+ * Play glyph - inline SVG, no icon-font dependency.
  *
  * @return string
  */
