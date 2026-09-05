@@ -74,6 +74,14 @@ function gwill_push_lib_available(): bool {
 /* ── 1. Table ────────────────────────────────────────────────────────── */
 
 function gwill_push_ensure_table() {
+	// dbDelta is a heavyweight schema diff - once per request is enough
+	// (portability review NIT, 2026-09-05). Activation re-fires on its own request.
+	static $done = false;
+	if ( $done ) {
+		return;
+	}
+	$done = true;
+
 	global $wpdb;
 	$table   = $wpdb->prefix . GWILL_PUSH_TABLE;
 	$collate = $wpdb->get_charset_collate();

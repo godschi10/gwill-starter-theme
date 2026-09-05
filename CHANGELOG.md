@@ -1,3 +1,9 @@
+## [1.10.24] - 2026-09-05
+
+### dbDelta once-per-request guard
+
+- gwill_push_ensure_table() static flag: dbDelta runs once per request, not on every admin_init.
+
 ## [1.10.23] - 2026-09-05
 
 ### Review-repair round (portability review)
