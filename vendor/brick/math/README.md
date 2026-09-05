@@ -97,7 +97,7 @@ BigRational::of('1.15'); // 23/20 (reduced to lowest terms)
 > To convert a float to a `BigDecimal`, use one of the dedicated methods:
 >
 > ```php
-> // Exact IEEE-754 representation — the value the float actually holds:
+> // Exact IEEE-754 representation  -  the value the float actually holds:
 > BigDecimal::fromFloatExact(0.1); // 0.1000000000000000055511151231257827021181583404541015625
 >
 > // Shortest decimal that round-trips back to the same float:

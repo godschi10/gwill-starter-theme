@@ -31,14 +31,14 @@ require_once get_template_directory() . '/inc/apps.php';
 require_once get_template_directory() . '/inc/analytics.php';
 require_once get_template_directory() . '/inc/push-dashboard.php';
 
-// v1.6.0 — Tier A ports (GWILL-FEATURE-ROADMAP.md):
-//   wp-css-off.php       core-CSS removal — closes the LATE-STYLES HOLE
+// v1.6.0  -  Tier A ports (GWILL-FEATURE-ROADMAP.md):
+//   wp-css-off.php       core-CSS removal  -  closes the LATE-STYLES HOLE
 //                        (WP 6.9+/7.x re-enqueues global-styles at wp_footer;
 //                        supersedes enqueue.php's old head-only dequeue)
 //   images.php           image CLS pass (width/height, decoding=async, WebP)
 //   cache-purge.php     purge FastCGI cache on publish/save
 //   minify.php          HTML whitespace minification (pre/code/script/style safe)
-//   login-rate-limit.php brute-force lockout — companion REQUIRED by 2FA docs
+//   login-rate-limit.php brute-force lockout  -  companion REQUIRED by 2FA docs
 //   two-factor.php      TOTP 2FA (RFC 6238) + backup codes + profile panel
 require_once get_template_directory() . '/inc/wp-css-off.php';
 require_once get_template_directory() . '/inc/images.php';
@@ -47,7 +47,7 @@ require_once get_template_directory() . '/inc/minify.php';
 require_once get_template_directory() . '/inc/login-rate-limit.php';
 require_once get_template_directory() . '/inc/two-factor.php';
 
-// v1.7.0 — Tier B ports (GWILL-FEATURE-ROADMAP.md):
+// v1.7.0  -  Tier B ports (GWILL-FEATURE-ROADMAP.md):
 //   nav-walker.php      accessible nav (split-button mobile accordion,
 //                       desktop hover dropdown) + pages-based fallback
 //   code-blocks.php     copy button + language label + Prism (self-hosted)
@@ -60,7 +60,7 @@ require_once get_template_directory() . '/inc/ajax-filter.php';
 require_once get_template_directory() . '/inc/login-branding.php';
 require_once get_template_directory() . '/inc/external-links.php';
 
-// v1.8.0 — Tier C ports (GWILL-FEATURE-ROADMAP.md):
+// v1.8.0  -  Tier C ports (GWILL-FEATURE-ROADMAP.md):
 //   svg-icons.php      unified inline-SVG icon registry (gwill_icon())
 //   feed.php           cross-site feed, transient-cached REST fetch
 //   ad-slots.php       device-aware ad placements + Customizer config

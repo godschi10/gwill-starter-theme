@@ -1,15 +1,15 @@
 <?php
 /**
- * Single Project — gwill_portfolio custom post type.
+ * Single Project  -  gwill_portfolio custom post type.
  *
  * The dedicated template the roadmap always intended for portfolio
- * (README v1.0.63: "No dedicated single/archive templates ship" — until
+ * (README v1.0.63: "No dedicated single/archive templates ship"  -  until
  * now). Same anatomy as single.php: breadcrumbs → featured image → H1 →
  * meta row → share pills → content → client details card → prev/next.
  *
- * Schema: BlogPosting microdata is WRONG here — a portfolio project is a
+ * Schema: BlogPosting microdata is WRONG here  -  a portfolio project is a
  * CreativeWork (the grid's overlay already says "View Project", and the
- * meta box stores client + live URL — classic CreativeWork fields).
+ * meta box stores client + live URL  -  classic CreativeWork fields).
  *
  * @package GWill_Starter
  * @since   1.5.0
@@ -51,7 +51,7 @@ while ( have_posts() ) : the_post();
 			<?php endif; ?>
 		</div>
 
-				<?php gwill_part( 'share-button' ); // top mode — compact pill row ?>
+				<?php gwill_part( 'share-button' ); // top mode  -  compact pill row ?>
 
 				<div class="entry-content" itemprop="text">
 			<?php the_content(); ?>

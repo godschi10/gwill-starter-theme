@@ -1,5 +1,5 @@
 /**
- * GWill Starter — Exit-Intent Form
+ * GWill Starter  -  Exit-Intent Form
  *
  * Shows the .gwill-exit-intent overlay when the user's cursor leaves the
  * viewport toward the browser chrome. On mobile, triggers at 75% scroll depth.
@@ -29,19 +29,19 @@
 
 	var triggered = false;
 
-	// ── Close button + Escape key — ALWAYS attached ───────────────────────────
+	// ── Close button + Escape key  -  ALWAYS attached ───────────────────────────
 	//
 	// These must be wired up unconditionally, even when alreadySeen() is true
 	// and the automatic mouseleave/scroll triggers below are skipped. The
-	// overlay element is always present in the DOM (just `hidden`) — anything
+	// overlay element is always present in the DOM (just `hidden`)  -  anything
 	// that reveals it directly (the Contact Demo page's manual trigger button
 	// toggles hidden/aria-hidden itself, bypassing show() entirely) must still
 	// be able to close it.
 	//
 	// BUG (fixed 1.0.47): this used to live below `if (alreadySeen()) return;`,
 	// inside the same early-return as the auto-trigger listeners. On any page
-	// load within RESPAWN_DAYS of a previous trigger — the normal case the
-	// moment this feature gets tested more than once — the whole script bailed
+	// load within RESPAWN_DAYS of a previous trigger  -  the normal case the
+	// moment this feature gets tested more than once  -  the whole script bailed
 	// out before this listener was ever registered. The overlay could still be
 	// forced open (e.g. by the demo's manual trigger), but its close button did
 	// nothing: the click handler that would call hide() had never been attached
@@ -52,7 +52,7 @@
 	overlay.addEventListener( 'click', function ( e ) {
 		// closest() (not matches()) so this keeps working if the close button's
 		// glyph is ever changed from a plain &times; text node to a wrapped
-		// <svg>/<span> icon — matches() only tests e.target itself and would
+		// <svg>/<span> icon  -  matches() only tests e.target itself and would
 		// silently stop matching the moment a child element absorbs the click.
 		if (
 			e.target.closest( '.gwill-exit-intent__close' ) ||
@@ -71,7 +71,7 @@
 	// ── Guard: skip automatic triggers if already shown recently ─────────────
 	//
 	// Gates ONLY the mouseleave/scroll auto-triggers below. Does not affect
-	// the close/Escape listeners above — see BUG note.
+	// the close/Escape listeners above  -  see BUG note.
 
 	if ( alreadySeen() ) return;
 

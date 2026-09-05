@@ -9,7 +9,7 @@
 			/*
 			 * Only render the nav when a footer menu has actually been assigned.
 			 * fallback_cb => false prevents a page dump, but wp_nav_menu() still
-			 * outputs an empty string (and returns false) when no menu is set —
+			 * outputs an empty string (and returns false) when no menu is set  - 
 			 * leaving a ghost <nav> element with no content.
 			 */
 			if ( has_nav_menu( 'footer' ) ) :
@@ -25,7 +25,7 @@
 			<?php
 			/*
 			 * Push bell (inc/webpush.php). Rendered in the footer above the
-			 * credit line. Safe to render multiple times — push.js binds ALL
+			 * credit line. Safe to render multiple times  -  push.js binds ALL
 			 * instances (docs/LAWS.md L5). Rendered only when VAPID keys
 			 * exist (they self-generate on first admin visit).
 			 */
@@ -34,7 +34,7 @@
 
 			<?php
 			/*
-			 * Footer credit — filterable for client builds.
+			 * Footer credit  -  filterable for client builds.
 			 *
 			 * To remove: add_filter( 'gwill_footer_credit', '__return_empty_string' );
 			 * To replace: add_filter( 'gwill_footer_credit', fn() => ' &mdash; Built by <a href="https://example.com">Studio Name</a>' );

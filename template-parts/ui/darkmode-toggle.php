@@ -4,7 +4,7 @@
  *
  * All behaviour (click handling, ARIA sync, OS-preference listener) is
  * inlined directly into <head> by gwill_darkmode_head_script() in
- * inc/darkmode.php — not a separately enqueued script. LiteSpeed Cache's
+ * inc/darkmode.php  -  not a separately enqueued script. LiteSpeed Cache's
  * "Load JS Deferred" setting can delay external scripts until after first
  * user interaction on some devices; this is the reason the toggle's click
  * handler must not depend on an external file (see inc/darkmode.php for
@@ -33,7 +33,7 @@ defined( 'ABSPATH' ) || exit;
 	data-label-dark="<?php esc_attr_e( 'Switch to dark mode', 'gwill-starter' ); ?>"
 	data-label-light="<?php esc_attr_e( 'Switch to light mode', 'gwill-starter' ); ?>"
 >
-	<?php /* Sun — shown in dark mode (click to return to light) */ ?>
+	<?php /* Sun  -  shown in dark mode (click to return to light) */ ?>
 	<span class="gwill-darkmode-toggle__sun" aria-hidden="true">
 		<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true">
 			<circle cx="12" cy="12" r="5"/>
@@ -48,7 +48,7 @@ defined( 'ABSPATH' ) || exit;
 		</svg>
 	</span>
 
-	<?php /* Moon — shown in light mode (click to switch to dark) */ ?>
+	<?php /* Moon  -  shown in light mode (click to switch to dark) */ ?>
 	<span class="gwill-darkmode-toggle__moon" aria-hidden="true">
 		<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true">
 			<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>

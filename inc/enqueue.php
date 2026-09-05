@@ -2,7 +2,7 @@
 defined( 'ABSPATH' ) || exit;
 
 // Core block/front-end CSS removal now lives in inc/wp-css-off.php (v1.6.0)
-// — it supersedes this file's old head-only wp-block-library dequeue, which
+//  -  it supersedes this file's old head-only wp-block-library dequeue, which
 // missed WP 6.9+/7.x's late-styles hoist (global-styles + placeholders
 // re-enqueued at wp_footer priority 1 still printed). wp-css-off dequeues
 // block-library AND global-styles AND emoji AND classic-theme-styles at
@@ -13,7 +13,7 @@ add_action( 'wp_enqueue_scripts', function () {
 
 	// get_template_directory_uri() always resolves to this theme's directory,
 	// whether active standalone or as a parent theme. get_stylesheet_uri()
-	// must NOT be used here — when a child theme is active, it resolves to
+	// must NOT be used here  -  when a child theme is active, it resolves to
 	// the child's style.css, so the starter's CSS would never load.
 	wp_enqueue_style(
 		'gwill-style',
@@ -22,7 +22,7 @@ add_action( 'wp_enqueue_scripts', function () {
 		wp_get_theme( get_template() )->get( 'Version' )
 	);
 
-	// strategy => 'defer': the nav toggle JS is non-critical — it can load
+	// strategy => 'defer': the nav toggle JS is non-critical  -  it can load
 	// after the document parses with zero visual penalty. The $args array
 	// replaces the deprecated boolean 5th argument (removed in WP 6.3+).
 	wp_enqueue_script(
@@ -36,7 +36,7 @@ add_action( 'wp_enqueue_scripts', function () {
 	// All three below: deferred is correct here, unlike the dark-mode
 	// toggle which needed to be fully inline (see inc/darkmode.php for that
 	// history). None of these three need to work in the first instant
-	// after page load — a cookie banner appearing slightly after first
+	// after page load  -  a cookie banner appearing slightly after first
 	// paint is completely normal, back-to-top and the sticky header only
 	// matter once the visitor has actually scrolled, by which point a
 	// deferred script has almost always already loaded.
@@ -57,7 +57,7 @@ add_action( 'wp_enqueue_scripts', function () {
 		[ 'in_footer' => true, 'strategy' => 'defer' ]
 	);
 
-	// Percentage, not a fixed pixel count — a 400px threshold meant
+	// Percentage, not a fixed pixel count  -  a 400px threshold meant
 	// something different on a 600px-tall post than a 6,000px one. 30%
 	// of actual scrollable distance scales correctly with content length.
 	wp_localize_script(
@@ -68,7 +68,7 @@ add_action( 'wp_enqueue_scripts', function () {
 		]
 	);
 
-	// Enqueued unconditionally — the script itself checks for
+	// Enqueued unconditionally  -  the script itself checks for
 	// .gwill-sticky-header on <body> and no-ops immediately if the
 	// Customizer toggle is off, so there's no need to duplicate that
 	// check here as well.
@@ -80,13 +80,13 @@ add_action( 'wp_enqueue_scripts', function () {
 		[ 'in_footer' => true, 'strategy' => 'defer' ]
 	);
 
-	// ── Smart search dropdown (v1.1.0 — Google-like, zero server load) ────
+	// ── Smart search dropdown (v1.1.0  -  Google-like, zero server load) ────
 	// Registered below; enqueued unconditionally because the dropdown
 	// markup lives inline in header.php (not a template part).
 	wp_enqueue_script( 'gwill-search-dropdown' );
 
 	// Required for threaded (nested) comment reply links to work.
-	// Gate behind Vibe Comments check — the plugin handles its own threading via AJAX.
+	// Gate behind Vibe Comments check  -  the plugin handles its own threading via AJAX.
 	// Loading both causes DOM conflicts: core comment-reply.js moves the form,
 	// Vibe Comments expects it in place for its AJAX submission.
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) && ! is_plugin_active( 'vibe-comments/vibe-comments.php' ) ) {
@@ -96,9 +96,9 @@ add_action( 'wp_enqueue_scripts', function () {
 	// ── Contact form scripts ──────────────────────────────────────────────────
 	//
 	// Registered here, enqueued on-demand by individual template parts:
-	//   wp_enqueue_script( 'gwill-forms' );           — in every form partial
-	//   wp_enqueue_script( 'gwill-forms-multistep' ); — in contact-multistep.php
-	//   wp_enqueue_script( 'gwill-forms-exit' );      — in contact-exit-intent.php
+	//   wp_enqueue_script( 'gwill-forms' );            -  in every form partial
+	//   wp_enqueue_script( 'gwill-forms-multistep' );  -  in contact-multistep.php
+	//   wp_enqueue_script( 'gwill-forms-exit' );       -  in contact-exit-intent.php
 	//
 	// Scripts enqueued from within a template partial (after wp_head()) still
 	// output correctly via wp_footer() when registered with in_footer => true.
@@ -115,7 +115,7 @@ add_action( 'wp_enqueue_scripts', function () {
 
 	// GwillForms.ajaxUrl is the only value forms.js needs from PHP.
 	// wp_localize_script() outputs the inline <script> block only when
-	// 'gwill-forms' is actually enqueued — no wasted bytes on other pages.
+	// 'gwill-forms' is actually enqueued  -  no wasted bytes on other pages.
 	//
 	// wp_make_link_relative() strips scheme + domain → '/wp-admin/admin-ajax.php'.
 	// The browser resolves it against the current origin, so AJAX works on any
@@ -127,24 +127,24 @@ add_action( 'wp_enqueue_scripts', function () {
 		'GwillForms',
 		[
 			'ajaxUrl'  => wp_make_link_relative( admin_url( 'admin-ajax.php' ) ),
-			// Pre-baked nonce — logged-in users only. A logged-in user's page is
+			// Pre-baked nonce  -  logged-in users only. A logged-in user's page is
 			// NEVER served from LiteSpeed's full-page cache (every cache plugin
 			// skips caching for authenticated requests by default), so a nonce
-			// baked directly into THIS page's HTML is guaranteed fresh — it was
+			// baked directly into THIS page's HTML is guaranteed fresh  -  it was
 			// generated by THIS exact PHP request, not pulled from a cached copy.
 			// forms.js checks this first and skips the network round-trip to
 			// nonceUrl entirely when it's present. Anonymous visitors get '' here
 			// deliberately: their pages CAN be cached for hours, so baking a
-			// nonce into that HTML would go stale long before the cache expires —
+			// nonce into that HTML would go stale long before the cache expires  - 
 			// exactly the failure mode the separate nonceUrl fetch exists to avoid.
 			'nonce'    => is_user_logged_in() ? wp_create_nonce( 'gwill_contact_form' ) : '',
-			// Nonce endpoint — switched from REST API to admin-ajax.php in v1.0.46.
+			// Nonce endpoint  -  switched from REST API to admin-ajax.php in v1.0.46.
 			// admin-ajax.php is excluded from LiteSpeed Cache by default so nonces
 			// are always fresh. It also avoids rest_cookie_check_errors (priority 100)
 			// which returned 403 for logged-in users hitting the REST endpoint without
-			// an X-WP-Nonce header — the root cause of "Network error" on all forms.
+			// an X-WP-Nonce header  -  the root cause of "Network error" on all forms.
 			// Only reached now when 'nonce' above is empty (anonymous visitors).
-			// Response shape: { "nonce": "..." } — identical to the old REST endpoint,
+			// Response shape: { "nonce": "..." }  -  identical to the old REST endpoint,
 			// so forms.js needed no structural changes, only the new pre-bake check.
 			'nonceUrl' => wp_make_link_relative( add_query_arg( 'action', 'gwill_get_nonce', admin_url( 'admin-ajax.php' ) ) ),
 		]
@@ -160,7 +160,7 @@ add_action( 'wp_enqueue_scripts', function () {
 
 	// i18n strings for step counter ("Step 1 of 3") and required-field
 	// validation ("Email is required."). Data is attached to the registered
-	// handle and only output by WP when the handle is actually enqueued —
+	// handle and only output by WP when the handle is actually enqueued  - 
 	// no wasted bytes on pages without the multistep form.
 	wp_localize_script(
 		'gwill-forms-multistep',
@@ -187,9 +187,9 @@ add_action( 'wp_enqueue_scripts', function () {
 	// Both search scripts are registered here, enqueued on-demand by their
 	// respective template parts (search-form-expandable.php calls gwill-search-expand;
 	// search-form-modal.php calls gwill-search-modal). The CSS is shared and
-	// registered once — each partial calls wp_enqueue_style( 'gwill-search' ).
+	// registered once  -  each partial calls wp_enqueue_style( 'gwill-search' ).
 	//
-	// Combo A — Expandable (default, no external dependencies)
+	// Combo A  -  Expandable (default, no external dependencies)
 	wp_register_script(
 		'gwill-search-expand',
 		get_template_directory_uri() . '/assets/js/search-expandable.js',
@@ -210,7 +210,7 @@ add_action( 'wp_enqueue_scripts', function () {
 		]
 	);
 
-	// Combo B — Modal + live search (opt-in, needs REST API)
+	// Combo B  -  Modal + live search (opt-in, needs REST API)
 	wp_register_script(
 		'gwill-search-modal',
 		get_template_directory_uri() . '/assets/js/search-modal.js',
@@ -220,7 +220,7 @@ add_action( 'wp_enqueue_scripts', function () {
 	);
 
 	// wp_make_link_relative() keeps the REST URL domain-agnostic for the same
-	// reason as ajaxUrl — staging / tunnel domains resolve correctly.
+	// reason as ajaxUrl  -  staging / tunnel domains resolve correctly.
 	wp_localize_script(
 		'gwill-search-modal',
 		'GwillSearch',
@@ -228,7 +228,7 @@ add_action( 'wp_enqueue_scripts', function () {
 			'restUrl' => wp_make_link_relative( rest_url( 'gwill/v1/search' ) ),
 			// homeUrl + the '?s=' query var is how search-modal.js builds the
 			// "View all results" link. Deliberately NOT derived client-side from
-			// window.location.origin — that gives only the protocol + domain,
+			// window.location.origin  -  that gives only the protocol + domain,
 			// dropping the path entirely on any WordPress install running in a
 			// subdirectory (e.g. example.com/blog/), which would send "view all"
 			// to example.com/?s=term instead of example.com/blog/?s=term. home_url()
@@ -255,7 +255,7 @@ add_action( 'wp_enqueue_scripts', function () {
 	//
 	// Registered here; enqueued unconditionally above (line 78) because the
 	// dropdown markup lives inline in header.php. The client-side JS fetches
-	// the compact search-index JSON first and matches locally — zero REST
+	// the compact search-index JSON first and matches locally  -  zero REST
 	// calls per keystroke for the common case. Falls back to FTS5 via the
 	// theme's REST endpoint when results are thin, then to WP core REST.
 
@@ -275,18 +275,18 @@ add_action( 'wp_enqueue_scripts', function () {
 			// (one cached JSON for the whole site; matching happens client-side).
 			'indexUrl' => wp_make_link_relative( rest_url( 'gwill/v1/search-index' ) ),
 			// Full-coverage FTS5 search via the theme's existing endpoint
-			// (/gwill/v1/search?s= — rate-limited, routes through
+			// (/gwill/v1/search?s=  -  rate-limited, routes through
 			// gwill_search_backend where FTS5 plugs in). Queried only when
 			// local results are thin.
 			'ftsUrl'   => wp_make_link_relative( rest_url( 'gwill/v1/search' ) ) . '?s=',
-			// Fallback only — per-keystroke REST search if the index fetch fails.
+			// Fallback only  -  per-keystroke REST search if the index fetch fails.
 			'restUrl'  => wp_make_link_relative( rest_url( 'wp/v2/posts' ) ) . '?_embed&search=',
 			'homeUrl'  => home_url( '/' ),
 			'i18n'     => [
 				'loading'   => __( 'Searching…', 'gwill-starter' ),
 				'noResults' => __( 'No results found.', 'gwill-starter' ),
 				/* translators: %s: the search query string. */
-				'noMatches' => __( 'No matches for "%s" — try these recent posts:', 'gwill-starter' ),
+				'noMatches' => __( 'No matches for "%s"  -  try these recent posts:', 'gwill-starter' ),
 				'error'     => __( 'Search unavailable. Press Enter to search.', 'gwill-starter' ),
 				'viewAll'   => __( 'View all results →', 'gwill-starter' ),
 			],
@@ -295,12 +295,12 @@ add_action( 'wp_enqueue_scripts', function () {
 
 	// ── Dark mode ─────────────────────────────────────────────────────────────
 	//
-	// CSS is globally enqueued — the toggle lives in every page header, and
+	// CSS is globally enqueued  -  the toggle lives in every page header, and
 	// the [data-theme] token overrides must be present before any content renders.
 	//
 	// JS is registered here; enqueued on-demand by template-parts/ui/darkmode-toggle.php.
 	// The flash-prevention inline script is output by gwill_darkmode_head_script()
-	// in header.php, before wp_head() — see inc/darkmode.php.
+	// in header.php, before wp_head()  -  see inc/darkmode.php.
 
 	wp_enqueue_style(
 		'gwill-darkmode',
@@ -319,7 +319,7 @@ add_action( 'wp_enqueue_scripts', function () {
 		// only needs to: (a) attach the toggle click handler, (b) sync ARIA state,
 		// (c) listen for OS preference changes. All three must happen without
 		// user interaction. Chrome on Android can delay deferred scripts until
-		// first interaction (scroll, tap) — that is the exact bug: device-system
+		// first interaction (scroll, tap)  -  that is the exact bug: device-system
 		// dark shows until the user scrolls, because the localStorage preference
 		// is applied by this deferred script. Removing defer ensures the script
 		// runs synchronously at end of <body>, reliably, on every page load.
@@ -341,7 +341,7 @@ add_action( 'wp_enqueue_scripts', function () {
 	// ── Vibe Comments dark mode (conditional) ────────────────────────────────
 	//
 	// Registered always so child themes can enqueue it manually if needed.
-	// Auto-enqueued only when the Vibe Comments plugin is active — no wasted
+	// Auto-enqueued only when the Vibe Comments plugin is active  -  no wasted
 	// HTTP request on builds that don't use it.
 	//
 	// If you swap comment plugins, register/enqueue that plugin's dark mode
@@ -359,7 +359,7 @@ add_action( 'wp_enqueue_scripts', function () {
 		// Mirror the plugin's own render condition (its
 		// Vibe_Comments_Template_Loader::should_render(): singular AND
 		// (comments open OR has comments)). The plugin only REGISTERS its
-		// 'vibe-comments' stylesheet handle when it would render — enqueueing
+		// 'vibe-comments' stylesheet handle when it would render  -  enqueueing
 		// ours unconditionally made WordPress log "_doing_it_wrong: style
 		// enqueued with dependencies that are not registered" on every page
 		// where the plugin registers nothing, and shipped this sheet as dead
@@ -370,7 +370,7 @@ add_action( 'wp_enqueue_scripts', function () {
 			wp_enqueue_style( 'gwill-darkmode-vibe' );
 		}
 
-		// Version mismatch warning (debug only) — catches silent dark-mode breakage
+		// Version mismatch warning (debug only)  -  catches silent dark-mode breakage
 		// when the plugin updates and renames internal CSS classes that our
 		// darkmode-vibe-comments.css targets via hardcoded selectors.
 		if ( defined( 'VIBE_COMMENTS_VERSION' ) && WP_DEBUG ) {
@@ -410,7 +410,7 @@ add_action( 'wp_enqueue_scripts', function () {
 
 	// ── Tier B additions (v1.7.0) ────────────────────────────────────────
 
-	// Reading progress — singular posts only (the bar div prints in
+	// Reading progress  -  singular posts only (the bar div prints in
 	// header.php under the same condition).
 	if ( is_singular( 'post' ) ) {
 		wp_enqueue_script(
@@ -422,7 +422,7 @@ add_action( 'wp_enqueue_scripts', function () {
 		);
 	}
 
-	// Code copy buttons — self-guarding (no-op without .copy-btn in the
+	// Code copy buttons  -  self-guarding (no-op without .copy-btn in the
 	// DOM); the Prism assets themselves are conditionally enqueued by
 	// inc/code-blocks.php's own wp_enqueue_scripts hook at priority 5.
 	wp_enqueue_script(
@@ -433,7 +433,7 @@ add_action( 'wp_enqueue_scripts', function () {
 		[ 'in_footer' => true, 'strategy' => 'defer' ]
 	);
 
-	// Nav accordion — self-guarding (no-op without .mno-caret; desktop
+	// Nav accordion  -  self-guarding (no-op without .mno-caret; desktop
 	// viewports are excluded by the JS itself).
 	wp_enqueue_script(
 		'gwill-nav-accordion',
@@ -443,7 +443,7 @@ add_action( 'wp_enqueue_scripts', function () {
 		[ 'in_footer' => true, 'strategy' => 'defer' ]
 	);
 
-	// AJAX category filter — front page + posts index (the templates
+	// AJAX category filter  -  front page + posts index (the templates
 	// that render .filter-pills). Self-guarding otherwise.
 	if ( is_front_page() || is_home() ) {
 		wp_enqueue_script(
@@ -457,9 +457,9 @@ add_action( 'wp_enqueue_scripts', function () {
 			'gwill-category-filter',
 			'GwillCategoryFilter',
 			[
-				// Relative admin-ajax URL — resolves against the browser
+				// Relative admin-ajax URL  -  resolves against the browser
 				// origin so it works on any domain (production, staging,
-				// dev tunnel) — the contact form's pattern.
+				// dev tunnel)  -  the contact form's pattern.
 				'ajaxUrl' => wp_make_link_relative( admin_url( 'admin-ajax.php' ) ),
 				'i18n'    => [
 					'error' => __( 'Could not load posts. Please try again.', 'gwill-starter' ),
@@ -470,7 +470,7 @@ add_action( 'wp_enqueue_scripts', function () {
 
 	// ── Tier C additions (v1.8.0) ────────────────────────────────────────
 
-	// Print stylesheet — 'print' media keeps it out of the screen
+	// Print stylesheet  -  'print' media keeps it out of the screen
 	// cascade entirely; the browser only applies it on Ctrl+P.
 	wp_enqueue_style(
 		'gwill-print',
@@ -480,7 +480,7 @@ add_action( 'wp_enqueue_scripts', function () {
 		'print'
 	);
 
-	// Ad slots — self-guarding (scan() no-ops without .ad-slot in the
+	// Ad slots  -  self-guarding (scan() no-ops without .ad-slot in the
 	// DOM). Registered/enqueued always so the Customizer preview and
 	// any template that drops gwill_ad_slot() gets the driver.
 	wp_enqueue_script(
@@ -499,7 +499,7 @@ add_action( 'wp_enqueue_scripts', function () {
  * Enqueue the Customizer postMessage handler inside the preview iframe only.
  *
  * customize_preview_init fires exclusively inside the Customizer preview
- * context — never on the public frontend. The 'customize-preview' dependency
+ * context  -  never on the public frontend. The 'customize-preview' dependency
  * ensures wp.customize is available before this script runs.
  *
  * @see inc/customizer.php  (settings using transport: 'postMessage')

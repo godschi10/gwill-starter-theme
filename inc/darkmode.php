@@ -1,6 +1,6 @@
 <?php
 /**
- * Dark Mode — head script + critical inline CSS.
+ * Dark Mode  -  head script + critical inline CSS.
  *
  * Called from header.php before wp_head() so it runs synchronously at
  * parse time, before any paint or async CSS.
@@ -9,12 +9,12 @@
  * ─────────────────────────
  * LiteSpeed Cache "Load JS Deferred" = Deferred adds the HTML `defer`
  * attribute to every external script tag. Deferred scripts run only after
- * the page is fully parsed — which is why the system dark preference was
+ * the page is fully parsed  -  which is why the system dark preference was
  * showing briefly before the user's localStorage preference applied.
  *
  * Inline <script> blocks are not subject to LiteSpeed's defer processing.
- * All darkmode logic — initial theme detection, toggle click handler, ARIA
- * sync, and OS preference change listener — is therefore inlined here so it
+ * All darkmode logic  -  initial theme detection, toggle click handler, ARIA
+ * sync, and OS preference change listener  -  is therefore inlined here so it
  * executes reliably without any external file dependency.
  *
  * The external gwill-darkmode script handle is kept registered (inc/enqueue.php)
@@ -33,7 +33,7 @@ defined( 'ABSPATH' ) || exit;
  * Script section:
  *   Part A (immediate): reads localStorage / prefers-color-scheme, sets
  *     data-theme on <html>, pre-sets background-color for dark mode.
- *     Runs synchronously at HTML parse time — no async gap.
+ *     Runs synchronously at HTML parse time  -  no async gap.
  *
  *   Part B (DOMContentLoaded): attaches the toggle button click handler,
  *     syncs aria-label / aria-pressed, and listens for OS preference changes.
@@ -64,7 +64,7 @@ function gwill_darkmode_head_script(): void {
 
 		function apply(t){
 			root.dataset.theme    = t;
-			/* Pre-set background on <html> — eliminates the white-canvas flash
+			/* Pre-set background on <html>  -  eliminates the white-canvas flash
 			   for dark-mode users before any CSS file loads. Light mode needs
 			   no pre-set (browser canvas default is already white). */
 			root.style.background = t === 'dark' ? DARKBG : '';
@@ -103,7 +103,7 @@ function gwill_darkmode_head_script(): void {
 				syncBtn(next);
 			});
 
-			/* OS preference change — honoured only when no stored preference. */
+			/* OS preference change  -  honoured only when no stored preference. */
 			try{
 				window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change', function(e){
 					if( !resolve() ){
@@ -119,7 +119,7 @@ function gwill_darkmode_head_script(): void {
 	})();
 	</script>
 	<style>
-		/* Critical dark-mode tokens — synchronous, before LiteSpeed async CSS.
+		/* Critical dark-mode tokens  -  synchronous, before LiteSpeed async CSS.
 		   Mirrors color-scheme + background from assets/css/darkmode.css. */
 		:root{color-scheme:light;background-color:#fff}
 		body{color:#111}

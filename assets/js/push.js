@@ -1,23 +1,23 @@
 /* global gwillPush, Notification */
-/* GWill Starter — smart notification bell.
+/* GWill Starter  -  smart notification bell.
  *
  * PORTED from gwill-finance-theme v1.2.3 (proven working on real devices),
  * itself the gwill-tech-theme lineage. Every law from docs/LAWS.md is baked
  * into this file:
  *
- *   L3 — requestPermission() BEFORE pushManager.subscribe(): a bell that
+ *   L3  -  requestPermission() BEFORE pushManager.subscribe(): a bell that
  *        goes straight to subscribe() is dead on any device that never
  *        asked (Chrome rejects with NotAllowedError, no prompt, silently).
- *   L5 — bind ALL instances via querySelectorAll('#gwill-bell'), never
+ *   L5  -  bind ALL instances via querySelectorAll('#gwill-bell'), never
  *        getElementById: any build may render the bell in more than one
  *        footer/column.
- *   L6 — every async action runs through settle(): a hard 12s timeout that
+ *   L6  -  every async action runs through settle(): a hard 12s timeout that
  *        ALWAYS restores buttons and clears `busy` (resolve/reject/timeout/
- *        exception) — a button may never die busy.
- *   L7 — persistent opt-out flag: disable() sets it before anything async;
+ *        exception)  -  a button may never die busy.
+ *   L7  -  persistent opt-out flag: disable() sets it before anything async;
  *        the init self-heal checks it so "Turn off" survives refresh.
  *
- * v1.2.3 lineage — full browser coverage:
+ * v1.2.3 lineage  -  full browser coverage:
  *   - Correct per-browser device detection (Firefox BEFORE Android so
  *     Firefox for Android is not misreported as Chrome; Edge/Opera/Samsung
  *     Internet detected explicitly).
@@ -49,7 +49,7 @@ Table of Contents
 5. panel build
 6. panel helpers (steps, loading, render, open, close)
 7. outside-click + keyboard close
-8. settle — busy-safe async runner (L6)
+8. settle  -  busy-safe async runner (L6)
 9. opt-out flag (L7)
 10. registration + subscribe helpers
 11. enable / disable / refreshPermission
@@ -114,7 +114,7 @@ Table of Contents
 			return 'ios-safari';
 		}
 		// ORDER MATTERS: Firefox for Android contains BOTH "Android" and
-		// "Firefox/" — check the Android+Firefox pair before either alone.
+		// "Firefox/"  -  check the Android+Firefox pair before either alone.
 		if ( /Android/.test( ua ) && /Firefox\//.test( ua ) ) {
 			return 'firefox-android';
 		}
@@ -173,7 +173,7 @@ Table of Contents
 			( BLOCKED === s ? STR.blocked : el.getAttribute( 'data-label-off' ) );
 		el.setAttribute( 'aria-label', label );
 		el.setAttribute( 'title', BLOCKED === s
-			? STR.blocked + ' — tap for unblock steps'
+			? STR.blocked + '  -  tap for unblock steps'
 			: ( STR.title || el.getAttribute( 'data-label-off' ) ) );
 		el.classList.toggle( 'is-on', pressed );
 		el.classList.toggle( 'is-blocked', BLOCKED === s );
@@ -253,7 +253,7 @@ Table of Contents
 			} else if ( ERRWIN === state || UNSET === state ) {
 				enable();
 			}
-			// NOSUPPORT: no action button — notice only.
+			// NOSUPPORT: no action button  -  notice only.
 		} );
 		secondary.addEventListener( 'click', function () {
 			if ( ! busy ) { disable(); }
@@ -385,7 +385,7 @@ Table of Contents
 			bells[ b ].setAttribute( 'aria-expanded', 'false' );
 		}
 		// preventScroll: the bell may sit in a footer, off-screen when the
-		// reader is mid-article — restoring focus must never yank the page.
+		// reader is mid-article  -  restoring focus must never yank the page.
 		if ( bell ) {
 			bell.focus( { preventScroll: true } );
 		}
@@ -409,7 +409,7 @@ Table of Contents
 		}
 	}
 
-	/* ── 8. settle — busy-safe async runner (L6) ─────────────────────── */
+	/* ── 8. settle  -  busy-safe async runner (L6) ─────────────────────── */
 
 	/**
 	 * Wraps a promise chain so `busy` can never be stuck true and the panel
@@ -483,7 +483,7 @@ Table of Contents
 			} else {
 				window.localStorage.removeItem( OPTOUT_KEY );
 			}
-		} catch ( e ) { /* storage unavailable — best effort */ }
+		} catch ( e ) { /* storage unavailable  -  best effort */ }
 	}
 
 	/* ── 10. registration + subscribe helpers ────────────────────────── */
@@ -530,7 +530,7 @@ Table of Contents
 			if ( panel && ! panel.hidden ) {
 				setButtonLoading( panel.querySelector( '.gbp-btn--primary' ), true, STR.enabling );
 			}
-			// L3: permission BEFORE subscribe — the dead-bell law.
+			// L3: permission BEFORE subscribe  -  the dead-bell law.
 			return getRegistration().then( function ( reg ) {
 				return Notification.requestPermission().then( function ( p ) {
 					if ( 'granted' !== p ) {
@@ -550,7 +550,7 @@ Table of Contents
 					p256dh: keys.p256dh,
 					auth: keys.auth
 				} ).then( function () {
-					// An explicit subscribe clears the opt-out flag —
+					// An explicit subscribe clears the opt-out flag  - 
 					// the user has chosen back in (L7).
 					markOptOut( false );
 					setState( SUBSCRIBED );
@@ -600,7 +600,7 @@ Table of Contents
 
 	function refreshPermission() {
 		if ( 'Notification' in window && 'granted' === Notification.permission ) {
-			// Unblock detected — self-heal straight back to subscribed.
+			// Unblock detected  -  self-heal straight back to subscribed.
 			enable();
 			return;
 		}
@@ -621,7 +621,7 @@ Table of Contents
 	}
 
 	function init() {
-		// L5: bind ALL instances — never getElementById.
+		// L5: bind ALL instances  -  never getElementById.
 		bells = Array.prototype.slice.call(
 			document.querySelectorAll( '#gwill-bell' )
 		);
@@ -632,7 +632,7 @@ Table of Contents
 
 		if ( ! canPush() ) {
 			// Unsupported browser: the bell STAYS and opens the notice
-			// panel — no silent removal.
+			// panel  -  no silent removal.
 			setState( NOSUPPORT );
 			for ( var k = 0; k < bells.length; k++ ) {
 				bells[ k ].addEventListener( 'click', onBell );
@@ -664,7 +664,7 @@ Table of Contents
 				return;
 			}
 			// Self-heal: permission granted but no subscription (cleared
-			// storage, reinstalled SW). Silent — no prompt appears.
+			// storage, reinstalled SW). Silent  -  no prompt appears.
 			if ( 'granted' === Notification.permission ) {
 				enable();
 			}

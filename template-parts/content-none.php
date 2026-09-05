@@ -7,7 +7,7 @@
  *
  * Accessibility: <section> is promoted to a named landmark via aria-labelledby
  * pointing to the inner <h2>. An unlabelled <section> is treated as a generic
- * container — not a landmark — by screen readers.
+ * container  -  not a landmark  -  by screen readers.
  *
  * Usage:
  *   gwill_part( 'content-none' );

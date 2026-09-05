@@ -2,7 +2,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * WP core front-end CSS removal — GWill Starter.
+ * WP core front-end CSS removal  -  GWill Starter.
  *
  * Ported from gwillchijioke-theme inc/bloat.php (portfolio, live-proven)
  * and finance-theme inc/wp-css-off.php, closing the LATE-STYLES HOLE in
@@ -11,13 +11,13 @@ defined( 'ABSPATH' ) || exit;
  * THE HOLE (conflict-audit 2026-08-15 on the source theme, applies
  * identically here): WP 6.9+/7.x classic themes with on-demand block
  * assets re-enqueue 'global-styles' + placeholders at wp_footer priority
- * 1 (late-styles hoist) — a head-only dequeue at wp_enqueue_scripts:100
+ * 1 (late-styles hoist)  -  a head-only dequeue at wp_enqueue_scripts:100
  * can NEVER catch them, so global-styles-inline-css still prints.
  * Dequeue again at wp_footer priority 2, BEFORE core's
  * print_late_styles (priority 8).
  *
  * SAFE HERE BECAUSE: the starter's theme.json uses default layout
- * settings (contentSize 1200px / wideSize 1440px — same as the
+ * settings (contentSize 1200px / wideSize 1440px  -  same as the
  * live-proven portfolio source), and the starter's style.css styles
  * .alignwide/.alignfull itself. Core's block-layout CSS carries
  * nothing this theme renders.
@@ -27,18 +27,18 @@ defined( 'ABSPATH' ) || exit;
  * visitors only), jQuery Migrate (front end only), and front-end
  * heartbeat.
  *
- * INTERPLAY — comment-reply is intentionally NOT deregistered here.
+ * INTERPLAY  -  comment-reply is intentionally NOT deregistered here.
  * enqueue.php loads it only on singular posts with open threaded
  * comments (the WP-native condition). Deregistering here while
- * enqueue.php enqueues it was a deadlock on the portfolio source —
+ * enqueue.php enqueues it was a deadlock on the portfolio source  - 
  * threaded reply links never worked. Single path: enqueue.php.
  *
- * INTERPLAY — dashicons is dequeued only for non-logged-in visitors.
+ * INTERPLAY  -  dashicons is dequeued only for non-logged-in visitors.
  * Logged-in users keep it: the front-end admin bar renders its icons
  * from the dashicons font. The starter's own CSS never uses dashicons
- * (verified — no reference in style.css, assets, or templates).
+ * (verified  -  no reference in style.css, assets, or templates).
  *
- * INTERPLAY — heartbeat is deregistered on the front end only. Admin
+ * INTERPLAY  -  heartbeat is deregistered on the front end only. Admin
  * autosave + editor lock notifications depend on it; the front-end
  * script serves nothing this theme uses.
  *

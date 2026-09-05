@@ -3,7 +3,7 @@
  * Template Part: Portfolio Grid
  *
  * Call via gwill_portfolio_grid( $args ) or the [gwill_portfolio]
- * shortcode — never include this file directly, since $args needs to
+ * shortcode  -  never include this file directly, since $args needs to
  * arrive through gwill_part()'s data-passing mechanism.
  *
  * @package GWill_Starter

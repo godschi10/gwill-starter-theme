@@ -4,7 +4,7 @@
  *
  * Fixed circular button, bottom-right. Hidden until the visitor has
  * scrolled past a threshold; smooth-scrolls to top on click unless the OS
- * has prefers-reduced-motion set, in which case it jumps instantly —
+ * has prefers-reduced-motion set, in which case it jumps instantly  - 
  * matching the reduced-motion handling already established elsewhere in
  * this theme's accessibility work.
  *

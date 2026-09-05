@@ -1,13 +1,13 @@
 /**
- * AJAX category-filter — GWill Starter (v1.7.0).
+ * AJAX category-filter  -  GWill Starter (v1.7.0).
  *
  * Ported from gwill-tech-theme assets/js/category-filter.js
  * (live-proven), adapted to the starter dialect:
  *   - pills use .gwill-pill (starter's pill class) with .is-active
- *     state — tech used .pill / .on;
+ *     state  -  tech used .pill / .on;
  *   - the spinner overlay rides the first card's media slot;
  *   - config via wp_localize_script( GwillCategoryFilter ):
- *     ajaxUrl (relative admin-ajax — resolves against the browser
+ *     ajaxUrl (relative admin-ajax  -  resolves against the browser
  *     origin, works on any domain), i18n.error.
  *
  * Pressing a pill inside a .filter-pills container loads that
@@ -18,7 +18,7 @@
  * The container carries everything the handler needs via data
  * attributes:
  *   <div class="filter-pills gwill-pills"
- *        data-target="#grid"          — CSS selector of the grid to replace
+ *        data-target="#grid"           -  CSS selector of the grid to replace
  *        data-per-page="9"
  *        data-action="gwill_filter_posts">
  *

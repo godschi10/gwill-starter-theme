@@ -8,7 +8,7 @@
  *
  * Avatar links and name links both point to the author archive so keyboard
  * users do not encounter two consecutive identical tab stops. The avatar
- * link is marked tabindex="-1" aria-hidden="true" — the named link below it
+ * link is marked tabindex="-1" aria-hidden="true"  -  the named link below it
  * provides the accessible navigation target (same pattern as content.php
  * thumbnail links).
  *
@@ -82,7 +82,7 @@ $avatar      = get_avatar(
 					aria-label="<?php echo esc_attr( $social['aria'] ); ?>"
 				><?php
 					/* Icon is developer-supplied SVG from gwill_author_social_fields(),
-					   not user input — direct echo is intentional. */
+					   not user input  -  direct echo is intentional. */
 					echo $social['icon']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				?></a>
 			<?php endforeach; ?>

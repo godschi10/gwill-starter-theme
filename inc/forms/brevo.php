@@ -1,6 +1,6 @@
 <?php
 /**
- * Newsletter Signup (Brevo Contacts API) — GWill Starter
+ * Newsletter Signup (Brevo Contacts API)  -  GWill Starter
  *
  * Handles the 'newsletter' form pattern which adds an email to a Brevo
  * contact list via the Contacts API. Does not email anyone.
@@ -14,7 +14,7 @@
  * scope (or "Full Access" if granular scopes unavailable). Created in:
  *   Settings → SMTP & API → API Keys tab
  * NOT the SMTP tab. The SMTP key (used for GWILL_SMTP_PASS) will NOT work
- * for the Contacts API — they are different credentials with different
+ * for the Contacts API  -  they are different credentials with different
  * permissions, even though they're generated from the same dashboard section.
  * This is Brevo's design, not a limitation of this integration.
  */
@@ -30,13 +30,13 @@ defined( 'ABSPATH' ) || exit;
  *
  * This is NOT the same credential as GWILL_SMTP_* above. Brevo issues SMTP
  * keys (authenticate sending mail) and API keys (authenticate REST calls)
- * as two separate secrets from the same dashboard section — the SMTP
+ * as two separate secrets from the same dashboard section  -  the SMTP
  * password will not work here, on purpose, this is Brevo's own design,
  * not a limitation of this integration.
  *
  * updateEnabled is always sent true: a returning visitor re-submitting an
  * email already on the list should silently succeed, not surface a
- * confusing "already subscribed" error — resubmitting should just feel
+ * confusing "already subscribed" error  -  resubmitting should just feel
  * like it worked, whether or not anything actually changed on Brevo's end.
  *
  * @param  string $email Already validated with is_email() by the caller.
@@ -77,7 +77,7 @@ function gwill_brevo_add_contact( string $email ) {
 	$code = (int) wp_remote_retrieve_response_code( $response );
 
 	// 201 = newly created contact. 204 = updateEnabled merged into an
-	// already-existing contact — Brevo's documented upsert behaviour for
+	// already-existing contact  -  Brevo's documented upsert behaviour for
 	// this endpoint, a real difference, not an arbitrary alternate
 	// success code being treated leniently here.
 	if ( in_array( $code, [ 201, 204 ], true ) ) {

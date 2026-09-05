@@ -1,6 +1,6 @@
 <?php
 /**
- * Email Sending — GWill Starter
+ * Email Sending  -  GWill Starter
  *
  * Functions for sending contact emails and auto-replies.
  *

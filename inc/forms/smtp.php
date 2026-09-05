@@ -1,6 +1,6 @@
 <?php
 /**
- * SMTP Configuration — GWill Starter
+ * SMTP Configuration  -  GWill Starter
  *
  * Handles PHPMailer SMTP injection for wp_mail().
  * Only runs when GWILL_SMTP_HOST is defined.
@@ -40,7 +40,7 @@ add_action( 'phpmailer_init', 'gwill_configure_smtp' );
 /**
  * Replace "WordPress" sender name with the site name (or GWILL_FROM_NAME constant).
  *
- * Fires for every wp_mail() call — SMTP or server mail. Without this, the
+ * Fires for every wp_mail() call  -  SMTP or server mail. Without this, the
  * default WordPress core value of "WordPress" appears in the inbox From field.
  */
 add_filter( 'wp_mail_from_name', function ( string $name ): string {

@@ -1,5 +1,5 @@
 /**
- * GWill Starter — service worker.
+ * GWill Starter  -  service worker.
  *
  * PORTED from gwill-finance-theme (tech-theme lineage). Conservative
  * caching: navigations are network-first with a cached shell fallback for
@@ -14,7 +14,7 @@
  * (A hardcoded VERSION pins stale assets on clients.)
  *
  * LAW L2 (docs/LAWS.md): the published root /sw.js must be served
- * no-cache — see the nginx block in the law.
+ * no-cache  -  see the nginx block in the law.
  *
  * @package GWill_Starter
  * @since   1.4.0
@@ -22,12 +22,12 @@
 
 /*
 Table of Contents
-1. constants — publish token, caches, exclusions
-2. install — pre-cache the offline shell
-3. activate — purge stale cache namespaces
-4. fetch strategies — SWR assets, network-first pages
-5. push — show a notification for a new post
-6. notificationclick — open the post (or focus an open tab)
+1. constants  -  publish token, caches, exclusions
+2. install  -  pre-cache the offline shell
+3. activate  -  purge stale cache namespaces
+4. fetch strategies  -  SWR assets, network-first pages
+5. push  -  show a notification for a new post
+6. notificationclick  -  open the post (or focus an open tab)
 */
 
 /* eslint-disable no-restricted-globals */
@@ -50,7 +50,7 @@ const EXCLUDE = [
 	/[?&](preview|nocache|action|noamp)=/,
 ];
 
-// ── 2. install — pre-cache the offline shell ──────────────────────────
+// ── 2. install  -  pre-cache the offline shell ──────────────────────────
 self.addEventListener( 'install', function ( event ) {
 	event.waitUntil(
 		caches.open( ASSET_CACHE )
@@ -64,7 +64,7 @@ self.addEventListener( 'install', function ( event ) {
 	);
 } );
 
-// ── 3. activate — purge stale cache namespaces ────────────────────────
+// ── 3. activate  -  purge stale cache namespaces ────────────────────────
 self.addEventListener( 'activate', function ( event ) {
 	event.waitUntil(
 		caches.keys().then( function ( keys ) {
@@ -125,7 +125,7 @@ self.addEventListener( 'fetch', function ( event ) {
 	}
 } );
 
-// ── 5. push — show a notification for a new post ──────────────────────
+// ── 5. push  -  show a notification for a new post ──────────────────────
 self.addEventListener( 'push', function ( event ) {
 	var data = null;
 	try {
@@ -147,11 +147,11 @@ self.addEventListener( 'push', function ( event ) {
 	event.waitUntil( self.registration.showNotification( data.title, opts ) );
 } );
 
-// ── 6. notificationclick — open the post (or focus an open tab) ───────
+// ── 6. notificationclick  -  open the post (or focus an open tab) ───────
 self.addEventListener( 'notificationclick', function ( event ) {
 	event.notification.close();
 
-	// v1.9.0 — campaign open-rate ping: fire-and-forget, keepalive so the
+	// v1.9.0  -  campaign open-rate ping: fire-and-forget, keepalive so the
 	// request survives even if the SW is killed mid-navigation. Never
 	// blocks the click-through itself.
 	var data = event.notification.data || {};

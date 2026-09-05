@@ -2,20 +2,20 @@
 /**
  * Portfolio / case-studies post type + grid display.
  *
- * Unlike the testimonials CPT, this one is genuinely public — a case
+ * Unlike the testimonials CPT, this one is genuinely public  -  a case
  * study is content worth its own page (`public: true`, `has_archive:
  * true`), where a testimonial is a snippet pulled into someone else's
  * page and nothing more. That difference in kind is the actual reason
  * these two CPTs are configured so differently, not an inconsistency
  * between them.
  *
- * Scope is deliberately exactly what the roadmap specified — a registered
- * post type plus a grid template-part — and nothing more. That means no
+ * Scope is deliberately exactly what the roadmap specified  -  a registered
+ * post type plus a grid template-part  -  and nothing more. That means no
  * dedicated single-gwill_portfolio.php or archive-gwill_portfolio.php
  * ships here; both fall through to this theme's existing single.php /
  * archive.php, which already degrade gracefully for a post type with no
  * categories assigned (gwill_get_primary_category() already returns null
- * cleanly when get_the_category() comes back empty — that's not new
+ * cleanly when get_the_category() comes back empty  -  that's not new
  * behaviour added for this feature, it's already how that function
  * handles a post with no categories at all). A project wanting a more
  * tailored single-project layout than the generic single.php gives can
@@ -41,7 +41,7 @@ add_shortcode( 'gwill_portfolio', 'gwill_portfolio_shortcode' );
  *
  * The taxonomy exists because "filter by service type" (Branding / Web
  * Design / Development, etc.) is close to a baseline expectation for an
- * agency/freelancer portfolio, not a nice-to-have bolted on afterward —
+ * agency/freelancer portfolio, not a nice-to-have bolted on afterward  - 
  * hierarchical to allow a parent/child structure if a project wants one
  * (e.g. "Design" > "Branding"), but works perfectly flat too if a project
  * never adds a child term.
@@ -73,7 +73,7 @@ function gwill_register_portfolio_cpt(): void {
 		'show_in_menu'       => true,
 		'show_in_rest'       => true,
 		'menu_icon'          => 'dashicons-portfolio',
-		// Directly below Testimonials (25) — both are Tier 2/3 content
+		// Directly below Testimonials (25)  -  both are Tier 2/3 content
 		// types added to the same neighbourhood of the admin menu.
 		'menu_position'      => 26,
 		'supports'           => [ 'title', 'editor', 'excerpt', 'thumbnail' ],
@@ -108,7 +108,7 @@ function gwill_register_portfolio_cpt(): void {
 
 /**
  * Register the meta box. Same pattern as the testimonial and video-embed
- * meta boxes — one consistent way to do this across the whole theme.
+ * meta boxes  -  one consistent way to do this across the whole theme.
  *
  * @since 1.0.63
  */
@@ -168,7 +168,7 @@ function gwill_render_portfolio_meta_box( WP_Post $post ): void {
  * Save the client name + project URL fields.
  *
  * Identical security ordering to gwill_save_testimonial_meta_box() and
- * gwill_save_video_meta_box() — capability first, then autosave/revision
+ * gwill_save_video_meta_box()  -  capability first, then autosave/revision
  * checks, then the nonce as CSRF protection layered on top of all of it.
  *
  * @param int $post_id Post ID.
@@ -239,7 +239,7 @@ function gwill_get_portfolio_items( array $args = [] ): array {
 	];
 
 	if ( ! empty( $args['type'] ) ) {
-		// A single explicit term filter, not an open-ended query — the
+		// A single explicit term filter, not an open-ended query  -  the
 		// documented, correct way to do this despite the WPCS sniff below.
 		$query_args['tax_query'] = [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 			[
@@ -258,7 +258,7 @@ function gwill_get_portfolio_items( array $args = [] ): array {
 // ── Public template tag + shortcode ─────────────────────────────────────────
 
 /**
- * Render a portfolio grid. The public API for this feature — call this
+ * Render a portfolio grid. The public API for this feature  -  call this
  * directly from any page template.
  *
  * @param array{count?:int,columns?:int,type?:string,orderby?:string,order?:string} $args
@@ -270,7 +270,7 @@ function gwill_portfolio_grid( array $args = [] ): void {
 }
 
 /**
- * [gwill_portfolio] shortcode — same attribute names as
+ * [gwill_portfolio] shortcode  -  same attribute names as
  * gwill_portfolio_grid()'s array keys.
  *
  * @param  array<string,string>|string $atts

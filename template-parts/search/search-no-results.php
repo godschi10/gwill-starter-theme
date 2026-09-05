@@ -1,6 +1,6 @@
 <?php
 /**
- * No-results state — shown in search.php when the query returns nothing.
+ * No-results state  -  shown in search.php when the query returns nothing.
  *
  * The CTA link is filterable so developers can override per project:
  *
@@ -10,7 +10,7 @@
  *
  * Return false from the filter to suppress the CTA entirely.
  *
- * Since v1.1.0 — Google-style "Did you mean?" suggestions (ported from
+ * Since v1.1.0  -  Google-style "Did you mean?" suggestions (ported from
  * GWill Tech): when the query returns nothing, up to 3 corrected words
  * are offered via the same Damerau–Levenshtein engine the tech theme
  * uses. The block renders only when suggestions exist; the tips + CTA
@@ -40,7 +40,7 @@ $term = get_search_query();
 	</p>
 
 	<?php
-	// Google-style "Did you mean?" — corrected WORDS (up to 3)
+	// Google-style "Did you mean?"  -  corrected WORDS (up to 3)
 	// when the query returns nothing (v1.1.0, engine from GWill Tech).
 	$gwill_suggestions = ( $term && function_exists( 'gwill_search_suggest' ) )
 		? gwill_search_suggest( $term )

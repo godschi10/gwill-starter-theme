@@ -7,13 +7,13 @@
  *   - Post title    → the person's name
  *   - Post content  → the quote itself
  *   - Featured image → their photo (falls back to a generic avatar glyph
- *                       in the template part when absent — never breaks
+ *                       in the template part when absent  -  never breaks
  *                       the card layout waiting on a photo that may not
  *                       exist yet)
  *   - Two actual custom fields, because nothing built-in covers them:
  *     role/company (text) and star rating (1–5)
  *
- * Not publicly queryable on purpose — no single-testimonial page, no
+ * Not publicly queryable on purpose  -  no single-testimonial page, no
  * archive. A testimonial isn't content anyone navigates to directly, it's
  * a card that gets pulled into a grid or carousel wherever a developer
  * places gwill_testimonials_grid() or the [gwill_testimonials] shortcode.
@@ -78,7 +78,7 @@ function gwill_register_testimonial_cpt(): void {
 
 /**
  * Register the meta box. Same pattern as gwill_register_video_meta_box()
- * in inc/setup.php — kept consistent rather than inventing a second way
+ * in inc/setup.php  -  kept consistent rather than inventing a second way
  * to do the same kind of thing.
  *
  * @since 1.0.62
@@ -145,7 +145,7 @@ function gwill_render_testimonial_meta_box( WP_Post $post ): void {
  * Save the role/company + star-rating fields.
  *
  * Identical security ordering to gwill_save_video_meta_box() in
- * inc/setup.php, and for the same reason — capability is the
+ * inc/setup.php, and for the same reason  -  capability is the
  * authoritative check, the nonce is CSRF protection layered on top of it,
  * and save_post_{post_type} is never fired by core without the edit
  * capability already having been verified earlier in admin/post.php, so
@@ -183,7 +183,7 @@ function gwill_save_testimonial_meta_box( int $post_id ): void {
 
 	if ( isset( $_POST['gwill_testimonial_rating'] ) ) {
 		$rating = (int) $_POST['gwill_testimonial_rating'];
-		$rating = max( 1, min( 5, $rating ) ); // Clamp — a tampered or malformed value still has to land somewhere sane.
+		$rating = max( 1, min( 5, $rating ) ); // Clamp  -  a tampered or malformed value still has to land somewhere sane.
 		update_post_meta( $post_id, '_gwill_testimonial_rating', $rating );
 	}
 }
@@ -212,7 +212,7 @@ function gwill_get_testimonials( array $args = [] ): array {
 		'posts_per_page'         => (int) $args['count'],
 		'orderby'                => sanitize_key( $args['orderby'] ),
 		'order'                  => 'ASC' === strtoupper( $args['order'] ) ? 'ASC' : 'DESC',
-		'no_found_rows'          => true, // No pagination UI ever needed here — skip the COUNT query.
+		'no_found_rows'          => true, // No pagination UI ever needed here  -  skip the COUNT query.
 		'update_post_term_cache' => false, // Testimonials don't use categories/tags.
 	] );
 
@@ -223,7 +223,7 @@ function gwill_get_testimonials( array $args = [] ): array {
 
 /**
  * Render a testimonials grid or carousel. The actual public API for this
- * feature — call this directly from any page template.
+ * feature  -  call this directly from any page template.
  *
  * @param array{mode?:string,count?:int,columns?:int,orderby?:string,order?:string} $args
  *        mode: 'grid' (default) or 'carousel'.
@@ -235,12 +235,12 @@ function gwill_testimonials_grid( array $args = [] ): void {
 }
 
 /**
- * [gwill_testimonials] shortcode — a thin wrapper around
+ * [gwill_testimonials] shortcode  -  a thin wrapper around
  * gwill_testimonials_grid() for the rare case a content editor wants to
  * drop this into a regular post/page via the Shortcode block, rather than
  * a developer placing the template tag directly in a template file.
  *
- * Attribute names match gwill_testimonials_grid()'s array keys exactly —
+ * Attribute names match gwill_testimonials_grid()'s array keys exactly  - 
  * one set of names to remember, not two.
  *
  * @param  array<string,string>|string $atts Shortcode attributes.
@@ -270,12 +270,12 @@ function gwill_testimonials_shortcode( $atts ): string {
  * Render a 1–5 star rating as inline SVG markup.
  *
  * Filled and outline stars are the exact same <path>, switched by a CSS
- * class rather than two different SVGs — half the markup, and it means a
+ * class rather than two different SVGs  -  half the markup, and it means a
  * future style change to "what a star looks like" only ever has to happen
  * in one path definition.
  *
  * @param  int $rating 1–5. Already clamped by the save handler, but
- *                      clamped again here too — this function has no way
+ *                      clamped again here too  -  this function has no way
  *                      to know whether its caller already validated input,
  *                      so it doesn't assume.
  * @return string

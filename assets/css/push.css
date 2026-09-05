@@ -1,11 +1,11 @@
 /**
- * Push — smart notification bell + panel (lean, token-mapped).
+ * Push  -  smart notification bell + panel (lean, token-mapped).
  *
  * PORTED from gwill-finance-theme v1.2.3, appearance stripped to starter
  * tokens per the lean-migration rule: every finance color (gold/dark
  * luxury) is re-mapped to the theme's --color-* system, so dark mode
  * inverts for free via darkmode.css and a fresh build re-skins by changing
- * tokens only. No finance selectors, no --gold/--surface/--font-mono —
+ * tokens only. No finance selectors, no --gold/--surface/--font-mono  - 
  * only tokens defined in style.css / darkmode.css.
  *
  * Load: enqueued by inc/webpush.php together with push.js.
@@ -43,7 +43,7 @@ Table of Contents
 	display: inline-flex;
 	align-items: center;
 	gap: 8px;
-	min-height: 44px; /* WCAG 2.5.8 — house standard */
+	min-height: 44px; /* WCAG 2.5.8  -  house standard */
 	transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
 	-webkit-tap-highlight-color: transparent;
 }

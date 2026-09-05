@@ -1,6 +1,6 @@
 <?php
 /**
- * GWill Starter — Push Dashboard (admin).
+ * GWill Starter  -  Push Dashboard (admin).
  *
  * The admin window into the self-hosted push system (inc/webpush.php):
  * subscriber count, recent growth, a subscriber table with per-endpoint
@@ -10,9 +10,9 @@
  * Design notes:
  *
  *   - All sending flows through the PROVEN loop from gwill_push_send_to_all()
- *     (queueNotification -> flush -> prune on 410/404) — never re-implemented.
+ *     (queueNotification -> flush -> prune on 410/404)  -  never re-implemented.
  *   - The bell and phone-side permission state are deliberately absent:
- *     L11 — after PWA install, only the app-level toggle tells the truth.
+ *     L11  -  after PWA install, only the app-level toggle tells the truth.
  *   - Sending runs via REST (gwill/v1/push/test) so the nonce + capability
  *     model matches the starter's other REST routes.
  *
@@ -24,13 +24,13 @@ defined( 'ABSPATH' ) || exit;
 
 /*
 Table of Contents
-1. Stats — subscriber counts
+1. Stats  -  subscriber counts
 2. Admin page registration (Tools → Push Subscribers)
-3. Admin page render — state notices, stats, test push, table
+3. Admin page render  -  state notices, stats, test push, table
 4. Subscriber table renderer
-5. REST route — gwill/v1/push/test (send test to all)
-6. Row delete — admin-post handler
-7. Admin JS — test button wiring (inline, jQuery-free)
+5. REST route  -  gwill/v1/push/test (send test to all)
+6. Row delete  -  admin-post handler
+7. Admin JS  -  test button wiring (inline, jQuery-free)
 */
 
 /* ── 1. Stats ───────────────────────────────────────────────────────── */
@@ -79,7 +79,7 @@ function gwill_push_dashboard_stats(): array {
 
 /**
  * Tools → "Push Subscribers". Same Tools submenu pattern as the analytics
- * module — an occasional site-owner screen, never a sidebar slot.
+ * module  -  an occasional site-owner screen, never a sidebar slot.
  *
  * @since 1.5.0
  */
@@ -98,7 +98,7 @@ add_action( 'admin_menu', 'gwill_push_dashboard_menu' );
 
 /**
  * Render the push dashboard. Admin-native classes only (.wrap, .widefat,
- * .notice) — zero custom stylesheets to ship or cache-bust.
+ * .notice)  -  zero custom stylesheets to ship or cache-bust.
  *
  * @since 1.5.0
  */
@@ -121,7 +121,7 @@ function gwill_push_dashboard_render(): void {
 			<div class="notice notice-error inline">
 				<p>
 					<strong><?php esc_html_e( 'VAPID keys missing.', 'gwill-starter' ); ?></strong>
-					<?php esc_html_e( 'The theme could not generate or load VAPID keys — push cannot run. Check the PHP openssl extension and the site error log.', 'gwill-starter' ); ?>
+					<?php esc_html_e( 'The theme could not generate or load VAPID keys  -  push cannot run. Check the PHP openssl extension and the site error log.', 'gwill-starter' ); ?>
 				</p>
 			</div>
 		<?php endif; ?>
@@ -140,7 +140,7 @@ function gwill_push_dashboard_render(): void {
 			<?php
 			printf(
 				/* translators: 1: subscriber count, 2: new in last 7 days, 3: new in last 30 days */
-				esc_html__( 'Subscribers: %1$s — new in last 7 days: %2$s — new in last 30 days: %3$s.', 'gwill-starter' ),
+				esc_html__( 'Subscribers: %1$s  -  new in last 7 days: %2$s  -  new in last 30 days: %3$s.', 'gwill-starter' ),
 				'<strong>' . esc_html( number_format_i18n( $stats['subs'] ) ) . '</strong>',
 				'<strong>' . esc_html( number_format_i18n( $stats['new7'] ) ) . '</strong>',
 				'<strong>' . esc_html( number_format_i18n( $stats['new30'] ) ) . '</strong>'
@@ -153,7 +153,7 @@ function gwill_push_dashboard_render(): void {
 		$campaigns = get_option( 'gwill_push_stats', array() );
 		if ( ! is_array( $campaigns ) || empty( $campaigns ) ) :
 			?>
-			<p><?php esc_html_e( 'No push campaigns recorded yet — publish a post (or send a test) and campaign stats appear here.', 'gwill-starter' ); ?></p>
+			<p><?php esc_html_e( 'No push campaigns recorded yet  -  publish a post (or send a test) and campaign stats appear here.', 'gwill-starter' ); ?></p>
 		<?php else : ?>
 			<p style="font-size:13px;color:#50575e">
 				<?php esc_html_e( 'Clicks are counted when a subscriber taps the notification. Recent campaigns first.', 'gwill-starter' ); ?>
@@ -189,7 +189,7 @@ function gwill_push_dashboard_render(): void {
 
 		<?php if ( $stats['subs'] > 0 ) : ?>
 			<h2><?php esc_html_e( 'Send a test notification', 'gwill-starter' ); ?></h2>
-			<p><?php esc_html_e( 'Sends one notification to every subscriber — the exact send path a post publish takes. Use it to verify the whole chain before relying on it.', 'gwill-starter' ); ?></p>
+			<p><?php esc_html_e( 'Sends one notification to every subscriber  -  the exact send path a post publish takes. Use it to verify the whole chain before relying on it.', 'gwill-starter' ); ?></p>
 			<p>
 				<button type="button" class="button button-primary" id="gwill-push-test">
 					<?php esc_html_e( 'Send test notification', 'gwill-starter' ); ?>
@@ -211,7 +211,7 @@ function gwill_push_dashboard_render(): void {
 /* ── 4. Subscriber table renderer ────────────────────────────────────── */
 
 /**
- * The subscriber table. Endpoints are long opaque URLs — truncated for
+ * The subscriber table. Endpoints are long opaque URLs  -  truncated for
  * display with the browser's own title tooltip carrying the full string.
  *
  * @param array<int,array{id:string,endpoint:string,created_at:string}> $rows
@@ -253,11 +253,11 @@ function gwill_push_dashboard_table( array $rows ): void {
 	<?php
 }
 
-/* ── 5. REST route — test send ───────────────────────────────────────── */
+/* ── 5. REST route  -  test send ───────────────────────────────────────── */
 
 /**
  * Send a test notification to every subscriber. Reuses the publish
- * payload shape and the proven send loop — a fake WP_Post is built only
+ * payload shape and the proven send loop  -  a fake WP_Post is built only
  * to carry title/body/url through gwill_push_send_to_all().
  *
  * @return void JSON {sent:int} or error.
@@ -266,12 +266,12 @@ function gwill_push_dashboard_table( array $rows ): void {
 function gwill_push_test_send(): void {
 	$stream = gwill_push_stream();
 	if ( ! $stream ) {
-		wp_send_json_error( [ 'message' => __( 'Push is not configured — VAPID keys missing.', 'gwill-starter' ) ] );
+		wp_send_json_error( [ 'message' => __( 'Push is not configured  -  VAPID keys missing.', 'gwill-starter' ) ] );
 	}
 
 	$payload = array(
 		'title' => get_bloginfo( 'name' ),
-		'body'  => __( 'Test notification — push is working.', 'gwill-starter' ),
+		'body'  => __( 'Test notification  -  push is working.', 'gwill-starter' ),
 		'icon'  => gwill_pwa_icons()['192'],
 		'badge' => gwill_pwa_icons()['badge'],
 		'url'   => home_url( '/' ),
@@ -335,7 +335,7 @@ function gwill_push_test_send(): void {
 }
 
 /**
- * Register the test-send REST route. Permission: manage_options — the
+ * Register the test-send REST route. Permission: manage_options  -  the
  * same capability that guards the whole dashboard.
  *
  * @since 1.5.0
@@ -380,11 +380,11 @@ add_action( 'admin_post_gwill_push_delete', 'gwill_push_delete_row' );
 /* ── 7. Admin inline JS ──────────────────────────────────────────────── */
 
 /**
- * Wire the test button. Inline + tiny — an admin-only action on one page;
+ * Wire the test button. Inline + tiny  -  an admin-only action on one page;
  * a separate .js file would cost a handle, a cache-bust and an enqueue
  * gate for four lines. Sends the REST nonce WP already printed for the
  * logged-in admin (wpApiSettings is not used; the REST root + nonce come
- * from localized literals below — same approach as the frontend bell).
+ * from localized literals below  -  same approach as the frontend bell).
  *
  * @since 1.5.0
  */
@@ -393,7 +393,7 @@ function gwill_push_dashboard_inline_js(): void {
 	$nonce = wp_create_nonce( 'wp_rest' );
 	$i18n = array(
 		'sending' => __( 'Sending…', 'gwill-starter' ),
-		'fail'    => __( 'Send failed — is the REST API reachable?', 'gwill-starter' ),
+		'fail'    => __( 'Send failed  -  is the REST API reachable?', 'gwill-starter' ),
 	);
 	?>
 	<script>

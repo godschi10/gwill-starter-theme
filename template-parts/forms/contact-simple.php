@@ -3,7 +3,7 @@
  * Form Partial: Simple Contact (Pattern 1)
  *
  * Name / Email / Message. Submits via WordPress AJAX to inc/forms.php.
- * Delivery via wp_mail() — configure SMTP in wp-config.php.
+ * Delivery via wp_mail()  -  configure SMTP in wp-config.php.
  *
  * Usage: gwill_part( 'forms/contact-simple' );
  *

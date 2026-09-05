@@ -7,13 +7,13 @@ Table of Contents
 */
 
 /**
- * TOC — inc/minify.php
+ * TOC  -  inc/minify.php
  *
- * HTML whitespace minification (output buffering) — GWill Starter.
+ * HTML whitespace minification (output buffering)  -  GWill Starter.
  *
  * Ported from gwill-tech-theme inc/performance.php (live-proven on the
  * tech site), adapted: the binary-endpoint guard covers the starter's
- * OWN query-var routes (?gwill_manifest= from inc/pwa.php — the tech
+ * OWN query-var routes (?gwill_manifest= from inc/pwa.php  -  the tech
  * version guarded ?gwill_icon= / ?gwill_og= which the starter does not
  * have). REST/AJAX/cron/CLI/admin guards unchanged.
  *
@@ -23,7 +23,7 @@ Table of Contents
  *
  * SAFETY (never strips content):
  * - <pre> / <code> / <textarea> / <script> / <style> bodies are preserved
- *   verbatim — code blocks and inline JS/CSS keep every byte.
+ *   verbatim  -  code blocks and inline JS/CSS keep every byte.
  * - Only whitespace runs of 2+ newlines/blank lines BETWEEN tags are
  *   collapsed to a single newline.
  *
@@ -69,7 +69,7 @@ function gwill_minify_html( $buffer ) {
 	$buffer = preg_replace( '#>\s{2,}<#', ">\n<", $buffer );
 
 	// Also collapse whitespace runs ADJACENT to protected-block tokens
-	// (e.g. </p>\n\n\n\n[token]\n\n\n\n<p>) — the placeholder is not '<',
+	// (e.g. </p>\n\n\n\n[token]\n\n\n\n<p>)  -  the placeholder is not '<',
 	// so the pattern above skips it. Squeeze both sides of each token.
 	$buffer = preg_replace( '#>\s{2,}(\x1AGWP\d+\x1A)\s{2,}<#', ">\n$1\n<", $buffer );
 
@@ -94,7 +94,7 @@ function gwill_perf_start_buffer() {
 	// Binary/JSON endpoint guard: the PWA manifest route (?gwill_manifest=
 	// from inc/pwa.php) serves application/manifest+json via echo+exit at
 	// template_include (default priority 99). The minifier's text regexes
-	// must never run on it — and an ob_start wrapping an exit would emit
+	// must never run on it  -  and an ob_start wrapping an exit would emit
 	// the buffer through the minify callback, so skip the buffer for these
 	// requests entirely.
 	if ( isset( $_GET['gwill_manifest'] ) ) {

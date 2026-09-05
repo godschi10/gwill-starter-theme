@@ -3,7 +3,7 @@
  * Template: Apps hub (/apps/)
  *
  * The card grid for everything in gwill_apps_registry() (inc/apps.php).
- * Cards are auto-rendered from the registry — no markup changes needed to
+ * Cards are auto-rendered from the registry  -  no markup changes needed to
  * add an app. Reached via a REAL rewrite (L4).
  *
  * @package GWill_Starter
@@ -18,7 +18,7 @@ get_header();
 <div class="inner">
 	<header class="archive-header">
 		<h1><?php esc_html_e( 'Apps', 'gwill-starter' ); ?></h1>
-		<p><?php esc_html_e( 'Free tools that run entirely in your browser — fast, private, no sign-up.', 'gwill-starter' ); ?></p>
+		<p><?php esc_html_e( 'Free tools that run entirely in your browser  -  fast, private, no sign-up.', 'gwill-starter' ); ?></p>
 	</header>
 
 	<div class="gwill-apps-grid">

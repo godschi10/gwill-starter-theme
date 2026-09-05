@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 add_action( 'after_setup_theme', function () {
 
 	/*
-	 * Content width — constrains embedded media (oEmbed iframes, etc.)
+	 * Content width  -  constrains embedded media (oEmbed iframes, etc.)
 	 * Keep in sync with --max-width in style.css.
 	 * Must be set inside after_setup_theme with global declaration to
 	 * satisfy WPCS WordPress.WP.GlobalVariablesOverride.
@@ -31,13 +31,13 @@ add_action( 'after_setup_theme', function () {
 	/*
 	 * 'customize-selective-refresh-widgets' is intentionally omitted.
 	 * That support only has effect when widget areas are registered via
-	 * register_sidebar(). This starter ships with no widget areas — add
+	 * register_sidebar(). This starter ships with no widget areas  -  add
 	 * the support alongside register_sidebar() if widgets are ever needed.
 	 */
 
 	/*
 	 * 'wp-block-styles' is intentionally omitted from this starter.
-	 * That support enqueues wp-block-library-theme.css (~3 KB) — opinionated
+	 * That support enqueues wp-block-library-theme.css (~3 KB)  -  opinionated
 	 * Gutenberg default block styles the project may not want. For a blank-slate
 	 * starter that owns all its own CSS, it is dead weight. Enable per project
 	 * if Gutenberg's built-in block styles are needed:
@@ -49,7 +49,7 @@ add_action( 'after_setup_theme', function () {
 	add_theme_support( 'responsive-embeds' );
 
 	/*
-	 * Custom logo — required by the WordPress Theme Review Team.
+	 * Custom logo  -  required by the WordPress Theme Review Team.
 	 * Enables the Site Logo section in the Customizer.
 	 * flex-height + flex-width allow the logo to maintain its natural
 	 * aspect ratio rather than being cropped to fixed dimensions.
@@ -73,10 +73,10 @@ add_action( 'after_setup_theme', function () {
 
 	/*
 	 * Register a theme-specific hero image size matching --max-width.
-	 * WP's built-in 'large' defaults to 1024px — 15% narrower than this
-	 * theme's 1200px content width — so the LCP image is always upscaled
+	 * WP's built-in 'large' defaults to 1024px  -  15% narrower than this
+	 * theme's 1200px content width  -  so the LCP image is always upscaled
 	 * on desktop. Use 'gwill-hero' in single.php and page.php instead.
-	 * Crop is soft (false) — portrait images are not centre-cropped.
+	 * Crop is soft (false)  -  portrait images are not centre-cropped.
 	 */
 	add_image_size( 'gwill-hero', 1200, 675, false );
 
@@ -103,10 +103,10 @@ add_action( 'after_setup_theme', function () {
  * deployments (only fires on theme activation via WP admin UI).
  *
  * Still requires LiteSpeed Cache → Purge All + Permalinks → Save Changes
- * after deploy when a cached redirect exists — code cannot clear the cache.
+ * after deploy when a cached redirect exists  -  code cannot clear the cache.
  *
  * Priority 99 (not 1, fixed 1.0.52): flush_rewrite_rules() should run after
- * plugins have registered their own custom post types/taxonomies — those
+ * plugins have registered their own custom post types/taxonomies  -  those
  * typically hook 'init' at the default priority 10. Firing this at
  * priority 1 meant any plugin-registered rewrite rules could be missing
  * from the one flush that actually matters (the single page load right
@@ -117,7 +117,7 @@ function gwill_maybe_flush_rewrites(): void {
 	$theme_ver = wp_get_theme()->get( 'Version' );
 	// 'gwill_rewrite_ver' read/write with explicit autoload=false (fixed
 	// 1.0.52): this value is checked once per version bump and otherwise
-	// never read — update_option()'s default autoload would otherwise load
+	// never read  -  update_option()'s default autoload would otherwise load
 	// it into the options cache on every single request (admin, frontend,
 	// REST, CLI) for no benefit.
 	if ( get_option( 'gwill_rewrite_ver', '' ) === $theme_ver ) {
@@ -181,11 +181,11 @@ add_action( 'save_post', 'gwill_save_video_meta_box' );
  */
 function gwill_save_video_meta_box( int $post_id ): void {
 	// Capability checked before the nonce (reordered 1.0.52): general
-	// defense-in-depth convention — capability is the authoritative access
+	// defense-in-depth convention  -  capability is the authoritative access
 	// control, the nonce is CSRF protection on top of it. In practice this
 	// exact callback is hooked to save_post, which WordPress core never
 	// fires for a given post unless it has already verified the current
-	// user's edit_post capability for that post earlier in admin/post.php —
+	// user's edit_post capability for that post earlier in admin/post.php  - 
 	// so the specific "valid nonce, no capability" scenario isn't actually
 	// reachable here. Reordering costs nothing and removes any doubt.
 	if ( ! current_user_can( 'edit_post', $post_id ) ) {

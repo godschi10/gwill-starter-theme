@@ -1,6 +1,6 @@
 <?php
 /**
- * Sitemap template — renders /sitemap.xml.
+ * Sitemap template  -  renders /sitemap.xml.
  *
  * Swapped in by gwill_sitemap_template() (inc/sitemap.php) when the
  * gwill_sitemap query var is set. Outputs the XML with the correct

@@ -1,9 +1,9 @@
 <?php
 /**
- * Expandable search form — Combo A (default).
+ * Expandable search form  -  Combo A (default).
  *
  * Three-zone layout: [ 🔍 icon | input field | Search button ]
- * Separated by vertical borders. One outer container border — no input box.
+ * Separated by vertical borders. One outer container border  -  no input box.
  *
  * To switch to Combo B (modal + live search), replace the header.php call:
  *   gwill_part( 'search/search-form-modal' );
@@ -49,7 +49,7 @@ wp_enqueue_style( 'gwill-search' );
 		hidden
 		aria-hidden="true"
 	>
-		<?php /* Zone 1 — search icon */ ?>
+		<?php /* Zone 1  -  search icon */ ?>
 		<span class="gwill-search-expand__zone-icon" aria-hidden="true">
 			<svg width="17" height="17" viewBox="0 0 20 20" fill="none"
 				aria-hidden="true" focusable="false">
@@ -58,7 +58,7 @@ wp_enqueue_style( 'gwill-search' );
 			</svg>
 		</span>
 
-		<?php /* Zone 2 — text input, border-left = vertical divider */ ?>
+		<?php /* Zone 2  -  text input, border-left = vertical divider */ ?>
 		<div class="gwill-search-expand__zone-input">
 			<label class="screen-reader-text" for="gwill-search-expand-input">
 				<?php esc_html_e( 'Search', 'gwill-starter' ); ?>
@@ -76,7 +76,7 @@ wp_enqueue_style( 'gwill-search' );
 			>
 		</div>
 
-		<?php /* Zone 3 — submit button, border-left = vertical divider */ ?>
+		<?php /* Zone 3  -  submit button, border-left = vertical divider */ ?>
 		<button class="gwill-search-expand__submit" type="submit">
 			<?php esc_html_e( 'Search', 'gwill-starter' ); ?>
 		</button>

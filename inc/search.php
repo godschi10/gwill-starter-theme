@@ -1,6 +1,6 @@
 <?php
 /**
- * Search — backend functions and plugin swap stub.
+ * Search  -  backend functions and plugin swap stub.
  *
  * ════════════════════════════════════════════════════════════════════
  * PLUGIN SWAP STUB
@@ -9,18 +9,18 @@
  * endpoint) routes through gwill_execute_search(). Three filter hooks
  * let you replace the backend without touching any theme file:
  *
- * 1. gwill_search_post_types — change which post types are searched.
+ * 1. gwill_search_post_types  -  change which post types are searched.
  *
  *    add_filter( 'gwill_search_post_types', fn() => [ 'post', 'project' ] );
  *
- * 2. gwill_search_args — modify WP_Query args before execution.
+ * 2. gwill_search_args  -  modify WP_Query args before execution.
  *
  *    add_filter( 'gwill_search_args', function ( $args, $term ) {
  *        $args['meta_query'] = [ ... ]; // add custom field search
  *        return $args;
  *    }, 10, 2 );
  *
- * 3. gwill_search_backend — return a WP_Query to completely bypass
+ * 3. gwill_search_backend  -  return a WP_Query to completely bypass
  *    native WordPress search (e.g. hand off to SearchWP or Algolia).
  *    Return null to let native WP run (default).
  *
@@ -31,11 +31,11 @@
  * ════════════════════════════════════════════════════════════════════
  * SEARCH PATTERNS SHIPPED
  * ════════════════════════════════════════════════════════════════════
- * Combo A — Default (expandable icon + page-reload + search.php)
+ * Combo A  -  Default (expandable icon + page-reload + search.php)
  *   template-parts/search/search-form-expandable.php
  *   search.php
  *
- * Combo B — Opt-in (modal overlay + live REST autocomplete + search.php fallback)
+ * Combo B  -  Opt-in (modal overlay + live REST autocomplete + search.php fallback)
  *   template-parts/search/search-form-modal.php
  *   assets/js/search-modal.js
  *
@@ -77,11 +77,11 @@ function gwill_execute_search( string $term, array $args = [] ): WP_Query {
 	/**
 	 * Filter WP_Query args before the search executes.
 	 *
-	 * @param array  $args     Merged query args — $args['s'] is sanitized via
+	 * @param array  $args     Merged query args  -  $args['s'] is sanitized via
 	 *                         sanitize_text_field() and is what any filter
 	 *                         callback should use for DB operations.
 	 * @param string $term_raw The raw, UNsanitized term as originally passed
-	 *                         to gwill_execute_search() — provided for
+	 *                         to gwill_execute_search()  -  provided for
 	 *                         context/logging only. Do not use this for any
 	 *                         database query; use $args['s'] instead.
 	 */
@@ -105,7 +105,7 @@ function gwill_execute_search( string $term, array $args = [] ): WP_Query {
 
 
 // ─────────────────────────────────────────────────────────────────────────────
-// REST endpoint — live search (Combo B modal)
+// REST endpoint  -  live search (Combo B modal)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
@@ -142,7 +142,7 @@ add_action( 'rest_api_init', function () {
 } );
 
 /**
- * Permission callback for the live-search REST route — a request-count
+ * Permission callback for the live-search REST route  -  a request-count
  * window, not the simple "one request, then a five-minute lockout"
  * pattern gwill_form_rate_limited() uses for the contact form in
  * inc/forms.php. That pattern doesn't fit here: a visitor typing into
@@ -151,12 +151,12 @@ add_action( 'rest_api_init', function () {
  * requests within a short window instead of blocking after the first one.
  *
  * Reuses gwill_get_client_ip() from inc/forms.php rather than duplicating
- * IP-detection logic in a second file — forms.php is required before
+ * IP-detection logic in a second file  -  forms.php is required before
  * search.php in functions.php, so it's already defined by the time this
  * runs.
  *
  * Implementation note: this is a fixed window that resets its TTL on
- * every request within it, not a true sliding window — a sustained,
+ * every request within it, not a true sliding window  -  a sustained,
  * continuously-active session can stay capped at the limit until a full
  * window passes with no further requests, rather than the limit rolling
  * forward smoothly. Accepted as a reasonable simplification: minLength=2
@@ -166,7 +166,7 @@ add_action( 'rest_api_init', function () {
  * normal typing.
  *
  * current_user_can( 'edit_posts' ) is exempt, matching the contact form's
- * own exemption and for the same reason — testing shouldn't trip the same
+ * own exemption and for the same reason  -  testing shouldn't trip the same
  * protection meant for abuse.
  *
  * @return true|WP_Error
@@ -217,7 +217,7 @@ function gwill_search_rate_limit_check() {
  * Returns a minimal JSON array shaped for the autocomplete UI:
  *   [ { id, title, url, type, excerpt }, ... ]
  *
- * Responses are publicly cacheable for 60 s — this is public search data.
+ * Responses are publicly cacheable for 60 s  -  this is public search data.
  *
  * @param  WP_REST_Request $request
  * @return WP_REST_Response
@@ -260,7 +260,7 @@ function gwill_rest_search_handler( WP_REST_Request $request ): WP_REST_Response
  * Return the current search term, sanitised for HTML attribute output.
  *
  * IMPORTANT: The return value is already passed through esc_attr(). Do NOT
- * escape the return value again at the call site — double-encoding will
+ * escape the return value again at the call site  -  double-encoding will
  * corrupt & → &amp;amp; and produce visible noise in the input field.
  *
  * @return string HTML-attribute-escaped search term.
@@ -279,7 +279,7 @@ function gwill_get_search_term(): string {
  *   'No results for "foo"'   (zero)
  *
  * @param  WP_Query $query The current search query.
- * @return string          Safe HTML — only <strong> allowed.
+ * @return string          Safe HTML  -  only <strong> allowed.
  * @since  1.0.23
  */
 function gwill_search_results_count( WP_Query $query ): string {
@@ -304,11 +304,11 @@ function gwill_search_results_count( WP_Query $query ): string {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Search suggestions — "Did you mean?" (v1.16.87)
+// Search suggestions  -  "Did you mean?" (v1.16.87)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * Damerau–Levenshtein distance (optimal string alignment) — the typo model.
+ * Damerau–Levenshtein distance (optimal string alignment)  -  the typo model.
  *
  * Classic Levenshtein counts an adjacent transposition ("reids" → "redis")
  * as TWO edits; Damerau counts it as ONE, which is the reality of human
@@ -354,7 +354,7 @@ function gwill_damerau( string $a, string $b ): int {
 
 /**
  * Google-style term highlighting for result titles. Self-contained
- * replacement for core wp_highlight_search_terms() — which does NOT
+ * replacement for core wp_highlight_search_terms()  -  which does NOT
  * exist in WordPress 7.x (fatal "function not found" at runtime,
  * v1.16.90 lesson: never depend on core search helpers). No-op when
  * there is no active search query, so shared card templates stay
@@ -390,8 +390,8 @@ function gwill_highlight_search_terms( string $title ): string {
  * meaningful title word here, so it is not in the list).
  *
  * v1.16.95 (King: "a direct question should also show results"): the list
- * now covers the full question/pronoun set — how, to, what, why, my, we,
- * this, which… — and gwill_search_similarity() skips these tokens
+ * now covers the full question/pronoun set  -  how, to, what, why, my, we,
+ * this, which…  -  and gwill_search_similarity() skips these tokens
  * ENTIRELY (not just when unmatched), so "why is my website slow" can
  * never score a false hit off the word "my" alone.
  *
@@ -409,7 +409,7 @@ function gwill_search_stopwords(): array {
 /**
  * Stop-words for related-search MINING (v1.16.91): title words that
  * produce noise phrases if mined ("vs", "guide", "best", "right").
- * Deliberately separate from gwill_search_stopwords() — a word can be
+ * Deliberately separate from gwill_search_stopwords()  -  a word can be
  * meaningful for matching yet useless for related-search phrases.
  *
  * @return string[]
@@ -424,15 +424,15 @@ function gwill_search_mining_stopwords(): array {
 }
 
 /**
- * "Eventually what real people are searching for" (King, v1.16.92) —
+ * "Eventually what real people are searching for" (King, v1.16.92)  - 
  * anonymous search-query log, stored in the EXISTING FTS SQLite index
  * file (wp-content/uploads/gwill-search/index.sqlite): one tiny deduped
  * table (query → count + last_seen), capped at 500 rows and pruned to
  * the top 200 by (count, recency). The WordPress database is NEVER
- * touched: no MySQL tables, no wp_options growth — the whole log stays
+ * touched: no MySQL tables, no wp_options growth  -  the whole log stays
  * ≈ 12 KB inside a file the theme already owns.
  *
- * Only actual search-page submissions are logged — search pages are
+ * Only actual search-page submissions are logged  -  search pages are
  * FastCGI BYPASS, so every real search reaches PHP. The header dropdown
  * keystrokes are deliberately NOT logged (noise).
  *
@@ -465,7 +465,7 @@ function gwill_search_log_query( string $query ): void {
 			$pdo->exec( 'DELETE FROM gwill_search_log WHERE query NOT IN (SELECT query FROM gwill_search_log ORDER BY count DESC, last_seen DESC LIMIT 200)' );
 		}
 	} catch ( Throwable $e ) {
-		// Logging must NEVER break a search — silent fail.
+		// Logging must NEVER break a search  -  silent fail.
 	}
 }
 
@@ -491,11 +491,11 @@ function gwill_search_term_has_results( string $term ): bool {
 }
 
 /**
- * Real searches that share a token with the current query — the
+ * Real searches that share a token with the current query  -  the
  * "People also searched for" source of truth once enough people have
  * searched. Only queries logged ≥ 2 times qualify (one-off typos and
  * bot noise never surface); ranked by frequency, then recency. Every
- * returned term is verified to still return results (v1.16.95 — a
+ * returned term is verified to still return results (v1.16.95  -  a
  * real search that now matches nothing is never suggested).
  *
  * @param string $query The current search query.
@@ -563,7 +563,7 @@ add_action( 'template_redirect', function () {
  * @since 1.16.87
  */
 function gwill_search_normalize( string $s ): string {
-	// Lowercase FIRST, then strip — the character class is deliberately
+	// Lowercase FIRST, then strip  -  the character class is deliberately
 	// lowercase-only because strtolower() already ran (v1.16.87 fixed the
 	// original reverse order + missing A–Z, which silently dropped the
 	// first letter of every capitalised word: "Redis" → "edis").
@@ -573,18 +573,18 @@ function gwill_search_normalize( string $s ): string {
 /**
  * Similarity score between a query and a title, 0.0–1.0 (higher = closer).
  *
- * Google-grade matcher (v1.16.88 — King: "bring results from misspelled
+ * Google-grade matcher (v1.16.88  -  King: "bring results from misspelled
  * words even if it's the first middle or last letter or spacing"):
- *   1. Token-level Levenshtein WITHOUT a first-letter anchor — a typo on
+ *   1. Token-level Levenshtein WITHOUT a first-letter anchor  -  a typo on
  *      ANY character (first, middle, last) still matches, guarded only by
  *      a length-ratio filter so unrelated words can't latch on. Token
  *      scores are weighted by query-token length: short filler tokens
  *      ("db", "15") can't zero a strong match, and one strong word can't
  *      hijack a query whose other words match nothing.
- *   2. Spacing-insensitive full-string Levenshtein — "redisvsmongo" vs
+ *   2. Spacing-insensitive full-string Levenshtein  -  "redisvsmongo" vs
  *      "Redis vs MongoDB" and "mongo db" vs "mongodb" both compare
  *      normalized concatenations, so missing/extra spaces are free.
- *   3. Containment boost — when one normalized string sits inside the
+ *   3. Containment boost  -  when one normalized string sits inside the
  *      other (min 4 chars), the full-string signal is floored at 0.8.
  *
  * @param string $a Normalized query.
@@ -616,7 +616,7 @@ function gwill_search_similarity( string $a, string $b ): float {
 	$exact_hit = false;
 	foreach ( $at as $qt ) {
 		// v1.16.95 (King: "a direct question should also show results"):
-		// function words are skipped ENTIRELY — not just when unmatched —
+		// function words are skipped ENTIRELY  -  not just when unmatched  - 
 		// so "my" can never earn the exact-word OR bonus off "How I Cut My
 		// Android…". A question like "why is my website slow" scores on its
 		// real tokens only.
@@ -628,14 +628,14 @@ function gwill_search_similarity( string $a, string $b ): float {
 		foreach ( $bt as $tt ) {
 			$tlen = strlen( $tt );
 			if ( $qlen < 3 || $tlen < 3 ) {
-				// Short tokens (2 chars or less) must be exact — "db" must
+				// Short tokens (2 chars or less) must be exact  -  "db" must
 				// not fuzzy-match "da", and "15" must match "15" only.
 				if ( $qlen !== $tlen ) {
 					continue;
 				}
 			} else {
 				// Length-ratio guard: only comparable tokens (missed space,
-				// one missing letter, doubled letter) — not random words.
+				// one missing letter, doubled letter)  -  not random words.
 				if ( max( $qlen, $tlen ) / max( min( $qlen, $tlen ), 1 ) > 2.0 ) {
 					continue;
 				}
@@ -658,7 +658,7 @@ function gwill_search_similarity( string $a, string $b ): float {
 			}
 		}
 		// Prefix/stem bonus: "andro" → "android", "postgre" → "postgresql"
-		// (Google's prefix matching — a 4+ char prefix is a real signal).
+		// (Google's prefix matching  -  a 4+ char prefix is a real signal).
 		if ( 0.0 === $best && $qlen >= 3 ) {
 			foreach ( $bt as $tt ) {
 				$tlen = strlen( $tt );
@@ -691,7 +691,7 @@ function gwill_search_similarity( string $a, string $b ): float {
 	// 2. Spacing-insensitive full-string similarity.
 	$full = 1.0 - ( gwill_damerau( $ca, $cb ) / max( strlen( $ca ), strlen( $cb ), 1 ) );
 
-	// 3. Containment boost — one normalized string inside the other.
+	// 3. Containment boost  -  one normalized string inside the other.
 	if ( strlen( $ca ) >= 4 && strlen( $cb ) >= 4
 		&& ( false !== strpos( $ca, $cb ) || false !== strpos( $cb, $ca ) ) ) {
 		$full = max( $full, 0.8 );
@@ -700,7 +700,7 @@ function gwill_search_similarity( string $a, string $b ): float {
 	$score = 0.6 * $token_score + 0.4 * max( 0.0, $full );
 
 	// 4. Exact-word bonus (Google's OR behaviour): one query word matches a
-	//    title word perfectly — surface it even if a sibling word is absent
+	//    title word perfectly  -  surface it even if a sibling word is absent
 	//    from the corpus ("redis vsmongo" → the Redis guides).
 	if ( $exact_hit ) {
 		$score = min( 1.0, $score + 0.15 );
@@ -710,11 +710,11 @@ function gwill_search_similarity( string $a, string $b ): float {
 }
 
 /**
- * "Did you mean?" — find the closest searchable title for a query that
+ * "Did you mean?"  -  find the closest searchable title for a query that
  * returned no results and derive the corrected WORDS from it (Google
- * suggests words, not post cards — v1.16.89). Database-agnostic by
+ * suggests words, not post cards  -  v1.16.89). Database-agnostic by
  * design (portability law): reads titles through get_posts(), so it
- * works with ANY database, no FTS index required — and at this site's
+ * works with ANY database, no FTS index required  -  and at this site's
  * scale (≤ 500 titles) it is a handful of milliseconds.
  *
  * @param string $term  Raw search term (get_search_query()).
@@ -738,7 +738,7 @@ function gwill_search_suggest( string $term, int $limit = 3 ): array {
 	$threshold  = (float) apply_filters( 'gwill_search_suggest_threshold', 0.45 );
 
 	// Settings pages (ACF pages in the tech theme; filterable here) must
-	// never be suggested. The starter ships no settings pages by default —
+	// never be suggested. The starter ships no settings pages by default  - 
 	// child themes add slugs via the filter.
 	$settings_slugs = apply_filters( 'gwill_search_suggest_excluded_slugs', [] );
 	$exclude = [];
@@ -829,11 +829,11 @@ function gwill_search_suggest( string $term, int $limit = 3 ): array {
 }
 
 /**
- * Fuzzy result retrieval — the "dumb person with typos can find answers"
+ * Fuzzy result retrieval  -  the "dumb person with typos can find answers"
  * fallback (King, v1.16.95). When FTS5's strict AND-prefix match returns
  * nothing ("docker ubntu", "what is android private space"), this scores
  * every searchable title with the SAME similarity engine that powers
- * "Did you mean?" and returns the best post IDs as real RESULT CARDS —
+ * "Did you mean?" and returns the best post IDs as real RESULT CARDS  - 
  * Google shows corrected results, not just a suggestion word.
  *
  * Same portability design as gwill_search_suggest(): reads titles through
@@ -858,12 +858,12 @@ function gwill_search_fuzzy_match_ids( string $term, int $limit = 200 ): array {
 	$threshold  = (float) apply_filters( 'gwill_search_fuzzy_match_threshold', 0.45 );
 
 	// v1.16.96 (King: "scaling past 100k posts"): pull the candidate pool
-	// from the FTS5 prefix-relaxation index when available — full-corpus
+	// from the FTS5 prefix-relaxation index when available  -  full-corpus
 	// coverage, bounded (~1 ms), immune to corpus size. get_posts(500) is
 	// now ONLY the portability fallback for installs without the index
-	// (and is capped at the newest 500 — the index path has no such cap).
+	// (and is capped at the newest 500  -  the index path has no such cap).
 	// When the index EXISTS, its empty answer is authoritative (full
-	// corpus scanned) — never re-scan newest-500 on top of it.
+	// corpus scanned)  -  never re-scan newest-500 on top of it.
 	$fts_available = function_exists( 'gwill_fts_available' ) && gwill_fts_available();
 	$candidate_ids = ( $fts_available && function_exists( 'gwill_fts_relaxed_candidate_ids' ) )
 		? gwill_fts_relaxed_candidate_ids( $term, max( 60, (int) $limit ) )
@@ -883,7 +883,7 @@ function gwill_search_fuzzy_match_ids( string $term, int $limit = 200 ): array {
 	if ( empty( $candidate_ids ) && ! $fts_available ) {
 		// Portability fallback: no FTS index → newest-500 titles (legacy
 		// behavior, works on any database). When the index exists, its
-		// empty answer is authoritative — skip this entirely.
+		// empty answer is authoritative  -  skip this entirely.
 		$candidate_ids = get_posts( [
 			'post_type'      => $post_types,
 			'post_status'    => 'publish',
@@ -939,22 +939,22 @@ function gwill_search_fuzzy_match_ids( string $term, int $limit = 200 ): array {
 }
 
 /**
- * "People also searched for" — related search terms mined from the result
+ * "People also searched for"  -  related search terms mined from the result
  * set's OWN titles. Zero extra database cost on the results page: pass
  * the already-loaded $wp_query->posts.
  *
  * ACCURACY CONTRACT (King: "beautiful idea but I need accuracy"):
  *   1. Only CONTIGUOUS significant runs are phrases ("object caching",
- *      "sentinel cluster") — never sliding-window fragments ("caching
+ *      "sentinel cluster")  -  never sliding-window fragments ("caching
  *      cheap", "cluster choosing").
- *   2. Single-word runs are never suggested alone (too fragmentary) —
+ *   2. Single-word runs are never suggested alone (too fragmentary)  - 
  *      except as a fallback anchored to the query ("docker compose").
  *   3. Query-anchored phrases ("redis object caching") are emitted ONLY
- *      when the result title actually contains the query token — a
+ *      when the result title actually contains the query token  -  a
  *      content-only match ("The Hidden Cost of Cheap Hosting" for
  *      "redis") never produces the false phrase "redis hidden cost".
  *   4. Every phrase is real text from a real title on this page, so it
- *      is guaranteed to return results — nothing fabricated.
+ *      is guaranteed to return results  -  nothing fabricated.
  *
  * @param array  $posts Result post objects (WP_Post[]).
  * @param string $query The search query.
@@ -988,7 +988,7 @@ function gwill_search_related_terms( array $posts, string $query, int $limit = 4
 		if ( ! $tokens ) {
 			continue;
 		}
-		// Contiguous significant runs — capped at 2 words so a phrase is
+		// Contiguous significant runs  -  capped at 2 words so a phrase is
 		// tight and real ("object caching" ✓, "object caching cheap" ✗).
 		$runs = [];
 		$cur  = [];
@@ -1031,7 +1031,7 @@ function gwill_search_related_terms( array $posts, string $query, int $limit = 4
 		}
 	}
 
-	// v1.16.92 (King): REAL people's searches win once enough data exists —
+	// v1.16.92 (King): REAL people's searches win once enough data exists  - 
 	// title-derived phrases only fill the remaining slots (cold start).
 	$real = gwill_search_real_related( $query, $limit );
 	if ( count( $real ) >= max( 1, (int) $limit ) ) {
@@ -1058,7 +1058,7 @@ function gwill_search_related_terms( array $posts, string $query, int $limit = 4
 		];
 	}
 
-	// Real searches first, title-derived fills the rest — deduped by term
+	// Real searches first, title-derived fills the rest  -  deduped by term
 	// (a real search and a mined phrase can be identical).
 	$merged = array_merge( $real, $out );
 	$seen   = [];

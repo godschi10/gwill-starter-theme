@@ -5,14 +5,14 @@
  *
  * Renders all 11 contact form patterns on one page for development testing.
  * Access is restricted at the code level to logged-in Administrators
- * (manage_options) — no WP admin visibility setting required.
+ * (manage_options)  -  no WP admin visibility setting required.
  *
  * Deliberately stricter than edit_posts: that capability extends to the
  * Author and Contributor roles too, which is the right threshold for
  * gwill_form_rate_limited()'s exemption (any content-managing staff
  * testing the theme's REAL contact forms on real pages shouldn't trip
  * the same protection meant for spam) but the wrong one for this page
- * specifically — a raw testing harness exposing all 11 patterns at once
+ * specifically  -  a raw testing harness exposing all 11 patterns at once
  * is squarely a developer tool, not something every Author/Contributor
  * on a client site needs to be able to reach.
  *
@@ -26,7 +26,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-// Hard gate — logged-out users and anyone below Administrator are turned
+// Hard gate  -  logged-out users and anyone below Administrator are turned
 // away regardless of the page's WordPress visibility setting.
 if ( ! current_user_can( 'manage_options' ) ) {
 	wp_die(
@@ -40,7 +40,7 @@ get_header();
 
 // Run the WordPress loop so the_post() sets up the global $post context.
 // Required: template parts that call is_singular(), get_the_title(), etc.
-// need the global post to be fully initialised — without the_post() they
+// need the global post to be fully initialised  -  without the_post() they
 // receive post data from the query setup but not the full loop context.
 while ( have_posts() ) :
 	the_post();
@@ -69,53 +69,53 @@ while ( have_posts() ) :
 	$demos = [
 		[
 			'id'          => 'simple',
-			'label'       => '1 — Simple Contact',
+			'label'       => '1  -  Simple Contact',
 			'description' => 'Name / Email / Message. General-purpose fallback.',
 		],
 		[
 			'id'          => 'inquiry',
-			'label'       => '2 — Service Inquiry',
+			'label'       => '2  -  Service Inquiry',
 			'description' => 'Screens by service type, timeline, and budget. For freelancers.',
 		],
 		[
 			'id'          => 'routed',
-			'label'       => '3 — Type Router',
+			'label'       => '3  -  Type Router',
 			'description' => 'Routes to different email addresses by inquiry type. Configure via gwill_form_routing_map filter.',
 		],
 		[
 			'id'          => 'multistep',
-			'label'       => '4 — Multi-step Quote',
+			'label'       => '4  -  Multi-step Quote',
 			'description' => '4 steps: service → budget → contact → description. sessionStorage persists values on Back.',
 		],
 		[
 			'id'          => 'inline',
-			'label'       => '5 — Inline Post Form',
+			'label'       => '5  -  Inline Post Form',
 			'description' => 'Compact 2-field embed for post content. Converts readers at high-intent moments.',
 		],
 		[
 			'id'          => 'sidebar',
-			'label'       => '6 — Sidebar Form',
+			'label'       => '6  -  Sidebar Form',
 			'description' => 'Compact sticky sidebar form. Make sticky with CSS on the sidebar container.',
 		],
 		[
 			'id'          => 'application',
-			'label'       => '8 — Application Form',
+			'label'       => '8  -  Application Form',
 			'description' => 'Work-with-me framing. Revenue + outcome questions qualify applicants.',
 		],
 		[
 			'id'          => 'partnership',
-			'label'       => '9 — Partnership / Brand Deal',
+			'label'       => '9  -  Partnership / Brand Deal',
 			'description' => 'Structured intake for sponsorships and collaborations.',
 		],
 		[
 			'id'          => 'post-feedback',
-			'label'       => '10 — Post Feedback (Yes/No)',
+			'label'       => '10  -  Post Feedback (Yes/No)',
 			'description' => 'Micro-interaction. Yes submits instantly. No reveals a textarea.',
 		],
 		[
 			'id'          => 'newsletter',
-			'label'       => '11 — Newsletter Signup',
-			'description' => 'Single email field. Adds to a Brevo list via the Contacts API — requires GWILL_BREVO_API_KEY and GWILL_BREVO_LIST_ID in wp-config.php, or fails gracefully with an error.',
+			'label'       => '11  -  Newsletter Signup',
+			'description' => 'Single email field. Adds to a Brevo list via the Contacts API  -  requires GWILL_BREVO_API_KEY and GWILL_BREVO_LIST_ID in wp-config.php, or fails gracefully with an error.',
 		],
 	];
 
@@ -132,10 +132,10 @@ while ( have_posts() ) :
 	</section>
 	<?php endforeach; ?>
 
-	<?php /* Pattern 7 is an overlay — trigger button only, overlay rendered after footer */ ?>
+	<?php /* Pattern 7 is an overlay  -  trigger button only, overlay rendered after footer */ ?>
 	<section class="contact-demo__section" id="demo-exit_intent">
 		<div class="contact-demo__meta">
-			<h2 class="contact-demo__pattern-title">7 — Exit-Intent Overlay</h2>
+			<h2 class="contact-demo__pattern-title">7  -  Exit-Intent Overlay</h2>
 			<p class="contact-demo__pattern-desc">Triggered by cursor leaving viewport or 75% scroll depth. Click button below to trigger manually.</p>
 		</div>
 		<div class="contact-demo__form-wrap">
@@ -155,7 +155,7 @@ while ( have_posts() ) :
 <?php
 endwhile;
 
-// Pattern 7 overlay — rendered outside .content-wrap so it covers the full
+// Pattern 7 overlay  -  rendered outside .content-wrap so it covers the full
 // viewport when triggered. Must be before get_footer() so wp_footer() runs
 // after this element is in the DOM, allowing form-exit-intent.js to find it.
 gwill_part( 'forms/contact-exit-intent' );

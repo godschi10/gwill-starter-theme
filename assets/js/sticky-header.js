@@ -1,11 +1,11 @@
 /**
- * GWill Starter — Sticky Header
+ * GWill Starter  -  Sticky Header
  *
- * Only runs at all when the body has .gwill-sticky-header — added by
+ * Only runs at all when the body has .gwill-sticky-header  -  added by
  * gwill_sticky_header_body_class() (inc/customizer.php) when the "Enable
  * sticky header" Customizer toggle is on (default: on). The CSS itself is
  * also scoped to that same class, so this script enqueuing unconditionally
- * is harmless even when the toggle is off — it just no-ops immediately.
+ * is harmless even when the toggle is off  -  it just no-ops immediately.
  *
  * @package GWill_Starter
  * @since   1.0.50

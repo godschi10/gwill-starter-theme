@@ -4,7 +4,7 @@ Theme URI:   https://gwillchijioke.com
 Author:      G-will Chijioke
 Author URI:  https://gwillchijioke.com
 Description: A clean, custom WordPress starter theme built from scratch. No parent theme dependency.
-Version:     1.10.20
+Version:     1.10.21
 Requires at least: 6.4
 Requires PHP:     8.0
 License:     GNU General Public License v2 or later
@@ -47,9 +47,9 @@ body {
   --color-accent:  #2563eb;
   --color-bg:      #ffffff;
   --color-muted:   #6b7280;
-  --color-border:       #e5e7eb;  /* decorative separators — no WCAG contrast req */
-  --color-border-input: #6b7280;  /* form field borders — 4.83:1 on white, passes WCAG 1.4.11 */
-  /* Button tokens — use these (not --color-primary) for all button backgrounds.
+  --color-border:       #e5e7eb;  /* decorative separators  -  no WCAG contrast req */
+  --color-border-input: #6b7280;  /* form field borders  -  4.83:1 on white, passes WCAG 1.4.11 */
+  /* Button tokens  -  use these (not --color-primary) for all button backgrounds.
      They invert cleanly in dark mode via darkmode.css token block. */
   --color-btn-bg:   #2563eb;  /* same as --color-accent in light mode */
   --color-btn-text: #ffffff;
@@ -63,7 +63,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Respect OS-level motion preferences — WCAG 2.1 SC 2.3.3 */
+/* Respect OS-level motion preferences  -  WCAG 2.1 SC 2.3.3 */
 @media ( prefers-reduced-motion: reduce ) {
   html {
     scroll-behavior: auto;
@@ -90,7 +90,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* Prevent long unbreakable strings (URLs, hashes) from overflowing any
-     container — comments, post content, sidebars, cards, everywhere. */
+     container  -  comments, post content, sidebars, cards, everywhere. */
   overflow-wrap: break-word;
 }
 
@@ -109,11 +109,11 @@ img {
 }
 
 /* ------------------------------------------------------------------ */
-/* Accessibility — Focus, Skip Link & Screen Reader Utilities          */
+/* Accessibility  -  Focus, Skip Link & Screen Reader Utilities          */
 /* ------------------------------------------------------------------ */
 
 /*
- * .screen-reader-text — visually hidden but accessible to screen readers.
+ * .screen-reader-text  -  visually hidden but accessible to screen readers.
  * Used by searchform.php to hide the visible "Search for:" label while
  * keeping it in the accessibility tree. WordPress does not inject this CSS
  * automatically on the frontend; themes must define it themselves.
@@ -131,12 +131,12 @@ img {
 }
 
 /*
- * Focus indicator — two-rule pattern for maximum browser compatibility.
+ * Focus indicator  -  two-rule pattern for maximum browser compatibility.
  *
  * :focus           → visible ring in ALL browsers (including Safari < 15.4
  *                    and other older browsers that don't support :focus-visible).
  *                    Without this rule, keyboard users in those browsers get
- *                    no ring at all — a WCAG 2.4.7 violation.
+ *                    no ring at all  -  a WCAG 2.4.7 violation.
  *
  * :focus:not(:focus-visible) → suppresses the ring for mouse/touch users in
  *                    modern browsers (Chrome 86+, Firefox 85+, Safari 15.4+).
@@ -298,7 +298,7 @@ img {
   gap: 0.75rem;
 }
 
-/* Footer nav — horizontal list, no design opinions */
+/* Footer nav  -  horizontal list, no design opinions */
 .site-footer nav ul {
   list-style: none;
   display: flex;
@@ -336,7 +336,7 @@ h6 { font-size: 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
 p { margin-bottom: 1rem; }
 
 /* ------------------------------------------------------------------ */
-/* Entry — shared across single, page, cards                          */
+/* Entry  -  shared across single, page, cards                          */
 /* ------------------------------------------------------------------ */
 .entry-title {
   margin-bottom: 0.5rem;
@@ -356,7 +356,7 @@ p { margin-bottom: 1rem; }
   color: var(--color-muted);
 }
 
-/* Category badge — used in cards (content.php) and single.php entry-meta */
+/* Category badge  -  used in cards (content.php) and single.php entry-meta */
 .entry-cat {
   font-size: 0.75rem;
   font-weight: 700;
@@ -372,7 +372,7 @@ p { margin-bottom: 1rem; }
   color: var(--color-muted);
 }
 
-/* Tag row — rendered below article in single.php */
+/* Tag row  -  rendered below article in single.php */
 .entry-tags {
   display: flex;
   flex-wrap: wrap;
@@ -396,7 +396,7 @@ p { margin-bottom: 1rem; }
 }
 
 /* ------------------------------------------------------------------ */
-/* Social Share — Pill Buttons                                         */
+/* Social Share  -  Pill Buttons                                         */
 /* ------------------------------------------------------------------ */
 
 .gwill-share {
@@ -467,7 +467,7 @@ p { margin-bottom: 1rem; }
 .gwill-share__pill--linkedin { background: #0a66c2; }
 .gwill-share__pill--more     { background: #374151; }
 
-/* Dark mode — X near-black would disappear on dark bg */
+/* Dark mode  -  X near-black would disappear on dark bg */
 [data-theme="dark"] .gwill-share__pill--x {
   background: #e7e9ea;
   color: #0f1419;
@@ -476,7 +476,7 @@ p { margin-bottom: 1rem; }
   background: rgba( 255, 255, 255, 0.12 );
 }
 
-/* Footer — larger pills */
+/* Footer  -  larger pills */
 .gwill-share--footer .gwill-share__pill {
   padding: 0.75rem 1.3125rem;
   font-size: 0.9375rem;
@@ -510,7 +510,7 @@ p { margin-bottom: 1rem; }
 }
 
 
-/* Readable measure for article text — caps full-bleed lines at ~75ch
+/* Readable measure for article text  -  caps full-bleed lines at ~75ch
    (responsive audit v1.3.3, Section 4.3). Builds that need full-bleed
    content can override with their own max-width. */
 .entry-content {
@@ -674,7 +674,7 @@ a.next.page-numbers {
   align-items: center;
 }
 
-/* Separator — CSS-only chevron, no extra markup */
+/* Separator  -  CSS-only chevron, no extra markup */
 .gwill-breadcrumbs__item:not(:last-child)::after {
   content: '›';
   margin-inline: 0.375rem;
@@ -708,12 +708,12 @@ a.next.page-numbers {
 }
 
 /* ------------------------------------------------------------------ */
-/* Author Box (single post — bottom of entry)                         */
+/* Author Box (single post  -  bottom of entry)                         */
 /* ------------------------------------------------------------------ */
 
 /*
  * Border-top uses --color-accent so the accent line tokenizes correctly
- * in both light and dark mode with no hardcoded values — no dark mode
+ * in both light and dark mode with no hardcoded values  -  no dark mode
  * overrides required for this component.
  */
 .author-box {
@@ -769,7 +769,7 @@ a.next.page-numbers {
 }
 
 /* ------------------------------------------------------------------ */
-/* Author Archive Hero (author.php — top of author archive page)      */
+/* Author Archive Hero (author.php  -  top of author archive page)      */
 /* ------------------------------------------------------------------ */
 .author-archive-hero {
   display: flex;
@@ -796,7 +796,7 @@ a.next.page-numbers {
   gap: 0.5rem;
 }
 
-/* .archive-title already styles the heading — this resets the margin */
+/* .archive-title already styles the heading  -  this resets the margin */
 .author-archive-hero__name {
   margin: 0;
 }
@@ -811,8 +811,8 @@ a.next.page-numbers {
 /* Author Social Links                                                 */
 /* ------------------------------------------------------------------ */
 
-/* Shared container — used in author-box.php and author.php hero.
-   All colors use tokens — no dark mode overrides needed. */
+/* Shared container  -  used in author-box.php and author.php hero.
+   All colors use tokens  -  no dark mode overrides needed. */
 .author-box__socials {
   display: flex;
   align-items: center;
@@ -852,7 +852,7 @@ a.next.page-numbers {
 }
 
 /* ------------------------------------------------------------------ */
-/* Forms — baseline only, override per project                        */
+/* Forms  -  baseline only, override per project                        */
 /* ------------------------------------------------------------------ */
 input[type="text"],
 input[type="email"],
@@ -873,7 +873,7 @@ select {
   transition: border-color 0.15s ease;
 }
 
-/* Prevent horizontal resize — vertical only. max-width: 100% alone does not
+/* Prevent horizontal resize  -  vertical only. max-width: 100% alone does not
    constrain a user-dragged textarea resize handle; resize: vertical does. */
 textarea {
   resize: vertical;
@@ -925,7 +925,7 @@ select:focus {
  * (Walker_Comment::start_lvl(), unrelated to the 'comment-list' class).
  * The original rule below only matched .comment-list itself, so any nested
  * .children list fell back to the browser's native decimal numbering,
- * restarting at "1" for every reply thread — visible as a stray "1." (or
+ * restarting at "1" for every reply thread  -  visible as a stray "1." (or
  * "1.", "2." for multiple replies) in front of any threaded comment, while
  * top-level comments correctly showed no number at all.
  *
@@ -944,7 +944,7 @@ select:focus {
 }
 
 /*
- * Reply threads — now that the (buggy, unintentional) browser-native
+ * Reply threads  -  now that the (buggy, unintentional) browser-native
  * numbering is gone, a reply needs SOME visual cue to distinguish it from
  * a top-level comment. Modest indent + left rule, same "accent stripe for
  * a distinct block" language as .author-box's border-top elsewhere in
@@ -979,7 +979,7 @@ select:focus {
   flex-shrink: 0;
 }
 
-/* .fn wraps the author name; only linked when the commenter set a URL —
+/* .fn wraps the author name; only linked when the commenter set a URL  - 
    styled on both .fn and .fn a so an unlinked name still gets full-weight
    text colour instead of inheriting the muted .comment-meta colour above. */
 .comment-author .fn,
@@ -998,7 +998,7 @@ select:focus {
   color: var(--color-muted);
 }
 
-/* WP core: <div class="comment-metadata"> — permalink-wrapped date, plus
+/* WP core: <div class="comment-metadata">  -  permalink-wrapped date, plus
    an Edit link for users with edit_comments capability. */
 .comment-metadata {
   font-size: 0.8125rem;
@@ -1027,7 +1027,7 @@ select:focus {
 }
 
 /* Shown only to the comment's own author (right after posting) or to users
-   with moderate_comments capability — same accent-stripe notice language
+   with moderate_comments capability  -  same accent-stripe notice language
    as .comment-list .children above, so it reads as "distinct system note"
    rather than part of the comment text itself. */
 .comment-awaiting-moderation {
@@ -1065,7 +1065,7 @@ select:focus {
   margin-top: 0.5rem;
 }
 
-/* WP comment form submit — styled with btn tokens so it behaves
+/* WP comment form submit  -  styled with btn tokens so it behaves
    identically to .gwill-form__submit in both light and dark mode. */
 .comment-form .form-submit input[type="submit"] {
   display: inline-flex;
@@ -1098,7 +1098,7 @@ select:focus {
 }
 
 /* ------------------------------------------------------------------ */
-/* Image Alignment — Classic editor + Gutenberg                       */
+/* Image Alignment  -  Classic editor + Gutenberg                       */
 /* Required: WP outputs .alignleft/.alignright/.aligncenter on        */
 /* images placed via the classic editor. Without these rules,         */
 /* floats fire with no clearfix and no breathing room.                */
@@ -1119,14 +1119,14 @@ select:focus {
   margin-right: auto;
 }
 
-/* Clearfix — prevents parent collapse when both floats are used */
+/* Clearfix  -  prevents parent collapse when both floats are used */
 .entry-content::after {
   content: '';
   display: table;
   clear: both;
 }
 
-/* Wide/full alignment — breaks out of .inner container             */
+/* Wide/full alignment  -  breaks out of .inner container             */
 /* Uses negative margin technique; requires overflow-x: clip on     */
 /* an ancestor (already set on html/body in this theme).            */
 .alignwide {
@@ -1159,7 +1159,7 @@ select:focus {
   font-style: italic;
 }
 
-/* Featured image caption — rendered as <figcaption> in single.php and page.php.
+/* Featured image caption  -  rendered as <figcaption> in single.php and page.php.
    Distinct from .wp-caption-text which handles classic-editor inline captions.  */
 .entry-thumbnail-caption {
   font-size: 0.875rem;
@@ -1193,7 +1193,7 @@ select:focus {
 /* Navigation Toggle                                                    */
 /* ------------------------------------------------------------------ */
 
-/* Hidden on desktop — revealed on mobile via the breakpoint below */
+/* Hidden on desktop  -  revealed on mobile via the breakpoint below */
 .nav-toggle {
   display: none;
   flex-direction: column;
@@ -1243,7 +1243,7 @@ select:focus {
 @media (max-width: 767px) {
   /*
    * Keep header as a single row: [logo/branding] [toggle button]
-   * flex-direction stays row — flex-direction:column was causing the
+   * flex-direction stays row  -  flex-direction:column was causing the
    * logo and hamburger to stack vertically instead of sitting side by side.
    */
   .site-branding {
@@ -1257,7 +1257,7 @@ select:focus {
   }
 
   /*
-   * Mobile menu — hidden by default, revealed by JS (.is-open).
+   * Mobile menu  -  hidden by default, revealed by JS (.is-open).
    * Absolutely positioned so it drops below the header without
    * pushing page content down or requiring a flex layout change.
    * left/right:0 ensures it spans the full header width regardless
@@ -1275,7 +1275,7 @@ select:focus {
     background: var(--color-bg);
     border-bottom: 1px solid var(--color-border);
     padding: 0.75rem var(--spacing);
-    /* Tall menus (8+ items, submenus) must not exceed the viewport — scroll
+    /* Tall menus (8+ items, submenus) must not exceed the viewport  -  scroll
        inside the dropdown instead of trapping items below the fold (responsive
        audit v1.3.2). vh fallback line first, dvh (dynamic viewport height,
        tracks the iOS address bar) where supported (cross-browser audit
@@ -1289,7 +1289,7 @@ select:focus {
     display: flex;
   }
 
-  /* Submenus stack vertically on mobile — the base .site-header nav ul flex
+  /* Submenus stack vertically on mobile  -  the base .site-header nav ul flex
      row would otherwise render them as an unwrapped horizontal row that clips
      at 360px (responsive audit v1.3.2). */
   .site-header nav #primary-menu .sub-menu {
@@ -1314,7 +1314,7 @@ select:focus {
 
 /* ------------------------------------------------------------------ */
 /* Gutenberg Editor Styles                                             */
-/* Scoped to .editor-styles-wrapper — no effect on the frontend.      */
+/* Scoped to .editor-styles-wrapper  -  no effect on the frontend.      */
 /* CSS variables defined in :root above are accessible here.          */
 /* ------------------------------------------------------------------ */
 .editor-styles-wrapper {
@@ -1401,7 +1401,7 @@ select:focus {
   --form-focus-clr: var(--color-accent, #2563eb);
 }
 
-/* Honeypot — completely removed from layout and AT */
+/* Honeypot  -  completely removed from layout and AT */
 .gwill-honey {
   display: none !important;
 }
@@ -1444,7 +1444,7 @@ select:focus {
 }
 
 /* Browsers apply a default border + padding to <fieldset> and a default
-   margin to <legend> — reset both so the fieldset matches the visual
+   margin to <legend>  -  reset both so the fieldset matches the visual
    appearance .gwill-form__field already has everywhere else, and give
    the legend the same typography as .gwill-form__field's own label rule
    above so it reads identically regardless of which element it is. */
@@ -1910,7 +1910,7 @@ select:focus {
 
 
 /* ------------------------------------------------------------------ */
-/* Video Embed — YouTube in the featured image slot                   */
+/* Video Embed  -  YouTube in the featured image slot                   */
 /* ------------------------------------------------------------------ */
 .gwill-video-embed {
   position: relative;
@@ -1934,7 +1934,7 @@ select:focus {
 
 
 /* ------------------------------------------------------------------ */
-/* FAQ Accordion (.gwill-faq) — native <details>/<summary>, no JS      */
+/* FAQ Accordion (.gwill-faq)  -  native <details>/<summary>, no JS      */
 /* ------------------------------------------------------------------ */
 /* z-index hierarchy across the whole theme, for reference:
    50 sticky header < 100 mobile nav dropdown < 8000 back-to-top <
@@ -1997,11 +1997,11 @@ select:focus {
 }
 
 /* ------------------------------------------------------------------ */
-/* Table of Contents (.gwill-toc) — native <details>/<summary>, no JS */
+/* Table of Contents (.gwill-toc)  -  native <details>/<summary>, no JS */
 /* ------------------------------------------------------------------ */
 /* Closed by default everywhere (mobile-appropriate baseline, and the
    correct graceful-degradation state if this CSS somehow fails to load
-   — "collapsed" is a safer default than "expanded but un-stickable").
+    -  "collapsed" is a safer default than "expanded but un-stickable").
    The wide-viewport block below visually forces it open and sticky;
    see inc/table-of-contents.php for why a sticky element works here even
    without a separate sidebar column. */
@@ -2074,7 +2074,7 @@ select:focus {
     /* See style note in inc/table-of-contents.php: position: sticky here
        sticks relative to .entry-content's own height, no sidebar column
        needed. Top offset is a reasonable static approximation of "just
-       below the sticky header" — exact header height varies with the
+       below the sticky header"  -  exact header height varies with the
        Customizer's header-padding setting and logo size, which CSS alone
        can't account for without measuring the rendered header via JS;
        not worth that complexity for a polish-level offset. Adjust this
@@ -2084,7 +2084,7 @@ select:focus {
   }
 
   /* When the sticky-header Customizer toggle is also on, its own
-     (variable-height) bar competes for the same top-of-viewport space —
+     (variable-height) bar competes for the same top-of-viewport space  - 
      push the ToC's stuck position down by an approximate header height
      in addition to the staging banner's, rather than letting the header
      visually overlap the top of the sticky ToC box once both are stuck
@@ -2093,7 +2093,7 @@ select:focus {
     top: calc(5.5rem + var(--gwill-staging-banner-height, 0px));
   }
 
-  /* Force visible regardless of the [open] attribute's actual state —
+  /* Force visible regardless of the [open] attribute's actual state  - 
      "sticky" implies "always shown while scrolling," which contradicts
      also being collapsible, so desktop deliberately drops the collapse
      interaction entirely rather than offering a sticky box the visitor
@@ -2275,7 +2275,7 @@ select:focus {
 @media (max-width: 480px) {
   .gwill-back-to-top {
     /* Approximate clearance so it doesn't sit under the cookie banner on
-       small screens if both happen to be visible at once — a reasonable
+       small screens if both happen to be visible at once  -  a reasonable
        default, not pixel-coupled to the banner's actual rendered height. */
     bottom: 5rem;
   }
@@ -2284,10 +2284,10 @@ select:focus {
 /* ------------------------------------------------------------------ */
 /* Sticky Header                                                       */
 /* ------------------------------------------------------------------ */
-/* Scoped to .gwill-sticky-header on <body> — added via body_class() only
+/* Scoped to .gwill-sticky-header on <body>  -  added via body_class() only
    when the "Enable sticky header" Customizer toggle is on (default: on).
    .site-header itself stays position:relative (required as the
-   positioning context for the mobile nav dropdown — sticky also
+   positioning context for the mobile nav dropdown  -  sticky also
    establishes a valid containing block for that, so switching it doesn't
    break the dropdown) when the toggle is off. */
 
@@ -2307,11 +2307,11 @@ select:focus {
 /* Staging Environment Banner                                          */
 /* ------------------------------------------------------------------ */
 /* Only present in the DOM on a recognised staging host AND when the
-   gwill_show_staging_banner Customizer toggle is on — see inc/staging.php.
+   gwill_show_staging_banner Customizer toggle is on  -  see inc/staging.php.
    Fixed (not pushed into normal flow) so it stays visible through
    scrolling regardless of the sticky header's own position;
    .gwill-staging-active's body padding-top below exists purely so this
-   doesn't cover the header on initial paint. z-index 9990 — see the
+   doesn't cover the header on initial paint. z-index 9990  -  see the
    documented scale above .gwill-faq. */
 
 :root {
@@ -2340,16 +2340,16 @@ select:focus {
 }
 
 /* The sticky header's own top:0 would otherwise mean it re-covers the
-   banner the instant it sticks — push its stuck position down by the
+   banner the instant it sticks  -  push its stuck position down by the
    banner's height so both stay visible together while scrolling. */
 .gwill-staging-active.gwill-sticky-header .site-header {
   top: var(--gwill-staging-banner-height);
 }
 
 /* ------------------------------------------------------------------ */
-/* Testimonials (.gwill-testimonials) — grid + scroll-snap carousel    */
+/* Testimonials (.gwill-testimonials)  -  grid + scroll-snap carousel    */
 /* ------------------------------------------------------------------ */
-/* Carousel mode needs no JavaScript to actually function — the track is
+/* Carousel mode needs no JavaScript to actually function  -  the track is
    a native overflow-x + scroll-snap container, fully swipeable/scrollable
    without assets/js/testimonials-carousel.js. That script only adds the
    Prev/Next buttons as progressive enhancement; see its own header
@@ -2387,7 +2387,7 @@ select:focus {
   scroll-snap-type: x mandatory;
   scroll-padding-inline: 1rem;
   -webkit-overflow-scrolling: touch;
-  /* Scrollbar stays visible but unobtrusive rather than hidden entirely —
+  /* Scrollbar stays visible but unobtrusive rather than hidden entirely  - 
      hiding it outright removes a real affordance for mouse users with no
      touchpad and no patience for shift+wheel. */
   scrollbar-width: thin;
@@ -2410,7 +2410,7 @@ select:focus {
 
 .gwill-testimonial-card__quote {
   margin: 0;
-  font-style: normal; /* This is a recommendation/review, not literary prose — italics read as decorative noise here, not emphasis. */
+  font-style: normal; /* This is a recommendation/review, not literary prose  -  italics read as decorative noise here, not emphasis. */
   color: var(--color-primary);
   line-height: 1.6;
 }
@@ -2475,7 +2475,7 @@ select:focus {
   color: var(--color-accent);
 }
 
-/* Carousel Prev/Next buttons — inserted by testimonials-carousel.js, not
+/* Carousel Prev/Next buttons  -  inserted by testimonials-carousel.js, not
    present at all without it (see that file's header comment). */
 
 .gwill-testimonials__nav {
@@ -2764,7 +2764,7 @@ select:focus {
    Single-gwill_portfolio.php ships the CreativeWork project page with a
    details card; the archive ships type-filter pills. Both reuse existing
    classes where they exist (entry-title, archive-header, entry-cat) and
-   add only what is new. All tokens — dark mode inverts for free.
+   add only what is new. All tokens  -  dark mode inverts for free.
    ═══════════════════════════════════════════════════════════════════════ */
 
 /* ── Project details card (single) ─────────────────────────────── */
@@ -2854,12 +2854,12 @@ select:focus {
 }
 
 /* ------------------------------------------------------------------ */
-/* v1.7.0 — Tier B additions                                           */
+/* v1.7.0  -  Tier B additions                                           */
 /* ------------------------------------------------------------------ */
 
 /* ── Reading progress bar (ported from tech) ────────────────────────
    Fixed to the viewport top, driven by transform: scaleX() from
-   reading-progress.js — compositor-only, zero layout/CLS cost (width
+   reading-progress.js  -  compositor-only, zero layout/CLS cost (width
    animation would reflow on every scroll frame). Pointer-events off
    so it never intercepts a click at the page top. Token-driven so
    brand skins only override --color-accent. */
@@ -2992,7 +2992,7 @@ select:focus {
    Desktop: sub-menus drop on hover/focus INSIDE the flex header row.
    Mobile (≤767px, same breakpoint as .nav-toggle): the caret chip
    appears, the sub-menu collapses to accordion slides. The chip is a
-   REAL <button> with aria-expanded — nav-accordion.js drives it. */
+   REAL <button> with aria-expanded  -  nav-accordion.js drives it. */
 
 /* Desktop dropdown (min-width 768px) */
 @media (min-width: 768px) {
@@ -3001,7 +3001,7 @@ select:focus {
   }
 
   .site-header nav #primary-menu .mno-caret {
-    display: none; /* hover dropdown — the chip is mobile-only */
+    display: none; /* hover dropdown  -  the chip is mobile-only */
   }
 
   .site-header nav #primary-menu .sub-menu {
@@ -3033,7 +3033,7 @@ select:focus {
   }
 }
 
-/* Mobile accordion (max-width 767px — mirrors .nav-toggle) */
+/* Mobile accordion (max-width 767px  -  mirrors .nav-toggle) */
 @media (max-width: 767px) {
   .site-header nav #primary-menu .mno-parent {
     display: flex;
@@ -3081,7 +3081,7 @@ select:focus {
 }
 
 /* ------------------------------------------------------------------ */
-/* v1.9.0 — Portfolio single: two-column meta sidebar                  */
+/* v1.9.0  -  Portfolio single: two-column meta sidebar                  */
 /* ------------------------------------------------------------------ */
 
 .gwill-project-layout {

@@ -11,7 +11,7 @@ Table of Contents
 */
 
 /**
- * GWill Starter — Login attempt rate limiting (transient-based).
+ * GWill Starter  -  Login attempt rate limiting (transient-based).
  *
  * Ported from gwill-tech-theme v1.16.41 (live-proven on the tech site),
  * the companion to two-factor.php: a failed 2FA code triggers
@@ -25,7 +25,7 @@ Table of Contents
  *
  * IP resolution reuses gwill_get_client_ip() from inc/forms/spam.php when
  * loaded (REMOTE_ADDR by default; proxy headers only on explicit opt-in
- * + Cloudflare-range validation — see that file). The function_exists
+ * + Cloudflare-range validation  -  see that file). The function_exists
  * guard covers the load-order gap (security.php loads before forms.php).
  *
  * @package GWill_Starter
@@ -98,7 +98,7 @@ function gwill_count_login_failure(): void {
 /**
  * Trip the lockout when the failure count exceeds the max.
  *
- * Priority 9 on authenticate — BEFORE the password check (20) and the
+ * Priority 9 on authenticate  -  BEFORE the password check (20) and the
  * 2FA check (30), so a locked-out IP cannot even probe passwords.
  *
  * @param mixed  $user     WP_User|WP_Error|null from earlier filters.

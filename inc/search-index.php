@@ -5,10 +5,10 @@
  * Serves ONE compact JSON payload of every published post (id, title,
  * url, excerpt, category, date) at /wp-json/gwill/v1/search-index.
  * search-dropdown.js downloads it once per session, then does ALL
- * matching CLIENT-SIDE (typo-tolerant, title-weighted, highlighted) —
+ * matching CLIENT-SIDE (typo-tolerant, title-weighted, highlighted)  - 
  * zero network per keystroke, zero server load per keystroke, no plugin.
  *
- * The payload is plain TEXT only (no markup, no admin data) — the same
+ * The payload is plain TEXT only (no markup, no admin data)  -  the same
  * public data the REST posts endpoint already exposes.
  * Transient-cached server-side (1 day) and invalidated on any
  * post lifecycle change.
@@ -31,7 +31,7 @@ add_action(
 			'/search-index',
 			array(
 				'methods'             => 'GET',
-				'permission_callback' => '__return_true', // Public read-only — same exposure as the public posts endpoint.
+				'permission_callback' => '__return_true', // Public read-only  -  same exposure as the public posts endpoint.
 				'callback'            => 'gwill_search_index_rest',
 			)
 		);
@@ -83,7 +83,7 @@ function gwill_search_index_data() {
 		$cats = get_the_category( $post_id );
 		$cat  = ! empty( $cats ) ? $cats[0] : null;
 
-		// Plain-text title (entities decoded — the client re-escapes before
+		// Plain-text title (entities decoded  -  the client re-escapes before
 		// innerHTML, so decoding here prevents double-escaped titles).
 		$title = html_entity_decode( wp_strip_all_tags( get_the_title( $post_id ) ), ENT_QUOTES, 'UTF-8' );
 

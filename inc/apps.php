@@ -2,38 +2,38 @@
 
 /*
 Table of Contents
-1. gwill_apps_registry — register apps (path, title, description, icon)
-2. gwill_apps_get — registry lookup with defaults
-3. gwill_apps_hub_url — /apps/ hub permalink
-4. gwill_apps_page_url — app page permalink (WP page or custom route)
-5. gwill_apps_enqueue — app-page assets
-6. gwill_apps_schema — CollectionPage + ItemList JSON-LD on the hub
-7. gwill_apps_register_rewrites — app routes as REAL rewrites (L4)
-8. gwill_apps_query_var — query var + canonical guard
-9. gwill_apps_maybe_render — template_include route renderer
-10. gwill_apps_title — document title parts for app pages
+1. gwill_apps_registry  -  register apps (path, title, description, icon)
+2. gwill_apps_get  -  registry lookup with defaults
+3. gwill_apps_hub_url  -  /apps/ hub permalink
+4. gwill_apps_page_url  -  app page permalink (WP page or custom route)
+5. gwill_apps_enqueue  -  app-page assets
+6. gwill_apps_schema  -  CollectionPage + ItemList JSON-LD on the hub
+7. gwill_apps_register_rewrites  -  app routes as REAL rewrites (L4)
+8. gwill_apps_query_var  -  query var + canonical guard
+9. gwill_apps_maybe_render  -  template_include route renderer
+10. gwill_apps_title  -  document title parts for app pages
 */
 
 /**
- * Custom Apps skeleton — the /apps/ pattern.
+ * Custom Apps skeleton  -  the /apps/ pattern.
  *
  * The idea ported from the tech + finance themes' /tools/ clusters, made
- * generic for the starter. A build registers its apps in ONE place —
- * gwill_apps_registry() — and gets, for each app:
+ * generic for the starter. A build registers its apps in ONE place  - 
+ * gwill_apps_registry()  -  and gets, for each app:
  *
  *   - a real page at /apps/<slug>/ (rewrite + query var + canonical guard,
- *     docs/LAWS.md L4 — never a template_include sniff alone);
+ *     docs/LAWS.md L4  -  never a template_include sniff alone);
  *   - a card on the /apps/ hub (title, description, icon, link);
  *   - CollectionPage + ItemList JSON-LD on the hub, SoftwareApplication +
  *     FAQPage schema on app pages;
  *   - an automatically-enqueued per-app JS file
  *     (assets/js/apps/<slug>.js) and CSS file (assets/css/apps/<slug>.css)
- *     — each is loaded ONLY on its own app page.
+ *      -  each is loaded ONLY on its own app page.
  *
  * Apps are pure client-side by default (works offline once the SW caches
  * them); an app that needs a server engine adds an inc file and hooks in.
  *
- * Demo app shipped: "word-counter" (assets/js/apps/word-counter.js) —
+ * Demo app shipped: "word-counter" (assets/js/apps/word-counter.js)  - 
  * a complete working example of the pattern, deletable without touching
  * anything else.
  *
@@ -58,11 +58,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  *   'icon'        => SVG path markup (24x24 viewBox), stroke currentColor
  *   'js'          => assets/js/apps/<slug>.js (auto-enqueued on its page)
  *   'css'         => assets/css/apps/<slug>.css (auto-enqueued on its page)
- *   'faq'         => optional [ ['q' => ..., 'a' => ...], ... ] — renders
+ *   'faq'         => optional [ ['q' => ..., 'a' => ...], ... ]  -  renders
  *                    FAQPage schema on the app page (and a visible list)
  *   'fields'      => optional registry-driven schema variation (v1.9.0):
  *                    a flat map of key => value rendered by template-app.php
- *                    as data-attributes on #gwill-app-root — an app's JS
+ *                    as data-attributes on #gwill-app-root  -  an app's JS
  *                    reads its own config without a server round-trip.
  *                    Use kebab-case keys (the data-attribute convention):
  *                    'fields' => array( 'max-words' => 500 ) renders
@@ -78,14 +78,14 @@ function gwill_apps_registry() {
 		array(
 			'slug'    => 'word-counter',
 			'title'   => __( 'Word Counter', 'gwill-starter' ),
-			'excerpt' => __( 'Count words, characters, sentences and paragraphs as you type — instant, private, all in your browser.', 'gwill-starter' ),
+			'excerpt' => __( 'Count words, characters, sentences and paragraphs as you type  -  instant, private, all in your browser.', 'gwill-starter' ),
 			'icon'    => '<path d="M4 7h16M4 12h10M4 17h7" stroke-linecap="round"/>',
 			'js'      => true,
 			'css'     => true,
 			'faq'     => array(
 				array(
 					'q' => __( 'Does my text leave my device?', 'gwill-starter' ),
-					'a' => __( 'No. The counter runs entirely in your browser — nothing is uploaded or stored.', 'gwill-starter' ),
+					'a' => __( 'No. The counter runs entirely in your browser  -  nothing is uploaded or stored.', 'gwill-starter' ),
 				),
 				array(
 					'q' => __( 'What counts as a sentence or a paragraph?', 'gwill-starter' ),
@@ -96,14 +96,14 @@ function gwill_apps_registry() {
 		array(
 			'slug'    => 'case-converter',
 			'title'   => __( 'Case Converter', 'gwill-starter' ),
-			'excerpt' => __( 'Convert text between UPPER, lower, Title, Sentence, camelCase, snake_case and kebab-case — instant, private, in your browser.', 'gwill-starter' ),
+			'excerpt' => __( 'Convert text between UPPER, lower, Title, Sentence, camelCase, snake_case and kebab-case  -  instant, private, in your browser.', 'gwill-starter' ),
 			'icon'    => '<path d="M4 19V5m10 14V5M4 12h10M17 8l4-4m0 0h-4m4 0v4" stroke-linecap="round" stroke-linejoin="round"/>',
 			'js'      => true,
 			'css'     => true,
 			'faq'     => array(
 				array(
 					'q' => __( 'Does my text leave my device?', 'gwill-starter' ),
-					'a' => __( 'No. The conversion runs entirely in your browser — nothing is uploaded or stored.', 'gwill-starter' ),
+					'a' => __( 'No. The conversion runs entirely in your browser  -  nothing is uploaded or stored.', 'gwill-starter' ),
 				),
 				array(
 					'q' => __( 'What is Title Case here?', 'gwill-starter' ),
@@ -114,7 +114,7 @@ function gwill_apps_registry() {
 		array(
 			'slug'    => 'unit-converter',
 			'title'   => __( 'Unit Converter', 'gwill-starter' ),
-			'excerpt' => __( 'Convert between common length, weight and temperature units — metres to feet, kg to pounds, Celsius to Fahrenheit.', 'gwill-starter' ),
+			'excerpt' => __( 'Convert between common length, weight and temperature units  -  metres to feet, kg to pounds, Celsius to Fahrenheit.', 'gwill-starter' ),
 			'icon'    => '<path d="M3 17l4-10 4 10M5 14h4m4 3l3-9 3 9m-5-3h4" stroke-linecap="round" stroke-linejoin="round"/>',
 			'js'      => true,
 			'css'     => true,
@@ -226,7 +226,7 @@ function gwill_apps_schema() {
 		$graph = array(
 			'@context' => 'https://schema.org',
 			'@type'    => 'CollectionPage',
-			'name'     => __( 'Apps', 'gwill-starter' ) . ' — ' . get_bloginfo( 'name' ),
+			'name'     => __( 'Apps', 'gwill-starter' ) . '  -  ' . get_bloginfo( 'name' ),
 			'url'      => gwill_apps_hub_url(),
 			'mainEntity' => array(
 				'@type'           => 'ItemList',
@@ -279,7 +279,7 @@ function gwill_apps_schema() {
 }
 add_action( 'wp_head', 'gwill_apps_schema', 5 );
 
-/* ── 6. rewrites — REAL routes (L4) ─────────────────────────────────── */
+/* ── 6. rewrites  -  REAL routes (L4) ─────────────────────────────────── */
 
 function gwill_apps_register_rewrites() {
 	add_rewrite_rule( '^apps/?$', 'index.php?gwill_apps_hub=1', 'top' );
@@ -311,7 +311,7 @@ add_filter( 'redirect_canonical', 'gwill_apps_no_canonical_redirect', 10, 2 );
 /* ── 7. renderer ───────────────────────────────────────────────────── */
 
 /**
- * Template_include route renderer — gate on the query vars (L4: the
+ * Template_include route renderer  -  gate on the query vars (L4: the
  * rewrite + query var make these REAL 200 queries, never 404-status
  * bodies).
  */
@@ -361,7 +361,7 @@ add_filter( 'document_title_parts', 'gwill_apps_title', 20 );
 /* ── 9. SEO-layer integration (noindex + no meta description) ───────── */
 
 /**
- * App routes are virtual pages, not content pages — exclude them from the
+ * App routes are virtual pages, not content pages  -  exclude them from the
  * theme SEO layer's default handling so builds can layer their own meta.
  * The hub is indexable (it's a real nav destination).
  */

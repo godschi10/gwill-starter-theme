@@ -5,12 +5,12 @@
  * Used by both Combo A (standard page-reload) and as the Enter-key
  * fallback for the Combo B modal when JS is unavailable.
  *
- * Since v1.1.0 — Google-style smart results (ported from GWill Tech):
- *   — "Showing results for X. Search instead for Y?" correction banner
+ * Since v1.1.0  -  Google-style smart results (ported from GWill Tech):
+ *    -  "Showing results for X. Search instead for Y?" correction banner
  *     (confident misspellings, results still exist)
- *   — <mark> term highlighting in result titles
- *   — "People also searched for" related-term chips
- *   — "Did you mean?" suggestions on the empty state (see
+ *    -  <mark> term highlighting in result titles
+ *    -  "People also searched for" related-term chips
+ *    -  "Did you mean?" suggestions on the empty state (see
  *     template-parts/search/search-no-results.php)
  *
  * @package GWill_Starter
@@ -37,7 +37,7 @@ $search_query = get_search_query();
 	<?php if ( have_posts() ) : ?>
 
 		<?php
-		// Google-style "Showing results for X. Search instead for Y?" — only
+		// Google-style "Showing results for X. Search instead for Y?"  -  only
 		// when results EXIST but the query is a confident misspelling of a
 		// better term (v1.1.0). Same engine as the empty-state suggestion:
 		// one cheap get_posts() pass over ≤ 500 titles (~1 ms).
@@ -51,7 +51,7 @@ $search_query = get_search_query();
 			<p class="search-correct">
 				<?php
 				esc_html_e( 'Showing results for', 'gwill-starter' );
-				echo ' &ldquo;' . esc_html( $search_query ) . '&rdquo; — ';
+				echo ' &ldquo;' . esc_html( $search_query ) . '&rdquo;  -  ';
 				esc_html_e( 'search instead for', 'gwill-starter' );
 				?>
 				<a href="<?php echo esc_url( $gwill_correction[0]['url'] ); ?>"><?php echo esc_html( $gwill_correction[0]['term'] ); ?></a>?
@@ -62,7 +62,7 @@ $search_query = get_search_query();
 
 			<?php
 			// Google-style term highlighting: <mark> the query words inside
-			// result titles (self-contained gwill_highlight_search_terms —
+			// result titles (self-contained gwill_highlight_search_terms  - 
 			// core wp_highlight_search_terms doesn't exist in WP 7.x).
 			if ( function_exists( 'gwill_highlight_search_terms' ) ) {
 				add_filter( 'the_title', 'gwill_highlight_search_terms' );
@@ -104,7 +104,7 @@ $search_query = get_search_query();
 		</div>
 
 		<?php
-		// Google's "People also searched for" — related terms mined from
+		// Google's "People also searched for"  -  related terms mined from
 		// the result set's own titles. Zero extra database cost: the
 		// posts are already loaded in $wp_query->posts (v1.1.0).
 		$gwill_related = function_exists( 'gwill_search_related_terms' )

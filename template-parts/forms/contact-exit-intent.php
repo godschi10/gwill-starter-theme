@@ -6,7 +6,7 @@
  * or 75% scroll depth on mobile. Used primarily for email capture.
  * Trigger + overlay logic in assets/js/form-exit-intent.js.
  *
- * Place once, near wp_footer() — call from footer.php or functions.php:
+ * Place once, near wp_footer()  -  call from footer.php or functions.php:
  *   add_action( 'wp_footer', function() { gwill_part( 'forms/contact-exit-intent' ); } );
  *
  * @package GWill_Starter

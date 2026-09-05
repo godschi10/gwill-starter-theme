@@ -9,7 +9,7 @@ gwill_breadcrumbs();
 	<header class="archive-header">
 		<?php
 		/*
-		 * wp_kses_post(), NOT esc_html() — found the hard way in 1.0.53.
+		 * wp_kses_post(), NOT esc_html()  -  found the hard way in 1.0.53.
 		 * get_the_archive_title() deliberately returns a string containing
 		 * real HTML: WordPress core wraps the dynamic portion in a <span>
 		 * (e.g. "Category: <span>Name</span>") for styling purposes. esc_html()

@@ -1,5 +1,5 @@
 /**
- * search-modal.js — Combo B
+ * search-modal.js  -  Combo B
  *
  * Modal overlay with debounced live-search via REST API.
  *
@@ -170,7 +170,7 @@
 		} )
 		.catch( function ( err ) {
 			currentXhr = null;
-			if ( err.name === 'AbortError' ) return; // intentional cancel — do nothing
+			if ( err.name === 'AbortError' ) return; // intentional cancel  -  do nothing
 			showStatus( T_ERROR );
 		} );
 	}
@@ -322,7 +322,7 @@
 		// GwillSearch.homeUrl comes from PHP's home_url('/') (inc/enqueue.php) and
 		// correctly includes any subdirectory path a WordPress install might be
 		// running in (e.g. example.com/blog/). window.location.origin only ever
-		// gives protocol + domain — on a subdirectory install that silently
+		// gives protocol + domain  -  on a subdirectory install that silently
 		// dropped the path, sending "View all results" to example.com/?s=term
 		// instead of example.com/blog/?s=term. Falls back to location.origin only
 		// if GwillSearch wasn't localized at all (e.g. this file loaded in

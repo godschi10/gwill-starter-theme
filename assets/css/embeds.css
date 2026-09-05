@@ -1,5 +1,5 @@
 /**
- * Click-to-play embed facades — GWill Starter (v1.3.0).
+ * Click-to-play embed facades  -  GWill Starter (v1.3.0).
  *
  * The facade <button> fills the block's existing aspect-ratio box
  * (wp-has-aspect-ratio keeps its ::before padding), so the layout is
@@ -26,7 +26,7 @@
 	border: 0;
 	border-radius: var(--form-radius, 8px);
 	/* Poster is painted as the button's own inline background-image
-	   (v1.0.184, tech v1.16.79 pattern — no <img> element). The dark
+	   (v1.0.184, tech v1.16.79 pattern  -  no <img> element). The dark
 	   neutral stays as the fallback when there is no poster (Spotify)
 	   or the poster fails to load (e.g. i.ytimg.com 403 from Google's
 	   PSI infra). #1a1a1a is deliberate: a video backdrop must stay
@@ -50,7 +50,7 @@
 	outline: none;
 }
 
-/* Spotify embeds have no aspect-ratio class — the facade is its own box. */
+/* Spotify embeds have no aspect-ratio class  -  the facade is its own box. */
 .wp-block-embed__wrapper .gwill-embed--spotify {
 	position: relative;
 	height: 152px;

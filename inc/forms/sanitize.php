@@ -1,6 +1,6 @@
 <?php
 /**
- * Sanitisation & Validation — GWill Starter
+ * Sanitisation & Validation  -  GWill Starter
  *
  * Handles sanitisation and validation of all form fields.
  *
@@ -101,7 +101,7 @@ function gwill_get_required_fields( string $form_id ): array {
  *
  * Also rejects submissions where any free-text field begins with a JSON
  * structure character (`{` or `[`). Real users never open a Name, Message,
- * or Description with a JSON object — this pattern exclusively matches
+ * or Description with a JSON object  -  this pattern exclusively matches
  * automated bots probing for injection vulnerabilities (e.g. bots that
  * paste REST API response payloads into form fields).
  *
@@ -142,7 +142,7 @@ function gwill_validate_fields( array $fields, array $required ): array {
 	foreach ( $text_keys as $key ) {
 		$val = ltrim( $fields[ $key ] ?? '' );
 		if ( '' !== $val && ( str_starts_with( $val, '{' ) || str_starts_with( $val, '[' ) ) ) {
-			// Generic message — do not reveal the specific rule to scanners.
+			// Generic message  -  do not reveal the specific rule to scanners.
 			$errors[] = __( 'Invalid input detected.', 'gwill-starter' );
 			break;
 		}

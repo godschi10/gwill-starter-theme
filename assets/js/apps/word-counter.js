@@ -1,5 +1,5 @@
 /**
- * App: word-counter — demo of the starter's custom-apps pattern.
+ * App: word-counter  -  demo of the starter's custom-apps pattern.
  *
  * Pure client-side: counts words, characters, sentences and paragraphs as
  * the visitor types. Nothing is uploaded. Auto-enqueued ONLY on

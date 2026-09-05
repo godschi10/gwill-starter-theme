@@ -2,7 +2,7 @@
 /**
  * Template Part: Pricing Table
  *
- * Call via gwill_pricing_table( $plans, $args ) — never include this file
+ * Call via gwill_pricing_table( $plans, $args )  -  never include this file
  * directly, since $args needs to arrive through gwill_part()'s
  * data-passing mechanism.
  *
@@ -18,7 +18,7 @@ $plans    = $args['plans'] ?? [];
 $currency = $args['currency'] ?? '$';
 
 if ( ! $plans ) {
-	// Loud in debug — a developer called this with an empty array, almost
+	// Loud in debug  -  a developer called this with an empty array, almost
 	// certainly unintentionally; silent in production, since an empty
 	// section is better left unrendered than shown as a visible gap.
 	if ( WP_DEBUG ) {
@@ -28,7 +28,7 @@ if ( ! $plans ) {
 }
 
 // Columns track however many plans were actually passed, capped at 4 for
-// layout sanity — three plans show three columns, not three columns
+// layout sanity  -  three plans show three columns, not three columns
 // stretched out to fill four. No separate columns argument exists for
 // this component the way gwill_testimonials_grid() has one: a pricing
 // table's column count is the plan count, not an independent choice.

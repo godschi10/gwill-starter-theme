@@ -2,9 +2,9 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Login page branding — GWill Starter.
+ * Login page branding  -  GWill Starter.
  *
- * FRESH MODULE (v1.7.0 — no elder theme owns this; verified by recon
+ * FRESH MODULE (v1.7.0  -  no elder theme owns this; verified by recon
  * Aug 30 2026: only tech's 2FA touches login hooks, and only to inject
  * the code field). Brands wp-login.php with what the site already owns:
  *
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  *     replaces the WordPress logo; sites without a logo get a clean
  *     wordmark of the site title instead.
  *   - The logo links to home_url() (not wordpress.org) and announces
- *     the site name (login_headerurl / login_headertitle filters —
+ *     the site name (login_headerurl / login_headertitle filters  - 
  *     the two documented, stable core hooks).
  *   - The submit button and focus ring take the theme's accent token,
  *     so the login page reads as the brand without shipping a full
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * Scope is deliberately the login page's OWN chrome: the form markup,
  * error boxes and the 2FA code field (inc/two-factor.php, v1.6.0) are
- * never restyled — WP core's login CSS already sizes and lays them out,
+ * never restyled  -  WP core's login CSS already sizes and lays them out,
  * and fighting it from a theme is a maintenance trap.
  *
  * @package GWill_Starter
@@ -43,7 +43,7 @@ add_filter( 'login_headertitle', fn() => get_bloginfo( 'name' ) );
 /**
  * Paint the login page: accent button/focus, logo or site-title wordmark.
  *
- * The logo, when present, is painted as the h1 link's background — the
+ * The logo, when present, is painted as the h1 link's background  -  the
  * core markup stays untouched (an <img> there inherits core's box rules
  * and fights the max-width). 100% height inside core's 84px slot keeps
  * every logo shape crisp.

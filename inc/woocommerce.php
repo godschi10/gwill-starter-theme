@@ -2,7 +2,7 @@
 /**
  * WooCommerce compatibility layer.
  *
- * Tier 3, opt-in by nature rather than by a define() — every hook in this
+ * Tier 3, opt-in by nature rather than by a define()  -  every hook in this
  * file is wrapped in class_exists( 'WooCommerce' ), so on a site that
  * never installs the plugin, this file still loads (cheap: it's just
  * function definitions) but registers nothing at all. Zero runtime cost,
@@ -23,7 +23,7 @@ add_action( 'after_setup_theme', 'gwill_woocommerce_setup' );
  * for this (remove the default wrapper, add your own matching one back)
  * does NOT apply here. header.php in this theme already unconditionally
  * opens <main class="site-main" id="content"><div class="inner"> for
- * every single template, with footer.php closing it — no template in
+ * every single template, with footer.php closing it  -  no template in
  * this theme ever opens that wrapper itself. So WooCommerce's own
  * default wrapper just needs removing, with nothing added back; adding
  * a second wrapper here would nest it inside the one header.php already
@@ -31,7 +31,7 @@ add_action( 'after_setup_theme', 'gwill_woocommerce_setup' );
  *
  * Hooked to after_setup_theme rather than init: WooCommerce's own
  * 'woocommerce_before_main_content' / '_after_' actions aren't fired until
- * a WC template runs, well after this — timing only matters here for the
+ * a WC template runs, well after this  -  timing only matters here for the
  * class_exists() check itself, and after_setup_theme runs after plugins
  * are loaded, same as every other plugin-detection check in this theme
  * (gwill_seo_plugin_active(), etc.).
@@ -57,7 +57,7 @@ function gwill_woocommerce_setup(): void {
 }
 
 /**
- * Enqueue the WooCommerce-specific stylesheet — design-token overrides
+ * Enqueue the WooCommerce-specific stylesheet  -  design-token overrides
  * for WC's default markup, plus the header cart icon.
  *
  * A separate file rather than appending to the main style.css, on
@@ -80,12 +80,12 @@ function gwill_woocommerce_enqueue_styles(): void {
 }
 
 /**
- * Render the header cart icon — item count badge included.
+ * Render the header cart icon  -  item count badge included.
  *
  * Called directly from header.php inside its own class_exists() check
  * (not auto-hooked), matching how every other optional header element in
  * this theme (the dark-mode toggle, search) is placed explicitly in the
- * markup rather than hooked in from inc/ — header.php is where the
+ * markup rather than hooked in from inc/  -  header.php is where the
  * actual visual order of header elements is decided, on purpose.
  *
  * @since 1.0.60
@@ -105,7 +105,7 @@ function gwill_render_cart_icon(): void {
  * WooCommerce's own wc-cart-fragments.js (enqueued automatically by the
  * plugin, not something this theme needs to enqueue itself) listens for
  * the 'added_to_cart' event and swaps any DOM element matching a key
- * returned here for the matching HTML value — that's the whole mechanism
+ * returned here for the matching HTML value  -  that's the whole mechanism
  * an "add to cart updates the header count with no full page reload"
  * interaction runs on, and it's been stable WooCommerce core API for
  * years, not something specific to a particular WC version.

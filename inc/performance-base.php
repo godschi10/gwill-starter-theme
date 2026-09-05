@@ -1,17 +1,17 @@
 <?php
 /**
- * Performance base — GWill Starter (v1.3.0, ported from finance v1.0.157).
+ * Performance base  -  GWill Starter (v1.3.0, ported from finance v1.0.157).
  *
  * Three generic, dependency-free wins every build inherits:
  *
- *   1. gwill_prime_thumbnail_cache()  — the_posts filter that batches
+ *   1. gwill_prime_thumbnail_cache()   -  the_posts filter that batches
  *      thumbnail attachment meta into ONE query per loop. Card grids
  *      call get_the_post_thumbnail() per post; without this, every
  *      card fires its own wp_postmeta query for the attachment's
  *      _wp_attachment_image_alt etc. update_post_thumbnail_cache()
  *      turns N queries into 1.
  *
- *   2. gwill_preload_lcp()            — <link rel="preload"> for the
+ *   2. gwill_preload_lcp()             -  <link rel="preload"> for the
  *      Largest Contentful Paint image: the featured image on
  *      singulars, the first post's cover on the home/posts index.
  *      Carries imagesrcset + imagesizes so the browser preloads the
@@ -19,7 +19,7 @@
  *      full-size preload on small viewports). Query-free: the main
  *      query has already run when wp_head fires.
  *
- *   3. Memoized primary category      — gwill_get_primary_category()
+ *   3. Memoized primary category       -  gwill_get_primary_category()
  *      (inc/helpers.php) now caches its result per post ID for the
  *      request; breadcrumbs, single.php, related posts and content
  *      cards all call it for the same post.
@@ -38,9 +38,9 @@ defined( 'ABSPATH' ) || exit;
  * Prime thumbnail attachment meta in one batched query per loop.
  *
  * WP_Query primes meta for the posts in the loop, but NOT for their
- * attachments — so every card used to fire its own wp_postmeta query.
+ * attachments  -  so every card used to fire its own wp_postmeta query.
  * Guarded to full-object queries only (fields=ids existence checks
- * skip — no card markup is rendered from them).
+ * skip  -  no card markup is rendered from them).
  *
  * @param WP_Post[] $posts Queried posts.
  * @param WP_Query  $query The query that produced them.
@@ -64,7 +64,7 @@ add_filter( 'the_posts', 'gwill_prime_thumbnail_cache', 10, 2 );
 // CSS/JS parsing finishes.
 //
 // Responsive preload: with imagesrcset + imagesizes the browser preloads
-// the exact candidate the <img> resolves — no wasted 1200px preload on
+// the exact candidate the <img> resolves  -  no wasted 1200px preload on
 // small viewports, no late 1024px fetch. Falls back to a plain href
 // preload when the attachment has no srcset (single-candidate images).
 

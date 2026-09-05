@@ -1,9 +1,9 @@
 /**
- * Code Copy Buttons + language sniffing — GWill Starter (v1.7.0).
+ * Code Copy Buttons + language sniffing  -  GWill Starter (v1.7.0).
  *
  * Ported from gwill-tech-theme assets/js/code-copy.js (live-proven),
  * adapted: the sniffer query targets .entry-content (the starter's
- * content scope — tech used .prose).
+ * content scope  -  tech used .prose).
  *
  * 1. Copy: adds working copy to <pre><code> blocks via their .copy-btn
  *    (injected by inc/code-blocks.php). Shows "Copied!" feedback 1.6s.
@@ -80,14 +80,14 @@ Table of Contents
 		var first = lines.join( '\n' );
 
 		if ( /^<\?php/.test( first ) ) return 'php';
-		// PHP function signatures: "function name(...): Type {" — the "):"
+		// PHP function signatures: "function name(...): Type {"  -  the "):"
 		// return-type hint is rare in JS/TS but standard in PHP 7+.
 		if ( /^function\s+\w+\s*\([^)]*\)\s*:\s*\w+/.test( first ) ) return 'php';
 		if ( /^<(!DOCTYPE|html|div|script|style|svg|body|head)/i.test( first ) ) return 'markup';
 		if ( /^(import |export |from |const |let |var |function |async |await |=>|class |interface |type )/.test( first ) ) return 'javascript';
 		if ( /^(def |class |import |from |print\(|if __name__)/.test( first ) ) return 'python';
 		// Bash: a command in ANY of the first lines (# comments, shebangs,
-		// $ prompts, or command prefixes) — before YAML since "# foo" alone
+		// $ prompts, or command prefixes)  -  before YAML since "# foo" alone
 		// is ambiguous but a following command makes it shell.
 		var bashCmd = /^(#!|[$>]\s|(?:git |npm |yarn |sudo |apt |curl |wget |docker |cd |ls |mkdir |rm |chmod |ssh |cp |mv |cat |echo |export |php |composer |pip |brew ))/;
 		if ( lines.some( function ( l ) { return bashCmd.test( l ); } ) ) return 'bash';

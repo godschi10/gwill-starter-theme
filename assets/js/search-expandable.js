@@ -1,5 +1,5 @@
 /**
- * search-expandable.js — Combo A
+ * search-expandable.js  -  Combo A
  *
  * Toggles the inline header search input open/closed.
  *
@@ -16,7 +16,7 @@
  * i18n: aria-label strings come from GwillExpand.i18n (wp_localize_script).
  * Falls back to English if the object is absent.
  *
- * Note: DOMContentLoaded wrapper removed — deferred scripts execute after
+ * Note: DOMContentLoaded wrapper removed  -  deferred scripts execute after
  * DOM parsing is complete; the extra listener was redundant.
  *
  * @package GWill_Starter

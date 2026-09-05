@@ -34,7 +34,7 @@ $hp_name = gwill_get_honeypot_name( $uid );
 
 	<noscript>
 		<p class="gwill-form__noscript-notice">
-			<?php esc_html_e( 'For the best experience, enable JavaScript. The form will still work — all fields are shown below.', 'gwill-starter' ); ?>
+			<?php esc_html_e( 'For the best experience, enable JavaScript. The form will still work  -  all fields are shown below.', 'gwill-starter' ); ?>
 		</p>
 	</noscript>
 

@@ -18,10 +18,10 @@
  * Kept minimal on purpose: title tags are handled by WP core
  * (wp_get_document_title), canonical links on singulars by core
  * (rel_canonical), and the XML sitemap by the theme itself
- * (inc/sitemap.php — serves /sitemap.xml). No plugin, no bloat — the
+ * (inc/sitemap.php  -  serves /sitemap.xml). No plugin, no bloat  -  the
  * same approach as the GWill tech and finance themes; this is the
  * generic-base adaptation of finance's inc/seo.php (finance's ACF-flavored
- * pieces — hardcoded brand titles, ACF settings-page slugs — are replaced
+ * pieces  -  hardcoded brand titles, ACF settings-page slugs  -  are replaced
  * with filterable generics here).
  *
  * BreadcrumbList JSON-LD is deliberately NOT emitted: the visible
@@ -43,14 +43,14 @@ add_filter( 'pre_get_document_title', 'gwill_front_page_title', 11 );
  * Cap the front-page <title> at ~60 chars: brand first, tagline trimmed
  * WORD-BY-WORD to fit the budget.
  *
- * WP core's default front-page title is "Blogname — full tagline", which
+ * WP core's default front-page title is "Blogname  -  full tagline", which
  * routinely exceeds Google's ~60-char display truncation. This builds
- * "Brand — Tagline" and, when that overflows, trims the tagline back
+ * "Brand  -  Tagline" and, when that overflows, trims the tagline back
  * word-by-word (never mid-word). Brand alone when even the first word
  * cannot fit.
  *
  * The is_category() guard excludes a bare category index served at the
- * front URL (is_front_page() is true there) — a build that sets one up
+ * front URL (is_front_page() is true there)  -  a build that sets one up
  * owns its own title filter for that page.
  *
  * Filterable per build:
@@ -61,7 +61,7 @@ add_filter( 'pre_get_document_title', 'gwill_front_page_title', 11 );
  * @return string
  */
 function gwill_front_page_title( string $title ): string {
-	// Defer to a major SEO plugin when one is active — RankMath hooks
+	// Defer to a major SEO plugin when one is active  -  RankMath hooks
 	// pre_get_document_title at priority 10; this filter at 11 would
 	// otherwise run after it and override the admin's configured
 	// homepage title (finance conflict-audit lesson).
@@ -102,7 +102,7 @@ function gwill_front_page_title( string $title ): string {
 
 /**
  * Long-titled singulars: drop the brand suffix from the <title> output
- * only when the full "Post Title — Site" string would exceed ~65 chars.
+ * only when the full "Post Title  -  Site" string would exceed ~65 chars.
  * Settings and brand usage everywhere else stay untouched.
  *
  * Uses the real separator (document_title_separator, core default '-') so
@@ -130,12 +130,12 @@ function gwill_document_title_parts( array $parts ): array {
 }
 add_filter( 'document_title_parts', 'gwill_document_title_parts', 10, 1 );
 
-// ── Core XML sitemaps — disabled (the theme owns /sitemap.xml) ───────────────
+// ── Core XML sitemaps  -  disabled (the theme owns /sitemap.xml) ───────────────
 
 add_filter( 'wp_sitemaps_enabled', 'gwill_wp_sitemaps_enabled', 10, 1 );
 
 /**
- * Disable WP core's wp-sitemap.xml — the theme owns /sitemap.xml and
+ * Disable WP core's wp-sitemap.xml  -  the theme owns /sitemap.xml and
  * robots.txt only advertises that one; a second live sitemap is dead
  * weight. Defer to a major SEO plugin when one is active.
  *
@@ -186,7 +186,7 @@ function gwill_meta_description(): void {
 		);
 	}
 
-	// Template-specific one-liners before the global tagline fallback —
+	// Template-specific one-liners before the global tagline fallback  - 
 	// these pages render with empty post content, so their derived
 	// descriptions would otherwise all fall back to the site tagline
 	// (several pages sharing one boilerplate description). Copy is
@@ -196,7 +196,7 @@ function gwill_meta_description(): void {
 			'gwill_home_meta_description',
 			sprintf(
 				/* translators: %s: site name. */
-				__( 'Every guide on %s — tutorials, tips and walkthroughs, newest first.', 'gwill-starter' ),
+				__( 'Every guide on %s  -  tutorials, tips and walkthroughs, newest first.', 'gwill-starter' ),
 				get_bloginfo( 'name' )
 			)
 		);
@@ -205,7 +205,7 @@ function gwill_meta_description(): void {
 	if ( ! $description && is_page_template( 'template-contact.php' ) ) {
 		$description = (string) apply_filters(
 			'gwill_contact_meta_description',
-			__( 'Contact — partnerships, questions and requests. Responses within 48 hours.', 'gwill-starter' )
+			__( 'Contact  -  partnerships, questions and requests. Responses within 48 hours.', 'gwill-starter' )
 		);
 	}
 
@@ -215,7 +215,7 @@ function gwill_meta_description(): void {
 
 	$description = trim( wp_strip_all_tags( (string) $description ) );
 
-	// Cap at ~160 characters — wp_trim_words(..., 30) can run ~180+ chars,
+	// Cap at ~160 characters  -  wp_trim_words(..., 30) can run ~180+ chars,
 	// beyond the search-engine display budget. Word-safe ellipsis cap
 	// (SEO audit v1.3.8).
 	if ( function_exists( 'mb_strlen' ) && mb_strlen( $description ) > 160 ) {
@@ -233,7 +233,7 @@ function gwill_meta_description(): void {
 // ── Robots meta ──────────────────────────────────────────────────────────────
 
 /**
- * Hidden page slugs — noindexed, never linked or sitemapped.
+ * Hidden page slugs  -  noindexed, never linked or sitemapped.
  *
  * Generic base default is empty; a build with hidden settings/utility
  * pages filters its own slugs in:
@@ -307,7 +307,7 @@ add_action( 'wp_head', 'gwill_json_ld', 5 );
  * Output schema.org JSON-LD: WebSite (+ Organization) globally, Article
  * on single posts.
  *
- * BreadcrumbList is intentionally absent — the visible breadcrumbs in
+ * BreadcrumbList is intentionally absent  -  the visible breadcrumbs in
  * gwill_breadcrumbs() already carry BreadcrumbList microdata (see the
  * file header).
  *
@@ -332,7 +332,7 @@ function gwill_json_ld(): void {
 		'publisher'   => [
 			'@id' => $site_url . '#organization',
 		],
-		// SearchAction — lets Google show the site search box in SERPs.
+		// SearchAction  -  lets Google show the site search box in SERPs.
 		'potentialAction' => [
 			'@type'       => 'SearchAction',
 			'target'      => [
@@ -402,7 +402,7 @@ function gwill_json_ld(): void {
  * Self-referencing canonical for non-singular templates.
  *
  * WP core's rel_canonical() only fires on singulars (and the front page),
- * so category archives — the indexed hubs — and the posts page had no
+ * so category archives  -  the indexed hubs  -  and the posts page had no
  * canonical at all. Never fires on singulars (core already emits exactly
  * one there).
  *
@@ -447,10 +447,10 @@ add_action( 'wp_head', 'gwill_canonical_meta', 10 );
 // ── robots.txt ───────────────────────────────────────────────────────────────
 
 /**
- * robots.txt — point crawlers at the theme-owned sitemap.
+ * robots.txt  -  point crawlers at the theme-owned sitemap.
  *
  * Strips WP core's default wp-sitemap.xml line (the theme owns
- * /sitemap.xml via inc/sitemap.php) and advertises the real one — two
+ * /sitemap.xml via inc/sitemap.php) and advertises the real one  -  two
  * Sitemap: entries would give crawlers mixed signals about which index
  * to trust. Also sets explicit AI-crawler rules (allow the useful ones,
  * block the ones known to scrape without consent).
@@ -461,7 +461,7 @@ add_action( 'wp_head', 'gwill_canonical_meta', 10 );
  */
 function gwill_robots_txt( string $output ): string {
 	// Defer to a major SEO plugin when one is active (same rule as every
-	// other theme-owned SEO output) — a plugin owns robots.txt then, and
+	// other theme-owned SEO output)  -  a plugin owns robots.txt then, and
 	// the theme must not fight it with a second Sitemap: line.
 	if ( gwill_seo_plugin_active() ) {
 		return $output;

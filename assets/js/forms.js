@@ -1,17 +1,17 @@
 /**
- * GWill Starter — Contact Forms
+ * GWill Starter  -  Contact Forms
  *
  * AJAX submission for all .gwill-form elements.
  *
  * Nonce acquisition (cache-safe, two-tier):
  *   1. If GwillForms.nonce is already present (PHP baked it in for
- *      logged-in users — see inc/enqueue.php), use it directly. Logged-in
+ *      logged-in users  -  see inc/enqueue.php), use it directly. Logged-in
  *      pages are never served from LiteSpeed's page cache, so a nonce baked
  *      straight into this page's HTML is always fresh. No network request
  *      needed at all for this case.
  *   2. Otherwise (anonymous visitor on a page LiteSpeed may have cached for
- *      hours), fetch a fresh one from GwillForms.nonceUrl — admin-ajax.php,
- *      excluded from LiteSpeed Cache by default — with a cache-busting
+ *      hours), fetch a fresh one from GwillForms.nonceUrl  -  admin-ajax.php,
+ *      excluded from LiteSpeed Cache by default  -  with a cache-busting
  *      timestamp param appended at request time, so no intermediate caching
  *      layer (CDN, reverse proxy, a misconfigured "cache everything" rule on
  *      a dev tunnel) can serve a stale response regardless of whether it
@@ -72,9 +72,9 @@
 	//
 	// Exposed on window so any other form-specific script (multistep,
 	// exit-intent, or a future pattern) can share this exact logic instead
-	// of writing its own copy. As of 1.0.47, none currently need to — both
+	// of writing its own copy. As of 1.0.47, none currently need to  -  both
 	// delegate their actual submission to this file's own .gwill-form submit
-	// listener — but the export costs nothing and avoids the duplicate-logic
+	// listener  -  but the export costs nothing and avoids the duplicate-logic
 	// risk if that ever changes.
 
 	function getNonce() {
@@ -142,15 +142,15 @@
 				// IMPORTANT: do NOT gate on res.ok here. gwill_handle_contact_form()
 				// deliberately uses wp_send_json_error( $data, $status_code ) with a
 				// non-2xx status (403 for a failed nonce check, 429 for rate-limiting)
-				// while STILL sending a valid, specific, already-correct JSON body —
+				// while STILL sending a valid, specific, already-correct JSON body  - 
 				// e.g. { success: false, data: { message: "Please wait a few minutes
 				// before sending another message." } }. An earlier version of this
 				// file threw on any non-2xx status before ever reading that body,
 				// which meant every nonce-failure and every rate-limit rejection
 				// showed the same generic "Server error" text instead of the actual,
 				// accurate, user-actionable message the server had already composed.
-				// Parsing the JSON unconditionally — and only falling through to the
-				// catch() below if THAT parse itself fails — is what lets the real
+				// Parsing the JSON unconditionally  -  and only falling through to the
+				// catch() below if THAT parse itself fails  -  is what lets the real
 				// message reach the user regardless of which status code carried it.
 				return res.json();
 			} )
@@ -174,7 +174,7 @@
 			} )
 			.catch( function ( err ) {
 				// Reaches here only for: a true network failure (fetch() itself
-				// rejecting — offline, DNS, CORS), the nonce-fetch step failing
+				// rejecting  -  offline, DNS, CORS), the nonce-fetch step failing
 				// (see getNonce()'s own nonce-http- tagging above), or a submit
 				// response that returned 200 status but a body that wasn't valid
 				// JSON at all (a host-level error page, a PHP fatal that bypassed
@@ -253,7 +253,7 @@
 	//
 	// Mobile networks silently drop idle TCP connections. The page loads fine
 	// but the first fetch() after a period of inactivity fails at the network
-	// layer — not WordPress. One automatic retry after 800ms covers the case
+	// layer  -  not WordPress. One automatic retry after 800ms covers the case
 	// without the user ever seeing an error.
 
 	function fetchWithRetry( url, options, retries ) {

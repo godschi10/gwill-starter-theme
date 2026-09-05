@@ -1,13 +1,13 @@
 <?php
 /**
- * Template Part: Social Share — Pill Buttons
+ * Template Part: Social Share  -  Pill Buttons
  *
- * Two modes — set via set_query_var( 'gwill_share_mode', 'footer' ) before calling:
+ * Two modes  -  set via set_query_var( 'gwill_share_mode', 'footer' ) before calling:
  *
- *   top (default) — Compact pill row. Always visible. No heading.
+ *   top (default)  -  Compact pill row. Always visible. No heading.
  *                   Sits between .entry-meta and .entry-content in single.php.
  *
- *   footer        — Large pill row. Always visible. "Share this article" heading.
+ *   footer         -  Large pill row. Always visible. "Share this article" heading.
  *                   Top border divider. Sits after </article>, before author box.
  *
  * Platforms shown: X · Facebook · WhatsApp · LinkedIn · More
@@ -15,8 +15,8 @@
  * clipboard-copy fallback on desktop browsers that lack the Web Share API.
  *
  * SVG sources:
- *   X, Facebook, WhatsApp, LinkedIn — Simple Icons (simpleicons.org, MIT)
- *   More (share icon)               — Lucide Icons
+ *   X, Facebook, WhatsApp, LinkedIn  -  Simple Icons (simpleicons.org, MIT)
+ *   More (share icon)                -  Lucide Icons
  *
  * @package GWill_Starter
  */

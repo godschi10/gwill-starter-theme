@@ -1,13 +1,13 @@
 /**
- * GWill Starter — Testimonials Carousel
+ * GWill Starter  -  Testimonials Carousel
  *
  * Pure progressive enhancement. The carousel track is a plain CSS
  * scroll-snap container (see the "Testimonials" section in style.css) and
- * is fully usable with zero JavaScript at all — touch swipe, or
+ * is fully usable with zero JavaScript at all  -  touch swipe, or
  * shift+scroll-wheel on desktop. This script's only job is inserting
  * Prev/Next buttons for visitors without an obvious way to scroll
  * sideways with a plain vertical scroll wheel. Buttons are *created*
- * here, not just wired up — a button rendered in PHP whose only behaviour
+ * here, not just wired up  -  a button rendered in PHP whose only behaviour
  * comes from JS that might not load is worse than no button at all; this
  * way, no JS means no buttons, and the track still works regardless.
  *

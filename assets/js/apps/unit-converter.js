@@ -1,5 +1,5 @@
 /**
- * App: unit-converter — demo of the starter's custom-apps pattern.
+ * App: unit-converter  -  demo of the starter's custom-apps pattern.
  *
  * Pure client-side: converts between common length, weight and
  * temperature units. Nothing is uploaded. Auto-enqueued ONLY on
@@ -27,7 +27,7 @@ Table of Contents
 
 	// Length base = metre; weight base = gram; temperature handled apart.
 	// v1.9.0: area (base m²), volume (base L), speed (base m/s), digital
-	// (base byte) — same pattern, exact international definitions.
+	// (base byte)  -  same pattern, exact international definitions.
 	var LENGTH = { mm: 0.001, cm: 0.01, m: 1, km: 1000, in: 0.0254, ft: 0.3048, yd: 0.9144, mi: 1609.344 };
 	var WEIGHT = { mg: 0.001, g: 1, kg: 1000, t: 1000000, oz: 28.349523125, lb: 453.59237 };
 	var AREA = { mm2: 0.000001, cm2: 0.0001, m2: 1, ha: 10000, km2: 1000000, sq_in: 0.00064516, sq_ft: 0.09290304, sq_yd: 0.83612736, acre: 4046.8564224, sq_mi: 2589988.110336 };
@@ -92,7 +92,7 @@ Table of Contents
 			var t = tempUnits();
 			for ( var k in t ) {
 				if ( Object.prototype.hasOwnProperty.call( t, k ) ) {
-					opts += '<option value="' + k + '">' + k + ' — ' + t[ k ] + '</option>';
+					opts += '<option value="' + k + '">' + k + '  -  ' + t[ k ] + '</option>';
 				}
 			}
 			return opts;

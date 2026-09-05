@@ -1,21 +1,21 @@
 /**
- * WooCommerce — design-token overrides + header cart icon
+ * WooCommerce  -  design-token overrides + header cart icon
  *
- * Only enqueued when WooCommerce is active (see inc/woocommerce.php) — a
+ * Only enqueued when WooCommerce is active (see inc/woocommerce.php)  -  a
  * standalone file rather than appended to style.css for exactly the same
  * reason as darkmode-vibe-comments.css: a site without the plugin should
  * never download CSS written for it.
  *
  * Scope deliberately stops at WooCommerce's most commonly customised
  * surfaces (buttons, price colour, sale badge, star ratings) rather than
- * re-skinning every shop template wholesale — this is a compatibility
+ * re-skinning every shop template wholesale  -  this is a compatibility
  * layer matching existing design tokens, not a custom shop redesign.
  *
  * @package GWill_Starter
  * @since   1.0.60
  */
 
-/* ── Buttons — match the theme's existing button tokens ─────────────── */
+/* ── Buttons  -  match the theme's existing button tokens ─────────────── */
 
 .woocommerce a.button,
 .woocommerce button.button,
@@ -78,7 +78,7 @@
   color: var(--color-accent);
 }
 
-/* ── Form fields inside WC checkout/account — match this theme's own
+/* ── Form fields inside WC checkout/account  -  match this theme's own
    form tokens rather than WooCommerce's defaults ──────────────────── */
 
 .woocommerce form .form-row input.input-text,

@@ -1,5 +1,5 @@
 /**
- * App: case-converter — demo of the starter's custom-apps pattern.
+ * App: case-converter  -  demo of the starter's custom-apps pattern.
  *
  * Pure client-side: converts pasted text between UPPERCASE, lowercase,
  * Title Case, Sentence case, camelCase, snake_case and kebab-case.
@@ -63,7 +63,7 @@ Table of Contents
 	}
 
 	/* Live counts preview (v1.9.0): what the visitor has BEFORE
-	   converting — words / characters / sentences / paragraphs. */
+	   converting  -  words / characters / sentences / paragraphs. */
 	function updateCounts() {
 		var v = input.value;
 		var w = words( v ).length;
@@ -158,5 +158,5 @@ Table of Contents
 	updateCounts();
 
 	function ok() { status.textContent = 'Copied.'; }
-	function fail() { status.textContent = 'Copy failed — select the text and copy manually.'; }
+	function fail() { status.textContent = 'Copy failed  -  select the text and copy manually.'; }
 } )();

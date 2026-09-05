@@ -5,19 +5,19 @@
  * WHY: the client-side search index (inc/search-index.php) is
  * instant and typo-tolerant but has a hard scale ceiling (~5-8k posts:
  * sessionStorage 5MB quota, per-keystroke linear scan, multi-MB payloads
- * at 100k — measured 2.7-4.1s/keystroke at 100k posts). This file adds a
+ * at 100k  -  measured 2.7-4.1s/keystroke at 100k posts). This file adds a
  * server-side inverted index that scales to any size (FTS5 + bm25:
  * ~10-30ms queries at 100k docs).
  *
  * PORTABILITY (King's law): the FTS index is an INDEPENDENT SQLite file
  * owned by the theme (wp-content/uploads/gwill-search/index.sqlite),
- * driven ONLY through PHP's PDO-sqlite driver — NOT through WP's primary
+ * driven ONLY through PHP's PDO-sqlite driver  -  NOT through WP's primary
  * database and NOT through the SQLite drop-in's MySQL translator (which
  * rejects CREATE VIRTUAL TABLE). It therefore works identically on
  * MySQL/MariaDB/any WP backend: the only requirement is PDO-sqlite
  * (present on virtually every PHP host; verified on this box). Every
  * entry point is gated on gwill_fts_available(); if the driver or the
- * file is unusable, the feature degrades to zero — the dropdown falls
+ * file is unusable, the feature degrades to zero  -  the dropdown falls
  * back to the client index, the search page to default WP search, and
  * NOTHING throws.
  *
@@ -52,9 +52,9 @@ function gwill_fts_path() {
 		return $path;
 	}
 	// Silence / deny via an .htaccess for Apache/OpenLiteSpeed hosts.
-	// Dual-syntax (v1.16.97 — King: "most of my clients use ols"): Apache
+	// Dual-syntax (v1.16.97  -  King: "most of my clients use ols"): Apache
 	// 2.2 uses Order/Deny, Apache 2.4+ uses Require (mod_access_compat is
-	// often disabled on hardened hosts — a bare "Deny from all" is then
+	// often disabled on hardened hosts  -  a bare "Deny from all" is then
 	// silently IGNORED and index.sqlite becomes HTTP-downloadable); OLS
 	// honors .htaccess and accepts both forms. Nginx hosts ignore
 	// .htaccess and use the theme's documented location rule instead.
@@ -100,7 +100,7 @@ function gwill_fts_pdo() {
 }
 
 /**
- * Feature detection — the single gate for ALL FTS code paths.
+ * Feature detection  -  the single gate for ALL FTS code paths.
  * Portable by construction: the index is a standalone file, so this is
  * true on MySQL WP too (any PHP with PDO-sqlite).
  *
@@ -281,7 +281,7 @@ add_action( 'wp_trash_post', 'gwill_fts_sync_post' );
 /**
  * Tokenize a user query into safe FTS5 prefix terms ("tok"*).
  *
- * Question/stop words are dropped FIRST (v1.16.95 — King: "a direct
+ * Question/stop words are dropped FIRST (v1.16.95  -  King: "a direct
  * question should also show results"): "how to clear redis cache" must
  * search as clear+redis+cache, not how+to+clear+redis+cache. FTS5 ANDs
  * every token, so one filler word used to kill the whole query. A query
@@ -383,10 +383,10 @@ function gwill_fts_match_ids( $q, $limit = 200 ) {
 
 /**
  * Full-corpus fuzzy candidate IDs via FTS5 prefix-relaxation OR
- * (v1.16.96 — King: "scaling past 100k posts"). When the strict AND
+ * (v1.16.96  -  King: "scaling past 100k posts"). When the strict AND
  * match finds nothing, the fuzzy scorer needs a candidate pool. Scanning
  * get_posts(500) in PHP caps coverage at the NEWEST 500 posts and costs
- * ~18 ms — both fail at 100k. Instead, expand each query token through
+ * ~18 ms  -  both fail at 100k. Instead, expand each query token through
  * progressively shorter prefixes ("andriod" → andriod* OR andrio* OR
  * andri* OR andr* OR and*) and let FTS5 (a real index) do the matching:
  * full-corpus coverage, bounded by LIMIT, immune to corpus size.
@@ -411,7 +411,7 @@ function gwill_fts_relaxed_candidate_ids( $q, $limit = 200 ) {
 	$limit = max( 1, min( 500, (int) $limit ) );
 
 	// Build rungs (most specific first): for each token, its full prefix,
-	// its adjacent-swap variants (Damerau transpositions — "reids" → "redis",
+	// its adjacent-swap variants (Damerau transpositions  -  "reids" → "redis",
 	// "andriod" → "android"), then progressively shorter prefixes down to
 	// 3 chars. Swap rungs catch typos broken before the 3-char prefix
 	// anchor that pure relaxation would miss.
@@ -448,7 +448,7 @@ function gwill_fts_relaxed_candidate_ids( $q, $limit = 200 ) {
 		foreach ( $rungs as $rung ) {
 			$remaining = $limit - count( $seen );
 			if ( $remaining <= 0 ) {
-				break; // quota filled — never pay to rank a broader rung
+				break; // quota filled  -  never pay to rank a broader rung
 			}
 			$sql  = 'SELECT rowid FROM gwill_fts WHERE gwill_fts MATCH ? ORDER BY rank LIMIT ' . $remaining;
 			$stmt = $pdo->prepare( $sql );
@@ -468,7 +468,7 @@ function gwill_fts_relaxed_candidate_ids( $q, $limit = 200 ) {
 // gwill_execute_search() (inc/search.php) routes BOTH the results page and
 // the live REST endpoint /wp-json/gwill/v1/search?s= through the
 // gwill_search_backend filter. Hooking it here means FTS5 ranking powers
-// both surfaces at once — no parallel endpoint, no second architecture.
+// both surfaces at once  -  no parallel endpoint, no second architecture.
 add_filter(
 	'gwill_search_backend',
 	function ( $result, $args, $term ) {
@@ -513,7 +513,7 @@ add_action(
 			return;
 		}
 		$ids = gwill_fts_match_ids( $s, 200 );
-		// v1.16.95: fuzzy fallback on the results page too — a typo or
+		// v1.16.95: fuzzy fallback on the results page too  -  a typo or
 		// direct question must render real cards, not an empty state.
 		if ( empty( $ids ) && function_exists( 'gwill_search_fuzzy_match_ids' ) ) {
 			$ids = gwill_search_fuzzy_match_ids( $s, 200 );

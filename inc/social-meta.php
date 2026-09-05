@@ -2,7 +2,7 @@
 /**
  * Open Graph / Twitter Card fallback meta tags.
  *
- * Only outputs anything when no major SEO plugin is detected — RankMath,
+ * Only outputs anything when no major SEO plugin is detected  -  RankMath,
  * Yoast, AIOSEO, SEOPress, and The SEO Framework all already output their
  * own OG/Twitter tags, and outputting both would create duplicate,
  * conflicting meta tags in <head>. This exists purely for the (common,
@@ -71,7 +71,7 @@ function gwill_output_social_meta(): void {
  * Resolve the canonical URL for the current request.
  *
  * Deliberately NOT built from $_SERVER['REQUEST_URI'] passed through
- * home_url() — REQUEST_URI already includes any subdirectory prefix on an
+ * home_url()  -  REQUEST_URI already includes any subdirectory prefix on an
  * install running at example.com/blog/, so wrapping it in home_url() a
  * second time would double that prefix (example.com/blog/blog/...). Uses
  * WordPress's own conditional-tag URL functions instead, which are each
@@ -88,7 +88,7 @@ function gwill_social_meta_url(): string {
 
 	if ( is_category() || is_tag() || is_tax() ) {
 		$link = get_term_link( get_queried_object() );
-		// get_term_link() can return WP_Error, which has no __toString() —
+		// get_term_link() can return WP_Error, which has no __toString()  - 
 		// casting it directly would fatal ("Object ... could not be
 		// converted to string"), not just produce a wrong URL.
 		return is_wp_error( $link ) ? home_url( '/' ) : $link;
@@ -138,7 +138,7 @@ function gwill_social_meta_title(): string {
 }
 
 /**
- * Resolve the description to use — explicit excerpt, then auto-excerpt,
+ * Resolve the description to use  -  explicit excerpt, then auto-excerpt,
  * then the site tagline. Filterable via 'gwill_og_description'.
  *
  * @since 1.0.50
@@ -158,7 +158,7 @@ function gwill_social_meta_description(): string {
 }
 
 /**
- * Resolve the image to use — the post's own featured image first, falling
+ * Resolve the image to use  -  the post's own featured image first, falling
  * back to the Customizer's "Default Social Share Image" setting, then to
  * nothing at all (a card with no image is still valid; a broken image URL
  * is not). Filterable via 'gwill_og_image_id'.
@@ -184,7 +184,7 @@ function gwill_social_meta_image(): ?array {
 		return null;
 	}
 
-	// 'gwill-hero' (1200×675 — registered in inc/setup.php for the single-post
+	// 'gwill-hero' (1200×675  -  registered in inc/setup.php for the single-post
 	// hero treatment) is reused here rather than registering a dedicated
 	// social-image size: it's already generated for every post with a
 	// featured image, already close to platforms' own ~1200×630 preference,

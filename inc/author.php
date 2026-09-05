@@ -36,7 +36,7 @@ function gwill_author_social_fields(): array {
 			'key'         => 'website',
 			'label'       => __( 'Website', 'gwill-starter' ),
 			'placeholder' => 'https://example.com',
-			/* Feather "globe" — stroke-based icon, uses currentColor via stroke attribute */
+			/* Feather "globe"  -  stroke-based icon, uses currentColor via stroke attribute */
 			'icon'        => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
 			'aria'        => __( 'Website', 'gwill-starter' ),
 			'builtin'     => true, // reads user_url; WP already shows this field in "Contact Info"
@@ -124,7 +124,7 @@ function gwill_get_author_socials( int $user_id ): array {
 
 		$links[] = [
 			'url'  => $url,
-			'icon' => $field['icon'], // developer-supplied SVG — not user input
+			'icon' => $field['icon'], // developer-supplied SVG  -  not user input
 			'aria' => $field['aria'],
 		];
 	}
@@ -152,7 +152,7 @@ function gwill_render_social_profile_fields( WP_User $user ): void {
 	<table class="form-table" role="presentation">
 		<tbody>
 			<?php foreach ( gwill_author_social_fields() as $field ) :
-				// Skip built-in website — WP already shows user_url in Contact Info.
+				// Skip built-in website  -  WP already shows user_url in Contact Info.
 				if ( ! empty( $field['builtin'] ) ) {
 					continue;
 				}
@@ -190,9 +190,9 @@ add_action( 'edit_user_profile', 'gwill_render_social_profile_fields' );
  * Saves social link meta when the user profile form is submitted.
  *
  * Security:
- *   1. capability check — current user must be able to edit the target user
- *   2. nonce verification — prevents CSRF
- *   3. esc_url_raw() sanitization — ensures only valid URLs are stored
+ *   1. capability check  -  current user must be able to edit the target user
+ *   2. nonce verification  -  prevents CSRF
+ *   3. esc_url_raw() sanitization  -  ensures only valid URLs are stored
  *
  * Empty values are deleted rather than stored as empty strings to keep
  * usermeta clean.

@@ -1,12 +1,12 @@
 /**
- * Dark Mode — Vibe Comments plugin
+ * Dark Mode  -  Vibe Comments plugin
  *
  * Only enqueued when the Vibe Comments plugin is active (see inc/enqueue.php).
  *
  * Strategy: Vibe Comments defines its own --vibe-* CSS custom properties in
  * :root. Since ALL of the plugin's components consume these tokens, overriding
  * them inside [data-theme="dark"] .vibe-comments-section fixes the entire
- * plugin in one block — no per-component rules needed.
+ * plugin in one block  -  no per-component rules needed.
  *
  * A second block handles the handful of hardcoded hex values inside
  * vibe-comments.css that bypass the token system (awaiting badge, liked state,
@@ -49,7 +49,7 @@
 /* These rules target values hardcoded in vibe-comments.css that don't use   */
 /* the --vibe-* token system and would remain bright on a dark background.   */
 
-/* Awaiting moderation notice — was #fef3c7 (bright yellow) */
+/* Awaiting moderation notice  -  was #fef3c7 (bright yellow) */
 @media (prefers-color-scheme: dark) {
 	:root:not([data-theme="light"]) .vibe-awaiting {
 		background: #3a1a00;
@@ -61,7 +61,7 @@
 	color:      #fcd34d;
 }
 
-/* Liked state — was #fee2e2 background with #ef4444 text */
+/* Liked state  -  was #fee2e2 background with #ef4444 text */
 @media (prefers-color-scheme: dark) {
 	:root:not([data-theme="light"]) .vibe-like-btn.liked {
 		background:   #450a0a;
@@ -83,7 +83,7 @@
 	stroke: #f87171;
 }
 
-/* Reply link hover — was #eff6ff (bright blue tint) */
+/* Reply link hover  -  was #eff6ff (bright blue tint) */
 @media (prefers-color-scheme: dark) {
 	:root:not([data-theme="light"]) .vibe-comment-footer .comment-reply-link:hover,
 	:root:not([data-theme="light"]) .vibe-reply-trigger:hover {
@@ -95,7 +95,7 @@
 	background: #1e3a5f;
 }
 
-/* Google OAuth button — was white background, dark text */
+/* Google OAuth button  -  was white background, dark text */
 @media (prefers-color-scheme: dark) {
 	:root:not([data-theme="light"]) .vibe-btn-google {
 		background:   #1e293b;
@@ -113,7 +113,7 @@
 }
 [data-theme="dark"] .vibe-btn-google:hover { background: #334155; }
 
-/* Cancel button hover — was #fee2e2 */
+/* Cancel button hover  -  was #fee2e2 */
 @media (prefers-color-scheme: dark) {
 	:root:not([data-theme="light"]) .vibe-btn-cancel:hover {
 		background:   #450a0a;
@@ -131,7 +131,7 @@
    Ported from gwill-tech-theme's proven coverage (2026-08-22 audit
    findings #2/#3): the plugin ships LIGHT-ONLY colors for pin-btn hover,
    error/success notices, the character counter, and the new-comment
-   banner — unreadable blobs on dark surfaces. Dark variants use neutral
+   banner  -  unreadable blobs on dark surfaces. Dark variants use neutral
    slate/red/green pairs (starter is brand-neutral by design; child
    themes re-token via their own override files). */
 @media (prefers-color-scheme: dark) {

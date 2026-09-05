@@ -3,7 +3,7 @@
  * Template Part: Related Posts
  *
  * Compact grid (thumbnail + title only) shown after the article on
- * single.php. Deliberately leaner than template-parts/content.php's card —
+ * single.php. Deliberately leaner than template-parts/content.php's card  - 
  * a related-posts grid wants quick visual scanning, not the full
  * excerpt+meta treatment a main listing page needs.
  *

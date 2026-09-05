@@ -1,10 +1,10 @@
 /**
- * Nav accordion — GWill Starter (v1.7.0).
+ * Nav accordion  -  GWill Starter (v1.7.0).
  *
  * Ported from gwill-tech-theme assets/js/main.js (the .mno-caret
  * accordion section, live-proven on the tech site), adapted: the
  * starter renders ONE menu (#primary-menu) for both breakpoints, so
- * the toggle is gated to mobile viewports — on desktop the sub-menus
+ * the toggle is gated to mobile viewports  -  on desktop the sub-menus
  * are hover/focus dropdowns (CSS) and the caret chip is hidden.
  *
  * The .mno-caret <button> is emitted by inc/nav-walker.php for every
@@ -29,7 +29,7 @@ Table of Contents
 	// ── 1. isMobileViewport ───────────────────────────────
 	// Mirrors the CSS breakpoint where the mobile menu takes over
 	// (style.css @media (max-width: 767px) shows the toggle and the
-	// accordion behaviour — keep the two in sync).
+	// accordion behaviour  -  keep the two in sync).
 	function isMobileViewport() {
 		return window.matchMedia( '(max-width: 767px)' ).matches;
 	}

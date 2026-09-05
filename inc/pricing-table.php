@@ -4,7 +4,7 @@
  *
  * Deliberately NOT a custom post type, unlike testimonials. A pricing
  * lineup (Starter/Pro/Enterprise) is a small, tightly-coupled set that
- * changes rarely and is normally hand-built once per client project —
+ * changes rarely and is normally hand-built once per client project  - 
  * it doesn't gain anything from being individually manageable WP_Post
  * objects in wp-admin the way testimonials (naturally many, independently
  * added over time by different people) genuinely do. The API here is a
@@ -12,7 +12,7 @@
  * developer would naturally hardcode three or four plans directly in
  * whatever page template they're building for a given client.
  *
- * No shortcode wrapper either, also deliberately — unlike the testimonials
+ * No shortcode wrapper either, also deliberately  -  unlike the testimonials
  * and newsletter features. A shortcode's flat string attributes have no
  * sane way to carry nested per-plan feature lists without resorting to
  * JSON crammed into an HTML attribute, which is more awkward to hand-write
@@ -29,7 +29,7 @@ defined( 'ABSPATH' ) || exit;
  * Render a pricing table.
  *
  * Every key in a plan is optional and nothing here throws on a missing
- * one — a blank heading or an absent price just renders blank. This is
+ * one  -  a blank heading or an absent price just renders blank. This is
  * developer-supplied data hardcoded into a template, not visitor input
  * that needs strict validation; the burden here is output escaping
  * (handled in the template part), not input validation.

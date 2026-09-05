@@ -1,11 +1,11 @@
 /**
- * GWill Starter — assets/js/main.js
+ * GWill Starter  -  assets/js/main.js
  *
- * PRE-BUILT FILE — do not edit directly.
+ * PRE-BUILT FILE  -  do not edit directly.
  * Source: src/main.js  |  Build: npm run build
  *
  * Committed as a pre-built file so the theme works without a build step.
- * Enqueued by inc/enqueue.php with strategy: 'defer' — the DOM is fully
+ * Enqueued by inc/enqueue.php with strategy: 'defer'  -  the DOM is fully
  * parsed before this runs; no DOMContentLoaded wrapper is needed.
  */
 
@@ -20,10 +20,10 @@
   //   <ul id="primary-menu">  (wp_nav_menu with 'menu_id' => 'primary-menu')
   //
   // CSS contract (style.css):
-  //   .nav-toggle           — hidden on desktop, shown on mobile (display:flex)
-  //   .nav-toggle.is-active — button visual active state (bars morph to ×)
-  //   #primary-menu         — hidden on mobile by default
-  //   #primary-menu.is-open — revealed when toggle is activated
+  //   .nav-toggle            -  hidden on desktop, shown on mobile (display:flex)
+  //   .nav-toggle.is-active  -  button visual active state (bars morph to ×)
+  //   #primary-menu          -  hidden on mobile by default
+  //   #primary-menu.is-open  -  revealed when toggle is activated
   // -------------------------------------------------------------------------
 
   const btn  = document.querySelector( '.nav-toggle' );
@@ -38,7 +38,7 @@
       btn.classList.toggle( 'is-active', ! expanded );
     } );
 
-    // Close on Escape — return focus to the toggle button
+    // Close on Escape  -  return focus to the toggle button
     document.addEventListener( 'keydown', function ( e ) {
       if ( e.key === 'Escape' && btn.getAttribute( 'aria-expanded' ) === 'true' ) {
         btn.setAttribute( 'aria-expanded', 'false' );
@@ -62,7 +62,7 @@
       }
     } );
 
-    // Close on outside click/tap — focusin alone is not enough on touch:
+    // Close on outside click/tap  -  focusin alone is not enough on touch:
     // tapping a non-focusable element (page content, scrollbar margin) does
     // not move focus, so the dropdown would stay open after the user taps
     // away. (Responsive audit v1.3.2.)
@@ -84,7 +84,7 @@
 } )();
 
 
-// ── Share — "More" button ─────────────────────────────────────────────────────
+// ── Share  -  "More" button ─────────────────────────────────────────────────────
 // Triggers navigator.share() (system share sheet on Android / iOS / modern
 // desktop). Falls back to Clipboard API on browsers without Web Share API,
 // with brief "Copied!" label feedback.
@@ -106,7 +106,7 @@
         return;
       }
 
-      // Clipboard fallback — desktop browsers without Web Share API.
+      // Clipboard fallback  -  desktop browsers without Web Share API.
       if ( navigator.clipboard && navigator.clipboard.writeText ) {
         navigator.clipboard.writeText( url ).then( function () {
           if ( label ) {
@@ -116,7 +116,7 @@
         } ).catch( function () {} );
       } else if ( document.execCommand ) {
         // Legacy copy fallback (older Safari/Firefox without the async
-        // Clipboard API) — cross-browser audit v1.3.4.
+        // Clipboard API)  -  cross-browser audit v1.3.4.
         var ta = document.createElement( 'textarea' );
         ta.value = url;
         ta.setAttribute( 'readonly', '' );
@@ -130,7 +130,7 @@
             label.textContent = 'Copied!';
             setTimeout( function () { label.textContent = 'More'; }, 2000 );
           }
-        } catch ( e ) { /* clipboard blocked — nothing else to do */ }
+        } catch ( e ) { /* clipboard blocked  -  nothing else to do */ }
         document.body.removeChild( ta );
       }
     } );
