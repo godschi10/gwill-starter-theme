@@ -37,13 +37,13 @@
 			 * Footer credit - filterable for client builds.
 			 *
 			 * To remove: add_filter( 'gwill_footer_credit', '__return_empty_string' );
-			 * To replace: add_filter( 'gwill_footer_credit', fn() => ' &mdash; Built by <a href="https://example.com">Studio Name</a>' );
+			 * To replace: add_filter( 'gwill_footer_credit', fn() => ' - Built by <a href="https://example.com">Studio Name</a>' );
 			 *
 			 * Replace or remove for every client site before launch.
 			 */
 			$credit = apply_filters(
 				'gwill_footer_credit',
-				' &mdash; Built by <a href="https://gwillchijioke.com" target="_blank" rel="noopener noreferrer">G-will Chijioke</a>'
+				' - Built by <a href="https://gwillchijioke.com" target="_blank" rel="noopener noreferrer">G-will Chijioke</a>'
 			);
 			?>
 

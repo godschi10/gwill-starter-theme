@@ -37,7 +37,7 @@ while ( have_posts() ) : the_post();
 				</a>
 			</span>
 		</span>
-		&mdash;
+		-
 		<time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>" itemprop="datePublished">
 			<?php echo esc_html( get_the_date() ); ?>
 		</time>

@@ -1,3 +1,9 @@
+## [1.10.26] - 2026-09-06
+
+### Entity-dash cleanup (closure sweep v3)
+
+- single.php article-meta &mdash; and footer credit &mdash; (docblock example + live string) converted to house hyphens (code scope, entity-scan class).
+
 ## [1.10.25] - 2026-09-05
 
 ### Review-repair round
