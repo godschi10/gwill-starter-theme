@@ -299,7 +299,7 @@
   WordPress `_doing_it_wrong` "dependencies not registered" notices on
   every non-rendering page and shipped the sheet as dead weight. Now gated:
   `class_exists('Vibe_Comments_Template_Loader') && should_render()`.
-- **Dark-state coverage ported** (`assets/css/darkmode-vibe-comments.css`)  - 
+- **Dark-state coverage ported** (`assets/css/darkmode-vibe-comments.css`) -
   the plugin hardcodes LIGHT-ONLY pastels for pin-btn hover
   (#fef3c7/#fde68a/#b45309), error/success notices (#fee2e2/#991b1b,
   #dcfce7/#166534), the character counter, and the new-comment banner.
@@ -388,7 +388,7 @@ extracted verbatim from proven files, zero hand-typed paths.
   `aria-hidden` + `focusable="false"`. `gwill_icons` filter for
   adding/overriding.
 - `inc/feed.php` - cross-site feed: transient-cached REST pull
-  (10-minute fresh window, 12-hour stale ceiling) with all four paths  - 
+  (10-minute fresh window, 12-hour stale ceiling) with all four paths -
   fresh-cache, stale-fallback (remote down → serve the expired copy,
   never a fatal), fetch-and-cache, expired-refresh. Sources via
   `gwill_feed_sources`; zero hardcoded URLs in the base.
@@ -542,7 +542,7 @@ The King's five - all five roadmap-candidate features shipped as one batch, per 
 - **Law L11** in `docs/LAWS.md` + launch checklist item 11: Android WebAPK
   install moves the notification permission to the installed APP - verify
   the app-level toggle, never Chrome's site settings (finance Aug 27 incident).
-- `categories` manifest field (filterable via `gwill_pwa_categories`)  - 
+- `categories` manifest field (filterable via `gwill_pwa_categories`) -
   finance-parity, defaults `['news', 'productivity']`.
 
 ### Fixed

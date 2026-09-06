@@ -39,7 +39,7 @@
         `// ... ;` blocks). All multi-line comments are prose/design notes.
 [CLEAN] console.log / var_dump / print_r / debug_backtrace - zero in runtime
         code. The only debug_* hits are WordPress's own wp_die() in
-        template-contact-demo.php:32 (the "Access Restricted" permission guard  - 
+        template-contact-demo.php:32 (the "Access Restricted" permission guard -
         a legitimate template feature, not debug residue).
 [CLEAN] error_log - 5 sites, all legitimate production logging of genuine
         failures (no sensitive data, no PII):

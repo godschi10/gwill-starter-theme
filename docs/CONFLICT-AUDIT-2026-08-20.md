@@ -134,7 +134,7 @@ Every finding uses the required format. Sections with nothing to flag are marked
         input/button chrome resets (border/outline/box-shadow/tap-highlight
         removed) - isolated to .gwill-search-* selectors. No plugin targets
         these selectors; no !important is used to fight another stylesheet.
-        woocommerce.css and darkmode-vibe-comments.css carry ZERO !important  - 
+        woocommerce.css and darkmode-vibe-comments.css carry ZERO !important -
         the theme-vs-plugin override layers use design-token specificity, not
         brute force.
 ```
@@ -410,7 +410,7 @@ Every finding uses the required format. Sections with nothing to flag are marked
 
 ## SECTION 7: DIAGNOSTIC PROTOCOL
 
-1. **Isolation (binary search):** on any future build from this starter  - 
+1. **Isolation (binary search):** on any future build from this starter -
    `wp plugin deactivate <candidate>` → test → re-activate, one by one. Isolate
    the theme by activating twentytwentyfour on a STAGING clone, never live.
 2. **Theme-vs-plugin vs plugin-vs-plugin direction:** if the fault persists

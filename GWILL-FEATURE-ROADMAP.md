@@ -128,7 +128,7 @@ tests (both render paths, all three providers) rather than rebuilt.
 
 Plugin guard 3.5.6→3.6.3; darkmode-vibe enqueue now gated on the plugin's
 own `should_render()` (kills _doing_it_wrong dep notices + dead CSS);
-dark-state coverage ported (pin hover, error/success, counter, banner  - 
+dark-state coverage ported (pin hover, error/success, counter, banner -
 both selector systems).
 
 ## v1.9.0 - the candidate pool (all seven, per royal order)

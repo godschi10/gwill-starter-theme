@@ -16,7 +16,7 @@
 [CLEAN] Caching layer - the theme is caching-layer-agnostic: transients flow
         through any object cache (Redis/Memcached) or degrade to MySQL. The
         sitemap, search index, and Cloudflare IP ranges are all transient-
-        cached (DAY_IN_SECONDS). No assumptions about page cache  - 
+        cached (DAY_IN_SECONDS). No assumptions about page cache -
         server-level nginx page cache is expected.
 [CLEAN] Cron - no cron jobs or scheduled events that hammer the DB on page
         load. The sitemap invalidates on save_post (transient delete) - no
@@ -131,7 +131,7 @@
         is gwill_get_primary_category, memoized). The featured image video
         meta box (_gwill_video_url) is read once per singular page.
 [CLEAN] Autoloaded options - the theme creates only one option:
-        gwill_rewrite_ver (version-keyed rewrite flush, autoload? not set  - 
+        gwill_rewrite_ver (version-keyed rewrite flush, autoload? not set -
         so non-autoloaded by default). No bloat.
 ```
 
@@ -177,7 +177,7 @@
       server should have compression enabled for CSS/JS/HTML.
 [N/A] HTTP/2 - server-level. The theme does not block it.
 [CLEAN] PHP version - the theme uses PHP 8.0+ syntax (typed properties,
-        union types, match expressions, named arguments in WP_Query?  - 
+        union types, match expressions, named arguments in WP_Query? -
         checked: WP_Query uses array syntax, not named args). Compatible
         with PHP 8.0-8.4. The style.css header declares no minimum
         (defaults to WP core's minimum).

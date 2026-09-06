@@ -49,7 +49,7 @@
 
 ```
 [CLEAN] Keyboard reachable - all interactive elements are native <button>,
-        <a href>, <input>, <select>, <textarea>, <details>/<summary>  - 
+        <a href>, <input>, <select>, <textarea>, <details>/<summary> -
         keyboard-accessible by default. ✓
 [CLEAN] :focus:not(:focus-visible) - the correct modern pattern (style.css:153):
         outline removed only for mouse clicks, kept for keyboard users. ✓

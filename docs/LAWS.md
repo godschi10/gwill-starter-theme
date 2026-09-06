@@ -134,7 +134,7 @@ must FIRST check a persistent user-opt-out flag (localStorage) that the
 explicit "off" action sets and an explicit "on" clears.
 
 **Incident.** Finance v1.2.3: the init self-heal saw `permission === 'granted'`
-+ no subscription and silently re-subscribed on EVERY page load  - 
++ no subscription and silently re-subscribed on EVERY page load -
 unsubscribing keeps permission `granted`, so "Turn off" was unenforceable:
 refresh the page and it was back.
 
@@ -151,7 +151,7 @@ refresh the page and it was back.
 never parsed. v1.0.255: repo bumped, live not → the version-keyed rewrite flush
 never fired and browsers kept old asset URLs.
 
-**Verify.** After deploy, the page HTML must reference the new `?ver=`  - 
+**Verify.** After deploy, the page HTML must reference the new `?ver=` -
 fetched from a PLAIN URL (see L9).
 
 ---
