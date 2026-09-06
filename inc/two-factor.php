@@ -293,7 +293,7 @@ add_action( 'login_head', 'gwill_2fa_login_css' );
  * in a 10-minute transient so it can be shown exactly ONCE.
  *
  * The digests are hashed over the NORMALIZED form (uppercase, no dashes)
- * so gwill_2fa_consume_backup_code() - which normalizes before hashing  - 
+ * so gwill_2fa_consume_backup_code() - which normalizes before hashing -
  * always matches, whether the user types the pretty dashes or not.
  *
  * @param int $user_id User ID.

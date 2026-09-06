@@ -142,7 +142,7 @@
 				// IMPORTANT: do NOT gate on res.ok here. gwill_handle_contact_form()
 				// deliberately uses wp_send_json_error( $data, $status_code ) with a
 				// non-2xx status (403 for a failed nonce check, 429 for rate-limiting)
-				// while STILL sending a valid, specific, already-correct JSON body  - 
+				// while STILL sending a valid, specific, already-correct JSON body -
 				// e.g. { success: false, data: { message: "Please wait a few minutes
 				// before sending another message." } }. An earlier version of this
 				// file threw on any non-2xx status before ever reading that body,

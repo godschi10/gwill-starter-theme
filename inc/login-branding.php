@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  *     replaces the WordPress logo; sites without a logo get a clean
  *     wordmark of the site title instead.
  *   - The logo links to home_url() (not wordpress.org) and announces
- *     the site name (login_headerurl / login_headertitle filters  - 
+ *     the site name (login_headerurl / login_headertitle filters -
  *     the two documented, stable core hooks).
  *   - The submit button and focus ring take the theme's accent token,
  *     so the login page reads as the brand without shipping a full

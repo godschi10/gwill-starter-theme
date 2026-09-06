@@ -143,7 +143,7 @@ function gwill_youtube_id( string $url ): string {
  * Detect whether a major SEO plugin is active.
  *
  * Used as a guard before outputting anything this theme would otherwise
- * generate itself - Open Graph / Twitter Card meta tags, for instance  - 
+ * generate itself - Open Graph / Twitter Card meta tags, for instance -
  * since every one of these plugins already outputs its own equivalent, and
  * outputting both would create duplicate, conflicting meta tags in <head>.
  *
@@ -252,7 +252,7 @@ function gwill_get_primary_category( int $post_id = 0 ): ?WP_Term {
 	}
 
 	// Deepest (most specific) assigned category, by ancestor count. Ties
-	// keep whichever get_the_category() returned first (alphabetical)  - 
+	// keep whichever get_the_category() returned first (alphabetical) -
 	// a minor, accepted edge case, not worth a tie-breaker for.
 	$deepest = $cats[0];
 	foreach ( $cats as $cat ) {

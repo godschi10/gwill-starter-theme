@@ -550,7 +550,7 @@ Table of Contents
 					p256dh: keys.p256dh,
 					auth: keys.auth
 				} ).then( function () {
-					// An explicit subscribe clears the opt-out flag  - 
+					// An explicit subscribe clears the opt-out flag -
 					// the user has chosen back in (L7).
 					markOptOut( false );
 					setState( SUBSCRIBED );

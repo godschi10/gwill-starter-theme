@@ -30,7 +30,7 @@ defined( 'ABSPATH' ) || exit;
  * INTERPLAY - comment-reply is intentionally NOT deregistered here.
  * enqueue.php loads it only on singular posts with open threaded
  * comments (the WP-native condition). Deregistering here while
- * enqueue.php enqueues it was a deadlock on the portfolio source  - 
+ * enqueue.php enqueues it was a deadlock on the portfolio source -
  * threaded reply links never worked. Single path: enqueue.php.
  *
  * INTERPLAY - dashicons is dequeued only for non-logged-in visitors.

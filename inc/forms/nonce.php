@@ -72,7 +72,7 @@ function gwill_ajax_get_nonce(): void {
 	// notice, a deprecation warning from an unrelated plugin hooked earlier
 	// in the request lifecycle, even accidental leading whitespace from a
 	// template file with a stray blank line before "<?php") before sending
-	// JSON. Without this, such output prepends to the response body  - 
+	// JSON. Without this, such output prepends to the response body -
 	// fetch().json() then throws a SyntaxError on an otherwise-200 response,
 	// which previously surfaced to the user as an indistinguishable
 	// "Network error" with no way to tell it apart from a real connectivity
@@ -81,7 +81,7 @@ function gwill_ajax_get_nonce(): void {
 	if ( ob_get_level() > 0 ) {
 		ob_clean();
 	}
-	// wp_send_json() outputs the array directly - no success/data wrapper  - 
+	// wp_send_json() outputs the array directly - no success/data wrapper -
 	// matching the REST endpoint's { "nonce": "..." } shape.
 	wp_send_json( [ 'nonce' => wp_create_nonce( 'gwill_contact_form' ) ] );
 }
@@ -93,7 +93,7 @@ function gwill_ajax_get_nonce(): void {
  * Root cause: WordPress's rest_cookie_check_errors (priority 100 on the
  * rest_authentication_errors filter) returns WP_Error('rest_cookie_invalid_nonce')
  * when auth cookies are present but no X-WP-Nonce header is supplied. This
- * causes a 403 for every logged-in user who hits the nonce endpoint from JS  - 
+ * causes a 403 for every logged-in user who hits the nonce endpoint from JS -
  * the fetch() rejects, the catch() fires, and "Network error" is shown.
  *
  * Incognito / anonymous users are unaffected because they have no auth cookies,

@@ -88,7 +88,7 @@ function gwill_social_meta_url(): string {
 
 	if ( is_category() || is_tag() || is_tax() ) {
 		$link = get_term_link( get_queried_object() );
-		// get_term_link() can return WP_Error, which has no __toString()  - 
+		// get_term_link() can return WP_Error, which has no __toString() -
 		// casting it directly would fatal ("Object ... could not be
 		// converted to string"), not just produce a wrong URL.
 		return is_wp_error( $link ) ? home_url( '/' ) : $link;

@@ -70,7 +70,7 @@ function gwill_form_honeypot_triggered(): bool {
  * that don't come from Cloudflare. On typical shared cPanel hosting, the
  * origin is usually reachable directly via its own IP unless that firewall
  * rule is explicitly configured. If it isn't, a request straight to the
- * origin lets an attacker set ANY value they want for these headers  - 
+ * origin lets an attacker set ANY value they want for these headers -
  * including a fresh, unique fake IP on every single request, which
  * completely defeats gwill_form_rate_limited()'s per-IP cooldown and
  * reopens the form to unlimited rapid-fire spam.

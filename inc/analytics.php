@@ -358,7 +358,7 @@ function gwill_analytics_pattern_chart_svg( array $patterns ): string {
 
 /**
  * Tools → "Forms & Newsletter". A Tools submenu (not a top-level menu) on
- * purpose: an analytics view is an occasional, site-owner-only screen  - 
+ * purpose: an analytics view is an occasional, site-owner-only screen -
  * it must not take a slot in the admin sidebar that content editors see.
  *
  * @since 1.5.0

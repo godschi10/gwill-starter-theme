@@ -5,7 +5,7 @@
  * tokens per the lean-migration rule: every finance color (gold/dark
  * luxury) is re-mapped to the theme's --color-* system, so dark mode
  * inverts for free via darkmode.css and a fresh build re-skins by changing
- * tokens only. No finance selectors, no --gold/--surface/--font-mono  - 
+ * tokens only. No finance selectors, no --gold/--surface/--font-mono -
  * only tokens defined in style.css / darkmode.css.
  *
  * Load: enqueued by inc/webpush.php together with push.js.

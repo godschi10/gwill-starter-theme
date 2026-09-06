@@ -6,7 +6,7 @@
  * list via gwill_brevo_add_contact() - see inc/forms.php. Does not email
  * anyone; there's no "message" for a list subscription. Requires
  * GWILL_BREVO_API_KEY and GWILL_BREVO_LIST_ID to be defined in
- * wp-config.php (see the config block at the top of inc/forms.php)  - 
+ * wp-config.php (see the config block at the top of inc/forms.php) -
  * without them, submission fails gracefully with a translated error
  * rather than a fatal.
  *

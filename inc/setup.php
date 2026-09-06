@@ -185,7 +185,7 @@ function gwill_save_video_meta_box( int $post_id ): void {
 	// control, the nonce is CSRF protection on top of it. In practice this
 	// exact callback is hooked to save_post, which WordPress core never
 	// fires for a given post unless it has already verified the current
-	// user's edit_post capability for that post earlier in admin/post.php  - 
+	// user's edit_post capability for that post earlier in admin/post.php -
 	// so the specific "valid nonce, no capability" scenario isn't actually
 	// reachable here. Reordering costs nothing and removes any doubt.
 	if ( ! current_user_can( 'edit_post', $post_id ) ) {

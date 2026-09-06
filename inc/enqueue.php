@@ -135,7 +135,7 @@ add_action( 'wp_enqueue_scripts', function () {
 			// forms.js checks this first and skips the network round-trip to
 			// nonceUrl entirely when it's present. Anonymous visitors get '' here
 			// deliberately: their pages CAN be cached for hours, so baking a
-			// nonce into that HTML would go stale long before the cache expires  - 
+			// nonce into that HTML would go stale long before the cache expires -
 			// exactly the failure mode the separate nonceUrl fetch exists to avoid.
 			'nonce'    => is_user_logged_in() ? wp_create_nonce( 'gwill_contact_form' ) : '',
 			// Nonce endpoint - switched from REST API to admin-ajax.php in v1.0.46.
@@ -160,7 +160,7 @@ add_action( 'wp_enqueue_scripts', function () {
 
 	// i18n strings for step counter ("Step 1 of 3") and required-field
 	// validation ("Email is required."). Data is attached to the registered
-	// handle and only output by WP when the handle is actually enqueued  - 
+	// handle and only output by WP when the handle is actually enqueued -
 	// no wasted bytes on pages without the multistep form.
 	wp_localize_script(
 		'gwill-forms-multistep',

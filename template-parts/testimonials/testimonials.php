@@ -67,7 +67,7 @@ if ( 'carousel' === $mode ) {
 				<div class="gwill-testimonial-card__byline">
 					<?php if ( has_post_thumbnail( $testimonial ) ) : ?>
 						<?php
-						// 'alt' is passed RAW on purpose, not esc_attr()'d here  - 
+						// 'alt' is passed RAW on purpose, not esc_attr()'d here -
 						// get_the_post_thumbnail() escapes its whole $attr array
 						// internally via wp_get_attachment_image(). Pre-escaping
 						// it ourselves would double-escape any title containing

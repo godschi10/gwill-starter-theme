@@ -4,7 +4,7 @@ Theme URI:   https://gwillchijioke.com
 Author:      G-will Chijioke
 Author URI:  https://gwillchijioke.com
 Description: A clean, custom WordPress starter theme built from scratch. No parent theme dependency.
-Version:     1.10.27
+Version:     1.10.28
 Requires at least: 6.4
 Requires PHP:     8.0
 License:     GNU General Public License v2 or later
@@ -979,7 +979,7 @@ select:focus {
   flex-shrink: 0;
 }
 
-/* .fn wraps the author name; only linked when the commenter set a URL  - 
+/* .fn wraps the author name; only linked when the commenter set a URL -
    styled on both .fn and .fn a so an unlinked name still gets full-weight
    text colour instead of inheriting the muted .comment-meta colour above. */
 .comment-author .fn,
@@ -2084,7 +2084,7 @@ select:focus {
   }
 
   /* When the sticky-header Customizer toggle is also on, its own
-     (variable-height) bar competes for the same top-of-viewport space  - 
+     (variable-height) bar competes for the same top-of-viewport space -
      push the ToC's stuck position down by an approximate header height
      in addition to the staging banner's, rather than letting the header
      visually overlap the top of the sticky ToC box once both are stuck
@@ -2093,7 +2093,7 @@ select:focus {
     top: calc(5.5rem + var(--gwill-staging-banner-height, 0px));
   }
 
-  /* Force visible regardless of the [open] attribute's actual state  - 
+  /* Force visible regardless of the [open] attribute's actual state -
      "sticky" implies "always shown while scrolling," which contradicts
      also being collapsible, so desktop deliberately drops the collapse
      interaction entirely rather than offering a sticky box the visitor
@@ -2387,7 +2387,7 @@ select:focus {
   scroll-snap-type: x mandatory;
   scroll-padding-inline: 1rem;
   -webkit-overflow-scrolling: touch;
-  /* Scrollbar stays visible but unobtrusive rather than hidden entirely  - 
+  /* Scrollbar stays visible but unobtrusive rather than hidden entirely -
      hiding it outright removes a real affordance for mouse users with no
      touchpad and no patience for shift+wheel. */
   scrollbar-width: thin;

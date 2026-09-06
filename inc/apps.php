@@ -18,7 +18,7 @@ Table of Contents
  * Custom Apps skeleton - the /apps/ pattern.
  *
  * The idea ported from the tech + finance themes' /tools/ clusters, made
- * generic for the starter. A build registers its apps in ONE place  - 
+ * generic for the starter. A build registers its apps in ONE place -
  * gwill_apps_registry() - and gets, for each app:
  *
  *   - a real page at /apps/<slug>/ (rewrite + query var + canonical guard,
@@ -33,7 +33,7 @@ Table of Contents
  * Apps are pure client-side by default (works offline once the SW caches
  * them); an app that needs a server engine adds an inc file and hooks in.
  *
- * Demo app shipped: "word-counter" (assets/js/apps/word-counter.js)  - 
+ * Demo app shipped: "word-counter" (assets/js/apps/word-counter.js) -
  * a complete working example of the pattern, deletable without touching
  * anything else.
  *

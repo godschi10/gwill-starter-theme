@@ -9,7 +9,7 @@
 			/*
 			 * Only render the nav when a footer menu has actually been assigned.
 			 * fallback_cb => false prevents a page dump, but wp_nav_menu() still
-			 * outputs an empty string (and returns false) when no menu is set  - 
+			 * outputs an empty string (and returns false) when no menu is set -
 			 * leaving a ghost <nav> element with no content.
 			 */
 			if ( has_nav_menu( 'footer' ) ) :

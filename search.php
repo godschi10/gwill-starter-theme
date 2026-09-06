@@ -62,7 +62,7 @@ $search_query = get_search_query();
 
 			<?php
 			// Google-style term highlighting: <mark> the query words inside
-			// result titles (self-contained gwill_highlight_search_terms  - 
+			// result titles (self-contained gwill_highlight_search_terms -
 			// core wp_highlight_search_terms doesn't exist in WP 7.x).
 			if ( function_exists( 'gwill_highlight_search_terms' ) ) {
 				add_filter( 'the_title', 'gwill_highlight_search_terms' );

@@ -41,7 +41,7 @@ add_shortcode( 'gwill_portfolio', 'gwill_portfolio_shortcode' );
  *
  * The taxonomy exists because "filter by service type" (Branding / Web
  * Design / Development, etc.) is close to a baseline expectation for an
- * agency/freelancer portfolio, not a nice-to-have bolted on afterward  - 
+ * agency/freelancer portfolio, not a nice-to-have bolted on afterward -
  * hierarchical to allow a parent/child structure if a project wants one
  * (e.g. "Design" > "Branding"), but works perfectly flat too if a project
  * never adds a child term.

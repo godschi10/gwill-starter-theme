@@ -424,7 +424,7 @@ function gwill_search_mining_stopwords(): array {
 }
 
 /**
- * "Eventually what real people are searching for" (King, v1.16.92)  - 
+ * "Eventually what real people are searching for" (King, v1.16.92) -
  * anonymous search-query log, stored in the EXISTING FTS SQLite index
  * file (wp-content/uploads/gwill-search/index.sqlite): one tiny deduped
  * table (query → count + last_seen), capped at 500 rows and pruned to
@@ -616,7 +616,7 @@ function gwill_search_similarity( string $a, string $b ): float {
 	$exact_hit = false;
 	foreach ( $at as $qt ) {
 		// v1.16.95 (King: "a direct question should also show results"):
-		// function words are skipped ENTIRELY - not just when unmatched  - 
+		// function words are skipped ENTIRELY - not just when unmatched -
 		// so "my" can never earn the exact-word OR bonus off "How I Cut My
 		// Android…". A question like "why is my website slow" scores on its
 		// real tokens only.
@@ -738,7 +738,7 @@ function gwill_search_suggest( string $term, int $limit = 3 ): array {
 	$threshold  = (float) apply_filters( 'gwill_search_suggest_threshold', 0.45 );
 
 	// Settings pages (ACF pages in the tech theme; filterable here) must
-	// never be suggested. The starter ships no settings pages by default  - 
+	// never be suggested. The starter ships no settings pages by default -
 	// child themes add slugs via the filter.
 	$settings_slugs = apply_filters( 'gwill_search_suggest_excluded_slugs', [] );
 	$exclude = [];
@@ -833,7 +833,7 @@ function gwill_search_suggest( string $term, int $limit = 3 ): array {
  * fallback (King, v1.16.95). When FTS5's strict AND-prefix match returns
  * nothing ("docker ubntu", "what is android private space"), this scores
  * every searchable title with the SAME similarity engine that powers
- * "Did you mean?" and returns the best post IDs as real RESULT CARDS  - 
+ * "Did you mean?" and returns the best post IDs as real RESULT CARDS -
  * Google shows corrected results, not just a suggestion word.
  *
  * Same portability design as gwill_search_suggest(): reads titles through
@@ -947,7 +947,7 @@ function gwill_search_fuzzy_match_ids( string $term, int $limit = 200 ): array {
  *   1. Only CONTIGUOUS significant runs are phrases ("object caching",
  *      "sentinel cluster") - never sliding-window fragments ("caching
  *      cheap", "cluster choosing").
- *   2. Single-word runs are never suggested alone (too fragmentary)  - 
+ *   2. Single-word runs are never suggested alone (too fragmentary) -
  *      except as a fallback anchored to the query ("docker compose").
  *   3. Query-anchored phrases ("redis object caching") are emitted ONLY
  *      when the result title actually contains the query token - a
@@ -1031,7 +1031,7 @@ function gwill_search_related_terms( array $posts, string $query, int $limit = 4
 		}
 	}
 
-	// v1.16.92 (King): REAL people's searches win once enough data exists  - 
+	// v1.16.92 (King): REAL people's searches win once enough data exists -
 	// title-derived phrases only fill the remaining slots (cold start).
 	$real = gwill_search_real_related( $query, $limit );
 	if ( count( $real ) >= max( 1, (int) $limit ) ) {

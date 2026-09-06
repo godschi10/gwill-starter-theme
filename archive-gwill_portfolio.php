@@ -3,7 +3,7 @@
  * Portfolio Archive - gwill_portfolio CPT + gwill_portfolio_type taxonomy.
  *
  * The dedicated archive template the roadmap always intended (README
- * v1.0.63 recorded its absence as deliberate "within stated scope"  - 
+ * v1.0.63 recorded its absence as deliberate "within stated scope" -
  * v1.5.0 ships it for real). Renders the SAME grid card as
  * template-parts/portfolio/portfolio.php, but from the native archive
  * query - plus type-filter pills (the starter's pill-dialect used by

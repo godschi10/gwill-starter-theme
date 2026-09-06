@@ -5,7 +5,7 @@
  * Serves ONE compact JSON payload of every published post (id, title,
  * url, excerpt, category, date) at /wp-json/gwill/v1/search-index.
  * search-dropdown.js downloads it once per session, then does ALL
- * matching CLIENT-SIDE (typo-tolerant, title-weighted, highlighted)  - 
+ * matching CLIENT-SIDE (typo-tolerant, title-weighted, highlighted) -
  * zero network per keystroke, zero server load per keystroke, no plugin.
  *
  * The payload is plain TEXT only (no markup, no admin data) - the same

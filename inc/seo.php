@@ -186,7 +186,7 @@ function gwill_meta_description(): void {
 		);
 	}
 
-	// Template-specific one-liners before the global tagline fallback  - 
+	// Template-specific one-liners before the global tagline fallback -
 	// these pages render with empty post content, so their derived
 	// descriptions would otherwise all fall back to the site tagline
 	// (several pages sharing one boilerplate description). Copy is

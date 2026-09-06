@@ -26,7 +26,7 @@ Table of Contents
  *     (manage_options-gated, same trust boundary as tech's ACF).
  *
  * Placements: leaderboard | in-content | sidebar | sticky | menu |
- * before-footer (before-footer inherits leaderboard code when empty  - 
+ * before-footer (before-footer inherits leaderboard code when empty -
  * the tech fallback).
  *
  * DEVICE-AWARE SLOTS: each placement carries up to 3 codes; the slot

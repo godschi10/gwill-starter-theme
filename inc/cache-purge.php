@@ -77,7 +77,7 @@ function gwill_purge_local_fastcgi_cache() {
 	// unreadable (root-owned after nginx reloads, perms drift, SELinux, …).
 	// Wrap the walk in try/catch and skip unreadable subtrees.
 	// (Hit Aug 15 2026 on the source theme: save_post fatals when
-	// /var/run/nginx-cache/* dirs aren't traversable by the PHP user  - 
+	// /var/run/nginx-cache/* dirs aren't traversable by the PHP user -
 	// wp_update_post aborted mid-hook.)
 	try {
 		$it = new RecursiveIteratorIterator(

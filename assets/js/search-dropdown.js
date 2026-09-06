@@ -468,7 +468,7 @@
 	}
 
 	// X (original form button) = close ONLY, typed text preserved.
-	// v1.16.93 (King clarification): the OUTER x must NOT clear the text  - 
+	// v1.16.93 (King clarification): the OUTER x must NOT clear the text -
 	// it closes the search form; the inner x is the only text clearer.
 	function closeOnly() {
 		close();

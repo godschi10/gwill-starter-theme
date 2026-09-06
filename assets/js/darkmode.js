@@ -8,7 +8,7 @@
  * caused the toggle's click handler to not attach until first user
  * interaction on some mobile devices.
  *
- * inc/enqueue.php still registers the 'gwill-darkmode' handle (harmless  - 
+ * inc/enqueue.php still registers the 'gwill-darkmode' handle (harmless -
  * registering without enqueuing loads nothing) in case any site-specific
  * customisation calls wp_enqueue_script('gwill-darkmode') directly. If you
  * have such code, switch it to rely on the inline head script instead;

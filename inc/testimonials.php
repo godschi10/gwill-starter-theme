@@ -240,7 +240,7 @@ function gwill_testimonials_grid( array $args = [] ): void {
  * drop this into a regular post/page via the Shortcode block, rather than
  * a developer placing the template tag directly in a template file.
  *
- * Attribute names match gwill_testimonials_grid()'s array keys exactly  - 
+ * Attribute names match gwill_testimonials_grid()'s array keys exactly -
  * one set of names to remember, not two.
  *
  * @param  array<string,string>|string $atts Shortcode attributes.

@@ -35,7 +35,7 @@ add_filter( 'wp_robots', 'gwill_staging_noindex' );
 /**
  * Whether the current request is on a recognised staging domain.
  *
- * Checks the actual request host ($_SERVER['HTTP_HOST']), not home_url()  - 
+ * Checks the actual request host ($_SERVER['HTTP_HOST']), not home_url() -
  * home_url() reflects the *configured* site URL, which on some staging
  * setups is deliberately left pointing at the live domain (to avoid asset-
  * URL rewriting headaches) even while being accessed via a staging host.
@@ -87,7 +87,7 @@ function gwill_is_staging_environment(): bool {
 	 * Final override for the staging-environment determination.
 	 *
 	 * Escape hatch for a site whose staging clone genuinely doesn't match
-	 * any of the above (e.g. a full custom domain used only for staging)  - 
+	 * any of the above (e.g. a full custom domain used only for staging) -
 	 * a client-specific functions.php can force this true or false outright
 	 * without needing to touch the pattern list.
 	 *
@@ -98,7 +98,7 @@ function gwill_is_staging_environment(): bool {
 }
 
 /**
- * Echo the staging banner markup, right after <body>, on staging only  - 
+ * Echo the staging banner markup, right after <body>, on staging only -
  * and only when the Customizer toggle for it is on.
  *
  * Hooked to wp_body_open() rather than the top of header.php so it renders

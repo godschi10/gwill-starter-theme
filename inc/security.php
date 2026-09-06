@@ -63,7 +63,7 @@ add_filter( 'rest_endpoints', function ( $endpoints ) {
 //   define( 'GWILL_ALLOW_AUTHOR_ARCHIVES', false );
 //
 // If display name exposure at the /author/slug/ level is a concern, block
-// /author/* at the infrastructure layer (Cloudflare WAF, Nginx) instead  - 
+// /author/* at the infrastructure layer (Cloudflare WAF, Nginx) instead -
 // PHP can't stop a determined scraper that already has the slug.
 //
 // ─────────────────────────────────────────────────────────────────────────────

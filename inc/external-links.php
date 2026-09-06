@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  *   - rel="noreferrer"     - hides the Referer, so the destination never
  *                            learns the visitor's exact on-site URL.
  *
- * Scope: the_content only (post bodies). Feeds and admin are skipped  - 
+ * Scope: the_content only (post bodies). Feeds and admin are skipped -
  * feed readers must not receive _blank (it is meaningless in a reader
  * and some validators flag it), and the admin editor preview stays a
  * faithful rendering of the stored markup.

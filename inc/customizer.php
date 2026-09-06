@@ -244,7 +244,7 @@ function gwill_sanitize_checkbox( $value ): bool {
  * absint() - which silently zeroes out the setting if WP_Customize_Image_Control
  * ever sends back a URL string rather than a numeric attachment ID.
  * absint() calls intval() internally, and intval() on a string that
- * doesn't start with a digit (e.g. "https://example.com/...") returns 0  - 
+ * doesn't start with a digit (e.g. "https://example.com/...") returns 0 -
  * exactly matching the reported symptom of the image appearing to "vanish"
  * on every save/refresh, with no error of any kind to explain why.
  *

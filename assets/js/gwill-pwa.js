@@ -37,7 +37,7 @@ Table of Contents
 	var SW_URL = ( typeof window.GwillPwa !== 'undefined' && window.GwillPwa.swUrl ) || '/sw.js';
 
 	// ── 1. Register the service worker ─────────────────────────────
-	// Only on secure origins and where supported. Failures are silent  - 
+	// Only on secure origins and where supported. Failures are silent -
 	// the site works fully without the SW; it only adds offline/PWA.
 	if ( 'serviceWorker' in navigator && window.isSecureContext ) {
 		window.addEventListener( 'load', function () {

@@ -15,7 +15,7 @@
  * accordion: it's a fully accessible, keyboard-operable, zero-JS
  * collapse/expand primitive already built into the browser. Collapsed by
  * default everywhere; CSS forces it open and sticky past a wide-viewport
- * breakpoint only (see the "Table of Contents" section in style.css)  - 
+ * breakpoint only (see the "Table of Contents" section in style.css) -
  * this theme's single.php has no separate sidebar column, but
  * position: sticky on an element inside .entry-content still works
  * exactly as "sticky sidebar" implementations do, because it sticks
@@ -181,7 +181,7 @@ function gwill_render_toc_nav( array $items ): string {
 			continue;
 		}
 
-		// Either an H2, or an H3 with no preceding H2 to nest under  - 
+		// Either an H2, or an H3 with no preceding H2 to nest under -
 		// both need whatever top-level <li> was previously open closed
 		// first (sublist closes before the <li> containing it does).
 		if ( $sublist_open ) {

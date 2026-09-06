@@ -1,3 +1,10 @@
+## [1.10.28] - 2026-09-06
+
+### Review deleg_59ab8836 - dash geometry hole closed
+
+- R1: mid-line asymmetric double-space-hyphen was a grep-geometry hole (line-end-only scans never matched it). salary-tax-calculator tax-band labels now render "X - Y" (live, user-facing); dividend " - Custom  - " placeholder normalized to the house style.
+- R2: comment-layer line-end artifacts swept across php/js/css (final census: 0 everywhere).
+
 ## [1.10.27] - 2026-09-06
 
 ### Closure sweep v4 - dash-wrap artifacts

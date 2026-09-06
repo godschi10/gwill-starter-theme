@@ -4,7 +4,7 @@
  *
  * Deliberately NOT a custom post type, unlike testimonials. A pricing
  * lineup (Starter/Pro/Enterprise) is a small, tightly-coupled set that
- * changes rarely and is normally hand-built once per client project  - 
+ * changes rarely and is normally hand-built once per client project -
  * it doesn't gain anything from being individually manageable WP_Post
  * objects in wp-admin the way testimonials (naturally many, independently
  * added over time by different people) genuinely do. The API here is a
