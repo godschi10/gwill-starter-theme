@@ -23,7 +23,7 @@ checklist at its end before handing a site to a client.
 as `wp_hash()` digests, a per-user profile panel with pending→active pairing
 state machine (never a lockout window during re-pairing), admin force-disable
 on any user, a "2FA" column in the Users list, and a login rate limiter
-(5 failures / 15 min per IP, SHA-256-hashed keys) as the mandatory companion  - 
+(5 failures / 15 min per IP, SHA-256-hashed keys) as the mandatory companion -
 brute-forcing the 6-digit space is throttled by the same lockout because a
 failed 2FA code triggers `wp_login_failed`. The login screen's error
 obfuscation (`inc/security.php`) is 2FA-aware: generic errors stay collapsed,

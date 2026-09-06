@@ -1,3 +1,9 @@
+## [1.10.27] - 2026-09-06
+
+### Closure sweep v4 - dash-wrap artifacts
+
+- README line-wrap trailing dash artifacts (double-space before the hyphen at line end) normalized to the house " - " style. No rendered output affected (docs only).
+
 ## [1.10.26] - 2026-09-06
 
 ### Entity-dash cleanup (closure sweep v3)
