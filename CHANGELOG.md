@@ -1,3 +1,19 @@
+## [1.11.1] - 2026-09-07
+
+### docs: UI makeover audit list (55 items, A-J sections)
+
+`docs/UI-MAKEOVER-LIST.md` - the full UI-upgrade backlog for the theme,
+produced from a real-code audit of every template + stylesheet, with the
+mobile-header problem proven by measurement (Obscura, faithful header.php
+markup + real CSS chain at 360/390/414px: controls consume 73.7% of the
+360px row; the brand crushes to 58px and the header balloons to 262px;
+the open search dropdown leaves its input wrap 160px wide).
+
+Every item obeys two standing constraints: token-driven (dark mode +
+client reskins come free) and opt-in/harmless (the lean default never
+changes without a Customizer toggle or filter). Sections A-J ship as
+numbered code batches; progress is recorded here per section.
+
 ## [1.11.0] - 2026-09-07
 
 ### Tri-state theme pill (Dark / System / Light) - ported from the finance theme
