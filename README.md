@@ -236,7 +236,7 @@ push fixes ship silently broken to installed PWAs).
 
 > **Note on this document:** an earlier version of this README described the theme as it existed many versions ago - a 5-file `inc/` directory, a FormSubmit.co-based contact form, a 2-control Customizer. None of that has been true for a long time; the code moved forward across 50 versions and this file didn't. It has been rewritten from scratch against the actual v1.0.50 codebase, verified file-by-file rather than carried forward from memory. See `CHANGELOG.md` for the version-by-version history of how it got here.
 
-**Latest version: 1.10.24** - vibe-comments integration hardening (guard 3.6.3, `should_render()` enqueue gate, dark-state coverage port). Full history in `CHANGELOG.md`.
+**Latest version: 1.11.0** - tri-state theme pill (Dark / System / Light) ported from the finance theme; every build now inherits the pro three-option dark mode. Full history in `CHANGELOG.md`.
 
 ---
 
@@ -342,7 +342,7 @@ add_filter( 'gwill_form_routing_map', function ( $map ) {
 
 ### 8. Dark mode, sticky header, and other on-by-default features
 
-Dark mode, the sticky header, the cookie consent banner, and the back-to-top button are all on by default and need no setup. Sticky header can be turned off in Appearance → Customize → Header Options. See [Tier 1 Features](#tier-1-features) below for what each one actually does and why it's built the way it is.
+Dark mode, the sticky header, the cookie consent banner, and the back-to-top button are all on by default and need no setup. Dark mode is a tri-state segmented pill (Dark / System / Light - the finance theme's engine, ported v1.11.0): System follows the device and keeps following it live, Dark/Light are explicit overrides the OS cannot overwrite, and the choice persists in localStorage. Sticky header can be turned off in Appearance → Customize → Header Options. See [Tier 1 Features](#tier-1-features) below for what each one actually does and why it's built the way it is.
 
 ---
 
@@ -432,7 +432,7 @@ gwill-starter-theme/
 │   ├── helpers.php               gwill_part(), breadcrumbs, primary-category, reading time, SEO-plugin detection
 │   ├── author.php                Social profile fields (admin profile screen + template helpers)
 │   ├── customizer.php            Header Options + Site Identity Customizer controls
-│   ├── darkmode.php               Fully inline flash-prevention script + critical CSS
+│   ├── darkmode.php               Tri-state dark-mode engine (inline) + critical CSS
 │   ├── forms.php                  The 11-pattern contact form system - AJAX, nonces, rate limiting
 │   ├── search.php                 REST search endpoint + results-count helper
 │   ├── related-posts.php          Related-posts query (Tier 1)
@@ -467,7 +467,7 @@ gwill-starter-theme/
 │   ├── share-button.php           Social share links (top + footer modes)
 │   ├── cookie-consent.php         Cookie notice banner (Tier 1)
 │   ├── back-to-top.php            Back-to-top button (Tier 1)
-│   ├── ui/darkmode-toggle.php     Dark mode toggle button
+│   ├── ui/theme-pill.php          Tri-state theme pill (Dark / System / Light)
 │   ├── search/                    3 search UI variants - expandable icon, modal, no-results state
 │   ├── forms/                    11 contact form patterns - see The Contact Form System below
 │   ├── testimonials/testimonials.php  Grid/carousel card renderer - call via gwill_testimonials_grid() (Tier 2)
@@ -491,7 +491,6 @@ gwill-starter-theme/
 │   │   ├── customizer-preview.js    postMessage live-preview handlers (Customizer iframe only)
 │   │   ├── cookie-consent.js, back-to-top.js, sticky-header.js   (Tier 1)
 │   │   ├── testimonials-carousel.js  Progressive-enhancement Prev/Next buttons (Tier 2, carousel mode only)
-│   │   └── darkmode.js              @deprecated - superseded by inc/darkmode.php's inline script
 │   └── images/
 │
 └── languages/
@@ -508,7 +507,7 @@ gwill-starter-theme/
 
 ### inc/enqueue.php
 
-Every `wp_enqueue_style()`/`wp_enqueue_script()` call in the theme. All version arguments are `wp_get_theme( get_template() )->get( 'Version' )` - never hardcoded - so every asset cache-busts automatically on every release. Most scripts use `strategy => 'defer'`; the one deliberate exception is `inc/darkmode.php`'s script, which is inlined directly in `<head>` rather than enqueued at all, because LiteSpeed Cache's "Load JS Deferred" setting can delay *external* scripts until first user interaction on some devices - fine for a back-to-top button, not acceptable for a toggle that needs to work the instant it's clicked.
+Every `wp_enqueue_style()`/`wp_enqueue_script()` call in the theme. All version arguments are `wp_get_theme( get_template() )->get( 'Version' )` - never hardcoded - so every asset cache-busts automatically on every release. Most scripts use `strategy => 'defer'`; the one deliberate exception is `inc/darkmode.php`'s engine, which is inlined directly in `<head>` rather than enqueued at all, because LiteSpeed Cache's "Load JS Deferred" setting can delay *external* scripts until first user interaction on some devices - fine for a back-to-top button, not acceptable for a theme pill that needs to work the instant it's clicked.
 
 ### inc/security.php
 
@@ -542,7 +541,9 @@ See [Customizer Controls](#customizer-controls) below for the full table.
 
 ### inc/darkmode.php
 
-Everything - theme detection, the toggle's click handler, ARIA sync, the OS-preference-change listener, and the critical `color-scheme`/`background-color` CSS - is inlined directly into `<head>`, not loaded from an external file. This isn't stylistic; an external script here previously caused a real, reproducible flash of the wrong theme on some Android/Chrome configurations because of how LiteSpeed Cache's deferred-JS setting interacts with external `<script>` tags. `assets/js/darkmode.js` still exists but is marked `@deprecated` and loaded by nothing - kept only for reference.
+The tri-state theme engine (Dark / System / Light), inlined directly into `<head>`, not loaded from an external file. This isn't stylistic; an external script here previously caused a real, reproducible flash of the wrong theme on some Android/Chrome configurations because of how LiteSpeed Cache's deferred-JS setting interacts with external `<script>` tags.
+
+Two-state vs tri-state history: v1.0.30 - v1.10.28 shipped a binary sun/moon toggle; v1.11.0 ports the finance theme's tri-state segmented pill (its v1.12.70 engine). System follows the device via `prefers-color-scheme` and keeps following it live via a matchMedia listener; Dark and Light are explicit overrides that OS changes cannot overwrite; the choice persists under the same `gwill-color-scheme` localStorage key (no key = system - existing visitor choices carry over with zero migration). The finance v1.12.70 fix is included: the pill syncs from the REAL stored choice at startup, never the server-rendered default, so it never lies on refresh. One deliberate adaptation from finance: the engine always paints the resolved theme EXPLICITLY (`data-theme="dark"` or `"light"`) because the starter's no-JS fallback is scoped to `:root:not([data-theme="light"])` - an explicit "Light" must beat a dark OS preference. `assets/js/darkmode.js` and `template-parts/ui/darkmode-toggle.php` were removed in v1.11.0 (both orphaned).
 
 ### inc/forms.php
 

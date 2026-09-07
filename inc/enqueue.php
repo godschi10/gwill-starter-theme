@@ -298,9 +298,9 @@ add_action( 'wp_enqueue_scripts', function () {
 	// CSS is globally enqueued - the toggle lives in every page header, and
 	// the [data-theme] token overrides must be present before any content renders.
 	//
-	// JS is registered here; enqueued on-demand by template-parts/ui/darkmode-toggle.php.
-	// The flash-prevention inline script is output by gwill_darkmode_head_script()
-	// in header.php, before wp_head() - see inc/darkmode.php.
+	// All dark-mode JS (tri-state resolution, pill sync, click + keyboard,
+	// OS-follow) is inline in <head> via gwill_darkmode_head_script()
+	// (inc/darkmode.php) - nothing external is enqueued for dark mode.
 
 	wp_enqueue_style(
 		'gwill-darkmode',
@@ -309,34 +309,12 @@ add_action( 'wp_enqueue_scripts', function () {
 		$ver
 	);
 
-	wp_register_script(
-		'gwill-darkmode',
-		get_template_directory_uri() . '/assets/js/darkmode.js',
-		[],
-		$ver,
-		// NOTE: No 'strategy' => 'defer' here. The flash-prevention script in
-		// the <head> sets data-theme immediately (inc/darkmode.php). This script
-		// only needs to: (a) attach the toggle click handler, (b) sync ARIA state,
-		// (c) listen for OS preference changes. All three must happen without
-		// user interaction. Chrome on Android can delay deferred scripts until
-		// first interaction (scroll, tap) - that is the exact bug: device-system
-		// dark shows until the user scrolls, because the localStorage preference
-		// is applied by this deferred script. Removing defer ensures the script
-		// runs synchronously at end of <body>, reliably, on every page load.
-		[ 'in_footer' => true ]
-	);
-
-	// i18n strings for the toggle button aria-label (JS updates it on interaction).
-	wp_localize_script(
-		'gwill-darkmode',
-		'GwillDarkmode',
-		[
-			'i18n' => [
-				'switchToDark'  => __( 'Switch to dark mode',  'gwill-starter' ),
-				'switchToLight' => __( 'Switch to light mode', 'gwill-starter' ),
-			],
-		]
-	);
+	// The former gwill-darkmode script registration + GwillDarkmode
+	// localize (the deprecated assets/js/darkmode.js binary-toggle handler)
+	// were REMOVED in v1.11.0: the tri-state pill's engine is fully inline
+	// (inc/darkmode.php), and no element with the old #gwill-darkmode-toggle
+	// id exists in any template any more. Registering a script that targets
+	// a dead element served nothing.
 
 	// ── Vibe Comments dark mode (conditional) ────────────────────────────────
 	//

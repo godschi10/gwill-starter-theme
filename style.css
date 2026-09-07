@@ -4,7 +4,7 @@ Theme URI:   https://gwillchijioke.com
 Author:      G-will Chijioke
 Author URI:  https://gwillchijioke.com
 Description: A clean, custom WordPress starter theme built from scratch. No parent theme dependency.
-Version:     1.10.28
+Version:     1.11.0
 Requires at least: 6.4
 Requires PHP:     8.0
 License:     GNU General Public License v2 or later
@@ -1241,6 +1241,16 @@ select:focus {
 /* Responsive                                                          */
 /* ------------------------------------------------------------------ */
 @media (max-width: 767px) {
+  /*
+   * The tri-state theme pill joins the header row alongside search +
+   * hamburger (v1.11.0). Shrink the row gap so long site names keep room -
+   * the same compensation finance's .mhr applies (only gaps shrink; the
+   * pill segments keep their 44px WCAG 2.5.5 tap targets).
+   */
+  .site-header .inner {
+    gap: 0.5rem;
+  }
+
   /*
    * Keep header as a single row: [logo/branding] [toggle button]
    * flex-direction stays row - flex-direction:column was causing the

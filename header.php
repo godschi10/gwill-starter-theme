@@ -79,7 +79,7 @@ if ( is_singular( 'post' ) ) :
 				<?php endif; ?>
 			</div>
 
-			<?php gwill_part( 'ui/darkmode-toggle' ); ?>
+			<?php gwill_part( 'ui/theme-pill' ); ?>
 
 			<?php if ( class_exists( 'WooCommerce' ) ) : ?>
 				<?php gwill_render_cart_icon(); ?>

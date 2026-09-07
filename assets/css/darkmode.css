@@ -62,51 +62,89 @@
 	:root:not([data-theme="light"]) { color-scheme: dark; }
 }
 
-/* ── Toggle button ───────────────────────────────────────────────────────── */
-/* Visually matches .gwill-search-expand__toggle - same size, same reset.  */
+/* ── Tri-state theme pill (Dark / System / Light) ────────────────────────── */
+/* Ported from the finance theme's segmented pill (v1.11.0), restyled on the
+   starter's --color-* token system. Markup: template-parts/ui/theme-pill.php
+   (header.php renders it via gwill_part( 'ui/theme-pill' )). Behaviour lives
+   inline in <head>: gwill_darkmode_head_script() (inc/darkmode.php).
 
-.gwill-darkmode-toggle {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-shrink: 0;
-	width: 2.75rem;
-	height: 2.75rem;
-	padding: 0;
+   .gwill-theme-pill           segmented container
+   .gwill-theme-pill__seg      one segment button
+   .gwill-theme-pill__text    translatable label span (hidden < 480px)      */
+
+.gwill-theme-pill {
+	display: inline-flex;
+	align-items: stretch;
+	gap: 2px;
+	padding: 2px;
 	background: transparent;
-	border: none;
+	border: 1px solid var(--color-border, #e5e7eb);
 	border-radius: var(--form-radius, 4px);
-	color: var(--color-primary, #111);
-	cursor: pointer;
-	transition: color 0.15s ease;
+	flex-shrink: 0;
 }
 
-.gwill-darkmode-toggle:hover        { color: var(--color-accent); }
-.gwill-darkmode-toggle:focus-visible {
+.gwill-theme-pill__seg {
+	appearance: none;
+	-webkit-appearance: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+	padding: 0.5rem 0.75rem;
+	min-height: 44px;       /* WCAG 2.5.5 tap target - starter law */
+	min-width: 44px;
+	background: transparent;
+	border: 0;
+	border-radius: calc(var(--form-radius, 4px) - 1px);
+	color: var(--color-muted, #6b7280);
+	font: inherit;
+	font-size: 0.8rem;
+	font-weight: 600;
+	line-height: 1;
+	cursor: pointer;
+	transition: color 0.15s ease, background 0.15s ease;
+}
+
+.gwill-theme-pill__seg:focus-visible {
 	outline: 2px solid var(--color-accent, #2563eb);
 	outline-offset: 2px;
 }
 
-/* ── Icon switching ──────────────────────────────────────────────────────── */
-/* Convention: moon shown in light mode (click to go dark),                */
-/*             sun shown in dark mode (click to go light).                 */
+.gwill-theme-pill__seg svg {
+	width: 16px;
+	height: 16px;
+	flex: 0 0 16px;
+}
 
-/* Default: light mode - show moon, hide sun */
-.gwill-darkmode-toggle__sun  { display: none; }
-.gwill-darkmode-toggle__moon { display: flex; }
+/* The active segment: btn-bg/btn-text tokens - invert with the theme. */
+.gwill-theme-pill__seg[aria-pressed="true"] {
+	background: var(--color-btn-bg, #2563eb);
+	color: var(--color-btn-text, #ffffff);
+}
 
-/* Explicit dark */
-[data-theme="dark"] .gwill-darkmode-toggle__sun  { display: flex; }
-[data-theme="dark"] .gwill-darkmode-toggle__moon { display: none; }
+/* Idle-segment hover: color-only (finance pattern + the old toggle's own
+   convention), gated per the touch law - taps must never leave stuck
+   states. Scoped to [aria-pressed="false"] so the accent hover can never
+   repaint the ACTIVE segment's label (accent-on-btn-bg = invisible text). */
+@media (hover: hover) {
+	.gwill-theme-pill__seg[aria-pressed="false"]:hover {
+		color: var(--color-accent);
+	}
+}
 
-/* Explicit light (no change from default, but listed for clarity) */
-[data-theme="light"] .gwill-darkmode-toggle__sun  { display: none; }
-[data-theme="light"] .gwill-darkmode-toggle__moon { display: flex; }
+/* Icon-only variant - opt-in modifier for builds that want icons alone at
+   every width (the default pill auto-drops text on mobile instead). */
+.gwill-theme-pill--icon .gwill-theme-pill__text { display: none; }
+.gwill-theme-pill--icon .gwill-theme-pill__seg  { padding: 0.5rem; }
 
-/* System dark, no stored preference */
-@media (prefers-color-scheme: dark) {
-	:root:not([data-theme="light"]) .gwill-darkmode-toggle__sun  { display: flex; }
-	:root:not([data-theme="light"]) .gwill-darkmode-toggle__moon { display: none; }
+/* Mobile: text spans drop at the starter's own 767px boundary (the same
+   breakpoint where the hamburger appears and the header row becomes
+   [branding][pill][search][hamburger] - labeled segments would starve the
+   brand of space). Icons + per-button aria-labels carry meaning (finance
+   pattern; each segment is fully labelled, so display:none text is safe). */
+@media (max-width: 767px) {
+	.gwill-theme-pill .gwill-theme-pill__text { display: none; }
+	.gwill-theme-pill .gwill-theme-pill__seg  { padding: 0.5rem; }
 }
 
 /* ── Explicit element overrides ──────────────────────────────────────────── */

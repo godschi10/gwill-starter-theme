@@ -1,3 +1,62 @@
+## [1.11.0] - 2026-09-07
+
+### Tri-state theme pill (Dark / System / Light) - ported from the finance theme
+
+The single binary sun/moon toggle is replaced by the finance theme's
+tri-state segmented pill (its v1.12.70 engine): three explicit user
+options - Dark, System, Light - the pro pattern used by GitHub/Notion/
+Vercel. Every future build from this starter inherits it.
+
+- `inc/darkmode.php` - engine fully rewritten to the tri-state model:
+  Part A resolves the stored choice (dark / light / no-key = system) and
+  paints BEFORE first paint; Part B wires the pill (real-state sync,
+  click, keyboard, live OS-follow). Includes the finance v1.12.70 fix:
+  pills sync from the REAL stored choice at startup - never the
+  server-rendered `data-current="system"` default - so the pill never
+  lies on refresh and explicit choices survive OS flips.
+- `template-parts/ui/theme-pill.php` - new partial (markup only): three
+  aria-pressed segments, role=group, per-button aria-labels, translatable
+  Dark/System/Light labels. Replaces `template-parts/ui/darkmode-toggle.php`
+  (deleted - orphaned; tech-theme precedent for deleting orphaned partials).
+- `assets/css/darkmode.css` - old `.gwill-darkmode-toggle` rules removed;
+  new `.gwill-theme-pill` family on `--color-*` tokens (no finance gold):
+  active segment = `--color-btn-bg`/`--color-btn-text` (inverts with the
+  theme), 44px tap targets (WCAG 2.5.5 - starter law), hover color-only
+  and gated `@media (hover:hover)` per the touch law, text spans drop at
+  the starter's 767px boundary (icons + aria-labels carry meaning).
+- `header.php` - `gwill_part( 'ui/theme-pill' )` replaces the old toggle call.
+- `inc/enqueue.php` - the dead `gwill-darkmode` script registration +
+  `GwillDarkmode` localize removed (nothing enqueued it since v1.0.47; its
+  target element no longer exists). CSS handle unchanged. `assets/js/
+  darkmode.js` deleted (deprecated since v1.0.47, orphaned).
+- `style.css` - mobile header row gap 1rem -> 0.5rem at 767px (the pill
+  joins the row; finance `.mhr` pattern - gaps shrink, tap floors hold).
+  **Version 1.10.28 -> 1.11.0.**
+
+Adaptations from finance (both deliberate, both documented in-file):
+1. **Explicit light wins over the OS.** Finance removes `data-theme` for
+   light; the starter's no-JS `prefers-color-scheme` fallback is scoped to
+   `:root:not([data-theme="light"])`, so this engine always paints the
+   RESOLVED theme explicitly - "Light" must beat a dark OS, and it does.
+2. **Zero migration.** Finance persists a literal 'system' value; the
+   starter keeps its older contract - stored 'dark'/'light', NO key =
+   system - so every existing visitor choice carries over untouched.
+
+Battery: `tests/test-pill.js` (27 assertions, jsdom) runs the REAL engine
+extracted from `inc/darkmode.php` against the REAL partial markup: Part A
+resolution (5), real-state sync (3), click semantics (7), OS live-follow
+(5), keyboard (4), private-mode (3). Tree-parametric via
+`tests/verify-battery.sh` - 27/27 on the repo copy, the deployed tree, and
+the fresh clone (post-commit). Harness lesson folded in: jsdom fires
+DOMContentLoaded asynchronously - suites must settle on readyState before
+asserting Part B state (the initial run's 2a/2b failures were harness
+timing, not engine defects).
+
+Verified: php -l x4 clean; node --check engine + suite clean; CSS braces
+47/47 balanced; cross-file deps grep-verified (pill partial, head script
+call, CSS handle, vibe dependency chain); zero `gwill-darkmode-toggle` /
+`GwillDarkmode` refs remain outside honest comments.
+
 ## [1.10.28] - 2026-09-06
 
 ### Review deleg_59ab8836 - dash geometry hole closed

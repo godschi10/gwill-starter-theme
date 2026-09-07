@@ -156,6 +156,15 @@ both selector systems).
    pair in head; `gwill_pwa_dark_favicon()` filter with light-URL
    fallback when the dark asset is absent.
 
+## Adopted from the fleet (v1.11.0)
+
+- **Tri-state theme pill (Dark / System / Light)** - ported from the finance
+  theme (its v1.12.70 engine): three explicit options with live OS-follow
+  while System is active; explicit choices the OS cannot overwrite; zero
+  visitor migration. Replaced the binary sun/moon toggle. Battery:
+  `tests/test-pill.js` (27 assertions, tree-parametric via
+  `tests/verify-battery.sh`).
+
 ## Candidate pool (unplanned - awaiting royal direction)
 
 - Dark-mode aware app icons
@@ -168,4 +177,4 @@ both selector systems).
 
 ---
 
-*Last updated: 2026-08-30 (v1.9.1).*
+*Last updated: 2026-09-07 (v1.11.0).*
