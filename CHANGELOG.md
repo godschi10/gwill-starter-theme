@@ -1,3 +1,47 @@
+## [1.11.2] - 2026-09-07
+
+### Section A: header & mobile row (docs/UI-MAKEOVER-LIST.md items A1-A9)
+
+The measured crowding fix. Before (Obscura, 360px): row pill + search +
+burger consumed 73.7% of the header row; brand crushed to 58px; header
+262px tall (~1/3 of the viewport); search-dropdown input wrap 160px.
+After: controls 28.2% of the row, brand 192px, header 174px, sheet
+search input 328px wide.
+
+- **A1 row diet** - header.php: tools group (.header-tools) wraps pill +
+  cart; when a primary menu exists the row pill carries
+  `header-tools__pill--sheet` and is display:none below 768px - the
+  mobile menu sheet now carries the pill as its LAST menu item (wp_nav_menu
+  items_wrap with the real partial markup buffered + %3$s preserving the
+  links). Without a menu there is no sheet, so the row pill stays visible
+  at every width. The head engine syncs ALL [data-theme-group] groups, so
+  row + sheet pills never disagree.
+- **A3/A4 search sheet** - below 767px the dropdown becomes a full-width
+  top sheet: viewport-wide, rounded bottom corners, dim backdrop
+  (body.gwill-search-open::after), close button as a full-width ghost bar
+  under the input, input font 17px (iOS no-zoom). search-dropdown.js adds
+ /removes the body class in open()/close() - no behavior change otherwise.
+- **A5 active nav** - .current-menu-item/.current_page_item finally styled
+  (zero rules before): accent + bold, underline indicator on desktop.
+- **A6 hover indicator** - desktop nav links get an underline-slide, gated
+  @media (min-width: 768px) and (hover: hover); active item stays grown.
+- **A7 compact-on-scroll** - new Customizer toggle "Compact header while
+  scrolling" (default ON, scoped under sticky header): sticky-header.js
+  adds .is-compact alongside .is-stuck; measured 121px -> 65px at 390px
+  (padding 24px -> 8px, tagline folded, logo shrunk).
+- **A8 sheet animation** - slide-down + fade on .is-open, disabled under
+  prefers-reduced-motion.
+- **A9 dead class** - .icon-btn removed from header.php (zero rules ever).
+- inc/customizer.php: gwill_compact_header setting + control + body-class
+  filter extension. POT regenerated (506 msgids; the two new control
+  strings included).
+
+Battery: tests/test-pill.js 27/27 re-run PASS (engine untouched).
+Proof: Obscura re-measurement of the rebuilt header - row diet numbers
+above, sheet pill 3 segments x 44px taps OK, sheet search input 328px,
+compact 121 -> 65px. Verified: php -l x4 clean, node --check x2 clean,
+CSS braces balanced (style.css 483/483, search.css 160/160).
+
 ## [1.11.1] - 2026-09-07
 
 ### docs: UI makeover audit list (55 items, A-J sections)

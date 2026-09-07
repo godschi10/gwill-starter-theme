@@ -1071,3 +1071,77 @@
 	transition: border-color 0.15s, color 0.15s;
 }
 @media (hover: hover) { .search-related-chip:hover { border-color: var(--color-accent, #2563eb); color: var(--color-accent, #2563eb); } }
+
+
+/* ── A3/A4 (v1.11.2): mobile top sheet ──────────────────────────────────
+   The anchored 280px panel left its input wrap 160px wide at 360px with
+   a 44px clear button inside it. Below 767px the dropdown becomes a
+   full-width slide-down sheet: viewport-wide, rounded bottom corners,
+   page dimmed behind it, and the close row moves to its own top bar so
+   the input gets the full row. The JS (search-dropdown.js) needs no
+   change - it toggles the same [hidden] attribute. */
+
+@media (max-width: 767px) {
+	.search-dropdown {
+		/* Override the anchored panel geometry. */
+		top: 100%;            /* sit directly under the header, no gap */
+		left: 0;
+		right: 0;
+		transform: none;      /* cancel the translateX(-50%) centering */
+		width: 100%;
+		border-radius: 0 0 12px 12px;
+		border-left: none;
+		border-right: none;
+		border-top: none;
+		box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+	}
+
+	.search-dropdown-inner {
+		padding: 0.75rem 1rem 1.25rem;
+	}
+
+	/* Close button: full-width ghost bar under the form, out of the
+	   input row - the input gets the entire row to itself (A4). */
+	.search-dropdown-form {
+		flex-direction: column;
+		gap: 0.5rem;
+		margin-bottom: 0.75rem;
+	}
+	.search-dropdown-icon {
+		display: none; /* sheet carries its own heading rhythm */
+	}
+	.search-input-wrap .search-dropdown-input {
+		padding: 0.75rem 3rem 0.75rem 1rem; /* room for the in-field clear */
+		font-size: 1.0625rem; /* 17px - iOS no-zoom floor */
+	}
+	.search-dropdown-close {
+		width: 100%;
+		border-radius: var(--form-radius, 4px);
+		padding: 0.75rem;
+		font-size: 0.9375rem;
+		gap: 0.5rem;
+	}
+}
+
+/* Backdrop dim while the sheet is open - set by search-dropdown.js
+   toggling .gwill-search-open on <body> (added v1.11.2). */
+body.gwill-search-open::after {
+	content: '';
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.45);
+	z-index: 9999; /* below the sheet (10000) */
+	animation: gwill-search-dim-in 0.15s ease-out;
+}
+
+
+@keyframes gwill-search-dim-in {
+	from { opacity: 0; }
+	to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body.gwill-search-open::after {
+		animation: none;
+	}
+}

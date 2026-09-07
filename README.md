@@ -236,7 +236,7 @@ push fixes ship silently broken to installed PWAs).
 
 > **Note on this document:** an earlier version of this README described the theme as it existed many versions ago - a 5-file `inc/` directory, a FormSubmit.co-based contact form, a 2-control Customizer. None of that has been true for a long time; the code moved forward across 50 versions and this file didn't. It has been rewritten from scratch against the actual v1.0.50 codebase, verified file-by-file rather than carried forward from memory. See `CHANGELOG.md` for the version-by-version history of how it got here.
 
-**Latest version: 1.11.1** - docs-only: the 55-item UI makeover audit list (`docs/UI-MAKEOVER-LIST.md`) with the mobile-header problem measured in a real browser. Full history in `CHANGELOG.md`.
+**Latest version: 1.11.2** - Section A of the UI makeover list shipped: the mobile header row diet (pill moves into the menu sheet), full-width search sheet on phones, active-nav state, hover indicators, and compact-on-scroll. Full history in `CHANGELOG.md`.
 
 ---
 
@@ -717,6 +717,7 @@ Opt-in modules - each one costs nothing on a site that never uses it. All three 
 |---|---|---|---|
 | Display tagline | Checkbox | On | `postMessage` |
 | Enable sticky header | Checkbox | On | `refresh` |
+| Compact header while scrolling | Checkbox | On | `refresh` |
 | Header padding (px) | Number, 0-200 | 24 | `postMessage` |
 
 **Site Identity** (`title_tagline` - WordPress core's own section, extended here):

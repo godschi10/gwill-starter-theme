@@ -19,12 +19,26 @@
 	var header = document.querySelector( '.site-header' );
 	if ( ! header ) return;
 
-	var STUCK_AFTER = 4;
-	var ticking      = false;
+	var STUCK_AFTER  = 4;
+	var ticking       = false;
+	var compactMode   = document.body.classList.contains( 'gwill-compact-header' );
+	var lastCompact   = null;
 
 	function update() {
 		ticking = false;
-		header.classList.toggle( 'is-stuck', window.scrollY > STUCK_AFTER );
+		var stuck = window.scrollY > STUCK_AFTER;
+		header.classList.toggle( 'is-stuck', stuck );
+
+		// v1.11.2 (A7): compact-on-scroll. Same threshold as is-stuck;
+		// the class carries the visual compaction (padding, tagline) while
+		// is-stuck carries the shadow. One shared rAF loop, zero extra
+		// listeners; the class only flips on CHANGE (not every frame).
+		if ( compactMode ) {
+			if ( lastCompact !== stuck ) {
+				lastCompact = stuck;
+				header.classList.toggle( 'is-compact', stuck );
+			}
+		}
 	}
 
 	window.addEventListener( 'scroll', function () {

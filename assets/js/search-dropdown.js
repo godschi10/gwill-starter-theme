@@ -442,6 +442,7 @@
 	// ── open/close ─────────────────────────────────────────────────────────
 	function open() {
 		dropdown.hidden = false;
+		document.body.classList.add( 'gwill-search-open' );
 		toggles.forEach( function ( t ) { t.setAttribute( 'aria-expanded', 'true' ); } );
 		input.setAttribute( 'aria-expanded', 'true' );
 		syncClear();
@@ -455,6 +456,7 @@
 
 	function close() {
 		dropdown.hidden = true;
+		document.body.classList.remove( 'gwill-search-open' );
 		toggles.forEach( function ( t ) { t.setAttribute( 'aria-expanded', 'false' ); } );
 		input.setAttribute( 'aria-expanded', 'false' );
 		input.removeAttribute( 'aria-activedescendant' );

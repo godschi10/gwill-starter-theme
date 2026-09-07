@@ -111,6 +111,26 @@ add_action( 'customize_register', function ( WP_Customize_Manager $wp_customize 
 		'type'        => 'checkbox',
 	] );
 
+	// ── Compact header on scroll (v1.11.2, A7) ─────────────────────────────
+	//
+	// Only has any effect while sticky header is on. Default ON - the
+	// compact-on-scroll behavior is the modern default; turn off to keep
+	// the full-size header at every scroll position. Refresh transport:
+	// same reason as sticky (server-rendered body class, scroll behaviour
+	// not previewable in the iframe).
+
+	$wp_customize->add_setting( 'gwill_compact_header', [
+		'default'           => true,
+		'sanitize_callback' => 'gwill_sanitize_checkbox',
+	] );
+
+	$wp_customize->add_control( 'gwill_compact_header', [
+		'label'       => __( 'Compact header while scrolling', 'gwill-starter' ),
+		'description' => __( 'Shrinks the sticky header (reduced padding, tagline hidden) after scrolling begins, restoring it fully when you scroll back to the top. Requires sticky header to be enabled.', 'gwill-starter' ),
+		'section'     => 'gwill_header',
+		'type'        => 'checkbox',
+	] );
+
 	// ── Header padding ──────────────────────────────────────────────────────
 	//
 	// Default: 24px  (= 1.5rem at a 16px browser base - matches --spacing)
@@ -217,6 +237,13 @@ add_action( 'customize_register', function ( WP_Customize_Manager $wp_customize 
 function gwill_sticky_header_body_class( array $classes ): array {
 	if ( get_theme_mod( 'gwill_sticky_header', true ) ) {
 		$classes[] = 'gwill-sticky-header';
+
+		// v1.11.2 (A7): compact-on-scroll mode. Scoped under the sticky
+		// class - sticky-header.js toggles .is-compact alongside .is-stuck
+		// and the CSS only ever applies within .gwill-sticky-header.
+		if ( get_theme_mod( 'gwill_compact_header', true ) ) {
+			$classes[] = 'gwill-compact-header';
+		}
 	}
 	return $classes;
 }

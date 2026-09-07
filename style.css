@@ -4,7 +4,7 @@ Theme URI:   https://gwillchijioke.com
 Author:      G-will Chijioke
 Author URI:  https://gwillchijioke.com
 Description: A clean, custom WordPress starter theme built from scratch. No parent theme dependency.
-Version:     1.11.1
+Version:     1.11.2
 Requires at least: 6.4
 Requires PHP:     8.0
 License:     GNU General Public License v2 or later
@@ -3149,3 +3149,146 @@ select:focus {
 		position: static;
 	}
 }
+
+/* ------------------------------------------------------------------ */
+/* v1.11.2 - Section A: header & mobile row (docs/UI-MAKEOVER-LIST.md) */
+/* ------------------------------------------------------------------ */
+
+/* ── A1/A2: header tools group + row diet below 768px ────────────────
+   Measured crowding: the pill + search + burger consumed 73.7% of a
+   360px header row, crushing the brand to 58px and ballooning the
+   header to 262px (~1/3 viewport). With a primary menu assigned, the
+   ROW pill now hides below 768px - the mobile sheet (menu) carries a
+   full-width labeled pill as its last item instead. Without a menu
+   there is no sheet, so the row pill stays visible at every width. */
+
+.header-tools {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.header-tools__pill {
+  display: flex; /* the pill inside centers itself */
+}
+
+/* ── A5: active nav item state (was: zero rules for .current-menu-item) */
+.site-header nav li.current-menu-item > a,
+.site-header nav li.current_page_item > a {
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+/* Desktop underline indicator; mobile sheet gets bold + accent instead. */
+@media (min-width: 768px) {
+  .site-header nav li.current-menu-item > a,
+  .site-header nav li.current_page_item > a {
+    box-shadow: inset 0 -2px 0 var(--color-accent);
+  }
+}
+
+/* ── A6: desktop nav hover indicator - underline slide, hover-gated ── */
+@media (min-width: 768px) and (hover: hover) {
+  .site-header nav a {
+    position: relative;
+    text-decoration: none;
+  }
+  .site-header nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.375rem;
+    height: 2px;
+    background: var(--color-accent);
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.18s ease;
+  }
+  .site-header nav a:hover::after {
+    transform: scaleX(1);
+  }
+  /* Active item keeps its underline grown (no slide-in). */
+  .site-header nav li.current-menu-item > a::after,
+  .site-header nav li.current_page_item > a::after {
+    transform: scaleX(1);
+  }
+}
+
+/* ── A1 mobile: row pill hidden when the sheet carries it ─────────── */
+@media (max-width: 767px) {
+  .header-tools__pill--sheet {
+    display: none;
+  }
+}
+
+/* ── A1 mobile: the sheet's pill item - full-width labeled segments ── */
+@media (max-width: 767px) {
+  .site-header nav #primary-menu .mobile-theme-pill-wrap {
+    display: flex;
+    padding: 0.75rem 0;
+    border-bottom: none; /* last item - no divider before the pill */
+  }
+  .mobile-theme-pill .gwill-theme-pill {
+    width: 100%;
+    display: flex;
+  }
+  .mobile-theme-pill .gwill-theme-pill__seg {
+    flex: 1 1 0;
+    justify-content: center;
+  }
+}
+
+/* ── A8: mobile menu sheet - open animation (slide-down + fade) ───── */
+@media (max-width: 767px) {
+  .site-header nav #primary-menu {
+    transform-origin: top;
+  }
+  .site-header nav #primary-menu.is-open {
+    animation: gwill-menu-in 0.18s ease-out;
+  }
+}
+
+@keyframes gwill-menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Reduced motion: the sheet opens instantly (global guard covers the
+   rest - 0.01ms durations - but be explicit for clarity). */
+@media (prefers-reduced-motion: reduce) {
+  .site-header nav #primary-menu.is-open {
+    animation: none;
+  }
+}
+
+/* ── A7: compact-on-scroll (Customizer: "Compact header while scrolling",
+   default on; scoped under .gwill-sticky-header + .gwill-compact-header
+   body classes, flipped by sticky-header.js alongside .is-stuck) ────── */
+.gwill-sticky-header.gwill-compact-header .site-header {
+  transition: padding 0.2s ease, box-shadow 0.2s ease;
+}
+
+.gwill-sticky-header.gwill-compact-header .site-header.is-compact {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+/* The tagline folds away while compact - the title row carries identity. */
+.gwill-sticky-header.gwill-compact-header .site-header.is-compact .site-description {
+  display: none;
+}
+
+/* Logo shrinks with the compact row. */
+.gwill-sticky-header.gwill-compact-header .site-header.is-compact .custom-logo {
+  max-height: 40px;
+}
+

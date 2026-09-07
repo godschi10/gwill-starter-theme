@@ -34,6 +34,13 @@ Priority order: C17 (cards) → A1-A3 (mobile header diet + search sheet)
 
 ## A. Header & mobile row (the hot spot)
 
+> **SHIPPED v1.11.2** - A1 (row diet + sheet pill), A3/A4 (search sheet),
+> A5 (active nav), A6 (hover indicator), A7 (compact-on-scroll),
+> A8 (sheet animation), A9 (dead class). Measured after: controls
+> 73.7% -> 28.2% of the 360px row, brand 58 -> 192px, header 262 -> 174px,
+> sheet input 160 -> 328px, compact 121 -> 65px. A2 is dissolved by A1
+> (the pill no longer occupies the row on mobile); A10 documented no-op.
+
 1. **Mobile row diet** — free the header row below 767px: move the theme
    pill into the mobile menu sheet (full-width, labeled segments — the
    engine's multi-group sync already supports it), keeping only search +
