@@ -100,6 +100,12 @@ Priority order: C17 (cards) → A1-A3 (mobile header diet + search sheet)
 
 ## C. Post lists & cards (the biggest visual poverty)
 
+> **SHIPPED v1.12.1** - C17 (card chrome, DEFAULT on via the new
+> Content Lists Customizer select: plain/cards/horizontal/grid),
+> C18 (horizontal thumb-left >=768px, :has()+@supports), C19 (2-col
+> grid), C20 (hover lift+zoom, (hover:hover)-gated), C21 (category
+> chips), C22 (archive-header band + count pill via gwill_list_count()).
+
 17. **Lists are a plain text stack** — zero card chrome (verified).
     Opt-in card treatment (border + radius + padding, token-driven,
     Customizer toggle `gwill_card_lists`). Highest-impact single item.

@@ -4,7 +4,7 @@ Theme URI:   https://gwillchijioke.com
 Author:      G-will Chijioke
 Author URI:  https://gwillchijioke.com
 Description: A clean, custom WordPress starter theme built from scratch. No parent theme dependency.
-Version:     1.12.0
+Version:     1.12.1
 Requires at least: 6.4
 Requires PHP:     8.0
 License:     GNU General Public License v2 or later
@@ -3537,4 +3537,139 @@ select:focus {
 
 .content-none__cta {
   margin-top: 1.5rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* v1.12.1 - Section C: post lists & cards (docs/UI-MAKEOVER-LIST.md)  */
+/* ------------------------------------------------------------------ */
+/* Gated by body classes from gwill_list_style_body_class():
+   .gwill-cards                     card chrome on
+   .gwill-cards.gwill-cards-horizontal  thumb-left rows >=768px
+   .gwill-cards.gwill-cards-grid        two-column grid >=768px
+   'plain' emits NO class -> zero rules apply -> the v1.10 text stack. */
+
+/* ── C22: archive header band (always on - harmless in plain mode) ── */
+.archive-header {
+  padding-bottom: 1.25rem;
+  border-bottom: 2px solid var(--color-accent);
+}
+
+.archive-header__count {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+/* ── C17: card chrome ──────────────────────────────────────────────── */
+.gwill-cards .post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.gwill-cards .post-list .entry {
+  padding: 1.25rem 1.5rem;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+}
+
+/* Dark-mode surface parity: tokens invert, but cards on --color-bg need
+   a slightly lifted surface in dark to read as cards. Both systems. */
+[data-theme="dark"] .gwill-cards .post-list .entry {
+  background: color-mix(in srgb, var(--color-primary, #f1f5f9) 4%, var(--color-bg, #0f172a));
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .gwill-cards .post-list .entry {
+    background: color-mix(in srgb, var(--color-primary, #f1f5f9) 4%, var(--color-bg, #0f172a));
+  }
+}
+
+/* ── C20: hover affordance - lift + thumbnail zoom + title color ───── */
+.gwill-cards .post-list .entry {
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.gwill-cards .post-list .entry .entry-thumbnail-wrap img {
+  transition: transform 0.25s ease;
+}
+
+@media (hover: hover) {
+  .gwill-cards .post-list .entry:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+  }
+  .gwill-cards .post-list .entry:hover .entry-thumbnail-wrap img {
+    transform: scale(1.03);
+  }
+  .gwill-cards .post-list .entry:hover .entry-title a {
+    color: var(--color-accent);
+  }
+}
+
+/* Thumbnail corner follows the card radius inside its padding. */
+.gwill-cards .post-list .entry .entry-thumbnail-wrap {
+  border-radius: 6px;
+}
+
+/* ── C21: category chip treatment (cards mode) ─────────────────────── */
+.gwill-cards .post-list .entry-cat {
+  display: inline-block;
+  padding: 0.2rem 0.625rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-accent, #2563eb) 10%, transparent);
+}
+
+/* ── C18: horizontal rows >=768px ──────────────────────────────────── */
+/* :has() gates the thumb-left shape per post (thumbnail-less posts stay
+   single-column automatically - no rule needed for them). Wrapped in
+   @supports per the cross-browser doctrine; unsupported engines just
+   keep the stacked card, which is correct. */
+@media (min-width: 768px) {
+  @supports selector(:has(*)) {
+    .gwill-cards.gwill-cards-horizontal .post-list .entry:has(.entry-thumbnail-wrap) {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    .gwill-cards.gwill-cards-horizontal .post-list .entry:has(.entry-thumbnail-wrap) .entry-thumbnail-wrap {
+      margin-bottom: 0;
+    }
+  }
+}
+
+/* ── C19: two-column grid >=768px ──────────────────────────────────── */
+@media (min-width: 768px) {
+  .gwill-cards.gwill-cards-grid .post-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    align-items: stretch;
+  }
+  .gwill-cards.gwill-cards-grid .post-list .entry {
+    margin: 0; /* grid gap governs; no double spacing */
+  }
+}
+
+@media (max-width: 480px) {
+  .gwill-cards .post-list .entry {
+    padding: 1rem 1.125rem;
+  }
+}
+
+/* Reduced motion: kill the lift/zoom transitions. */
+@media (prefers-reduced-motion: reduce) {
+  .gwill-cards .post-list .entry,
+  .gwill-cards .post-list .entry .entry-thumbnail-wrap img {
+    transition-duration: 0.01ms;
+  }
 }

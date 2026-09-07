@@ -93,11 +93,23 @@ gwill_breadcrumbs();
 			<?php the_archive_description( '<div class="archive-description">', '</div>' ); ?>
 		<?php endif; ?>
 
+		<?php if ( gwill_list_count() ) : ?>
+			<p class="archive-header__count"><?php
+				printf(
+					/* translators: %s: number of posts in this list. */
+					esc_html( _n( '%s article', '%s articles', gwill_list_count(), 'gwill-starter' ) ),
+					esc_html( number_format_i18n( gwill_list_count() ) )
+				);
+			?></p>
+		<?php endif; ?>
 	</header>
 
-	<?php while ( have_posts() ) : the_post(); ?>
+	<?php /* v1.12.1 (C17): .post-list is the card-chrome hook (see home.php). */ ?>
+		<div class="post-list">
+		<?php while ( have_posts() ) : the_post(); ?>
 		<?php gwill_part( 'content' ); ?>
 	<?php endwhile; ?>
+		</div>
 
 	<?php
 	the_posts_pagination( [

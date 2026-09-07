@@ -1,3 +1,37 @@
+## [1.12.1] - 2026-09-07
+
+### Section C: post lists & cards (docs/UI-MAKEOVER-LIST.md items C17-C22)
+
+The biggest visual upgrade of the makeover list. One Customizer select
+drives it all - Appearance > Customize > Content Lists > "Post list
+style" (gwill_list_style, refresh transport via body classes from
+gwill_list_style_body_class()):
+
+- **plain** - the v1.10-era text stack; emits NO body class, zero rules
+  apply, byte-identical to before (proven: border 0, block layout).
+- **cards** (DEFAULT - the lean-but-nice base) - bordered rounded card
+  per post on a flex list with 1.25rem gaps; dark surface lift via the
+  exact darkmode.css selector system (4% primary-over-bg tint).
+- **horizontal** - cards mode + thumbnail-left row >= 768px (:has()
+  gated inside @supports per house doctrine - thumbnail-less posts
+  automatically stay single-column; <768px everything stacks).
+- **grid** - two-column card grid >= 768px, 1-col below.
+
+Per-item: **C20** hover affordance (lift + border accent + thumbnail
+zoom + title color, all inside (hover:hover); reduced-motion kills the
+transitions). **C21** category chip treatment in cards mode (accent 10%
+pill). **C22** archive-header band on ALL list templates (home, index,
+archive, author): 2px accent bottom rule + count pill ("12 articles",
+_n() i18n, new gwill_list_count() helper - found_posts so it reflects
+the whole list; 0 on singular/search/404 so no pill there).
+
+Templates: the four list loops now wrap in .post-list (the chrome
+scope); archive headers carry the count pill. Verified (Obscura,
+360/768/1280): cards pad+gap live, horiz thumb 240px-left at >=768 and
+stacked at 360, grid 2-col (x 0/394 @768, 0/650 @1280) and 1-col @360,
+plain mode untouched, band 2px rgb(37,99,235) + pill present.
+php -l x6 clean; braces 550/550.
+
 ## [1.12.0] - 2026-09-07
 
 ### Section B: search surfaces (docs/UI-MAKEOVER-LIST.md items B11-B16)

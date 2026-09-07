@@ -546,3 +546,25 @@ function gwill_breadcrumbs(): void {
 	</nav>
 	<?php
 }
+
+if ( ! function_exists( 'gwill_list_count' ) ) {
+	/**
+	 * Number of posts in the current list query (home/index/archive/author).
+	 *
+	 * v1.12.1 (C22): powers the archive-header count pill. Returns 0 on
+	 * singular/search/404 (no pill there) and uses found_posts so the
+	 * count reflects the WHOLE list, not just this page's slice.
+	 *
+	 * @return int
+	 */
+	function gwill_list_count(): int {
+		if ( is_singular() || is_404() ) {
+			return 0;
+		}
+		global $wp_query;
+		if ( ! $wp_query || empty( $wp_query->found_posts ) ) {
+			return 0;
+		}
+		return (int) $wp_query->found_posts;
+	}
+}

@@ -236,7 +236,7 @@ push fixes ship silently broken to installed PWAs).
 
 > **Note on this document:** an earlier version of this README described the theme as it existed many versions ago - a 5-file `inc/` directory, a FormSubmit.co-based contact form, a 2-control Customizer. None of that has been true for a long time; the code moved forward across 50 versions and this file didn't. It has been rewritten from scratch against the actual v1.0.50 codebase, verified file-by-file rather than carried forward from memory. See `CHANGELOG.md` for the version-by-version history of how it got here.
 
-**Latest version: 1.12.0** - Section B of the UI makeover list: styled generic search form + .gwill-btn family, 404 ghost-numeral page with latest-articles grid, content-none card, dropdown suggestion chips, correction-banner card, neutral badge names. Full history in `CHANGELOG.md`.
+**Latest version: 1.12.1** - Section C of the UI makeover list: post lists gain card chrome (Customizer: Content Lists - plain / cards / horizontal / grid; cards is the default), hover affordances, category chips, and an archive-header band with a count pill. Full history in `CHANGELOG.md`.
 
 ---
 
@@ -719,6 +719,8 @@ Opt-in modules - each one costs nothing on a site that never uses it. All three 
 | Display tagline | Checkbox | On | `postMessage` |
 | Enable sticky header | Checkbox | On | `refresh` |
 | Compact header while scrolling | Checkbox | On | `refresh` |
+
+A **Content Lists** panel adds the `Post list style` select: `plain` (the old text stack), `cards` (default - bordered card per post), `horizontal` (thumbnail-left rows on wide screens), or `grid` (two columns). Dark mode and client reskins come free via tokens.
 | Header padding (px) | Number, 0-200 | 24 | `postMessage` |
 
 **Site Identity** (`title_tagline` - WordPress core's own section, extended here):

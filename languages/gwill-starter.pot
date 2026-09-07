@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: GWill Starter 1.11.3\n"
+"Project-Id-Version: GWill Starter 1.12.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/gwill-starter-theme\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-07T20:23:50+00:00\n"
+"POT-Creation-Date: 2026-09-07T21:26:02+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: gwill-starter\n"
@@ -78,21 +78,32 @@ msgid "View Project"
 msgstr ""
 
 #: archive-gwill_portfolio.php:118
-#: archive.php:33
-#: author.php:105
-#: home.php:33
-#: index.php:36
+#: archive.php:51
+#: author.php:117
+#: home.php:51
+#: index.php:54
 msgid "&larr; Prev"
 msgstr ""
 
 #: archive-gwill_portfolio.php:119
-#: archive.php:34
-#: author.php:106
-#: home.php:34
-#: index.php:37
+#: archive.php:52
+#: author.php:118
+#: home.php:52
+#: index.php:55
 #: search.php:130
 msgid "Next &rarr;"
 msgstr ""
+
+#. translators: %s: number of posts in this list.
+#: archive.php:28
+#: author.php:100
+#: home.php:28
+#: index.php:31
+#, php-format
+msgid "%s article"
+msgid_plural "%s articles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: comments.php:18
 #, php-format
@@ -406,51 +417,83 @@ msgstr ""
 msgid "Only ever appears on a recognised staging domain (qzz.io, .local, staging./dev./test. subdomains) - never on the live site regardless of this setting. On by default so it can't be silently forgotten about; turn off if a project genuinely doesn't want it."
 msgstr ""
 
-#: inc/customizer.php:86
+#: inc/customizer.php:88
+msgid "Content Lists"
+msgstr ""
+
+#: inc/customizer.php:90
+msgid "How post lists render on the blog home, archives, and author pages."
+msgstr ""
+
+#: inc/customizer.php:99
+msgid "Post list style"
+msgstr ""
+
+#: inc/customizer.php:100
+msgid "Cards wrap every post in a bordered card; horizontal adds a thumbnail-left row on wide screens; grid shows two columns."
+msgstr ""
+
+#: inc/customizer.php:104
+msgid "Plain text list"
+msgstr ""
+
+#: inc/customizer.php:105
+msgid "Cards (default)"
+msgstr ""
+
+#: inc/customizer.php:106
+msgid "Cards, horizontal rows"
+msgstr ""
+
+#: inc/customizer.php:107
+msgid "Cards, two-column grid"
+msgstr ""
+
+#: inc/customizer.php:120
 msgid "Display tagline"
 msgstr ""
 
-#: inc/customizer.php:87
+#: inc/customizer.php:121
 msgid "The tagline text is set under Settings → General."
 msgstr ""
 
-#: inc/customizer.php:108
+#: inc/customizer.php:142
 msgid "Enable sticky header"
 msgstr ""
 
-#: inc/customizer.php:109
+#: inc/customizer.php:143
 msgid "Keeps the header visible at the top of the viewport while scrolling."
 msgstr ""
 
-#: inc/customizer.php:128
+#: inc/customizer.php:162
 msgid "Compact header while scrolling"
 msgstr ""
 
-#: inc/customizer.php:129
+#: inc/customizer.php:163
 msgid "Shrinks the sticky header (reduced padding, tagline hidden) after scrolling begins, restoring it fully when you scroll back to the top. Requires sticky header to be enabled."
 msgstr ""
 
-#: inc/customizer.php:151
+#: inc/customizer.php:185
 msgid "Header padding (px)"
 msgstr ""
 
-#: inc/customizer.php:152
+#: inc/customizer.php:186
 msgid "Top & bottom padding on the site header. Default: 24 px."
 msgstr ""
 
-#: inc/customizer.php:181
+#: inc/customizer.php:215
 msgid "Logo width (px)"
 msgstr ""
 
-#: inc/customizer.php:182
+#: inc/customizer.php:216
 msgid "Maximum display width of the custom logo. Height scales automatically. Default: 160 px."
 msgstr ""
 
-#: inc/customizer.php:216
+#: inc/customizer.php:250
 msgid "Default Social Share Image"
 msgstr ""
 
-#: inc/customizer.php:217
+#: inc/customizer.php:251
 msgid "Shown when a page or post is shared on Facebook, X, etc. and has no featured image of its own. Recommended size: 1200×630px or larger."
 msgstr ""
 
