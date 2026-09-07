@@ -271,10 +271,13 @@
 		return out;
 	}
 
+	// v1.12.0 (B16): neutral badge names (badge-articles/guides/reviews in
+	// search.css; the tech-legacy android/webdev/software names remain as
+	// CSS aliases for child themes that emit them directly).
 	function catColor( slug ) {
-		if ( slug.indexOf( 'android' ) !== -1 ) return 'android';
-		if ( slug.indexOf( 'web' ) !== -1 || slug.indexOf( 'dev' ) !== -1 ) return 'webdev';
-		return 'software';
+		if ( slug.indexOf( 'android' ) !== -1 ) return 'articles';
+		if ( slug.indexOf( 'web' ) !== -1 || slug.indexOf( 'dev' ) !== -1 ) return 'guides';
+		return 'reviews';
 	}
 
 	function renderItem( p, index ) {
@@ -313,6 +316,25 @@
 		html += renderFooter( q );
 		results.innerHTML = html;
 		results.classList.add( 'has-results' );
+	}
+
+	// v1.12.0 (B14): zero-results state with suggestion chips. `seeds` is
+	// a pre-extracted array of recent titles (client-side only, no engine
+	// change; the label comes from the localize array when present).
+	// IMPORTANT: this fn must NOT call getIndex() itself - getIndex()
+	// memoizes rejections, so inside the REST-fallback branch (index
+	// already failed) the re-call would reject and the chips would never
+	// render. Callers pass what they have; no seeds = plain empty state.
+	function renderNoResults( q, seeds ) {
+		results.innerHTML = '<div class="search-empty">' + escapeHtml( T_NO_RESULTS ) + '</div>';
+		results.classList.add( 'has-results' );
+		if ( ! seeds || ! seeds.length ) return;
+		var chips = '<div class="search-chips-label">' + escapeHtml( I18N.trySearching || 'Try searching for' ) + '</div><div class="search-chips">';
+		for ( var j = 0; j < seeds.length && j < 3; j++ ) {
+			chips += '<a class="search-chip" href="' + escapeHtml( HOME_URL ) + '?s=' + encodeURIComponent( seeds[ j ] ) + '">' + escapeHtml( seeds[ j ] ) + '</a>';
+		}
+		chips += '</div>';
+		results.innerHTML = results.innerHTML + chips;
 	}
 
 	// Smart fallback: "no matches" message + 3 newest posts instead of a
@@ -367,7 +389,20 @@
 					} );
 					renderPosts( q, merged.slice( 0, MAX_RESULTS ) );
 				} else if ( ! localMatches.length ) {
-					fallbackRecent( q );
+					// v1.12.0 (B14): zero results WITH a working index - offer
+					// suggestion chips seeded from the index's recent titles
+					// (chips beat "3 random recent posts" when nothing matches).
+					getIndex().then( function ( all ) {
+						if ( ( input.value || '' ).trim() !== q ) return;
+						var seeds = [];
+						for ( var i = 0; i < all.length && seeds.length < 3; i++ ) {
+							var t = ( all[ i ].title || '' ).trim();
+							if ( t && seeds.indexOf( t ) === -1 ) seeds.push( t );
+						}
+						renderNoResults( q, seeds );
+					} ).catch( function () {
+						renderNoResults( q, [] );
+					} );
 				}
 			} )
 			.catch( function () {
@@ -425,7 +460,7 @@
 					.then( function ( r ) { return r.json(); } )
 					.then( function ( data ) {
 						if ( ! Array.isArray( data ) || ! data.length ) {
-							results.innerHTML = '<div class="search-empty">' + escapeHtml( T_NO_RESULTS ) + '</div>';
+							renderNoResults( q, [] );
 							currentData = [];
 							return;
 						}

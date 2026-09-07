@@ -1,3 +1,49 @@
+## [1.12.0] - 2026-09-07
+
+### Section B: search surfaces (docs/UI-MAKEOVER-LIST.md items B11-B16)
+
+- **B11 generic search form** - styled at last (was browser-default:
+  zero .search-form rules outside search.css's results-page scopes).
+  Token field + accent submit; stacks full-width below 480px (measured:
+  inline field was 158px at 360px; stacked = 262px). WP's searchform.php
+  wraps the input in a <label> - the LABEL is the flex item (targeting
+  the input collapsed it to 31px; caught by rect measurement).
+- **B11a the .gwill-btn family** - search-no-results.php has emitted
+  class="gwill-btn gwill-btn--primary" since v1.1.0 with ZERO rules
+  (another naked element). Token family added: --primary (btn tokens) +
+  --ghost (border + transparent), both 44px min-height.
+- **B12 404 makeover** - ghost "404" numeral (aria-hidden, clamped
+  6rem-11rem at 22% muted), tinted search card, ghost CTA button, and a
+  "Latest articles" grid (up to 3, no_found_rows + postdata reset;
+  absent entirely when the site has no posts).
+- **B13 content-none state** - dashed-border card, glyph circle (ghost
+  search icon with minus), and a filterable CTA
+  (gwill_content_none_cta; default "Back to Home", false suppresses).
+- **B14 dropdown suggestion chips** - the FTS-empty zero branch now
+  renders up to 3 chips seeded from the index's own recent titles
+  (label via new trySearching i18n string). DESIGN CORRECTION made
+  mid-build: the original placement re-called getIndex() inside the
+  REST-fallback branch, but getIndex() memoizes rejections - the chips
+  could never have rendered there (dead code). renderNoResults(q,
+  seeds) now takes pre-extracted seeds; the FTS branch (index alive)
+  passes real seeds, the REST fallback passes [] (honest plain state).
+  Behavioral battery: tests/test-search-chips.js (8 assertions, real
+  engine + stubbed fetch) - chips render, seed from titles, dedupe,
+  href to ?s=, and NO chips when the index is down.
+- **B15 correction banner card** - "Showing results for" paragraph is a
+  quiet tinted card in the .search-suggest language. CSS-only; markup
+  unchanged.
+- **B16 neutral badge names** - catColor() now emits
+  badge-articles/guides/reviews (same green/blue/purple values);
+  badge-android/webdev/software remain as CSS aliases for child themes.
+  Dark-mode parity in both selector systems.
+
+Battery: pill 27/27 + chips 8/8. Proof (Obscura): 404 card 312px @360 /
+640px @1280, ghost numeral 96px/176px clamped, grid 1-col -> 2-col,
+glyph 64px circle, submit = btn tokens rgb(37,99,235), stacked form
+262px input. Verified: php -l x3, node --check x2, braces balanced
+(style 524/524, search 178/178), POT 511 msgids.
+
 ## [1.11.3] - 2026-09-07
 
 ### Review deleg_2fd0090b repairs: dead sheet-pill selectors + indent (Section A follow-up)

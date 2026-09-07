@@ -76,6 +76,12 @@ Priority order: C17 (cards) → A1-A3 (mobile header diet + search sheet)
 
 ## B. Search surfaces
 
+> **SHIPPED v1.12.0** - B11 (generic search form + the unstyled .gwill-btn
+> CTA family), B12 (404 ghost-numeral card + latest grid), B13 (content-none
+> card + filterable CTA), B14 (dropdown chips via renderNoResults(q, seeds);
+> the memoized-getIndex trap found + avoided mid-build, battery 8/8), B15
+> (correction card), B16 (neutral badge names + aliases).
+
 11. **Generic searchform.php is browser-default** — used on 404 +
     no-results; zero `.search-field`/`.search-submit` rules exist
     (verified). Give it the token treatment (bordered field + accent

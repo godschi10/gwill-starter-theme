@@ -1145,3 +1145,87 @@ body.gwill-search-open::after {
 		animation: none;
 	}
 }
+
+
+/* ── B14 (v1.12.0): zero-results suggestion chips ────────────────────────
+   The plain "No results" dead end gains up to 3 chips seeded from the
+   index's own recent titles (client-side only; no engine change). */
+.search-chips-label {
+	padding: 0 12px 6px;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--color-muted, #6b7280);
+	text-align: left;
+}
+
+.search-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	justify-content: center;
+	padding: 0 12px 14px;
+}
+
+.search-chip {
+	display: inline-flex;
+	align-items: center;
+	min-height: 32px;
+	padding: 4px 12px;
+	border: 1px solid var(--color-border, #e5e7eb);
+	border-radius: 999px;
+	font-size: 13px;
+	color: var(--color-primary, #111);
+	text-decoration: none;
+	background: var(--color-bg, #fff);
+	transition: border-color 0.12s, color 0.12s;
+}
+@media (hover: hover) {
+	.search-chip:hover {
+		border-color: var(--color-accent, #2563eb);
+		color: var(--color-accent, #2563eb);
+	}
+}
+.search-chip:focus-visible {
+	outline: 2px solid var(--color-accent, #2563eb);
+	outline-offset: 2px;
+}
+
+/* ── B15 (v1.12.0): correction banner card ───────────────────────────────
+   The "Showing results for" paragraph becomes a quiet card in the same
+   language as .search-suggest (accent 5% tint). Scoped to the results
+   page class so the B11 generic form styles never collide. */
+.search-correct {
+	background: color-mix(in srgb, var(--color-accent, #2563eb) 5%, var(--color-bg, #fff));
+	border: 1px solid var(--color-border, #e5e7eb);
+	border-radius: 10px;
+	padding: 14px 18px;
+}
+.search-correct a {
+	/* keep the dashed-underline link; make the CTA read as an action */
+	padding: 2px 4px;
+}
+
+/* ── B16 (v1.12.0): neutral badge names + backward-compat aliases ────────
+   .badge-android/.badge-webdev/.badge-software were tech-theme legacy
+   names mapped to green/blue/purple. New neutral names keep the same
+   colors; old names remain as aliases (catColor() in
+   search-dropdown.js is updated to emit the new ones; the results-page
+   PHP badge (search.php type-badge) is a separate, token class). */
+.badge-articles { color: #16a34a; background: rgba(22, 163, 74, 0.14); border-color: rgba(22, 163, 74, 0.35); }
+.badge-guides   { color: #2563eb; background: rgba(37, 99, 235, 0.14); border-color: rgba(37, 99, 235, 0.35); }
+.badge-reviews  { color: #7c3aed; background: rgba(124, 58, 237, 0.14); border-color: rgba(124, 58, 237, 0.35); }
+
+[data-theme="dark"] .badge-articles,
+:root:not([data-theme="light"]) .badge-articles { color: #4ade80; background: rgba(22, 163, 74, 0.18); border-color: rgba(22, 163, 74, 0.4); }
+[data-theme="dark"] .badge-guides,
+:root:not([data-theme="light"]) .badge-guides { color: #60a5fa; background: rgba(37, 99, 235, 0.18); border-color: rgba(37, 99, 235, 0.4); }
+[data-theme="dark"] .badge-reviews,
+:root:not([data-theme="light"]) .badge-reviews { color: #c084fc; background: rgba(124, 58, 237, 0.18); border-color: rgba(124, 58, 237, 0.4); }
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) .badge-articles { color: #4ade80; background: rgba(22, 163, 74, 0.18); border-color: rgba(22, 163, 74, 0.4); }
+	:root:not([data-theme="light"]) .badge-guides { color: #60a5fa; background: rgba(37, 99, 235, 0.18); border-color: rgba(37, 99, 235, 0.4); }
+	:root:not([data-theme="light"]) .badge-reviews { color: #c084fc; background: rgba(124, 58, 237, 0.18); border-color: rgba(37, 99, 235, 0.4); }
+}

@@ -4,7 +4,7 @@ Theme URI:   https://gwillchijioke.com
 Author:      G-will Chijioke
 Author URI:  https://gwillchijioke.com
 Description: A clean, custom WordPress starter theme built from scratch. No parent theme dependency.
-Version:     1.11.3
+Version:     1.12.0
 Requires at least: 6.4
 Requires PHP:     8.0
 License:     GNU General Public License v2 or later
@@ -3305,3 +3305,236 @@ select:focus {
   max-height: 40px;
 }
 
+/* ------------------------------------------------------------------ */
+/* v1.12.0 - Section B: search surfaces (docs/UI-MAKEOVER-LIST.md)     */
+/* ------------------------------------------------------------------ */
+
+/* ── B11a: the shared .gwill-btn family ─────────────────────────────
+   template-parts/search/search-no-results.php has emitted
+   class="gwill-btn gwill-btn--primary" since v1.1.0 with ZERO matching
+   rules anywhere - the CTA rendered as a naked link. Token-driven
+   family; --primary uses the button tokens (inverts in dark free). */
+.gwill-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px; /* WCAG 2.5.5 */
+  padding: 0.7rem 1.5rem;
+  border-radius: var(--form-radius, 4px);
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.15s, border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.gwill-btn--primary {
+  background: var(--color-btn-bg);
+  color: var(--color-btn-text);
+  border: 1px solid var(--color-btn-bg);
+}
+@media (hover: hover) {
+  .gwill-btn--primary:hover { opacity: 0.88; }
+}
+.gwill-btn--primary:focus-visible {
+  outline: 3px solid var(--form-focus-clr, var(--color-accent, #2563eb));
+  outline-offset: 2px;
+}
+
+.gwill-btn--ghost {
+  background: transparent;
+  color: var(--color-primary);
+  border: 1px solid var(--color-border-input);
+}
+@media (hover: hover) {
+  .gwill-btn--ghost:hover { border-color: var(--color-accent); color: var(--color-accent); }
+}
+.gwill-btn--ghost:focus-visible {
+  outline: 3px solid var(--form-focus-clr, var(--color-accent, #2563eb));
+  outline-offset: 2px;
+}
+
+/* ── B11: generic search form (404, no-results, widget contexts) ────
+   Was browser-default: zero .search-form/.search-field/.search-submit
+   rules existed outside search.css's .search-results__header-scoped
+   overrides (which still win on the results page by specificity). */
+.search-form {
+  display: flex;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+
+/* WP's searchform.php wraps the input in a <label> - the LABEL is the
+   flex item, not the input. Measured: targeting the input collapsed the
+   field to 31px at 360px. The label grows; the input fills it. */
+.search-form label {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+}
+
+.search-form .search-field {
+  width: 100%;
+  min-width: 0;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--color-border-input);
+  border-radius: var(--form-radius, 4px);
+  font: inherit;
+  font-size: 1rem;
+  color: var(--color-primary);
+  background: var(--color-bg);
+}
+
+.search-form .search-field:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 0;
+  border-color: var(--color-accent);
+}
+
+.search-form .search-submit {
+  flex-shrink: 0;
+  padding: 0.7rem 1.25rem;
+  border: 1px solid var(--color-btn-bg);
+  border-radius: var(--form-radius, 4px);
+  background: var(--color-btn-bg);
+  color: var(--color-btn-text);
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+@media (hover: hover) {
+  .search-form .search-submit:hover { opacity: 0.88; }
+}
+.search-form .search-submit:focus-visible {
+  outline: 3px solid var(--form-focus-clr, var(--color-accent, #2563eb));
+  outline-offset: 2px;
+}
+
+/* Small screens: stack the form - the input gets the full row (same
+   doctrine as the v1.11.2 search-sheet close bar; 158px of typing
+   space at 360px was measurably tight). */
+@media (max-width: 480px) {
+  .search-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .search-form .search-submit {
+    width: 100%;
+  }
+}
+
+/* ── B12: 404 makeover ───────────────────────────────────────────────
+   Ghost numeral + card + CTA + latest-articles grid. All token-driven;
+   the numeral is aria-hidden decoration. */
+.error-404 {
+  max-width: 640px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.error-404__ghost {
+  margin: 0;
+  font-size: clamp(6rem, 24vw, 11rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: color-mix(in srgb, var(--color-muted, #6b7280) 22%, transparent);
+  user-select: none;
+  pointer-events: none;
+}
+
+.error-404__card {
+  background: color-mix(in srgb, var(--color-accent, #2563eb) 5%, var(--color-bg, #fff));
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 10px;
+  padding: 2rem 1.5rem;
+}
+
+.error-404__card h1 {
+  margin-bottom: 0.5rem;
+}
+
+.error-404__text {
+  color: var(--color-muted);
+  margin-bottom: 1.5rem;
+}
+
+.error-404__cta {
+  margin-top: 1.5rem;
+}
+
+/* Latest-articles grid (hidden entirely when the query returns none) */
+.error-404__latest {
+  margin-top: calc(var(--spacing) * 2);
+  text-align: left;
+}
+
+.error-404__latest-title {
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+}
+
+.error-404__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--spacing);
+}
+
+.error-404__grid .entry-title {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.error-404__grid .entry-title a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+@media (hover: hover) {
+  .error-404__grid .entry-title a:hover { color: var(--color-accent); }
+}
+
+.error-404__grid .entry-meta {
+  margin-bottom: 0;
+}
+
+/* ── B13: content-none state ───────────────────────────────────────── */
+.content-none {
+  max-width: 560px;
+  margin-inline: auto;
+  text-align: center;
+  padding: 3rem 1.5rem;
+  border: 1px dashed var(--color-border, #e5e7eb);
+  border-radius: 10px;
+}
+
+.content-none__glyph {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 1.25rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-accent, #2563eb) 8%, transparent);
+  color: var(--color-accent, #2563eb);
+}
+
+.content-none__glyph svg {
+  width: 28px;
+  height: 28px;
+}
+
+.content-none__title {
+  margin-bottom: 0.5rem;
+}
+
+.content-none p {
+  color: var(--color-muted);
+}
+
+.content-none__cta {
+  margin-top: 1.5rem;
+}
