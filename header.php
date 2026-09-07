@@ -57,7 +57,7 @@ if ( is_singular( 'post' ) ) :
 						<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
 							<?php echo esc_html( get_bloginfo( 'name' ) ); ?>
 						</a>
-		</div>
+					</div>
 				<?php endif; ?>
 
 				<?php

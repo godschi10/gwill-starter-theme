@@ -4,7 +4,7 @@ Theme URI:   https://gwillchijioke.com
 Author:      G-will Chijioke
 Author URI:  https://gwillchijioke.com
 Description: A clean, custom WordPress starter theme built from scratch. No parent theme dependency.
-Version:     1.11.2
+Version:     1.11.3
 Requires at least: 6.4
 Requires PHP:     8.0
 License:     GNU General Public License v2 or later
@@ -3224,20 +3224,33 @@ select:focus {
   }
 }
 
-/* ── A1 mobile: the sheet's pill item - full-width labeled segments ── */
+/* ── A1 mobile: the sheet's pill item - full-width labeled segments ──
+   v1.11.3 (review F1): the original rules targeted .mobile-theme-pill,
+   a class the PHP never emits (items_wrap emits the -wrap li; the
+   buffered partial's own root is .gwill-theme-pill) - dead selectors,
+   per the DEAD ARMOR law. Retargeted to .mobile-theme-pill-wrap and
+   match-tested. The darkmode.css <=767px label-hide is counter-ruled
+   here at higher specificity: inside the sheet the pill owns a
+   dedicated full-width row, so the labels fit and the segment
+   aria-labels are no longer the only names. */
 @media (max-width: 767px) {
   .site-header nav #primary-menu .mobile-theme-pill-wrap {
     display: flex;
     padding: 0.75rem 0;
     border-bottom: none; /* last item - no divider before the pill */
   }
-  .mobile-theme-pill .gwill-theme-pill {
+  .site-header nav #primary-menu .mobile-theme-pill-wrap .gwill-theme-pill {
     width: 100%;
     display: flex;
   }
-  .mobile-theme-pill .gwill-theme-pill__seg {
+  .site-header nav #primary-menu .mobile-theme-pill-wrap .gwill-theme-pill__seg {
     flex: 1 1 0;
     justify-content: center;
+  }
+  /* Counter-rule darkmode.css's mobile label-hide (equal-origin rule
+     loads later there; specificity wins here instead). */
+  .site-header nav #primary-menu .mobile-theme-pill-wrap .gwill-theme-pill .gwill-theme-pill__text {
+    display: inline;
   }
 }
 

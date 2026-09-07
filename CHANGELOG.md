@@ -1,3 +1,35 @@
+## [1.11.3] - 2026-09-07
+
+### Review deleg_2fd0090b repairs: dead sheet-pill selectors + indent (Section A follow-up)
+
+Independent review verdict: PASS WITH FINDINGS. All findings verified
+against the live tree and repaired.
+
+- **F1 [MEDIUM] - dead selectors + false shipped claim**: the v1.11.2
+  sheet-pill rules targeted `.mobile-theme-pill`, a class the PHP never
+  emits (items_wrap emits the `.mobile-theme-pill-wrap` li; the buffered
+  partial's root is `.gwill-theme-pill`) - match-tested null per the DEAD
+  ARMOR law. The sheet pill rendered 142px icon-only, not the "full-width
+  labeled segments" the commit + CHANGELOG claimed. FIX: selectors
+  retargeted to `.mobile-theme-pill-wrap` (doubled under the sheet scope)
+  + a higher-specificity counter-rule for darkmode.css's <=767px
+  label-hide (the sheet owns a dedicated full-width row, so labels fit -
+  the original design intent stands). PROVEN in Obscura at 360px: pill
+  312/312 full-width, 3 equal ~101x44px segments, labels display:block,
+  taps >=44px.
+- **F2 [LOW] - patch-tool outdent**: header.php:60 `</div>` restored to
+  its correct depth (the v1.11.2 patch's fuzzy match had outdented it 4
+  tabs - the exact mangle class the skill warns about).
+- **F3 [INFO, recorded not fixed]**: the search dim (body child,
+  z-index 9999) vs the sheet inside the sticky header's stacking context
+  (z-index 50) paints correctly in current engines but is not
+  spec-guaranteed - noted in the workflow skill so a future stacking
+  refactor re-verifies the dim before shipping.
+
+CHANGELOG/README claims for v1.11.2 were FALSE as written (F1) - this
+entry is the retraction-and-repair record; the claim is true as of this
+version. Battery 27/27 re-run; php -l clean; braces 484/484.
+
 ## [1.11.2] - 2026-09-07
 
 ### Section A: header & mobile row (docs/UI-MAKEOVER-LIST.md items A1-A9)
