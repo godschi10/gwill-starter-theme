@@ -1,3 +1,29 @@
+## [1.13.1] - 2026-09-08
+
+### Search panel craft: icon INSIDE the input (tech-theme pill style)
+
+The King's live screenshot review caught the last ugly seam in the
+dropdown: the magnifying glass sat OUTSIDE the field as a flex sibling
+- two boxes where there should be one clean pill. Now the glyph floats
+absolute inside the input's left edge (pointer-events: none), the field
+takes 36px left padding, and the input wears the tech theme's mono
+search voice (JetBrains stack, 0.2px tracking). Geometry re-proven in
+Obscura on the real-engine mock (sessionStorage-seeded index, real
+search-dropdown.js, PHP-executed header): 5 results, badge with ONE
+ampersand, snippet + date rows, marks highlighting, dropdown 8px below
+the header, 300px scroll box. Full-page OCR leak sweep: CLEAN.
+
+Also this session (no theme change): the raw-code hunt audited every
+theme PHP with the actual tokenizer (T_INLINE_HTML scan) - zero real
+leaks; the 26 flagged lines are legitimate HTML ($10k price options,
+inline JS, comments). The leak the King saw was in MY review mock's
+regex-stripper, already replaced by executing the real header.php.
+And the "hamburger is nowhere to be found" on the live site is an OLD
+DEPLOYED BUILD: served HTML contains zero header-row/brand-prompt/
+nav-toggle markup (v1.13.x markup absent), LiteSpeed serves a
+pre-A-v2 combined sheet. Redeploy from GitHub + assign the Primary
+menu + purge LiteSpeed.
+
 ## [1.13.0] - 2026-09-08
 
 ### Search fix - double escapes, 3705px balloon, page-bottom anchor (King's live report)

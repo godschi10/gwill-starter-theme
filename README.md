@@ -236,7 +236,7 @@ push fixes ship silently broken to installed PWAs).
 
 > **Note on this document:** an earlier version of this README described the theme as it existed many versions ago - a 5-file `inc/` directory, a FormSubmit.co-based contact form, a 2-control Customizer. None of that has been true for a long time; the code moved forward across 50 versions and this file didn't. It has been rewritten from scratch against the actual v1.0.50 codebase, verified file-by-file rather than carried forward from memory. See `CHANGELOG.md` for the version-by-version history of how it got here.
 
-**Latest version: 1.13.0** - Search fixed end-to-end: double-escaped text (`&amp;` in badges/excerpts) decoded at all three endpoints, results list capped at a 300px internal scroll (was a 3705px page balloon), and the dropdown re-anchored with position:fixed + JS-measured top (tech-theme v1.19.39 pattern) so it always opens 8px below the header. Full history in `CHANGELOG.md`.
+**Latest version: 1.13.1** - the search dropdown's magnifier now floats INSIDE the input (one clean pill, tech-theme mono input voice). 1.13.0 fixed the search end-to-end; 1.12.9 rebuilt the header on `docs/DESIGN-LANGUAGE.md`. Full history in `CHANGELOG.md`.
 
 ---
 
