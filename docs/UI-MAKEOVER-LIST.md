@@ -32,7 +32,11 @@ Priority order: C17 (cards) → A1-A3 (mobile header diet + search sheet)
 
 ---
 
-## A. Header & mobile row (the hot spot)
+## A. Header & mobile row
+
+> **REBUILT v1.12.9 under the design gate** - the v1.11.2/.3 attempt was
+> rolled back (revert 3220ae5). A v2 follows docs/DESIGN-LANGUAGE.md:
+> two-row header, terminal brand, one chip family, 327px -> 63px mobile. (the hot spot)
 
 1. **Mobile row diet** — free the header row below 767px: move the theme
    pill into the mobile menu sheet (full-width, labeled segments — the

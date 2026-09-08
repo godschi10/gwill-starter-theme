@@ -236,7 +236,7 @@ push fixes ship silently broken to installed PWAs).
 
 > **Note on this document:** an earlier version of this README described the theme as it existed many versions ago - a 5-file `inc/` directory, a FormSubmit.co-based contact form, a 2-control Customizer. None of that has been true for a long time; the code moved forward across 50 versions and this file didn't. It has been rewritten from scratch against the actual v1.0.50 codebase, verified file-by-file rather than carried forward from memory. See `CHANGELOG.md` for the version-by-version history of how it got here.
 
-**Latest version: 1.11.1** - docs-only: the 55-item UI makeover audit list (`docs/UI-MAKEOVER-LIST.md`) with the mobile-header problem measured in a real browser. Full history in `CHANGELOG.md`.
+**Latest version: 1.12.9** - UI Section A v2: the header rebuilt on a written design language (`docs/DESIGN-LANGUAGE.md`) in the tech theme's craft - two-row layout, terminal brand, one control family of 44px ghost chips, tri-state pill collapsing to a cycling chip on mobile. The earlier A-J campaign (1.11.2-1.12.8) was rolled back by royal order; every UI move now passes a before/after screenshot gate BEFORE shipping. Full history in `CHANGELOG.md`.
 
 ---
 

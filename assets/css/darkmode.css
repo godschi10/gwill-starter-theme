@@ -78,8 +78,10 @@
 	gap: 2px;
 	padding: 2px;
 	background: transparent;
-	border: 1px solid var(--color-border, #e5e7eb);
-	border-radius: var(--form-radius, 4px);
+	/* v1.12.9 (Section A v2): the pill joins the header control family -
+	   same bordered-chip ground and 8px radius as search + hamburger. */
+	border: 1px solid var(--color-border-input, #6b7280);
+	border-radius: 8px;
 	flex-shrink: 0;
 }
 
@@ -95,7 +97,7 @@
 	min-width: 44px;
 	background: transparent;
 	border: 0;
-	border-radius: calc(var(--form-radius, 4px) - 1px);
+	border-radius: 7px; /* chip family: 8px outer - 1px padding */
 	color: var(--color-muted, #6b7280);
 	font: inherit;
 	font-size: 0.8rem;
@@ -116,18 +118,23 @@
 	flex: 0 0 16px;
 }
 
-/* The active segment: btn-bg/btn-text tokens - invert with the theme. */
+/* The active segment (v1.12.9 family fix): NOT a solid block - the
+   King's review caught a lone blue square reading as an accidental
+   blob among the ghost chips. Active = accent-tinted ghost: 10% accent
+   ground + inset accent ring + accent glyph. Reads as "selected"
+   while staying inside the bordered-chip family. */
 .gwill-theme-pill__seg[aria-pressed="true"] {
-	background: var(--color-btn-bg, #2563eb);
-	color: var(--color-btn-text, #ffffff);
+	background: color-mix(in srgb, var(--color-accent, #2563eb) 10%, transparent);
+	color: var(--color-accent, #2563eb);
+	box-shadow: inset 0 0 0 1px var(--color-accent, #2563eb);
 }
 
-/* Idle-segment hover: color-only (finance pattern + the old toggle's own
-   convention), gated per the touch law - taps must never leave stuck
-   states. Scoped to [aria-pressed="false"] so the accent hover can never
-   repaint the ACTIVE segment's label (accent-on-btn-bg = invisible text). */
+/* Segment hover: color-only, gated per the touch law. The old
+   [aria-pressed="false"] scoping existed because accent-on-SOLID-btn-bg
+   was invisible text; with the ghost-active spec above, accent hover is
+   safe on every segment. */
 @media (hover: hover) {
-	.gwill-theme-pill__seg[aria-pressed="false"]:hover {
+	.gwill-theme-pill__seg:hover {
 		color: var(--color-accent);
 	}
 }
@@ -137,14 +144,37 @@
 .gwill-theme-pill--icon .gwill-theme-pill__text { display: none; }
 .gwill-theme-pill--icon .gwill-theme-pill__seg  { padding: 0.5rem; }
 
-/* Mobile: text spans drop at the starter's own 767px boundary (the same
-   breakpoint where the hamburger appears and the header row becomes
-   [branding][pill][search][hamburger] - labeled segments would starve the
-   brand of space). Icons + per-button aria-labels carry meaning (finance
-   pattern; each segment is fully labelled, so display:none text is safe). */
+/* Mobile (v1.12.9, Section A v2): the pill collapses to a SINGLE 44px
+   button showing only the ACTIVE state's icon - the header row becomes
+   [branding...][pill 44][search 44][menu 44] and always fits 360px
+   (the v1.11.1 audit measured the 3-segment icon pill at 142px, the
+   main driver of the 73.7% control crowding). Tapping cycles
+   dark -> system -> light (engine: inc/darkmode.php collapsed mode).
+   The visible segment's own aria-label names the current state, so the
+   control reads truthfully without the other segments. */
 @media (max-width: 767px) {
 	.gwill-theme-pill .gwill-theme-pill__text { display: none; }
-	.gwill-theme-pill .gwill-theme-pill__seg  { padding: 0.5rem; }
+	.gwill-theme-pill .gwill-theme-pill__seg  { padding: 0.5rem; display: none; }
+	.gwill-theme-pill[data-current="dark"]   .gwill-theme-pill__seg[data-theme-set="dark"],
+	.gwill-theme-pill[data-current="system"] .gwill-theme-pill__seg[data-theme-set="system"],
+	.gwill-theme-pill[data-current="light"]  .gwill-theme-pill__seg[data-theme-set="light"] {
+		display: inline-flex;
+	}
+	/* Collapsed chip = exactly its siblings: padding 0 makes the pill a
+	   44px border-box chip, same as search + hamburger. The active tint
+	   above still shows the state via the glyph; the ground stays ghost. */
+	.gwill-theme-pill {
+		padding: 0;
+	}
+	.gwill-theme-pill[data-current="dark"]   .gwill-theme-pill__seg[data-theme-set="dark"],
+	.gwill-theme-pill[data-current="system"] .gwill-theme-pill__seg[data-theme-set="system"],
+	.gwill-theme-pill[data-current="light"]  .gwill-theme-pill__seg[data-theme-set="light"] {
+		/* 42px inner + the pill's 1px border x2 = 44px outer - EXACTLY the
+		   search/hamburger chip (the seg's own border is 0). */
+		min-height: 42px;
+		min-width: 42px;
+		border-radius: 7px;
+	}
 }
 
 /* ── Explicit element overrides ──────────────────────────────────────────── */

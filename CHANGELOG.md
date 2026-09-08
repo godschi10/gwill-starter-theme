@@ -1,3 +1,47 @@
+## [1.12.9] - 2026-09-08
+
+### UI Section A v2 - header rebuilt on the tech-theme design language
+
+The A-J makeover campaign (1.11.2-1.12.8) was ROLLED BACK on the King's
+verdict (revert 3220ae5): it shipped nine releases of surface changes
+with no shared design system and no visual review. The rebuild is gated
+differently - a written design contract first, before/after screenshots
+approved before ship.
+
+- `docs/DESIGN-LANGUAGE.md` - the contract: quiet by default, ONE
+  control family, tokens only, complete states or absent, 150-200ms
+  motion hover-gated, elevation only on floating surfaces.
+- **Two-row header** (tech-theme pattern): row 1 = terminal brand +
+  control chips; row 2 = tinted uppercase nav strip (13px/600/0.04em),
+  current page accent + inset underline bar.
+- **Terminal brand**: glowing accent ">_" prompt, mono 800 name,
+  blinking block cursor (1.1s step-end, reduced-motion safe via the
+  global reset).
+- **One control family**: search + hamburger + pill are all 44px
+  bordered ghost chips (tech .icon-btn spec, tokenized): accent border
+  + tint + glyph on hover (hover-gated), 0.94 press scale.
+- **Pill family fixes from the review gate**: the solid blue active
+  segment (accidental blob among ghosts) is now an accent-tinted ghost
+  (10% ground + inset ring + accent glyph, color-mix, dark-safe);
+  <=767px it collapses to ONE 44px chip showing the current state, tap
+  cycles dark->system->light (engine matchMedia('(max-width:767px)')
+  guard in inc/darkmode.php - desktop taps stay explicit).
+- **Mobile row never wraps**: brand truncates ellipsis (was the 58px
+  crush/wrap failure), measured header 327px -> 63px at 360px; chips
+  exact 44/44/44 (pill 42px segment + 1px borders).
+- **Search dropdown**: entrance rise animation (0.18s), icon vertical
+  center fixed (old margin-top pinned it high), 12px surface radius,
+  kbd footer hint "Press Enter... Esc..." (new i18n string).
+- **main.js**: hamburger lives in .header-actions now - outside-click
+  and focusout lookups moved from closest('nav') to
+  closest('.site-header'); honest comment: the "prebuilt from src/"
+  header was false, no src/ exists (verified).
+
+Proven (Obscura + pixel probe + vision QA): chips 44/44/44 evenly
+spaced at 360px, pill interior rgb(233,239,253) tint not a block,
+brand prompt+cursor render, desktop rows 66+44px. Pill battery 27/27,
+chips 8/8, php -l x3, node --check, braces 491/491.
+
 ## [1.11.1] - 2026-09-07
 
 ### docs: UI makeover audit list (55 items, A-J sections)

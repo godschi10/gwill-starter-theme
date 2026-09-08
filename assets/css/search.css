@@ -702,14 +702,23 @@
 	width: 2.75rem;
 	height: 2.75rem;
 	padding: 0;
+	/* v1.12.9 (Section A v2): header control family - bordered 44px chip,
+	   same ground as the hamburger and the theme pill (tech theme's
+	   .icon-btn pattern, tokenized for light + dark). */
 	background: transparent;
-	border: none;
-	border-radius: var(--form-radius, 4px);
-	color: var(--color-primary, #111);
+	border: 1px solid var(--color-border-input, #6b7280);
+	border-radius: 8px;
+	color: var(--color-muted, #6b7280);
 	cursor: pointer;
-	transition: color 0.15s ease;
+	transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
 }
-.gwill-search-toggle:hover        { color: var(--color-accent, #2563eb); }
+@media (hover: hover) {
+	.gwill-search-toggle:hover {
+		border-color: var(--color-accent, #2563eb);
+		color: var(--color-accent, #2563eb);
+		background: color-mix(in srgb, var(--color-accent, #2563eb) 6%, transparent);
+	}
+}
 .gwill-search-toggle:focus-visible {
 	outline: 2px solid var(--color-accent, #2563eb);
 	outline-offset: 2px;
@@ -729,7 +738,7 @@
 	z-index: 10000;
 	background: var(--color-bg, #fff);
 	border: 1px solid var(--color-border, #e5e7eb);
-	border-radius: 10px;
+	border-radius: 12px; /* v1.12.9: tech theme's --r surface radius */
 	overflow: hidden;
 	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 	width: min(480px, calc(100% - 32px));
@@ -744,6 +753,9 @@
 
 .search-dropdown-form {
 	display: flex;
+	align-items: center; /* v1.12.9: centers the glyph with the input -
+	                       the old stretch left the icon pinned high,
+	                       reading as outside the box (King's review). */
 	gap: 8px;
 	margin-bottom: 1rem;
 }
@@ -753,7 +765,6 @@
 	height: 18px;
 	flex-shrink: 0;
 	color: var(--color-muted, #6b7280);
-	margin-top: 4px;
 }
 
 .search-dropdown-input {
@@ -1071,3 +1082,35 @@
 	transition: border-color 0.15s, color 0.15s;
 }
 @media (hover: hover) { .search-related-chip:hover { border-color: var(--color-accent, #2563eb); color: var(--color-accent, #2563eb); } }
+
+/* ── v1.12.9 (Section A v2): entrance + keyboard-hint footer ─────────
+   Tech-theme pattern: the dropdown rises 6px as it fades in (the
+   global reduced-motion reset zeroes the duration for users who opt
+   out). The footer teaches Enter/Esc; kbd chips are token-styled. */
+.search-dropdown:not([hidden]) {
+  animation: gwill-sd-rise 0.18s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+@keyframes gwill-sd-rise {
+  from { opacity: 0; transform: translateX(-50%) translateY(-6px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.search-dropdown-footer {
+  border-top: 1px solid var(--color-border, #e5e7eb);
+  padding: 0.625rem 1.25rem;
+  font-size: 0.75rem;
+  color: var(--color-muted, #6b7280);
+  background: color-mix(in srgb, var(--color-primary, #111) 3%, var(--color-bg, #fff));
+}
+
+.search-dropdown-footer kbd {
+  font-family: var(--font-mono, ui-monospace, 'JetBrains Mono', Menlo, monospace);
+  font-size: 0.6875rem;
+  border: 1px solid var(--color-border-input, #6b7280);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 1px 5px;
+  background: var(--color-bg, #fff);
+  color: var(--color-primary, #111);
+}

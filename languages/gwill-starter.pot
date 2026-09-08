@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: GWill Starter 1.11.0\n"
+"Project-Id-Version: GWill Starter 1.12.9\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/gwill-starter-theme\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-07T14:16:41+00:00\n"
+"POT-Creation-Date: 2026-09-08T10:23:11+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: gwill-starter\n"
@@ -106,8 +106,8 @@ msgid "Skip to content"
 msgstr ""
 
 #: header.php:88
-#: header.php:96
-#: header.php:98
+#: header.php:110
+#: header.php:112
 #: searchform.php:19
 #: template-parts/search/search-form-expandable.php:64
 #: template-parts/search/search-form-expandable.php:81
@@ -116,29 +116,33 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: header.php:98
+#: header.php:97
+msgid "Toggle navigation menu"
+msgstr ""
+
+#: header.php:112
 #: searchform.php:16
 #: template-parts/search/search-form-modal.php:80
 msgid "Search…"
 msgstr ""
 
-#: header.php:99
+#: header.php:113
 msgid "Clear search text"
 msgstr ""
 
-#: header.php:103
+#: header.php:117
 #: inc/enqueue.php:208
 #: template-parts/search/search-form-modal.php:118
 msgid "Close search"
 msgstr ""
 
-#: header.php:112
-#: inc/setup.php:68
-msgid "Primary Navigation"
+#: header.php:123
+msgid "Press <kbd>Enter</kbd> for full results or <kbd>Esc</kbd> to close"
 msgstr ""
 
-#: header.php:126
-msgid "Toggle navigation menu"
+#: header.php:130
+#: inc/setup.php:68
+msgid "Primary Navigation"
 msgstr ""
 
 #: inc/ad-slots.php:141

@@ -1,10 +1,8 @@
 /**
  * GWill Starter - assets/js/main.js
  *
- * PRE-BUILT FILE - do not edit directly.
- * Source: src/main.js  |  Build: npm run build
- *
- * Committed as a pre-built file so the theme works without a build step.
+ * Edit directly - this theme has no build step (the former src/ + npm
+ * note was aspirational; verified absent v1.12.9).
  * Enqueued by inc/enqueue.php with strategy: 'defer' - the DOM is fully
  * parsed before this runs; no DOMContentLoaded wrapper is needed.
  */
@@ -20,7 +18,8 @@
   //   <ul id="primary-menu">  (wp_nav_menu with 'menu_id' => 'primary-menu')
   //
   // CSS contract (style.css):
-  //   .nav-toggle           - hidden on desktop, shown on mobile (display:flex)
+  //   .nav-toggle           - in .header-actions (v1.12.9 two-row header);
+  //                           hidden on desktop, shown on mobile (display:flex)
   //   .nav-toggle.is-active - button visual active state (bars morph to ×)
   //   #primary-menu         - hidden on mobile by default
   //   #primary-menu.is-open - revealed when toggle is activated
@@ -50,7 +49,7 @@
 
     // Close when focus moves entirely outside the nav (tab past last item)
     document.addEventListener( 'focusin', function ( e ) {
-      const nav = btn.closest( 'nav' );
+      const nav = btn.closest( '.site-header' );
       if (
         nav &&
         ! nav.contains( e.target ) &&
@@ -67,7 +66,7 @@
     // not move focus, so the dropdown would stay open after the user taps
     // away. (Responsive audit v1.3.2.)
     document.addEventListener( 'click', function ( e ) {
-      const nav = btn.closest( 'nav' );
+      const nav = btn.closest( '.site-header' );
       if (
         nav &&
         ! nav.contains( e.target ) &&

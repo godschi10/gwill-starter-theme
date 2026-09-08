@@ -49,88 +49,92 @@ if ( is_singular( 'post' ) ) :
 	<header class="site-header">
 		<div class="inner">
 
-			<div class="site-branding">
-				<?php if ( has_custom_logo() ) : ?>
-					<?php the_custom_logo(); ?>
-				<?php else : ?>
-					<div class="site-title">
-						<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
-							<?php echo esc_html( get_bloginfo( 'name' ) ); ?>
-						</a>
-					</div>
-				<?php endif; ?>
+			<div class="header-row">
+				<div class="site-branding">
+					<?php if ( has_custom_logo() ) : ?>
+						<?php the_custom_logo(); ?>
+					<?php else : ?>
+						<div class="site-title">
+							<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><span class="brand-prompt" aria-hidden="true">&gt;_</span><span class="brand-name"><?php echo esc_html( get_bloginfo( 'name' ) ); ?></span><span class="brand-cursor" aria-hidden="true"></span></a>
+						</div>
+					<?php endif; ?>
 
-				<?php
-				$description = get_bloginfo( 'description' );
-				/*
-				 * Always render .site-description when description text exists.
-				 * Keeping the element in DOM (rather than removing it entirely)
-				 * lets the Customizer postMessage handler in customizer-preview.js
-				 * toggle visibility live without a page reload.
-				 *
-				 * The HTML `hidden` attribute is the WAI-ARIA-safe way to hide
-				 * an element - assistive technology respects it and the attribute
-				 * has no visual side effects of its own.
-				 */
-				if ( $description ) :
-					$tagline_on = (bool) get_theme_mod( 'gwill_show_tagline', true );
-				?>
-					<p class="site-description"<?php echo $tagline_on ? '' : ' hidden'; ?>><?php echo esc_html( $description ); ?></p>
-				<?php endif; ?>
-			</div>
+					<?php
+					$description = get_bloginfo( 'description' );
+					/*
+					 * Always render .site-description when description text exists.
+					 * Keeping the element in DOM (rather than removing it entirely)
+					 * lets the Customizer postMessage handler in customizer-preview.js
+					 * toggle visibility live without a page reload.
+					 *
+					 * The HTML `hidden` attribute is the WAI-ARIA-safe way to hide
+					 * an element - assistive technology respects it and the attribute
+					 * has no visual side effects of its own.
+					 */
+					if ( $description ) :
+						$tagline_on = (bool) get_theme_mod( 'gwill_show_tagline', true );
+					?>
+						<p class="site-description"<?php echo $tagline_on ? '' : ' hidden'; ?>><?php echo esc_html( $description ); ?></p>
+					<?php endif; ?>
+				</div>
 
-			<?php gwill_part( 'ui/theme-pill' ); ?>
+				<div class="header-actions">
+					<?php gwill_part( 'ui/theme-pill' ); ?>
 
-			<?php if ( class_exists( 'WooCommerce' ) ) : ?>
-				<?php gwill_render_cart_icon(); ?>
-			<?php endif; ?>
+					<?php if ( class_exists( 'WooCommerce' ) ) : ?>
+						<?php gwill_render_cart_icon(); ?>
+					<?php endif; ?>
 
-			<button class="gwill-search-toggle icon-btn" id="search-toggle" aria-label="<?php esc_attr_e( 'Search', 'gwill-starter' ); ?>" aria-expanded="false" data-gwill-search-toggle>
-				<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-			</button>
+					<button class="gwill-search-toggle" id="search-toggle" aria-label="<?php esc_attr_e( 'Search', 'gwill-starter' ); ?>" aria-expanded="false" data-gwill-search-toggle>
+						<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+					</button>
 
-			<div class="search-dropdown" id="search-dropdown" hidden>
-				<div class="search-dropdown-inner">
-					<form class="search-dropdown-form" action="<?php echo esc_url( home_url( '/' ) ); ?>" method="get" role="search">
-						<svg aria-hidden="true" focusable="false" class="search-dropdown-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-						<label class="screen-reader-text" for="search-input"><?php esc_html_e( 'Search', 'gwill-starter' ); ?></label>
-						<span class="search-input-wrap">
-							<input class="search-dropdown-input" type="text" id="search-input" name="s" value="<?php echo esc_attr( get_search_query() ); ?>" placeholder="<?php esc_attr_e( 'Search…', 'gwill-starter' ); ?>" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results" aria-label="<?php esc_attr_e( 'Search', 'gwill-starter' ); ?>">
-							<button class="search-clear" type="button" id="search-clear" aria-label="<?php esc_attr_e( 'Clear search text', 'gwill-starter' ); ?>" hidden>
+					<?php if ( has_nav_menu( 'primary' ) ) : ?>
+						<button
+							class="nav-toggle"
+							aria-expanded="false"
+							aria-controls="primary-menu"
+							aria-label="<?php esc_attr_e( 'Toggle navigation menu', 'gwill-starter' ); ?>"
+						>
+							<span class="nav-toggle__bar" aria-hidden="true"></span>
+							<span class="nav-toggle__bar" aria-hidden="true"></span>
+							<span class="nav-toggle__bar" aria-hidden="true"></span>
+						</button>
+					<?php endif; ?>
+				</div><!-- .header-actions -->
+
+				<div class="search-dropdown" id="search-dropdown" hidden>
+					<div class="search-dropdown-inner">
+						<form class="search-dropdown-form" action="<?php echo esc_url( home_url( '/' ) ); ?>" method="get" role="search">
+							<svg aria-hidden="true" focusable="false" class="search-dropdown-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+							<label class="screen-reader-text" for="search-input"><?php esc_html_e( 'Search', 'gwill-starter' ); ?></label>
+							<span class="search-input-wrap">
+								<input class="search-dropdown-input" type="text" id="search-input" name="s" value="<?php echo esc_attr( get_search_query() ); ?>" placeholder="<?php esc_attr_e( 'Search…', 'gwill-starter' ); ?>" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results" aria-label="<?php esc_attr_e( 'Search', 'gwill-starter' ); ?>">
+								<button class="search-clear" type="button" id="search-clear" aria-label="<?php esc_attr_e( 'Clear search text', 'gwill-starter' ); ?>" hidden>
+									<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+								</button>
+							</span>
+							<button class="search-dropdown-close" type="button" id="search-close" aria-label="<?php esc_attr_e( 'Close search', 'gwill-starter' ); ?>">
 								<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
 							</button>
-						</span>
-						<button class="search-dropdown-close" type="button" id="search-close" aria-label="<?php esc_attr_e( 'Close search', 'gwill-starter' ); ?>">
-							<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-						</button>
-					</form>
-					<div class="search-results" id="search-results" role="status" aria-live="polite"></div>
+						</form>
+						<div class="search-results" id="search-results" role="status" aria-live="polite"></div>
+						<div class="search-dropdown-footer">
+							<?php echo wp_kses( __( 'Press <kbd>Enter</kbd> for full results or <kbd>Esc</kbd> to close', 'gwill-starter' ), array( 'kbd' => array() ) ); ?>
+						</div>
+					</div>
 				</div>
-			</div>
+			</div><!-- .header-row -->
 
 			<?php if ( has_nav_menu( 'primary' ) ) : ?>
-			<nav aria-label="<?php esc_attr_e( 'Primary Navigation', 'gwill-starter' ); ?>">
-
+			<nav class="header-row-2" aria-label="<?php esc_attr_e( 'Primary Navigation', 'gwill-starter' ); ?>">
 				<?php
 				/*
-				 * The toggle button appears before the menu in DOM order so keyboard
-				 * users encounter it first. aria-controls references the menu <ul> id,
-				 * set via 'menu_id' in wp_nav_menu() below. aria-expanded starts false
-				 * - JS sets it to true when the menu opens.
+				 * v1.12.9 two-row header (tech-theme pattern): the menu lives on
+				 * its own strip below the brand row, so desktop nav never crowds
+				 * the brand and the mobile hamburger (row 1, .header-actions)
+				 * controls #primary-menu via aria-controls.
 				 */
-				?>
-				<button
-					class="nav-toggle"
-					aria-expanded="false"
-					aria-controls="primary-menu"
-					aria-label="<?php esc_attr_e( 'Toggle navigation menu', 'gwill-starter' ); ?>"
-				>
-					<span class="nav-toggle__bar" aria-hidden="true"></span>
-					<span class="nav-toggle__bar" aria-hidden="true"></span>
-					<span class="nav-toggle__bar" aria-hidden="true"></span>
-				</button>
-
-				<?php
 				wp_nav_menu( [
 					'theme_location' => 'primary',
 					'container'      => false,

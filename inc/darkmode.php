@@ -85,6 +85,7 @@ function gwill_darkmode_head_script(): void {
 		var DARKBG = '#0f172a';
 		var root   = document.documentElement;
 		var mq     = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+		var mqMobile = window.matchMedia ? window.matchMedia('(max-width: 767px)') : null;
 
 		/* ── A. Resolve + apply theme immediately (parse time) ─────────── */
 
@@ -159,6 +160,17 @@ function gwill_darkmode_head_script(): void {
 					if (!btn.getAttribute('aria-label')) { btn.setAttribute('aria-label', 'Theme'); }
 					btn.addEventListener('click', function(){
 						var pick = btn.getAttribute('data-theme-set'); /* dark|system|light */
+						/* Collapsed-mobile cycle (v1.12.9, Section A v2): below 768px
+						   the pill shows ONLY the active segment (darkmode.css), so a
+						   tap on it would re-select the same state forever. When the
+						   tap lands on the CURRENT choice in that mode, advance to the
+						   next state instead: dark -> system -> light -> dark. Desktop
+						   behavior is untouched (all three segments visible, taps are
+						   explicit). */
+						if (pick === current(g) && mqMobile && mqMobile.matches) {
+							var ord = ['dark','system','light'];
+							pick = ord[(ord.indexOf(pick) + 1) % 3];
+						}
 						groups.forEach(function(g2){
 							g2.setAttribute('data-current', pick);
 							syncPressed(g2, pick);
