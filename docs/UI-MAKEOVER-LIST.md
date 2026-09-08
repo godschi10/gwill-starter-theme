@@ -122,6 +122,11 @@ Priority order: C17 (cards) → A1-A3 (mobile header diet + search sheet)
 
 ## D. Singular article
 
+> **SHIPPED v1.12.2** - D23 (author-box card + avatar halo), D24
+> (related hover lift+zoom), D25 (prev/next split cards with arrow
+> labels), D26 (tag tint hover), D27 (gwill_share_pill_variant filter
+> - ghost pills), D28 (gwill_featured_image_hero filter - full-bleed).
+
 23. **Author box is plain** — card chrome + avatar ring + accent top
     stripe.
 24. **Related posts have no hover lift** — parity with cards.

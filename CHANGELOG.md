@@ -1,3 +1,27 @@
+## [1.12.2] - 2026-09-07
+
+### Section D: singular article (docs/UI-MAKEOVER-LIST.md items D23-D28)
+
+- **D23 author-box card** - the bare accent-rule row becomes a bordered
+  rounded card (accent rule stays as the top stripe) + token avatar
+  halo ring.
+- **D24 related-posts hover** - thumbnail zoom + card lift, gated
+  (hover:hover), reduced-motion covered by the global guard.
+- **D25 prev/next split cards** - the_post_navigation's halves become
+  bordered cards with muted arrow labels (::before/::after), hover
+  accent, stack on phones.
+- **D26 tag pills** - hover tint (accent 8%) + accent border.
+- **D27 share-pill ghost variant** - new gwill_share_pill_variant
+  filter: return 'ghost' for neutral outline pills with accent icons;
+  default stays brand-filled (X dark flip untouched).
+- **D28 featured-image hero** - new gwill_featured_image_hero filter
+  (default false): opts a build into full-bleed (100vw break, 62vh
+  cap, object-fit cover) via .gwill-hero-image; default layout never
+  changes.
+
+All token-driven; D27/D28 are filter opt-ins so nothing moves unless a
+build asks. Braces 576/576; php -l x3 clean.
+
 ## [1.12.1] - 2026-09-07
 
 ### Section C: post lists & cards (docs/UI-MAKEOVER-LIST.md items C17-C22)
