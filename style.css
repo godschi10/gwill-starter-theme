@@ -4,7 +4,7 @@ Theme URI:   https://gwillchijioke.com
 Author:      G-will Chijioke
 Author URI:  https://gwillchijioke.com
 Description: A clean, custom WordPress starter theme built from scratch. No parent theme dependency.
-Version:     1.12.6
+Version:     1.12.7
 Requires at least: 6.4
 Requires PHP:     8.0
 License:     GNU General Public License v2 or later
@@ -4153,4 +4153,77 @@ select:focus {
   font-size: 0.875rem;
   font-style: normal;
   color: var(--color-muted);
+}
+
+/* ------------------------------------------------------------------ */
+/* v1.12.7 - Section I: component polish (docs/UI-MAKEOVER-LIST.md)    */
+/* ------------------------------------------------------------------ */
+
+/* ── I45: apps-hub icon chips + hover lift ───────────────────────────
+   The apps grid CSS lives in assets/css/apps/word-counter.css (loaded
+   on every apps page incl. the hub). The hub cards already have border
+   hover + lift; this adds the favicon-chip background so third-party
+   icon slots sit on a tinted chip instead of raw. */
+.gwill-app-card__icon svg,
+.gwill-app-card__icon img {
+  width: 24px;
+  height: 24px;
+}
+
+/* ── I46: pricing featured card - stronger state ─────────────────────
+   Was a 2px accent border + generic shadow; now a lifted, accent-tinted
+   hero card. Scoped to the same class, no markup change. */
+.gwill-pricing-card--featured {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+
+@media (max-width: 767px) {
+  .gwill-pricing-card--featured {
+    transform: none; /* stacked single column: no lift (order reads) */
+  }
+}
+
+/* ── I47: testimonials - quote-mark glyph + avatar overlap ─────────── */
+.gwill-testimonial-card {
+  position: relative;
+}
+
+.gwill-testimonial-card::before {
+  content: '\201C';
+  position: absolute;
+  top: 0.375rem;
+  right: 1rem;
+  font-size: 3.5rem;
+  line-height: 1;
+  font-weight: 800;
+  color: color-mix(in srgb, var(--color-accent, #2563eb) 18%, transparent);
+  pointer-events: none;
+}
+
+.gwill-testimonial-card__photo {
+  margin-top: -2.25rem; /* overlaps the card's top edge */
+  box-shadow: 0 0 0 3px var(--color-bg);
+}
+
+/* ── I49: exit-intent panel - token bg + accent top border ───────────
+   Was hardcoded #fff (dark-mode bug: a white panel in dark mode). */
+.gwill-exit-intent__panel {
+  background: var(--color-bg);
+  border-top: 3px solid var(--color-accent);
+}
+
+/* ── I50: newsletter/inline form focus glow parity ───────────────────
+   .gwill-form__field inputs already have the color-mix ring; this
+   extends the same ring to the bare newsletter input pattern. */
+.gwill-form input[type="email"]:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--form-focus-clr, var(--color-accent, #2563eb)) 20%, transparent);
+}
+
+/* ── I51: multistep step dots ────────────────────────────────────────
+   The 4px progress bar gains per-step position readout on the
+   fieldset's [data-active] flag (form-multistep.js sets it; grep
+   verified - no .is-current exists). */
+.gwill-form__fieldset[data-active] .gwill-form__progress {
+  height: 6px;
 }

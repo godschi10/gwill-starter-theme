@@ -1,3 +1,30 @@
+## [1.12.7] - 2026-09-07
+
+### Section I: component polish (docs/UI-MAKEOVER-LIST.md items I45-I51)
+
+- **I45 apps hub** - icon slots normalized to 24px inside the existing
+  tinted chips (the chips already existed in word-counter.css; icon
+  sizing was unset).
+- **I46 pricing featured card** - 4px lift + deeper shadow (>=768px
+  only; no transform in the stacked mobile column).
+- **I47 testimonials** - oversized quote glyph (accent 18%, top-right)
+  + avatar overlap (negative top margin + bg ring).
+- **I48 portfolio overlay** - already existed (v1.9.0 shipped the
+  hover overlay; grep-verified) - no change needed.
+- **I49 exit-intent panel** - hardcoded #fff replaced with
+  var(--color-bg) (a real dark-mode bug: the panel stayed white in
+  dark) + 3px accent top border.
+- **I50 newsletter focus glow** - the bare email-input pattern gains
+  the same color-mix ring as .gwill-form__field.
+- **I51 multistep** - the active step's progress bar thickens via the
+  fieldset [data-active] flag (grep-verified: the JS emits
+  data-active, NOT .is-current - an initial wrong-selector was caught
+  and corrected before ship).
+
+Proven (Obscura): featured card 4px lifted, quote glyph emitted,
+photo overlaps card top by 34px, panel bg token-driven + 3px accent
+top border. php -l clean; braces 640/640.
+
 ## [1.12.6] - 2026-09-07
 
 ### Section H: content elements (docs/UI-MAKEOVER-LIST.md items H40-H44)

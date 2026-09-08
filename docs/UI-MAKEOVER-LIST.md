@@ -198,6 +198,11 @@ Priority order: C17 (cards) → A1-A3 (mobile header diet + search sheet)
 
 ## I. Feature components (light polish only)
 
+> **SHIPPED v1.12.7** - I45 (app icon sizing), I46 (featured lift),
+> I47 (quote glyph + avatar overlap), I48 (already existed - no-op),
+> I49 (exit-intent token bg - dark-mode bug fixed + accent border),
+> I50 (newsletter focus ring), I51 ([data-active] progress emphasis).
+
 45. **Apps hub** — tinted icon chips + hover lift.
 46. **Pricing featured card** — stronger featured state.
 47. **Testimonials** — quote-mark glyph + avatar overlap.
