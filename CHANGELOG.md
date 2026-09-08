@@ -1,3 +1,26 @@
+## [1.12.4] - 2026-09-07
+
+### Section F: comments (docs/UI-MAKEOVER-LIST.md items F32-F36)
+
+- **F32 per-comment cards** - border-bottom rows become bordered
+  rounded cards on a lifted surface (dark tint via both selector
+  systems, list-cards doctrine); nested replies keep the left rule.
+- **F33 reply ghost pill** - the plain accent text link becomes a
+  32px ghost pill (accent hover, focus ring).
+- **F34 form rhythm** - field grouping spacing + 44px submit floor
+  (submit colors were already token-driven).
+- **F35 count chip** - the comments title now reads "Comments (3)"
+  with the number in an accent chip span. The sprintf uses __( )
+  wrapping a span (esc_html_ would double-escape the markup; the
+  number inside is separately esc_html'd).
+- **F36 avatar 48 -> 56** (comments.php arg) + subtle token ring.
+
+Proven (Obscura, comments mock): chip renders accent rgb(37,99,235),
+reply pill 32px, card gap 13px, submit 44px. (border-radius + shadow
+report 0px/empty in Obscura's computed-style layer - the documented
+geometry quirk; rects + colors are the reliable proofs.) php -l
+clean; braces 613/613; batteries green.
+
 ## [1.12.3] - 2026-09-07
 
 ### Section E: footer (docs/UI-MAKEOVER-LIST.md items E29-E31)

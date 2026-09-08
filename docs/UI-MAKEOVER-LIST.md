@@ -153,6 +153,11 @@ Priority order: C17 (cards) → A1-A3 (mobile header diet + search sheet)
 
 ## F. Comments
 
+> **SHIPPED v1.12.4** - F32 (per-comment cards, both dark systems),
+> F33 (reply ghost pill), F34 (form rhythm + 44px submit), F35 (count
+> chip via __( ) + span - double-escape caught mid-build), F36
+> (avatar 56px + ring).
+
 32. **No card separation** — per-comment card chrome (bg token +
     radius), inverts free in dark mode.
 33. **Reply link is plain text** — small ghost button family.

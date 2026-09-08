@@ -15,8 +15,9 @@ if ( post_password_required() ) {
 			// (int) cast required: get_comments_number() returns string, _n() expects int.
 			$count = (int) get_comments_number();
 			printf(
-				esc_html( _n( '%s Comment', '%s Comments', $count, 'gwill-starter' ) ),
-				number_format_i18n( $count )
+				/* translators: %s: comment count inside a chip span. */
+				__( 'Comments (%s)', 'gwill-starter' ),
+				'<span class="comments-count-chip">' . esc_html( number_format_i18n( $count ) ) . '</span>'
 			);
 			?>
 		</h2>
@@ -26,7 +27,7 @@ if ( post_password_required() ) {
 			wp_list_comments( [
 				'style'       => 'ol',
 				'short_ping'  => true,
-				'avatar_size' => 48,
+				'avatar_size' => 56, // v1.12.4 (F36): bumped 48 -> 56
 			] );
 			?>
 		</ol>
