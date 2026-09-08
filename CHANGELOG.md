@@ -1,3 +1,26 @@
+## [1.12.3] - 2026-09-07
+
+### Section E: footer (docs/UI-MAKEOVER-LIST.md items E29-E31)
+
+- **E31 rhythm (always on)** - deeper footer padding, a faint 2%
+  primary-over-bg surface tint, nav breathing room, and the credit's
+  site link gaining primary weight with accent hover.
+- **E29 columns (opt-in filter)** - gwill_footer_columns (default 1 =
+  the classic centered stack, byte-identical flow; 2 or 3 activates
+  .site-footer__grid). Column CONTENT via gwill_footer_columns_content
+  (title + html via wp_kses_post, or a 'menu' location name) - nothing
+  hardcoded; the credit row gains its separator rule ONLY in columns
+  mode (default flow keeps its original plain <p> - an opt-in-law catch
+  made during the build and fixed before ship).
+- **E30 social row (opt-in filter)** - gwill_footer_socials returns
+  name/url/icon arrays; empty default = row stays out of the DOM.
+  44px circular ghost buttons, hover accent, token colors.
+
+Proven (Obscura 360/1280, mock with both footer variants): default
+footer has no grid/social/credit class; columns mode renders 3-across
+(x 40/640/956 @1280) stacking @360; social taps 44px; credit rule 1px.
+php -l x2 clean; braces 599/599; batteries green.
+
 ## [1.12.2] - 2026-09-07
 
 ### Section D: singular article (docs/UI-MAKEOVER-LIST.md items D23-D28)

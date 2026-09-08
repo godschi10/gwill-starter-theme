@@ -140,6 +140,10 @@ Priority order: C17 (cards) → A1-A3 (mobile header diet + search sheet)
 
 ## E. Footer
 
+> **SHIPPED v1.12.3** - E29 (gwill_footer_columns + content filters,
+> default 1 = unchanged), E30 (gwill_footer_socials, 44px ghost
+> buttons, default empty), E31 (rhythm + tint + credit weight).
+
 29. **One centered paragraph** — optional 2-3 column layout partial
     (brand blurb / nav / contact) via filter; default stays minimal.
 30. **No social row** — social icon set as an opt-in partial (svg set,

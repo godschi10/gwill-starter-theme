@@ -4,7 +4,7 @@ Theme URI:   https://gwillchijioke.com
 Author:      G-will Chijioke
 Author URI:  https://gwillchijioke.com
 Description: A clean, custom WordPress starter theme built from scratch. No parent theme dependency.
-Version:     1.12.2
+Version:     1.12.3
 Requires at least: 6.4
 Requires PHP:     8.0
 License:     GNU General Public License v2 or later
@@ -3813,4 +3813,123 @@ select:focus {
   height: auto;
   max-height: 62vh;
   object-fit: cover;
+}
+
+/* ------------------------------------------------------------------ */
+/* v1.12.3 - Section E: footer (docs/UI-MAKEOVER-LIST.md)              */
+/* ------------------------------------------------------------------ */
+
+/* ── E31: rhythm (always on - breathing room + rule polish) ────────── */
+.site-footer {
+  padding: calc(var(--spacing) * 1.5) var(--spacing) calc(var(--spacing) * 1.25);
+  border-top: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-primary, #111111) 2%, var(--color-bg, #ffffff));
+}
+
+.site-footer nav {
+  padding-bottom: 0.25rem;
+}
+
+.site-footer a {
+  transition: color 0.15s ease;
+}
+
+/* Credit line: the year+name link gets primary weight; the builder
+   credit stays muted (wp_kses'd markup from the filter). */
+.site-footer p > a {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+@media (hover: hover) {
+  .site-footer p > a:hover { color: var(--color-accent); }
+}
+
+/* ── E29: opt-in column layout ───────────────────────────────────────
+   gwill_footer_columns filter (default 1 = the centered stack, exactly
+   as before). Builds return 2 or 3; footer.php renders up to three
+   .site-footer__col blocks (brand blurb / menu / extras). */
+.site-footer__grid {
+  display: grid;
+  gap: 2rem;
+  text-align: left;
+  width: 100%;
+}
+@media (min-width: 768px) {
+  .site-footer__grid--2 { grid-template-columns: repeat(2, 1fr); }
+  .site-footer__grid--3 { grid-template-columns: 2fr 1fr 1fr; }
+}
+
+.site-footer__col-title {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+  margin: 0 0 0.75rem;
+}
+
+.site-footer__col p {
+  color: var(--color-muted);
+  font-size: 0.9375rem;
+}
+
+.site-footer__col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.site-footer__col ul a {
+  color: var(--color-muted);
+  text-decoration: none;
+  font-size: 0.9375rem;
+}
+@media (hover: hover) {
+  .site-footer__col ul a:hover { color: var(--color-accent); }
+}
+
+/* Columns-mode credit row: separated by a rule, centered. The DEFAULT
+   (1-column) flow keeps its original plain <p> - no class, no rule. */
+.site-footer__credit {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-border);
+  text-align: center;
+}
+
+/* ── E30: opt-in social row ────────────────────────────────────────── */
+.site-footer__social {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.site-footer__social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;  /* WCAG 2.5.5 */
+  height: 44px;
+  border-radius: 50%;
+  color: var(--color-muted);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+@media (hover: hover) {
+  .site-footer__social-link:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+}
+.site-footer__social-link:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+.site-footer__social-link svg {
+  width: 18px;
+  height: 18px;
 }
