@@ -1,3 +1,42 @@
+## [1.13.0] - 2026-09-08
+
+### Search fix - double escapes, 3705px balloon, page-bottom anchor (King's live report)
+
+Three real defects proven on the live Hostinger instance
+(gwillchijioke.qzz.io, running the pre-revert build):
+
+- **Double-escaped text** - badges read "Guides &amp; How-tos" and
+  excerpts carried "&hellip;" garbage. Root cause: the search endpoints
+  returned entity-encoded strings and the client escapeHtml()
+  re-encoded them. Titles were decoded in v1.16.41; the EXCERPT, CAT and
+  FTS-read paths never got the fix. Now decoded in
+  inc/search-index.php (excerpt + cat), inc/search-fts.php (excerpt +
+  cat + stored-row read side for legacy rows).
+- **Results balloon** - 8 results pushed 3705px of flow down the page;
+  the list had no height cap. Now .search-results scrolls inside a
+  300px max-height (the tech theme's own pattern), iOS momentum
+  scrolling included.
+- **Page-bottom anchor** - the dropdown parked at y=799 (viewport
+  bottom) instead of below the header. The v1.12.9 two-row header left
+  the dropdown inside .header-row where top:calc(100%) resolved
+  against an unpredictable containing block. Fix (tech theme v1.19.39
+  pattern): the dropdown is hoisted OUT of .header-row to a direct
+  child of .site-header/.inner, position:fixed, and the engine's open()
+  sets top from the header's live rect (works at any header height,
+  after compact-on-scroll shrink, any viewport).
+- **input width** - the search input now spans 208px at 360px (was 55
+  on live) via the fixed + measured-top geometry.
+
+New battery: tests/test-search-escape.js (9 assertions - source
+contract + behavioral jsdom render through the REAL engine, proving
+badge "Guides & How-tos" renders with ONE ampersand). 9/9. Pill 27/27.
+php -l x3 + node --check clean. Obscura geometry: gap 8px below
+header, dd 328px @360 / 480px @1280, results 300px capped scrollable.
+
+Also: header.php duplicate </div><!-- .header-actions --> closer
+(introduced by an interrupted edit, caught in review) removed via full
+clean rewrite.
+
 ## [1.12.9] - 2026-09-08
 
 ### UI Section A v2 - header rebuilt on the tech-theme design language

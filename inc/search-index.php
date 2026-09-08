@@ -88,16 +88,19 @@ function gwill_search_index_data() {
 		$title = html_entity_decode( wp_strip_all_tags( get_the_title( $post_id ) ), ENT_QUOTES, 'UTF-8' );
 
 		// Excerpt: manual excerpt if set, else a trimmed plain-text slice of
-		// the content.
+		// the content. Entities decoded - same double-escape fix as $title
+		// (v1.12.9): get_the_excerpt()/post_content come back &amp;-encoded
+		// and the client's escapeHtml() would re-encode to &amp;amp;.
 		$excerpt = has_excerpt( $post_id ) ? get_the_excerpt( $post_id ) : get_post_field( 'post_content', $post_id );
 		$excerpt = wp_strip_all_tags( wp_trim_words( $excerpt, 28 ) );
+		$excerpt = html_entity_decode( $excerpt, ENT_QUOTES, 'UTF-8' );
 
 		$items[] = array(
 			'id'       => (int) $post_id,
 			'title'    => $title,
 			'url'      => get_permalink( $post_id ),
 			'excerpt'  => $excerpt,
-			'cat'      => $cat ? $cat->name : '',
+			'cat'      => $cat ? html_entity_decode( $cat->name, ENT_QUOTES, 'UTF-8' ) : '', /* v1.12.9: decode - badge showed &amp; */
 			'cat_slug' => $cat ? $cat->slug : '',
 			'date'     => get_the_date( 'c', $post_id ),
 		);

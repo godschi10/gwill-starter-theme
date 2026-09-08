@@ -727,12 +727,14 @@
 /* ── Dropdown overlay ──────────────────────────────────────────────────── */
 
 .search-dropdown {
-	/* Absolute, not fixed: anchors just below the header at ANY header
-	   height (logo wrap, larger controls). The old fixed top:72px was
-	   tuned for the pre-1.3.2 36px controls and overlapped the header
-	   once controls grew to 44px (responsive audit v1.3.3). */
-	position: absolute;
-	top: calc(100% + 0.5rem);
+	/* v1.12.9 (search fix): FIXED + JS-measured top. The old absolute +
+	   top:calc(100%) anchored to a flex row whose containing block
+	   resolved unpredictably (live regression: dropdown at page bottom).
+	   The tech theme solved this exact bug in v1.19.39: position:fixed +
+	   the open() handler sets top from the header's live rect. The CSS
+	   keeps a safe static fallback top (8rem) that JS overwrites. */
+	position: fixed;
+	top: 8rem;
 	left: 50%;
 	transform: translateX(-50%);
 	z-index: 10000;
@@ -741,7 +743,7 @@
 	border-radius: 12px; /* v1.12.9: tech theme's --r surface radius */
 	overflow: hidden;
 	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-	width: min(480px, calc(100% - 32px));
+	width: min(480px, calc(100vw - 32px));
 }
 .search-dropdown[hidden] { display: none; }
 
@@ -839,6 +841,16 @@
 .search-results.has-results {
 	border-top: 1px solid var(--color-border, #e5e7eb);
 	padding-top: 1rem;
+}
+
+/* v1.12.9: results list scrolls INSIDE the dropdown - never balloons
+   the page (live-site regression: 8 results pushed 3705px of flow down
+   because the dropdown lost its positioned parent). Tech theme
+   pattern: #search-results { max-height: 300px; overflow-y: auto }. */
+.search-results {
+	max-height: 300px;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
 }
 
 .search-result-item {

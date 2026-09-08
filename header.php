@@ -102,29 +102,41 @@ if ( is_singular( 'post' ) ) :
 						</button>
 					<?php endif; ?>
 				</div><!-- .header-actions -->
+			</div><!-- .header-row -->
 
-				<div class="search-dropdown" id="search-dropdown" hidden>
-					<div class="search-dropdown-inner">
-						<form class="search-dropdown-form" action="<?php echo esc_url( home_url( '/' ) ); ?>" method="get" role="search">
-							<svg aria-hidden="true" focusable="false" class="search-dropdown-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-							<label class="screen-reader-text" for="search-input"><?php esc_html_e( 'Search', 'gwill-starter' ); ?></label>
-							<span class="search-input-wrap">
-								<input class="search-dropdown-input" type="text" id="search-input" name="s" value="<?php echo esc_attr( get_search_query() ); ?>" placeholder="<?php esc_attr_e( 'Search…', 'gwill-starter' ); ?>" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results" aria-label="<?php esc_attr_e( 'Search', 'gwill-starter' ); ?>">
-								<button class="search-clear" type="button" id="search-clear" aria-label="<?php esc_attr_e( 'Clear search text', 'gwill-starter' ); ?>" hidden>
-									<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-								</button>
-							</span>
-							<button class="search-dropdown-close" type="button" id="search-close" aria-label="<?php esc_attr_e( 'Close search', 'gwill-starter' ); ?>">
+			<?php
+			/*
+			 * Search dropdown (v1.12.9) - a DIRECT child of .site-header/.inner,
+			 * NOT inside .header-row. Same hoist as the tech theme's v1.19.39:
+			 * absolute positioning inside the row's flex context made the
+			 * top:calc(100%) anchor resolve against unpredictable blocks
+			 * (live-site regression: dropdown rendering at page bottom).
+			 * .site-header is always positioned (relative base / sticky when
+			 * the Customizer toggle is on), so top:calc(100% + 0.5rem) anchors
+			 * just below the header at ANY header height.
+			 */
+			?>
+			<div class="search-dropdown" id="search-dropdown" hidden>
+				<div class="search-dropdown-inner">
+					<form class="search-dropdown-form" action="<?php echo esc_url( home_url( '/' ) ); ?>" method="get" role="search">
+						<svg aria-hidden="true" focusable="false" class="search-dropdown-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+						<label class="screen-reader-text" for="search-input"><?php esc_html_e( 'Search', 'gwill-starter' ); ?></label>
+						<span class="search-input-wrap">
+							<input class="search-dropdown-input" type="text" id="search-input" name="s" value="<?php echo esc_attr( get_search_query() ); ?>" placeholder="<?php esc_attr_e( 'Search…', 'gwill-starter' ); ?>" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results" aria-label="<?php esc_attr_e( 'Search', 'gwill-starter' ); ?>">
+							<button class="search-clear" type="button" id="search-clear" aria-label="<?php esc_attr_e( 'Clear search text', 'gwill-starter' ); ?>" hidden>
 								<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
 							</button>
-						</form>
-						<div class="search-results" id="search-results" role="status" aria-live="polite"></div>
-						<div class="search-dropdown-footer">
-							<?php echo wp_kses( __( 'Press <kbd>Enter</kbd> for full results or <kbd>Esc</kbd> to close', 'gwill-starter' ), array( 'kbd' => array() ) ); ?>
-						</div>
+						</span>
+						<button class="search-dropdown-close" type="button" id="search-close" aria-label="<?php esc_attr_e( 'Close search', 'gwill-starter' ); ?>">
+							<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+						</button>
+					</form>
+					<div class="search-results" id="search-results" role="status" aria-live="polite"></div>
+					<div class="search-dropdown-footer">
+						<?php echo wp_kses( __( 'Press <kbd>Enter</kbd> for full results or <kbd>Esc</kbd> to close', 'gwill-starter' ), array( 'kbd' => array() ) ); ?>
 					</div>
 				</div>
-			</div><!-- .header-row -->
+			</div>
 
 			<?php if ( has_nav_menu( 'primary' ) ) : ?>
 			<nav class="header-row-2" aria-label="<?php esc_attr_e( 'Primary Navigation', 'gwill-starter' ); ?>">

@@ -442,6 +442,14 @@
 	// ── open/close ─────────────────────────────────────────────────────────
 	function open() {
 		dropdown.hidden = false;
+		/* v1.12.9 (search fix): position:fixed needs a viewport-space top.
+		   Measure the header's live rect (works at ANY header height and
+		   after the compact-on-scroll shrink) and drop the dropdown 8px
+		   below it. The tech theme's v1.19.39 pattern. */
+		var hdr = document.querySelector( '.site-header' );
+		if ( hdr && dropdown && dropdown.style ) {
+			dropdown.style.top = ( hdr.getBoundingClientRect().bottom + 8 ) + 'px';
+		}
 		toggles.forEach( function ( t ) { t.setAttribute( 'aria-expanded', 'true' ); } );
 		input.setAttribute( 'aria-expanded', 'true' );
 		syncClear();

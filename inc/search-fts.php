@@ -177,6 +177,7 @@ function gwill_fts_post_payload( $post_id ) {
 	$cat  = ! empty( $cats ) ? $cats[0]->name : '';
 	$excerpt = has_excerpt( $post_id ) ? get_the_excerpt( $post_id ) : get_post_field( 'post_content', $post_id );
 	$excerpt = wp_strip_all_tags( wp_trim_words( $excerpt, 28 ) );
+	$excerpt = html_entity_decode( $excerpt, ENT_QUOTES, 'UTF-8' ); // v1.12.9: same double-escape fix as title
 	$content = wp_strip_all_tags( $post->post_content );
 	if ( strlen( $content ) > GWILL_FTS_MAX_CONTENT_CHARS ) {
 		$content = substr( $content, 0, GWILL_FTS_MAX_CONTENT_CHARS );
@@ -186,7 +187,7 @@ function gwill_fts_post_payload( $post_id ) {
 		'title'   => html_entity_decode( wp_strip_all_tags( get_the_title( $post_id ) ), ENT_QUOTES, 'UTF-8' ),
 		'excerpt' => $excerpt,
 		'content' => $content,
-		'cat'     => $cat,
+		'cat'     => html_entity_decode( $cat, ENT_QUOTES, 'UTF-8' ), /* v1.12.9: decode - badge showed &amp; */
 		'date'    => get_the_date( 'c', $post_id ),
 	);
 }
@@ -358,10 +359,10 @@ function gwill_fts_search( $q, $limit = 8 ) {
 	foreach ( $rows as $row ) {
 		$out[] = array(
 			'id'       => (int) $row['rowid'],
-			'title'    => $row['title'],
+			'title'    => html_entity_decode( $row['title'], ENT_QUOTES, 'UTF-8' ), /* v1.12.9: decode stored rows */
 			'url'      => get_permalink( $row['rowid'] ),
-			'excerpt'  => $row['excerpt'],
-			'cat'      => $row['cat'],
+			'excerpt'  => html_entity_decode( $row['excerpt'], ENT_QUOTES, 'UTF-8' ),
+			'cat'      => html_entity_decode( $row['cat'], ENT_QUOTES, 'UTF-8' ),
 			'cat_slug' => '',
 			'date'     => $row['date'],
 		);
