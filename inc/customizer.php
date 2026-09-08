@@ -335,6 +335,24 @@ function gwill_list_style_body_class( array $classes ): array {
 add_filter( 'body_class', 'gwill_list_style_body_class' );
 
 /**
+ * Opt-in code-window chrome body class (v1.12.6, H42).
+ *
+ * Builds enable with:
+ *   add_filter( 'gwill_code_window_chrome', fn() => true );
+ * .gwill-code-chrome styles the mac-dot header on .entry-content pre.
+ *
+ * @param  string[] $classes
+ * @return string[]
+ */
+function gwill_code_chrome_body_class( array $classes ): array {
+	if ( apply_filters( 'gwill_code_window_chrome', false ) ) {
+		$classes[] = 'gwill-code-chrome';
+	}
+	return $classes;
+}
+add_filter( 'body_class', 'gwill_code_chrome_body_class' );
+
+/**
  * Sanitize the Default Social Share Image setting.
  *
  * BUG FIX (found 1.0.51): the original sanitize_callback was the bare

@@ -1,3 +1,27 @@
+## [1.12.6] - 2026-09-07
+
+### Section H: content elements (docs/UI-MAKEOVER-LIST.md items H40-H44)
+
+- **H40 TABLES - the genuine gap closed.** Zero table rules existed in
+  the theme (verified by grep before building): classic-editor and
+  Gutenberg tables rendered as raw UA defaults. Now: collapsed borders,
+  token row borders, 2px accent head rule, 3% primary stripes (color-mix
+  - inverts free in dark), and display:block + overflow-x auto below
+  767px (the tech theme's v1.21.87 narrow-screen pattern).
+- **H41 content lists** - li rhythm + accent ::marker color.
+- **H42 code-window chrome (opt-in)** - gwill_code_window_chrome filter
+  (default false) adds a .gwill-code-chrome body class; pre gains a
+  mac-dots header via one ::before + box-shadow dots, padding cleared
+  of the copy button / lang label.
+- **H43 content images** - shared token radius + muted centered
+  captions (wp-element-caption + figcaption).
+- **H44 blockquote** - quiet border-left rule upgraded: 3px accent,
+  1.0625rem voice, styled cite (block, muted, roman).
+
+Proven (Obscura, content mock, 360+1280): table 312/1200px with accent
+head + 3% stripe; quote 3px accent + cite block; caption muted; pre
+overflow-x auto. php -l x2; braces 630/630.
+
 ## [1.12.5] - 2026-09-07
 
 ### Section G: global chrome (docs/UI-MAKEOVER-LIST.md items G37-G39)

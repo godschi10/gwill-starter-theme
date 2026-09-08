@@ -180,6 +180,11 @@ Priority order: C17 (cards) → A1-A3 (mobile header diet + search sheet)
 
 ## H. Content elements (includes one real gap)
 
+> **SHIPPED v1.12.6** - H40 (TABLES: collapsed + accent head + stripes
+> + mobile overflow-x), H41 (list rhythm + accent markers), H42
+> (gwill_code_window_chrome filter - mac dots), H43 (image radius +
+> captions), H44 (blockquote accent + cite).
+
 40. **TABLES COMPLETELY UNSTYLED** — classic-editor + Gutenberg
     `.wp-block-table` have zero rules (verified). Striped rows, bordered
     head, overflow-x wrapper. A genuine gap, not just polish.

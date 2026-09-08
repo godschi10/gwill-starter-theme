@@ -4,7 +4,7 @@ Theme URI:   https://gwillchijioke.com
 Author:      G-will Chijioke
 Author URI:  https://gwillchijioke.com
 Description: A clean, custom WordPress starter theme built from scratch. No parent theme dependency.
-Version:     1.12.5
+Version:     1.12.6
 Requires at least: 6.4
 Requires PHP:     8.0
 License:     GNU General Public License v2 or later
@@ -4044,4 +4044,113 @@ select:focus {
   stroke-dasharray: 100;
   stroke-dashoffset: 100; /* JS drives 100 -> 0 via a CSS var */
   stroke-dashoffset: calc(100 - var(--gwill-scroll-progress, 0));
+}
+
+/* ------------------------------------------------------------------ */
+/* v1.12.6 - Section H: content elements (docs/UI-MAKEOVER-LIST.md)    */
+/* ------------------------------------------------------------------ */
+
+/* ── H40: TABLES (the genuine gap - zero rules existed) ──────────────
+   Classic-editor and Gutenberg tables both. Stripes + head rule are
+   color-mix'd off --color-primary so they invert free in dark mode. */
+.entry-content table,
+.wp-block-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.entry-content th,
+.entry-content td,
+.wp-block-table th,
+.wp-block-table td {
+  padding: 0.625rem 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.entry-content thead th,
+.wp-block-table thead th {
+  border-bottom: 2px solid var(--color-accent);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.entry-content tbody tr:nth-child(even),
+.wp-block-table tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--color-primary, #111111) 3%, transparent);
+}
+
+/* Narrow screens: the table scrolls instead of blowing out the row
+   (the tech theme's v1.21.87 pattern - display:block + overflow-x). */
+@media (max-width: 767px) {
+  .entry-content table,
+  .wp-block-table table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* ── H41: content list rhythm + accent markers ─────────────────────── */
+.entry-content ul li,
+.entry-content ol li {
+  margin-bottom: 0.375rem;
+}
+
+.entry-content ul li::marker,
+.entry-content ol li::marker {
+  color: var(--color-accent);
+}
+
+/* ── H42: code-window chrome (opt-in body class filter) ──────────────
+   add_filter( 'gwill_code_window_chrome', fn() => true ) opts a build
+   in: three window dots render top-left via one ::before + shadows.
+   Dots sit clear of the copy button (top-right) and lang label. */
+.gwill-code-chrome .entry-content pre {
+  padding-top: 2.25rem;
+}
+.gwill-code-chrome .entry-content pre::before {
+  content: '';
+  position: absolute;
+  top: 0.875rem;
+  left: 1rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--color-border);
+  box-shadow:
+    0.875rem 0 0 var(--color-border),
+    1.75rem 0 0 var(--color-border);
+  pointer-events: none;
+}
+
+/* ── H43: content images + captions ────────────────────────────────── */
+.entry-content img {
+  border-radius: var(--form-radius, 4px);
+}
+
+.entry-content .wp-element-caption,
+.entry-content figcaption {
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+/* ── H44: blockquote presence ────────────────────────────────────────
+   Upgrades the quiet border-left rule: accent border, larger voice,
+   and a styled cite for attribution. */
+.entry-content blockquote {
+  border-left: 3px solid var(--color-accent);
+  font-size: 1.0625rem;
+  padding-left: 1.25rem;
+}
+
+.entry-content blockquote cite {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  font-style: normal;
+  color: var(--color-muted);
 }
