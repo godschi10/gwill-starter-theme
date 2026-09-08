@@ -79,29 +79,13 @@ if ( is_singular( 'post' ) ) :
 				<?php endif; ?>
 			</div>
 
-			<?php
-			/*
-			 * v1.11.2 (A1): one lookup, used by the tools block below AND the
-			 * nav render further down. When a primary menu exists, the mobile
-			 * sheet carries the theme pill, so the ROW pill hides below 768px
-			 * (.header-tools__pill--sheet + the 767px rule in style.css) -
-			 * measured crowding fix (docs/UI-MAKEOVER-LIST.md A1). Without a
-			 * menu there is no sheet, so the row pill stays visible at every
-			 * width - the correct fallback.
-			 */
-			$gwill_has_primary_menu = has_nav_menu( 'primary' );
-			?>
-			<div class="header-tools">
-				<div class="header-tools__pill<?php echo $gwill_has_primary_menu ? ' header-tools__pill--sheet' : ''; ?>">
-					<?php gwill_part( 'ui/theme-pill' ); ?>
-				</div>
+			<?php gwill_part( 'ui/theme-pill' ); ?>
 
-				<?php if ( class_exists( 'WooCommerce' ) ) : ?>
-					<?php gwill_render_cart_icon(); ?>
-				<?php endif; ?>
-			</div>
+			<?php if ( class_exists( 'WooCommerce' ) ) : ?>
+				<?php gwill_render_cart_icon(); ?>
+			<?php endif; ?>
 
-			<button class="gwill-search-toggle" id="search-toggle" aria-label="<?php esc_attr_e( 'Search', 'gwill-starter' ); ?>" aria-expanded="false" data-gwill-search-toggle>
+			<button class="gwill-search-toggle icon-btn" id="search-toggle" aria-label="<?php esc_attr_e( 'Search', 'gwill-starter' ); ?>" aria-expanded="false" data-gwill-search-toggle>
 				<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
 			</button>
 
@@ -124,7 +108,7 @@ if ( is_singular( 'post' ) ) :
 				</div>
 			</div>
 
-			<?php if ( $gwill_has_primary_menu ) : ?>
+			<?php if ( has_nav_menu( 'primary' ) ) : ?>
 			<nav aria-label="<?php esc_attr_e( 'Primary Navigation', 'gwill-starter' ); ?>">
 
 				<?php
@@ -147,26 +131,14 @@ if ( is_singular( 'post' ) ) :
 				</button>
 
 				<?php
-				/*
-					 * v1.11.2 (A1): the mobile sheet carries the theme pill as its
-					 * LAST item, after the menu links (%3$s keeps them). The header
-					 * ROW pill is display:none below 768px when a menu exists
-					 * (measured crowding: controls ate 73.7% of a 360px row -
-					 * docs/UI-MAKEOVER-LIST.md). The head engine syncs ALL
-					 * [data-theme-group] groups, so row + sheet never disagree.
-					 */
-					ob_start();
-					gwill_part( 'ui/theme-pill' );
-					$gwill_sheet_pill = ob_get_clean();
-					wp_nav_menu( [
-						'theme_location' => 'primary',
-						'container'      => false,
-						'fallback_cb'    => false,
-						'depth'          => 2,
-						'menu_id'        => 'primary-menu',
-						'items_wrap'     => '<ul id="%1$s" class="%2$s">%3$s<li class="menu-item mobile-theme-pill-wrap">' . $gwill_sheet_pill . '</li></ul>',
-					] );
-					?>
+				wp_nav_menu( [
+					'theme_location' => 'primary',
+					'container'      => false,
+					'fallback_cb'    => false,
+					'depth'          => 2,
+					'menu_id'        => 'primary-menu',
+				] );
+				?>
 			</nav>
 			<?php endif; ?>
 

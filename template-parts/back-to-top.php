@@ -15,10 +15,6 @@
 defined( 'ABSPATH' ) || exit;
 ?>
 <button type="button" class="gwill-back-to-top" aria-label="<?php esc_attr_e( 'Back to top', 'gwill-starter' ); ?>">
-	<svg class="gwill-btt-ring" viewBox="0 0 44 44" fill="none" stroke-width="3" aria-hidden="true" focusable="false">
-		<circle class="gwill-btt-ring__track" cx="22" cy="22" r="20" pathLength="100"></circle>
-		<circle class="gwill-btt-ring__bar" cx="22" cy="22" r="20" pathLength="100"></circle>
-	</svg>
 	<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 		<path d="M12 19V5M5 12l7-7 7 7"></path>
 	</svg>

@@ -34,13 +34,6 @@ Priority order: C17 (cards) → A1-A3 (mobile header diet + search sheet)
 
 ## A. Header & mobile row (the hot spot)
 
-> **SHIPPED v1.11.2** - A1 (row diet + sheet pill), A3/A4 (search sheet),
-> A5 (active nav), A6 (hover indicator), A7 (compact-on-scroll),
-> A8 (sheet animation), A9 (dead class). Measured after: controls
-> 73.7% -> 28.2% of the 360px row, brand 58 -> 192px, header 262 -> 174px,
-> sheet input 160 -> 328px, compact 121 -> 65px. A2 is dissolved by A1
-> (the pill no longer occupies the row on mobile); A10 documented no-op.
-
 1. **Mobile row diet** — free the header row below 767px: move the theme
    pill into the mobile menu sheet (full-width, labeled segments — the
    engine's multi-group sync already supports it), keeping only search +
@@ -76,12 +69,6 @@ Priority order: C17 (cards) → A1-A3 (mobile header diet + search sheet)
 
 ## B. Search surfaces
 
-> **SHIPPED v1.12.0** - B11 (generic search form + the unstyled .gwill-btn
-> CTA family), B12 (404 ghost-numeral card + latest grid), B13 (content-none
-> card + filterable CTA), B14 (dropdown chips via renderNoResults(q, seeds);
-> the memoized-getIndex trap found + avoided mid-build, battery 8/8), B15
-> (correction card), B16 (neutral badge names + aliases).
-
 11. **Generic searchform.php is browser-default** — used on 404 +
     no-results; zero `.search-field`/`.search-submit` rules exist
     (verified). Give it the token treatment (bordered field + accent
@@ -100,12 +87,6 @@ Priority order: C17 (cards) → A1-A3 (mobile header diet + search sheet)
 
 ## C. Post lists & cards (the biggest visual poverty)
 
-> **SHIPPED v1.12.1** - C17 (card chrome, DEFAULT on via the new
-> Content Lists Customizer select: plain/cards/horizontal/grid),
-> C18 (horizontal thumb-left >=768px, :has()+@supports), C19 (2-col
-> grid), C20 (hover lift+zoom, (hover:hover)-gated), C21 (category
-> chips), C22 (archive-header band + count pill via gwill_list_count()).
-
 17. **Lists are a plain text stack** — zero card chrome (verified).
     Opt-in card treatment (border + radius + padding, token-driven,
     Customizer toggle `gwill_card_lists`). Highest-impact single item.
@@ -122,11 +103,6 @@ Priority order: C17 (cards) → A1-A3 (mobile header diet + search sheet)
 
 ## D. Singular article
 
-> **SHIPPED v1.12.2** - D23 (author-box card + avatar halo), D24
-> (related hover lift+zoom), D25 (prev/next split cards with arrow
-> labels), D26 (tag tint hover), D27 (gwill_share_pill_variant filter
-> - ghost pills), D28 (gwill_featured_image_hero filter - full-bleed).
-
 23. **Author box is plain** — card chrome + avatar ring + accent top
     stripe.
 24. **Related posts have no hover lift** — parity with cards.
@@ -140,10 +116,6 @@ Priority order: C17 (cards) → A1-A3 (mobile header diet + search sheet)
 
 ## E. Footer
 
-> **SHIPPED v1.12.3** - E29 (gwill_footer_columns + content filters,
-> default 1 = unchanged), E30 (gwill_footer_socials, 44px ghost
-> buttons, default empty), E31 (rhythm + tint + credit weight).
-
 29. **One centered paragraph** — optional 2-3 column layout partial
     (brand blurb / nav / contact) via filter; default stays minimal.
 30. **No social row** — social icon set as an opt-in partial (svg set,
@@ -152,11 +124,6 @@ Priority order: C17 (cards) → A1-A3 (mobile header diet + search sheet)
     styling.
 
 ## F. Comments
-
-> **SHIPPED v1.12.4** - F32 (per-comment cards, both dark systems),
-> F33 (reply ghost pill), F34 (form rhythm + 44px submit), F35 (count
-> chip via __( ) + span - double-escape caught mid-build), F36
-> (avatar 56px + ring).
 
 32. **No card separation** — per-comment card chrome (bg token +
     radius), inverts free in dark mode.
@@ -168,10 +135,6 @@ Priority order: C17 (cards) → A1-A3 (mobile header diet + search sheet)
 
 ## G. Global chrome
 
-> **SHIPPED v1.12.5** - G37 (cookie consent floating card, JS
-> untouched), G38 (back-to-top progress ring via --gwill-scroll-
-> progress in the existing rAF loop), G39 (already delivered by A7).
-
 37. **Cookie consent is a full-width strip** — floating rounded card
     (bottom-sheet on mobile), token-driven, dismiss animation.
 38. **Back-to-top is a flat circle** — optional scroll-progress ring
@@ -179,11 +142,6 @@ Priority order: C17 (cards) → A1-A3 (mobile header diet + search sheet)
 39. **Sticky shadow only** — tie shadow + compact (#7) together.
 
 ## H. Content elements (includes one real gap)
-
-> **SHIPPED v1.12.6** - H40 (TABLES: collapsed + accent head + stripes
-> + mobile overflow-x), H41 (list rhythm + accent markers), H42
-> (gwill_code_window_chrome filter - mac dots), H43 (image radius +
-> captions), H44 (blockquote accent + cite).
 
 40. **TABLES COMPLETELY UNSTYLED** — classic-editor + Gutenberg
     `.wp-block-table` have zero rules (verified). Striped rows, bordered
@@ -198,11 +156,6 @@ Priority order: C17 (cards) → A1-A3 (mobile header diet + search sheet)
 
 ## I. Feature components (light polish only)
 
-> **SHIPPED v1.12.7** - I45 (app icon sizing), I46 (featured lift),
-> I47 (quote glyph + avatar overlap), I48 (already existed - no-op),
-> I49 (exit-intent token bg - dark-mode bug fixed + accent border),
-> I50 (newsletter focus ring), I51 ([data-active] progress emphasis).
-
 45. **Apps hub** — tinted icon chips + hover lift.
 46. **Pricing featured card** — stronger featured state.
 47. **Testimonials** — quote-mark glyph + avatar overlap.
@@ -216,10 +169,6 @@ Priority order: C17 (cards) → A1-A3 (mobile header diet + search sheet)
 
 ## J. Micro-delight (cheap, safe)
 
-> **SHIPPED v1.12.8 - CAMPAIGN COMPLETE (A-J).** J53 (selection tint),
-> J54 (focus rings - verified no-op), J55 (--shadow-lift token, dark-
-> aware, consumed by the card + nav hover surfaces).
-
 53. **`::selection` color** — accent-tinted selection, one line.
 54. **Focus rings** — already consistent 2px accent; keep.
 55. **Smooth hover elevations** — shared `--shadow-lift` token for one
@@ -227,6 +176,5 @@ Priority order: C17 (cards) → A1-A3 (mobile header diet + search sheet)
 
 ---
 
-*Created 2026-09-07 (v1.11.1). CAMPAIGN COMPLETE 2026-09-07 (v1.12.8):
-all sections A-J shipped; every item dispositioned above with its
-verification evidence.*
+*Created 2026-09-07 (v1.11.1). Progress tracked per section in
+CHANGELOG.md as sections ship.*

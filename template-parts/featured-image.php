@@ -79,19 +79,8 @@ if ( ! has_post_thumbnail() ) {
 }
 
 $caption = gwill_featured_image_caption();
-
-/**
- * Filter the featured-image hero treatment (v1.12.2, D28).
- *
- * Default false keeps the standard inset image. Return true to opt a
- * build into the full-bleed hero (breaks out to 100vw, capped 62vh,
- * object-fit cover) - see the .gwill-hero-image rules in style.css.
- *
- * @param bool $hero
- */
-$gwill_image_hero = apply_filters( 'gwill_featured_image_hero', false );
 ?>
-<figure class="entry-thumbnail<?php echo $gwill_image_hero ? ' gwill-hero-image' : ''; ?>" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+<figure class="entry-thumbnail" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
 	<?php
 	the_post_thumbnail( 'gwill-hero', [
 		'alt'           => gwill_featured_image_alt(),

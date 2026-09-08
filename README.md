@@ -236,7 +236,7 @@ push fixes ship silently broken to installed PWAs).
 
 > **Note on this document:** an earlier version of this README described the theme as it existed many versions ago - a 5-file `inc/` directory, a FormSubmit.co-based contact form, a 2-control Customizer. None of that has been true for a long time; the code moved forward across 50 versions and this file didn't. It has been rewritten from scratch against the actual v1.0.50 codebase, verified file-by-file rather than carried forward from memory. See `CHANGELOG.md` for the version-by-version history of how it got here.
 
-**Latest version: 1.12.8** - UI makeover campaign COMPLETE (A-J, v1.11.1-v1.12.8): J closes it with an accent text-selection tint and the shared --shadow-lift elevation token (dark-aware). Full history in `CHANGELOG.md`; the full ledger lives in `docs/UI-MAKEOVER-LIST.md`.
+**Latest version: 1.11.1** - docs-only: the 55-item UI makeover audit list (`docs/UI-MAKEOVER-LIST.md`) with the mobile-header problem measured in a real browser. Full history in `CHANGELOG.md`.
 
 ---
 
@@ -480,7 +480,6 @@ gwill-starter-theme/
 │   ├── css/
 │   │   ├── search.css             Search UI styles (all 3 variants)
 │   │   ├── darkmode.css           Dark-mode token overrides - WP default comments included
-│   │   │                          (tests/test-search-chips.js covers the dropdown chips battery)
 │   │   ├── darkmode-vibe-comments.css  Dark-mode overrides for the Vibe Comments plugin specifically
 │   │   └── woocommerce.css        Design-token overrides for WC's default markup (Tier 3, WooCommerce only)
 │   ├── js/
@@ -718,9 +717,6 @@ Opt-in modules - each one costs nothing on a site that never uses it. All three 
 |---|---|---|---|
 | Display tagline | Checkbox | On | `postMessage` |
 | Enable sticky header | Checkbox | On | `refresh` |
-| Compact header while scrolling | Checkbox | On | `refresh` |
-
-A **Content Lists** panel adds the `Post list style` select: `plain` (the old text stack), `cards` (default - bordered card per post), `horizontal` (thumbnail-left rows on wide screens), or `grid` (two columns). Dark mode and client reskins come free via tokens.
 | Header padding (px) | Number, 0-200 | 24 | `postMessage` |
 
 **Site Identity** (`title_tagline` - WordPress core's own section, extended here):

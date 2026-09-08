@@ -74,40 +74,6 @@ add_action( 'customize_register', function ( WP_Customize_Manager $wp_customize 
 		'type'        => 'checkbox',
 	] );
 
-	// ── Content lists: post-list style (v1.12.1, C17-C19) ───────────────────
-	//
-	// Four modes for home/archive/author post lists:
-	//   plain     - the v1.10-era text stack (borderless, zero chrome)
-	//   cards     - bordered card per post (DEFAULT - the lean-but-nice base)
-	//   horizontal- cards with a thumb-left row >= 768px
-	//   grid      - two-column card grid >= 768px
-	// All modes are token-driven; dark mode and client reskins come free.
-	// Refresh transport: body_class output.
-
-	$wp_customize->add_section( 'gwill_content', [
-		'title'       => __( 'Content Lists', 'gwill-starter' ),
-		'priority'    => 35,
-		'description' => __( 'How post lists render on the blog home, archives, and author pages.', 'gwill-starter' ),
-	] );
-
-	$wp_customize->add_setting( 'gwill_list_style', [
-		'default'           => 'cards',
-		'sanitize_callback' => 'gwill_sanitize_list_style',
-	] );
-
-	$wp_customize->add_control( 'gwill_list_style', [
-		'label'       => __( 'Post list style', 'gwill-starter' ),
-		'description' => __( 'Cards wrap every post in a bordered card; horizontal adds a thumbnail-left row on wide screens; grid shows two columns.', 'gwill-starter' ),
-		'section'     => 'gwill_content',
-		'type'        => 'select',
-		'choices'     => [
-			'plain'      => __( 'Plain text list', 'gwill-starter' ),
-			'cards'      => __( 'Cards (default)', 'gwill-starter' ),
-			'horizontal' => __( 'Cards, horizontal rows', 'gwill-starter' ),
-			'grid'       => __( 'Cards, two-column grid', 'gwill-starter' ),
-		],
-	] );
-
 	// ── Tagline visibility ──────────────────────────────────────────────────
 
 	$wp_customize->add_setting( 'gwill_show_tagline', [
@@ -141,26 +107,6 @@ add_action( 'customize_register', function ( WP_Customize_Manager $wp_customize 
 	$wp_customize->add_control( 'gwill_sticky_header', [
 		'label'       => __( 'Enable sticky header', 'gwill-starter' ),
 		'description' => __( 'Keeps the header visible at the top of the viewport while scrolling.', 'gwill-starter' ),
-		'section'     => 'gwill_header',
-		'type'        => 'checkbox',
-	] );
-
-	// ── Compact header on scroll (v1.11.2, A7) ─────────────────────────────
-	//
-	// Only has any effect while sticky header is on. Default ON - the
-	// compact-on-scroll behavior is the modern default; turn off to keep
-	// the full-size header at every scroll position. Refresh transport:
-	// same reason as sticky (server-rendered body class, scroll behaviour
-	// not previewable in the iframe).
-
-	$wp_customize->add_setting( 'gwill_compact_header', [
-		'default'           => true,
-		'sanitize_callback' => 'gwill_sanitize_checkbox',
-	] );
-
-	$wp_customize->add_control( 'gwill_compact_header', [
-		'label'       => __( 'Compact header while scrolling', 'gwill-starter' ),
-		'description' => __( 'Shrinks the sticky header (reduced padding, tagline hidden) after scrolling begins, restoring it fully when you scroll back to the top. Requires sticky header to be enabled.', 'gwill-starter' ),
 		'section'     => 'gwill_header',
 		'type'        => 'checkbox',
 	] );
@@ -271,13 +217,6 @@ add_action( 'customize_register', function ( WP_Customize_Manager $wp_customize 
 function gwill_sticky_header_body_class( array $classes ): array {
 	if ( get_theme_mod( 'gwill_sticky_header', true ) ) {
 		$classes[] = 'gwill-sticky-header';
-
-		// v1.11.2 (A7): compact-on-scroll mode. Scoped under the sticky
-		// class - sticky-header.js toggles .is-compact alongside .is-stuck
-		// and the CSS only ever applies within .gwill-sticky-header.
-		if ( get_theme_mod( 'gwill_compact_header', true ) ) {
-			$classes[] = 'gwill-compact-header';
-		}
 	}
 	return $classes;
 }
@@ -297,60 +236,6 @@ add_filter( 'body_class', 'gwill_sticky_header_body_class' );
 function gwill_sanitize_checkbox( $value ): bool {
 	return (bool) $value;
 }
-
-/**
- * Sanitize the post-list style choice (v1.12.1).
- *
- * @param string $value Raw choice from the Customizer select.
- * @return string One of plain|cards|horizontal|grid.
- */
-function gwill_sanitize_list_style( $value ): string {
-	$allowed = [ 'plain', 'cards', 'horizontal', 'grid' ];
-	return in_array( $value, $allowed, true ) ? $value : 'cards';
-}
-
-/**
- * Add list-style body classes (v1.12.1, C17-C19).
- *
- * .gwill-cards gates ALL card chrome; the -horizontal/-grid modifiers
- * only ever appear WITH it, so the CSS can stay flat:
- * .gwill-cards .post-list .entry { ... } / .gwill-cards.gwill-cards-grid ...
- *
- * @param  string[] $classes
- * @return string[]
- */
-function gwill_list_style_body_class( array $classes ): array {
-	$style = get_theme_mod( 'gwill_list_style', 'cards' );
-	if ( 'plain' === $style ) {
-		return $classes;
-	}
-	$classes[] = 'gwill-cards';
-	if ( 'horizontal' === $style ) {
-		$classes[] = 'gwill-cards-horizontal';
-	} elseif ( 'grid' === $style ) {
-		$classes[] = 'gwill-cards-grid';
-	}
-	return $classes;
-}
-add_filter( 'body_class', 'gwill_list_style_body_class' );
-
-/**
- * Opt-in code-window chrome body class (v1.12.6, H42).
- *
- * Builds enable with:
- *   add_filter( 'gwill_code_window_chrome', fn() => true );
- * .gwill-code-chrome styles the mac-dot header on .entry-content pre.
- *
- * @param  string[] $classes
- * @return string[]
- */
-function gwill_code_chrome_body_class( array $classes ): array {
-	if ( apply_filters( 'gwill_code_window_chrome', false ) ) {
-		$classes[] = 'gwill-code-chrome';
-	}
-	return $classes;
-}
-add_filter( 'body_class', 'gwill_code_chrome_body_class' );
 
 /**
  * Sanitize the Default Social Share Image setting.

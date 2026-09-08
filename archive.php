@@ -21,29 +21,11 @@ gwill_breadcrumbs();
 		?>
 		<h1 class="archive-title"><?php echo wp_kses_post( get_the_archive_title() ); ?></h1>
 		<?php the_archive_description( '<div class="archive-description">', '</div>' ); ?>
-		<?php if ( gwill_list_count() ) : ?>
-			<p class="archive-header__count"><?php
-				printf(
-					/* translators: %s: number of posts in this list. */
-					esc_html( _n( '%s article', '%s articles', gwill_list_count(), 'gwill-starter' ) ),
-					esc_html( number_format_i18n( gwill_list_count() ) )
-				);
-			?></p>
-		<?php endif; ?>
 	</header>
 
-	<?php
-	/*
-	 * v1.12.1 (C17): the .post-list wrapper is the card-chrome hook -
-	 * .gwill-cards body class + this container scope all list styling,
-	 * so plain mode needs zero overrides (no rules apply).
-	 */
-	?>
-	<div class="post-list">
 	<?php while ( have_posts() ) : the_post(); ?>
 		<?php gwill_part( 'content' ); ?>
 	<?php endwhile; ?>
-	</div>
 
 	<?php
 	the_posts_pagination( [

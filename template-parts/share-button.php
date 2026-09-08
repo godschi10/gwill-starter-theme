@@ -65,19 +65,8 @@ $platforms = [
 	],
 
 ];
-/**
- * Filter the share-pill visual variant (v1.12.2, D27).
- *
- * Default '' renders the brand-filled pills (X near-black, FB blue...).
- * Return 'ghost' for neutral outline pills with accent icons - right
- * for token-driven brand skins that don't want third-party brand
- * colors on the page.
- *
- * @param string $variant ''|'ghost'.
- */
-$gwill_share_variant = apply_filters( 'gwill_share_pill_variant', '' );
 ?>
-<div class="gwill-share<?php echo $is_footer ? ' gwill-share--footer' : ' gwill-share--top'; ?><?php echo 'ghost' === $gwill_share_variant ? ' gwill-share--ghost' : ''; ?>">
+<div class="gwill-share<?php echo $is_footer ? ' gwill-share--footer' : ' gwill-share--top'; ?>">
 
 	<?php if ( $is_footer ) : ?>
 		<span class="gwill-share__heading"><?php esc_html_e( 'Share this article', 'gwill-starter' ); ?></span>

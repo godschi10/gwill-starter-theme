@@ -289,7 +289,6 @@ add_action( 'wp_enqueue_scripts', function () {
 				'noMatches' => __( 'No matches for "%s" - try these recent posts:', 'gwill-starter' ),
 				'error'     => __( 'Search unavailable. Press Enter to search.', 'gwill-starter' ),
 				'viewAll'   => __( 'View all results →', 'gwill-starter' ),
-				'trySearching' => __( 'Try searching for', 'gwill-starter' ),
 			],
 		]
 	);

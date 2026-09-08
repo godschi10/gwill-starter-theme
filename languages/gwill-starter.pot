@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: GWill Starter 1.12.6\n"
+"Project-Id-Version: GWill Starter 1.11.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/gwill-starter-theme\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-08T02:25:33+00:00\n"
+"POT-Creation-Date: 2026-09-07T14:16:41+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: gwill-starter\n"
@@ -36,21 +36,16 @@ msgstr ""
 msgid "G-will Chijioke"
 msgstr ""
 
-#: 404.php:23
-msgid "Page not found"
+#: 404.php:7
+msgid "404 - Page Not Found"
 msgstr ""
 
-#: 404.php:24
-msgid "The page you're looking for doesn't exist, moved, or never did. Try a search:"
+#: 404.php:8
+msgid "The page you're looking for doesn't exist. Try searching:"
 msgstr ""
 
-#: 404.php:30
-#: template-parts/content-none.php:33
+#: 404.php:12
 msgid "← Back to Home"
-msgstr ""
-
-#: 404.php:49
-msgid "Latest articles"
 msgstr ""
 
 #. translators: %s: project type name
@@ -78,40 +73,30 @@ msgid "View Project"
 msgstr ""
 
 #: archive-gwill_portfolio.php:118
-#: archive.php:51
-#: author.php:117
-#: home.php:51
-#: index.php:54
+#: archive.php:33
+#: author.php:105
+#: home.php:33
+#: index.php:36
 msgid "&larr; Prev"
 msgstr ""
 
 #: archive-gwill_portfolio.php:119
-#: archive.php:52
-#: author.php:118
-#: home.php:52
-#: index.php:55
+#: archive.php:34
+#: author.php:106
+#: home.php:34
+#: index.php:37
 #: search.php:130
 msgid "Next &rarr;"
 msgstr ""
 
-#. translators: %s: number of posts in this list.
-#: archive.php:28
-#: author.php:100
-#: home.php:28
-#: index.php:31
+#: comments.php:18
 #, php-format
-msgid "%s article"
-msgid_plural "%s articles"
+msgid "%s Comment"
+msgid_plural "%s Comments"
 msgstr[0] ""
 msgstr[1] ""
 
-#. translators: %s: comment count inside a chip span.
-#: comments.php:19
-#, php-format
-msgid "Comments (%s)"
-msgstr ""
-
-#: comments.php:42
+#: comments.php:41
 msgid "Comments are closed."
 msgstr ""
 
@@ -120,9 +105,9 @@ msgctxt "skip link"
 msgid "Skip to content"
 msgstr ""
 
-#: header.php:104
-#: header.php:112
-#: header.php:114
+#: header.php:88
+#: header.php:96
+#: header.php:98
 #: searchform.php:19
 #: template-parts/search/search-form-expandable.php:64
 #: template-parts/search/search-form-expandable.php:81
@@ -131,28 +116,28 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: header.php:114
+#: header.php:98
 #: searchform.php:16
 #: template-parts/search/search-form-modal.php:80
 msgid "Search…"
 msgstr ""
 
-#: header.php:115
+#: header.php:99
 msgid "Clear search text"
 msgstr ""
 
-#: header.php:119
+#: header.php:103
 #: inc/enqueue.php:208
 #: template-parts/search/search-form-modal.php:118
 msgid "Close search"
 msgstr ""
 
-#: header.php:128
+#: header.php:112
 #: inc/setup.php:68
 msgid "Primary Navigation"
 msgstr ""
 
-#: header.php:142
+#: header.php:126
 msgid "Toggle navigation menu"
 msgstr ""
 
@@ -416,83 +401,43 @@ msgstr ""
 msgid "Only ever appears on a recognised staging domain (qzz.io, .local, staging./dev./test. subdomains) - never on the live site regardless of this setting. On by default so it can't be silently forgotten about; turn off if a project genuinely doesn't want it."
 msgstr ""
 
-#: inc/customizer.php:88
-msgid "Content Lists"
-msgstr ""
-
-#: inc/customizer.php:90
-msgid "How post lists render on the blog home, archives, and author pages."
-msgstr ""
-
-#: inc/customizer.php:99
-msgid "Post list style"
-msgstr ""
-
-#: inc/customizer.php:100
-msgid "Cards wrap every post in a bordered card; horizontal adds a thumbnail-left row on wide screens; grid shows two columns."
-msgstr ""
-
-#: inc/customizer.php:104
-msgid "Plain text list"
-msgstr ""
-
-#: inc/customizer.php:105
-msgid "Cards (default)"
-msgstr ""
-
-#: inc/customizer.php:106
-msgid "Cards, horizontal rows"
-msgstr ""
-
-#: inc/customizer.php:107
-msgid "Cards, two-column grid"
-msgstr ""
-
-#: inc/customizer.php:120
+#: inc/customizer.php:86
 msgid "Display tagline"
 msgstr ""
 
-#: inc/customizer.php:121
+#: inc/customizer.php:87
 msgid "The tagline text is set under Settings → General."
 msgstr ""
 
-#: inc/customizer.php:142
+#: inc/customizer.php:108
 msgid "Enable sticky header"
 msgstr ""
 
-#: inc/customizer.php:143
+#: inc/customizer.php:109
 msgid "Keeps the header visible at the top of the viewport while scrolling."
 msgstr ""
 
-#: inc/customizer.php:162
-msgid "Compact header while scrolling"
-msgstr ""
-
-#: inc/customizer.php:163
-msgid "Shrinks the sticky header (reduced padding, tagline hidden) after scrolling begins, restoring it fully when you scroll back to the top. Requires sticky header to be enabled."
-msgstr ""
-
-#: inc/customizer.php:185
+#: inc/customizer.php:131
 msgid "Header padding (px)"
 msgstr ""
 
-#: inc/customizer.php:186
+#: inc/customizer.php:132
 msgid "Top & bottom padding on the site header. Default: 24 px."
 msgstr ""
 
-#: inc/customizer.php:215
+#: inc/customizer.php:161
 msgid "Logo width (px)"
 msgstr ""
 
-#: inc/customizer.php:216
+#: inc/customizer.php:162
 msgid "Maximum display width of the custom logo. Height scales automatically. Default: 160 px."
 msgstr ""
 
-#: inc/customizer.php:250
+#: inc/customizer.php:196
 msgid "Default Social Share Image"
 msgstr ""
 
-#: inc/customizer.php:251
+#: inc/customizer.php:197
 msgid "Shown when a page or post is shared on Facebook, X, etc. and has no featured image of its own. Recommended size: 1200×630px or larger."
 msgstr ""
 
@@ -551,11 +496,7 @@ msgstr ""
 msgid "View all results →"
 msgstr ""
 
-#: inc/enqueue.php:292
-msgid "Try searching for"
-msgstr ""
-
-#: inc/enqueue.php:444
+#: inc/enqueue.php:443
 msgid "Could not load posts. Please try again."
 msgstr ""
 
@@ -1650,19 +1591,19 @@ msgstr ""
 msgid "Back to top"
 msgstr ""
 
-#: template-parts/content-none.php:52
+#: template-parts/content-none.php:26
 msgid "Nothing matched your search"
 msgstr ""
 
-#: template-parts/content-none.php:54
+#: template-parts/content-none.php:28
 msgid "Try different keywords, or check for typos."
 msgstr ""
 
-#: template-parts/content-none.php:59
+#: template-parts/content-none.php:33
 msgid "Nothing here yet"
 msgstr ""
 
-#: template-parts/content-none.php:61
+#: template-parts/content-none.php:35
 msgid "It looks like nothing was found at this location."
 msgstr ""
 
@@ -2228,11 +2169,11 @@ msgstr ""
 msgid "Share on LinkedIn"
 msgstr ""
 
-#: template-parts/share-button.php:83
+#: template-parts/share-button.php:72
 msgid "Share this article"
 msgstr ""
 
-#: template-parts/share-button.php:109
+#: template-parts/share-button.php:98
 msgid "More"
 msgstr ""
 
