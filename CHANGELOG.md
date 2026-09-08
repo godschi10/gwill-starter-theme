@@ -1,3 +1,28 @@
+## [1.12.5] - 2026-09-07
+
+### Section G: global chrome (docs/UI-MAKEOVER-LIST.md items G37-G39)
+
+- **G37 cookie consent card** - the full-width bottom strip becomes a
+  floating rounded card (inset 1rem, 12px radius, 1px border, deep
+  soft shadow). Markup and JS untouched - same [hidden] mechanics, the
+  CSS only changes geometry. Mobile reads as a bottom-sheet card.
+- **G38 back-to-top progress ring** - the button gains a circular SVG
+  ring (pathLength=100 normalized dash math): a 30% track circle plus
+  the progress arc, driven from the EXISTING scroll rAF loop via a
+  cheap --gwill-scroll-progress custom property (no extra listeners,
+  no layout - the ring reads it through stroke-dashoffset: calc(100 -
+  var())). Arrow icon unchanged on top of the ring.
+- **G39** - already satisfied by v1.11.2's A7: compact + is-stuck
+  shadow share one rAF loop.
+
+Proven (Obscura, G mock): cookie card inset x=16 at both 360 and 1280
+with the text wrapping (328px wide @360); ring dashoffset responds to
+--gwill-scroll-progress 0/50/100 (computed empty in Obscura's style
+layer - the documented quirk; the calc() + pathLength math is static
+verified: dasharray 100, dashoffset calc(100 - var), r=20 =>
+circumference ~125.7 mapped by pathLength to exactly 100 units).
+php -l + node --check clean; braces 616/616.
+
 ## [1.12.4] - 2026-09-07
 
 ### Section F: comments (docs/UI-MAKEOVER-LIST.md items F32-F36)

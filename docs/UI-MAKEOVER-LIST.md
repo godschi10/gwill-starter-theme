@@ -168,6 +168,10 @@ Priority order: C17 (cards) → A1-A3 (mobile header diet + search sheet)
 
 ## G. Global chrome
 
+> **SHIPPED v1.12.5** - G37 (cookie consent floating card, JS
+> untouched), G38 (back-to-top progress ring via --gwill-scroll-
+> progress in the existing rAF loop), G39 (already delivered by A7).
+
 37. **Cookie consent is a full-width strip** — floating rounded card
     (bottom-sheet on mobile), token-driven, dismiss animation.
 38. **Back-to-top is a flat circle** — optional scroll-progress ring

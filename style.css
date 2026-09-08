@@ -4,7 +4,7 @@ Theme URI:   https://gwillchijioke.com
 Author:      G-will Chijioke
 Author URI:  https://gwillchijioke.com
 Description: A clean, custom WordPress starter theme built from scratch. No parent theme dependency.
-Version:     1.12.4
+Version:     1.12.5
 Requires at least: 6.4
 Requires PHP:     8.0
 License:     GNU General Public License v2 or later
@@ -2177,20 +2177,25 @@ select:focus {
 /* Cookie Consent Banner                                                */
 /* ------------------------------------------------------------------ */
 
+/* v1.12.5 (G37): the full-width strip becomes a floating rounded card -
+   desktop = anchored floating card with margin + shadow; mobile =
+   bottom-sheet-style card with small side insets. JS untouched (same
+   [hidden] mechanics). */
 .gwill-cookie-consent {
   position: fixed;
-  inset-inline: 0;
-  bottom: 0;
+  inset-inline: 1rem;
+  bottom: 1rem;
   z-index: 8500;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 1rem 1.25rem;
+  padding: 1.125rem 1.375rem;
   background: var(--color-bg);
-  border-top: 1px solid var(--color-border);
-  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
 }
 
 .gwill-cookie-consent[hidden] {
@@ -4020,4 +4025,23 @@ select:focus {
 /* ── F36: avatar at 56px (template arg) + ring parity ──────────────── */
 .comment-author.vcard .avatar {
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-accent, #2563eb) 15%, transparent);
+}
+
+
+/* ── G38 (v1.12.5): back-to-top progress ring ──────────────────────── */
+.gwill-back-to-top .gwill-btt-ring {
+  position: absolute;
+  inset: 2px;
+  transform: rotate(-90deg); /* progress starts at 12 o'clock */
+}
+
+.gwill-back-to-top .gwill-btt-ring__track {
+  stroke: color-mix(in srgb, var(--color-btn-text, #ffffff) 30%, transparent);
+}
+
+.gwill-back-to-top .gwill-btt-ring__bar {
+  stroke: var(--color-btn-text, #ffffff);
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100; /* JS drives 100 -> 0 via a CSS var */
+  stroke-dashoffset: calc(100 - var(--gwill-scroll-progress, 0));
 }

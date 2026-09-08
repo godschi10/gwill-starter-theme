@@ -236,7 +236,7 @@ push fixes ship silently broken to installed PWAs).
 
 > **Note on this document:** an earlier version of this README described the theme as it existed many versions ago - a 5-file `inc/` directory, a FormSubmit.co-based contact form, a 2-control Customizer. None of that has been true for a long time; the code moved forward across 50 versions and this file didn't. It has been rewritten from scratch against the actual v1.0.50 codebase, verified file-by-file rather than carried forward from memory. See `CHANGELOG.md` for the version-by-version history of how it got here.
 
-**Latest version: 1.12.4** - Section F of the UI makeover list: per-comment cards, ghost reply pill, comment-form rhythm, a count chip in the comments title, and a 56px avatar. Full history in `CHANGELOG.md`.
+**Latest version: 1.12.5** - Section G of the UI makeover list: the cookie consent becomes a floating rounded card and the back-to-top button gains a scroll-progress ring driven by the existing scroll loop. Full history in `CHANGELOG.md`.
 
 ---
 
