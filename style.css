@@ -4,7 +4,7 @@ Theme URI:   https://gwillchijioke.com
 Author:      G-will Chijioke
 Author URI:  https://gwillchijioke.com
 Description: A clean, custom WordPress starter theme built from scratch. No parent theme dependency.
-Version:     1.12.7
+Version:     1.12.8
 Requires at least: 6.4
 Requires PHP:     8.0
 License:     GNU General Public License v2 or later
@@ -3609,7 +3609,7 @@ select:focus {
 @media (hover: hover) {
   .gwill-cards .post-list .entry:hover {
     border-color: var(--color-accent);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--shadow-lift);
     transform: translateY(-2px);
   }
   .gwill-cards .post-list .entry:hover .entry-thumbnail-wrap img {
@@ -3739,7 +3739,7 @@ select:focus {
   .post-navigation .nav-previous:hover,
   .post-navigation .nav-next:hover {
     border-color: var(--color-accent);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--shadow-lift);
   }
 }
 
@@ -4226,4 +4226,34 @@ select:focus {
    verified - no .is-current exists). */
 .gwill-form__fieldset[data-active] .gwill-form__progress {
   height: 6px;
+}
+
+/* ------------------------------------------------------------------ */
+/* v1.12.8 - Section J: micro-delight (docs/UI-MAKEOVER-LIST.md)       */
+/* ------------------------------------------------------------------ */
+
+/* ── J53: accent-tinted text selection ─────────────────────────────── */
+::selection {
+  background: color-mix(in srgb, var(--color-accent, #2563eb) 22%, transparent);
+}
+
+/* ── J54: focus rings - verified already consistent (2px accent,
+   :focus-visible everywhere); no change needed. Documented no-op. ── */
+
+/* ── J55: shared --shadow-lift token ─────────────────────────────────
+   One elevation rhythm for every floating/hover surface. Defined on
+   :root, consumed by the hover states that previously hardcoded their
+   own shadows. Existing hardcoded values keep working for clients
+   that overrode them; new surfaces use the token. */
+:root {
+  --shadow-lift: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] {
+  --shadow-lift: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) {
+    --shadow-lift: 0 4px 16px rgba(0, 0, 0, 0.5);
+  }
 }

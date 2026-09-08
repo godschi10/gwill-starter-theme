@@ -216,6 +216,10 @@ Priority order: C17 (cards) → A1-A3 (mobile header diet + search sheet)
 
 ## J. Micro-delight (cheap, safe)
 
+> **SHIPPED v1.12.8 - CAMPAIGN COMPLETE (A-J).** J53 (selection tint),
+> J54 (focus rings - verified no-op), J55 (--shadow-lift token, dark-
+> aware, consumed by the card + nav hover surfaces).
+
 53. **`::selection` color** — accent-tinted selection, one line.
 54. **Focus rings** — already consistent 2px accent; keep.
 55. **Smooth hover elevations** — shared `--shadow-lift` token for one
@@ -223,5 +227,6 @@ Priority order: C17 (cards) → A1-A3 (mobile header diet + search sheet)
 
 ---
 
-*Created 2026-09-07 (v1.11.1). Progress tracked per section in
-CHANGELOG.md as sections ship.*
+*Created 2026-09-07 (v1.11.1). CAMPAIGN COMPLETE 2026-09-07 (v1.12.8):
+all sections A-J shipped; every item dispositioned above with its
+verification evidence.*

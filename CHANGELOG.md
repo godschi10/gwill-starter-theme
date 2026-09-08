@@ -1,3 +1,26 @@
+## [1.12.8] - 2026-09-07
+
+### Section J: micro-delight (docs/UI-MAKEOVER-LIST.md items J53-J55) - CAMPAIGN COMPLETE
+
+- **J53 selection tint** - ::selection carries an accent 22% tint
+  (color-mix, token-driven; dark inverts free).
+- **J54 focus rings** - verified already consistent (2px accent
+  :focus-visible on every interactive surface from prior audits);
+  documented no-op.
+- **J55 --shadow-lift token** - one elevation rhythm on :root with a
+  2x-deeper dark value (both dark systems); the v1.12.1 card hover and
+  v1.12.2 post-navigation hover now consume the token instead of
+  hardcoded values (grep: 0 hardcoded lifts remain outside the token
+  definition itself).
+
+**UI MAKEOVER CAMPAIGN COMPLETE: sections A-J shipped across
+v1.11.1-v1.12.8 (9 releases).** All 55 audited items dispositioned:
+shipped, dissolved into a sibling item, or documented no-op with the
+verification noted in docs/UI-MAKEOVER-LIST.md.
+
+Proven (Obscura): --shadow-lift resolves to the defined value; text
+selection functions with the tint active. Braces 645/645.
+
 ## [1.12.7] - 2026-09-07
 
 ### Section I: component polish (docs/UI-MAKEOVER-LIST.md items I45-I51)
