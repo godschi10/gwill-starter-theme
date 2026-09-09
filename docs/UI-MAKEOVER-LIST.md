@@ -73,6 +73,11 @@ Priority order: C17 (cards) → A1-A3 (mobile header diet + search sheet)
 
 ## B. Search surfaces
 
+> **v1.13.3 (design gate)** — item 14's zero-state DRESS shipped (B4: the
+> dropdown's empty/loading states now lead with the accent `>_` prompt, mono
+> voice, blinking caret on loading; CSS-only at source). Item 14's suggestion
+> CHIPS remain open. Item 15 (correction banner card) still open.
+> ---
 > **v1.13.2 (design gate)** — 11 SHIPPED (B1: the generic searchform is now
 > one pill family with the header dropdown — inset glyph, inset 44px submit,
 > mono voice, UA decorations stripped). 12 SHIPPED (B2: 404 terminal hero —

@@ -1,3 +1,21 @@
+## [1.13.3] - 2026-09-09
+
+### Section B4: dropdown empty/loading states speak the terminal voice
+
+- `.search-empty` / `.search-loading` (the dropdown's no-results, loading and
+  error states - rendered by the REAL engine paths) now lead with the brand's
+  `>_` prompt in accent, text in the mono search voice, tokens only.
+- The loading state blinks a live-session caret (`▌`, steps() 1s); the global
+  reduced-motion universal reset (style.css:78, `*::before,*::after`) kills the
+  blink automatically - verified, not assumed.
+- CSS-only at source (search.css): zero JS change, zero markup change.
+- Evidence: real engine drives on the real dropdown (seeded index, zero-match
+  query -> `fallbackRecent`), 5 shots (empty+loading light/dark 360, empty
+  1280), OCR gate 5/5 CLEAN, vision QA confirms the accent `>_` + grey mono.
+  DARK EVIDENCE LAW honored: after the localStorage hook proved unreliable on
+  a restarted browser, dark is set through the engine's OWN apply()
+  (`root.dataset.theme` + dark bg pre-paint) and pixel-verified rgb(3,11,31).
+
 ## [1.13.2] - 2026-09-09
 
 ### Section B (search surfaces) under the design gate: B1 form family, B2 404 hero, B3 no-results card
