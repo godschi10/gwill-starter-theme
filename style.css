@@ -4,7 +4,7 @@ Theme URI:   https://gwillchijioke.com
 Author:      G-will Chijioke
 Author URI:  https://gwillchijioke.com
 Description: A clean, custom WordPress starter theme built from scratch. No parent theme dependency.
-Version:     1.13.1
+Version:     1.13.2
 Requires at least: 6.4
 Requires PHP:     8.0
 License:     GNU General Public License v2 or later
@@ -893,16 +893,94 @@ select:focus {
 }
 
 /* ------------------------------------------------------------------ */
-/* 404                                                                 */
+/*  Buttons — the .gwill-btn family (v1.13.2 B2)                      */
+/*  One control family (DESIGN-LANGUAGE rule 2): primary = solid      */
+/*  accent token, ghost = hairline outline. 44px min hit target.      */
+/* ------------------------------------------------------------------ */
+.gwill-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  min-height: 44px;
+  padding: 0 1.25rem;
+  border-radius: var(--form-radius, 4px);
+  font-family: var(--font-mono, ui-monospace, 'JetBrains Mono', Menlo, monospace);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+              color 0.15s ease, transform 0.15s ease;
+}
+.gwill-btn--primary {
+  background: var(--color-btn-bg, #2563eb);
+  color: var(--color-btn-text, #fff);
+  border: 1px solid var(--color-btn-bg, #2563eb);
+}
+.gwill-btn--ghost {
+  background: transparent;
+  color: var(--color-primary, #111);
+  border: 1px solid var(--color-border-input, #6b7280);
+}
+@media (hover: hover) {
+  .gwill-btn--primary:hover { opacity: 0.9; }
+  .gwill-btn--ghost:hover {
+    border-color: var(--color-accent, #2563eb);
+    color: var(--color-accent, #2563eb);
+    background: color-mix(in srgb, var(--color-accent, #2563eb) 5%, transparent);
+  }
+}
+.gwill-btn:active { transform: scale(0.97); }
+.gwill-btn:focus-visible {
+  outline: 2px solid var(--color-accent, #2563eb);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------ */
+/* 404 — terminal error hero (v1.13.2 B2)                             */
 /* ------------------------------------------------------------------ */
 .error-404 {
   text-align: center;
-  padding: 4rem 0;
+  padding: clamp(3rem, 9vh, 6rem) 0 clamp(3rem, 8vh, 5rem);
 }
 
-.error-404 .search-form {
+.error-404__code {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-mono, ui-monospace, 'JetBrains Mono', Menlo, monospace);
+  font-size: clamp(72px, 12vw, 120px);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--color-accent, #2563eb);
+}
+
+.error-404__title {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-primary, #111);
+}
+
+.error-404__desc {
+  margin: 0 auto 2rem;
+  max-width: 44ch;
+  font-size: 1rem;
+  color: var(--color-muted, #6b7280);
+}
+
+/* The B1 pill centered, capped like the old form was. */
+.error-404__search {
   max-width: 480px;
-  margin: 2rem auto 0;
+  margin: 0 auto 2.5rem;
+}
+
+.error-404__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
 }
 
 /* ------------------------------------------------------------------ */

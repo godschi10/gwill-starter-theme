@@ -29,11 +29,16 @@ $term = get_search_query();
 
 	<p class="search-no-results__headline">
 		<?php if ( $term ) : ?>
-			<?php printf(
+			<?php
+			// v1.13.2 B3: the query rides a mono chip - F35 law: the
+			// surrounding text uses __() + separately-escaped %s; never
+			// wrap markup in esc_html__().
+			printf(
 				/* translators: %s: the search term the user entered */
-				esc_html__( 'Nothing found for "%s".', 'gwill-starter' ),
+				wp_kses( __( 'Nothing found for <span class="search-no-results__term">%s</span>.', 'gwill-starter' ), [ 'span' => [ 'class' => [] ] ] ),
 				esc_html( $term )
-			); ?>
+			);
+			?>
 		<?php else : ?>
 			<?php esc_html_e( 'Enter a search term above to get started.', 'gwill-starter' ); ?>
 		<?php endif; ?>

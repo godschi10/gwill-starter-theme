@@ -73,6 +73,15 @@ Priority order: C17 (cards) → A1-A3 (mobile header diet + search sheet)
 
 ## B. Search surfaces
 
+> **v1.13.2 (design gate)** — 11 SHIPPED (B1: the generic searchform is now
+> one pill family with the header dropdown — inset glyph, inset 44px submit,
+> mono voice, UA decorations stripped). 12 SHIPPED (B2: 404 terminal hero —
+> giant mono code, B1 pill, `gwill_404_links` filter, plus the brand-new
+> `.gwill-btn` family that `search-no-results.php` had referenced since
+> v1.1.0 with zero CSS). 13 PARTIAL (B3: the *search* no-results state is a
+> ghost card with a mono query chip; the generic `content-none.php` ghost-
+> illustration slot is still open). 14, 15 still open. (the hot spot)
+
 11. **Generic searchform.php is browser-default** — used on 404 +
     no-results; zero `.search-field`/`.search-submit` rules exist
     (verified). Give it the token treatment (bordered field + accent

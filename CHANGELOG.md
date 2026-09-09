@@ -1,3 +1,45 @@
+## [1.13.2] - 2026-09-09
+
+### Section B (search surfaces) under the design gate: B1 form family, B2 404 hero, B3 no-results card
+
+**B1 - the generic searchform is one family object with the header dropdown.**
+- `searchform.php` rebuilt: pill wrapper (`.search-form__pill`), inset magnifier
+  glyph left, `label` wrapping ONLY the input (label-as-flex-item lesson), inset
+  44px ghost arrow submit right. Mono voice, 16px iOS zoom floor, UA search
+  decorations stripped (the double clear-X / inflated WebKit box fix).
+- The old scoped `.search-results__header .search-*` rules are GONE - replaced by
+  the generic family (equal reach, one spec).
+
+**B2 - 404 as a terminal error hero (tech-theme pattern).**
+- Giant mono `404` code (`clamp(72px,12vw,120px)`, accent), title + one muted
+  line, the B1 pill centered under it, then a guidance row (Homepage primary +
+  Latest posts / Contact ghosts). Existing `gwill_breadcrumbs()` 404 branch rides
+  on top - no new breadcrumb code.
+- New filter `gwill_404_links` (label/url/style array; `[]` removes the row).
+- **New `.gwill-btn` family** (primary/ghost, 44px, mono): `search-no-results.php`
+  has used `.gwill-btn--primary` since v1.1.0 with ZERO CSS behind it - B2 gives
+  the class its spec.
+
+**B3 - no-results state becomes an object.**
+- Quiet ghost card (4% accent tint + hairline, 560px cap, centered) replaces the
+  bare floating text; the query rides a mono pill chip
+  (`.search-no-results__term`) - F35 law: `__()` + separately escaped `%s`, never
+  `esc_html__()` around markup.
+- Cascade leak closed: `.search-no-results__cta {display:inline-block}` was
+  flattening the new `.gwill-btn` family (search.css loads after style.css) - now
+  only centers, the family owns its box.
+- **iOS dropdown fix folded in**: UA search decorations stripped on the dropdown
+  field too (the double clear-X the King's screenshot showed).
+
+**Evidence (v2 pipeline law):** real-PHP mocks of every surface; dark shots seeded
+through the engine's real `gwill-color-scheme` localStorage key (the attribute
+injection FALSELY rendered light - caught and fixed; the earlier "dark" B1/B2
+screenshots were light, re-shot). Geometry probes: pill/submit/buttons all 44px,
+row centering true, chip radius 999px per-corner (shorthand-getter quirk
+documented), dark tokens resolve (#60a5fa accent, #f1f5f9 ink). Full-page OCR
+leak gate: 12/12 shots CLEAN. `php -l` clean; CSS braces balanced (style 503/503,
+search 167/167).
+
 ## [1.13.1] - 2026-09-08
 
 ### Search panel craft: icon INSIDE the input (tech-theme pill style)
