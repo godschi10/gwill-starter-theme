@@ -1,3 +1,20 @@
+## [1.13.4] - 2026-09-09
+
+### Search dropdown can never be painted over (the King's z-index report)
+
+- Root cause, PROVEN on the live site: the panel ships INSIDE the sticky header,
+  and `.site-header{position:sticky;z-index:50}` is a stacking context - the
+  panel's `z-index:10000` only resolved WITHIN it, so positioned page content
+  could paint over an open panel. (The live 1.12.8 build has no elevation at
+  all on `.search-dropdown` - the report reproduced worst-case.)
+- Fix in `open()`: the panel hoists itself to `document.body` on first open. It
+  is `position:fixed` with a JS-measured viewport top, so DOM position never
+  affected layout - only stacking, which is now root-level and unbeatable by
+  content.
+- Adversarial proof: a planted `z-index:9999` block over the panel area - post
+  hoist the panel node stays on top; engine intact (8 results; escape 9/9,
+  pill 27/27; `node --check` clean).
+
 ## [1.13.3] - 2026-09-09
 
 ### Section B4: dropdown empty/loading states speak the terminal voice

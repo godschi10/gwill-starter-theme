@@ -441,6 +441,18 @@
 
 	// ── open/close ─────────────────────────────────────────────────────────
 	function open() {
+		/* v1.13.4 (King's z-index report): the panel ships INSIDE the
+		   sticky header, and .site-header{position:sticky;z-index:50}
+		   creates a stacking context that IMPRISONS the panel's z-index —
+		   10000 only resolves WITHIN it, so positioned content (banners,
+		   modals, other contexts) can paint over the open panel. Escape:
+		   hoist to document.body once, on first open. The panel is
+		   position:fixed with a JS-measured viewport top, so its DOM
+		   location never affected layout — only stacking, which is now
+		   root-level and unbeatable by page content. */
+		if ( dropdown.parentElement !== document.body ) {
+			document.body.appendChild( dropdown );
+		}
 		dropdown.hidden = false;
 		/* v1.12.9 (search fix): position:fixed needs a viewport-space top.
 		   Measure the header's live rect (works at ANY header height and

@@ -73,6 +73,11 @@ Priority order: C17 (cards) → A1-A3 (mobile header diet + search sheet)
 
 ## B. Search surfaces
 
+> **v1.13.4 (bug, King-reported)** — the dropdown could be painted over:
+> `.site-header{sticky;z:50}` imprisoned the panel's z-index (stacking
+> context). `open()` now hoists the panel to `document.body` (position:fixed
+> makes DOM position layout-irrelevant); adversarially proven vs a planted
+> z:9999 block. ---
 > **v1.13.3 (design gate)** — item 14's zero-state DRESS shipped (B4: the
 > dropdown's empty/loading states now lead with the accent `>_` prompt, mono
 > voice, blinking caret on loading; CSS-only at source). Item 14's suggestion
